@@ -11,8 +11,8 @@ if(!YII_ENV_PROD){
 $domainSuffix = $aLocal['domain_suffix'][YII_ENV];
 $domainHostName = $aLocal['domain_host_name'];
 
-Yii::setAlias('mobile',				$appPath . '/apps/mobile');
-Yii::setAlias('url.mobile',			'http://www.' . $domainHostName . '.' . $domainSuffix);
+Yii::setAlias('home',				$appPath . '/apps/home');
+Yii::setAlias('url.home',			'http://www.' . $domainHostName . '.' . $domainSuffix);
 
 //APP别名设置 end
 

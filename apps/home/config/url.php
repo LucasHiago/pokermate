@@ -12,7 +12,7 @@ return [
 	'enablePrettyUrl' => true,
 	'showScriptName' => false,
 	'enableStrictParsing' => true,
-	'baseUrl' => Yii::getAlias('@url.mobile'),
+	'baseUrl' => Yii::getAlias('@url.home'),
 	'rules' => [
 		''																		=> 'site/index',
 		'<lang:.*>'																=> 'site/index',

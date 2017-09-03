@@ -6,10 +6,10 @@ $params = yii\helpers\ArrayHelper::merge(
     //require(__DIR__ . '/params-local.php')
 );
 return [
-    'id' => 'mobile',
+    'id' => 'home',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'mobile\controllers',
-    'runtimePath' => PROJECT_PATH . '/runtime/mobile',
+    'controllerNamespace' => 'home\controllers',
+    'runtimePath' => PROJECT_PATH . '/runtime/home',
     'components' => [
 		'view' => [
 			'commonTitle' => 'XXX-X-XX-XC',
@@ -17,7 +17,7 @@ return [
 		],
     ],
 	'layout' => 'main',
-	'urlManagerName' => 'urlManagerMobile',
+	'urlManagerName' => 'urlManagerHome',
 //	'catchAll' => [
 //        'remind/close-website-remind',
 //		'words' => '',

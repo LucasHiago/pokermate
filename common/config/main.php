@@ -3,7 +3,7 @@ return [
     'vendorPath' => FRAMEWORK_PATH,
     'domain' => $aLocal['domain_host_name'] . '.' . $aLocal['domain_suffix'][YII_ENV],
     'aWebAppList' => [
-		'mobile'
+		'home'
 	],
     'language' => 'zh-CN',
     'bootstrap' => ['log'],
@@ -16,7 +16,7 @@ return [
 //    ],
     'components' => [
 		//各APP的URL管理器 start
-		'urlManagerMobile' => require(Yii::getAlias('@mobile') . '/config/url.php'),
+		'urlManagerHome' => require(Yii::getAlias('@home') . '/config/url.php'),
 		//各APP的URL管理器 end
 
         'request' => [

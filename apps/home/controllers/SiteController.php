@@ -1,9 +1,9 @@
 <?php
-namespace mobile\controllers;
+namespace home\controllers;
 
 use Yii;
 use umeworld\lib\Controller;
-//use mobile\lib\Controller;
+//use home\lib\Controller;
 use umeworld\lib\Response;
 
 class SiteController extends Controller{

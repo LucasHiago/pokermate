@@ -1,0 +1,1 @@
+var aUrlMapConfigList = {"home":{"class":"yii\\web\\UrlManager","enablePrettyUrl":true,"showScriptName":false,"enableStrictParsing":true,"baseUrl":"http:\/\/www.idream.dev","rules":{"":"site\/index","<lang:.*>":"site\/index"}}};
