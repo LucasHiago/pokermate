@@ -1,5 +1,5 @@
 <?php
-namespace mobile\lib;
+namespace home\lib;
 
 use Yii;
 use common\filter\UserAccessControl as Access;

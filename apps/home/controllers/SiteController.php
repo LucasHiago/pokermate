@@ -9,6 +9,7 @@ use umeworld\lib\Response;
 class SiteController extends Controller{
 	
 	public function actionIndex(){
+		 $this->layout = 'login'; 
 		return $this->render('index');
 	}
 

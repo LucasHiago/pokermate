@@ -14,6 +14,7 @@ class ManageCoreAsset extends \umeworld\lib\AssetBundle
 
     public $css = [
     	'@r.css.ui',
+    	'@r.css.pokermate',
     ];
 
 	public $depends = [

@@ -187,7 +187,7 @@ return [
             'rememberLoginTime' => 604800,//3000000,
             'enableAutoLogin' => true,
 			'loginUrl' => function(){
-				exit('抱歉,登陆超时,请重新授权登陆');
+				return \umeworld\lib\Url::to('home', 'site/index');
 			},
         ],
 

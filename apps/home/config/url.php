@@ -18,6 +18,9 @@ return [
 		'login.json'															=> 'login/login',
 		
 		
+		'home.html'																=> 'index/index',
+		
+		
 		''																		=> 'site/index',
 		'<lang:.*>'																=> 'site/index',
 		
