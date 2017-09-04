@@ -42,4 +42,13 @@ return [
 	//UBox
 	'js.ubox' => '@r.url/plug-in/ubox/ubox.js',
 	'css.ubox' => '@r.url/plug-in/ubox/ubox.css',
+	
+	//bootstrap
+	'css.bootstrap' => '@r.url/plug-in/bootstrap-3.3.2/css/bootstrap.css',
+	'css.sb.admin' => '@r.url/plug-in/bootstrap-3.3.2/css/sb-admin.css',
+	'css.morris' => '@r.url/plug-in/bootstrap-3.3.2/css/morris.css',
+	'css.awesome' => '@r.url/plug-in/bootstrap-3.3.2/font-awesome/css/font-awesome.min.css',
+	'js.bootstrap' => '@r.url/plug-in/bootstrap-3.3.2/js/bootstrap.js',
+	'js.bootstrap.min' => '@r.url/plug-in/bootstrap-3.3.2/js/bootstrap.min.js',
+	'jquery.bootstrap.teninedialog.v3' => '@r.url/plug-in/jquery.bootstrap.teninedialog.v3.js',
 ];

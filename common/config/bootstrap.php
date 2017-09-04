@@ -17,7 +17,7 @@ Yii::setAlias('url.home',			'http://www.' . $domainHostName . '.' . $domainSuffi
 //APP别名设置 end
 
 Yii::setAlias('umeworld',			$appPath . '/umeworld');
-Yii::setAlias('r.url', 'http://s.' . $domainHostName . '.' . $domainSuffix);
+Yii::setAlias('r.url', 'http://www.' . $domainHostName . '.' . $domainSuffix . '/resource');
 $aLocal['resource_url'] = Yii::getAlias('@r.url');
 Yii::setAlias('p.resource',		$appPath . '/resource');
 Yii::setAlias('p.system_view',		$appPath . '/common/views/system');

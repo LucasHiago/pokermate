@@ -1,1 +1,1 @@
-var aUrlMapConfigList = {"home":{"class":"yii\\web\\UrlManager","enablePrettyUrl":true,"showScriptName":false,"enableStrictParsing":true,"baseUrl":"http:\/\/www.idream.dev","rules":{"":"site\/index","<lang:.*>":"site\/index"}}};
+var aUrlMapConfigList = {"home":{"class":"yii\\web\\UrlManager","enablePrettyUrl":true,"showScriptName":false,"enableStrictParsing":true,"baseUrl":"http:\/\/www.pokermate.com","rules":{"login.json":"login\/login","":"site\/index","<lang:.*>":"site\/index"}}};

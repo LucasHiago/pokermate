@@ -14,6 +14,10 @@ return [
 	'enableStrictParsing' => true,
 	'baseUrl' => Yii::getAlias('@url.home'),
 	'rules' => [
+	
+		'login.json'															=> 'login/login',
+		
+		
 		''																		=> 'site/index',
 		'<lang:.*>'																=> 'site/index',
 		

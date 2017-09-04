@@ -73,7 +73,7 @@ return [
 					if(file_exists($fileName)){
 						$link .= '?v=' . date('YmdHis', filemtime($fileName));
 					}
-					echo '<script type="text/javascript" src="' . $link . '"></script>';
+					//echo '<script type="text/javascript" src="' . $link . '"></script>';
 				}
 			},
 

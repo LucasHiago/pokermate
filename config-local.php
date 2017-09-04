@@ -5,8 +5,8 @@ defined('FRAMEWORK_PATH') || define('FRAMEWORK_PATH', PROJECT_PATH . '/framework
 
 $aLocal = [
 	'is_debug' => true,
-	'env' => 'dev',
-	'domain_host_name' => 'idream',
+	'env' => 'prod',
+	'domain_host_name' => 'pokermate',
 	'domain_suffix' => [
 		'dev' => 'dev',
 		'test' => 'test',
@@ -14,25 +14,25 @@ $aLocal = [
 	],
 	'db' => [
 		'master' => [
-			'host' => '192.168.1.202',
-			'username' => 'mydb_php_m',
-			'password' => '121212',
+			'host' => '127.0.0.1',
+			'username' => 'root',
+			'password' => '123456',
 			'node' => [
-				['dsn' => 'mysql:host=192.168.1.202;dbname=mydb'],
+				['dsn' => 'mysql:host=127.0.0.1;dbname=pokermate'],
 			],
 		],
 		'slaver' => [
-			'host' => '192.168.1.202',
-			'username' => 'mydb_php_s',
-			'password' => '121212',
+			'host' => '127.0.0.1',
+			'username' => 'root',
+			'password' => '123456',
 			'node' => [
-				['dsn' => 'mysql:host=192.168.1.202;dbname=mydb'],
+				['dsn' => 'mysql:host=127.0.0.1;dbname=pokermate'],
 			],
 		],
 	],
 	'cache' => [
 		'redis' => [
-			'host'		=>	'192.168.1.202',
+			'host'		=>	'127.0.0.1',
 			'port'		=>	'6379',
 			'password'	=>	'',
 			'server_name' => 'redis_1',
@@ -44,7 +44,7 @@ $aLocal = [
 		],
 
 		'redisCache' => [
-			'host'		=>	'192.168.1.202',
+			'host'		=>	'127.0.0.1',
 			'port'		=>	'6379',
 			'password'	=>	'',
 			'server_name' => 'redis_1',
