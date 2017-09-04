@@ -19,6 +19,7 @@ return [
 		
 		
 		'home.html'																=> 'index/index',
+		'agent.html'															=> 'agent/index',
 		
 		
 		''																		=> 'site/index',

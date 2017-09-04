@@ -1,3 +1,4 @@
 resource/runtime/*
 resource/home/logs/*
 resource/data/temp/*
+resource/data/temp/config.data.js
