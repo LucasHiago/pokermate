@@ -90,6 +90,35 @@ if($mUser){
 				});
 			}
 		});
+		
+		function showAlertWin(oDom, callback){
+			var oHtml = $('<div class="J-alert-win-wrap" style="position:fixed;top:0px;left:0px;width:100%;height:100%;background:rgba(0,0,0,0.8);"></div>');
+			oHtml.append(oDom);
+			$('#framework').append(oHtml);
+			
+			$(document).on('click', function(e){
+				if(!$(e.target).parents().hasClass('J-alert-win-wrap')){
+					oHtml.remove();
+				}
+			});
+			function ajust(){
+				var winHeight = $(window).height();
+				oHtml.css({width : $(window).width(), heigth: winHeight});
+				if(winHeight > oDom.height()){
+					oDom.css({margin : "0 auto", "margin-top" : ((winHeight - oDom.height()) / 2) + "px"});
+				}else{
+					oDom.css({margin : "0 auto"});
+				}
+			}
+			ajust();
+			$(window).resize(function(){
+				ajust();
+			});
+			if(callback){
+				callback();
+			}
+		}
+		<?php echo $this->render(Yii::getAlias('@r.js.alert.win')); ?>
 	</script>
 </head>
 <body>

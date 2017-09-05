@@ -221,7 +221,7 @@ body{
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:0px 0px;
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item{
+.c-b-list-item{
 	float:left;
 	width:184px;
 	height:74px;
@@ -230,10 +230,10 @@ body{
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:-1799px -287px;
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item.new{
+.c-b-list-item.new{
 	background-position:-1794px -179px;	
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item .c-b-l-i-title{
+.c-b-list-item .c-b-l-i-title{
 	margin-top: 5px;
 	width:100%;
 	height:20px;
@@ -241,12 +241,12 @@ body{
 	text-align:center;
 	color:#ffffff;
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item .c-b-l-i-bottom{
+.c-b-list-item .c-b-l-i-bottom{
 	margin-top: 8px;
 	width:100%;
 	height:35px;
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item .c-b-l-i-bottom a{
+.c-b-list-item .c-b-l-i-bottom a{
 	position:relative;
 	float:left;
 	width:52px;
@@ -254,22 +254,22 @@ body{
 	line-height:35px;
 	margin-left:5px;
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item .c-b-l-i-bottom a.l-edit{
+.c-b-list-item .c-b-l-i-bottom a.l-edit{
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:-1595px -73px;
 	cursor:pointer;
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item .c-b-l-i-bottom a.l-status{
+.c-b-list-item .c-b-l-i-bottom a.l-status{
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:-1650px -73px;
 	cursor:pointer;
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item .c-b-l-i-bottom a.l-clean{
+.c-b-list-item .c-b-l-i-bottom a.l-clean{
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:-1708px -73px;
 	cursor:pointer;
 }
-.c-body-wrap .c-b-list .c-b-list-wrap .c-b-list-item .c-b-l-i-bottom a.l-text span{
+.c-b-list-item .c-b-l-i-bottom a.l-text span{
 	display:block;
 	height:17px;
 	line-height:17px;
@@ -1160,6 +1160,60 @@ body{
 .c-body-wrap .ag-bg .ag-right .ag-r-list .ag-r-list-item .agr-li-fc{
 	left: 27px;
     width: 110px;
+}
+.J-bill-list-win{
+	width:1200px;
+	height:849px;
+	background: url(./../images/bill-list-bg.png) no-repeat;
+}
+.J-bill-list-win .content-body{
+	width:100%;
+	height: 526px;
+    margin-top: 153px;
+    float: left;
+}
+.J-bill-list-win .content-body .item-wrap{
+	width:1134px;
+	height: 100%;
+    margin:0 auto;
+}
+.J-bill-list-win .content-body .item-wrap .c-b-list-item{
+	margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 5px;
+}
+.J-bill-list-win .content-bottom{
+	float: left;
+    width: 100%;
+    height: 92px;
+    position: relative;
+    bottom: -70px;
+}
+.J-bill-list-win .content-bottom div{
+	float: left;
+    position: relative;
+	color:#ffffff;
+	height:32px;
+	line-height:32px;
+	text-align:center;
+	font-size: 22px;
+}
+.J-bill-list-win .content-bottom .l-btn{
+	width: 32px;
+    left: 474px;
+    top: 25px;
+	cursor:pointer;
+}
+.J-bill-list-win .content-bottom .c-txt{
+	width: 139px;
+    left: 496px;
+    top: 25px;
+}
+.J-bill-list-win .content-bottom .r-btn{
+	width: 32px;
+    left: 523px;
+    top: 25px;
+	cursor:pointer;
 }
 
 /*background:rgba(0,0,0,0.2);*/
