@@ -69,7 +69,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	
 	
 	public static function encryptPassword($password){
-		return md5($password);
+		return $password;
+		//return md5($password);
 	}
 	
 	/**

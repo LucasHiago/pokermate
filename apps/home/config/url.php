@@ -19,7 +19,12 @@ return [
 		
 		
 		'home.html'																=> 'index/index',
-		'agent.html'															=> 'agent/index',
+		
+		
+		'user/save.json'														=> 'user/save',
+		
+		
+		'agent/index.html'														=> 'agent/index',
 		
 		
 		''																		=> 'site/index',

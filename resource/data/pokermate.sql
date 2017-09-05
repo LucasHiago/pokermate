@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.1.177
-Source Server Version : 50540
-Source Host           : 192.168.1.177:3306
+Source Server         : phpstudyLocalhost
+Source Server Version : 50547
+Source Host           : localhost:3306
 Source Database       : pokermate
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2017-09-04 11:06:20
+Date: 2017-09-06 03:34:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,6 +30,8 @@ CREATE TABLE `user` (
   `password` varchar(100) NOT NULL COMMENT '密码',
   `profile_path` varchar(200) NOT NULL COMMENT '头像',
   `sex` tinyint(1) NOT NULL COMMENT '性别：1男2女',
+  `qibu_choushui` int(11) NOT NULL COMMENT '起步抽水',
+  `choushui_shuanfa` tinyint(4) NOT NULL COMMENT '抽水算法',
   `is_forbidden` tinyint(4) NOT NULL COMMENT '是否禁用:1是0否',
   `create_time` int(11) NOT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`)
@@ -38,4 +40,4 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '0', '', 'admin', 'admin', '', '', 'e10adc3949ba59abbe56e057f20f883e', '', '1', '0', '1499654426');
+INSERT INTO `user` VALUES ('1', '0', '', 'admin', 'admin', '', '', '123456', '', '1', '20', '1', '0', '1499654426');

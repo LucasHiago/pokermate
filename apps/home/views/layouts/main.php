@@ -1,11 +1,12 @@
 <?php 
+use umeworld\lib\Url;
 $this->registerAssetBundle('common\assets\ManageCoreAsset');
 $this->beginPage(); 
 $mUser = Yii::$app->user->getIdentity();
 $aUser = [];
 if($mUser){
 	$aUser = $mUser->toArray();
-	unset($aUser['password']);
+	//unset($aUser['password']);
 }
 ?>
 <!DOCTYPE html>
@@ -92,15 +93,19 @@ if($mUser){
 		});
 		
 		function showAlertWin(oDom, callback){
-			var oHtml = $('<div class="J-alert-win-wrap" style="position:fixed;top:0px;left:0px;width:100%;height:100%;background:rgba(0,0,0,0.8);"></div>');
+			var oHtml = $('<div class="J-alert-win-wrap" style="position:fixed;top:0px;left:0px;width:100%;height:100%;overflow-y: scroll;background:rgba(0,0,0,0.8);"></div>');
 			oHtml.append(oDom);
 			$('#framework').append(oHtml);
-			
-			$(document).on('click', function(e){
-				if(!$(e.target).parents().hasClass('J-alert-win-wrap')){
-					oHtml.remove();
-				}
-			});
+			document.documentElement.style.overflow = 'hidden';
+			var firstClick = true;
+			setTimeout(function(){
+				$(document).on('click', function(e){
+					if(!$(e.target).parents().hasClass('J-alert-win-wrap')){
+						oHtml.remove();
+						document.documentElement.style.overflow = '';
+					}
+				});
+			}, 200);
 			function ajust(){
 				var winHeight = $(window).height();
 				oHtml.css({width : $(window).width(), heigth: winHeight});
@@ -123,7 +128,43 @@ if($mUser){
 </head>
 <body>
 	<?php $this->beginBody(); ?>
-	<div id="framework"><?php echo $content; ?></div>
+	<div id="framework">
+		<div id="pageWraper">
+			<div class="c-head-wrap">
+				<div class="c-h-left">
+					<a href="javascript:;" class="heitao-icon"></a>
+					<a class="vipinfo">VIP7&nbsp;还有15天到期</a>
+				</div>
+				<div class="c-h-center">
+					<div class="c-h-center-w">
+						<div class="c-h-item">
+							<a href="javascript:;" class="c-h-i-up">俱乐部</a>
+							<a href="javascript:;" class="c-h-i-down"></a>
+						</div>
+						<div class="c-h-item">
+							<a  href="javascript:;" class="c-h-i-up">俱乐部</a>
+							<a href="javascript:;" class="c-h-i-down"></a>
+						</div>
+						<div class="c-h-item" style="width:43px;margin-left: 15px;">
+							<a href="javascript:;" class="add-icon" onclick="AlertWin.showAddClub();"></a>
+						</div>
+					</div>
+				</div>
+				<div class="c-h-right">
+					<a href="javascript:;" class="log-icon"></a>
+					<a href="javascript:;" class="setting-icon" onclick="AlertWin.showEditUserInfo();"></a>
+					<a href="javascript:;" class="close-icon"></a>
+				</div>
+				<div class="c-h-tab-w">
+					<a href="<?php echo Url::to('home', 'index/index'); ?>" class="c-h-t-menu m1 active"></a>
+					<a href="<?php echo Url::to('home', 'agent/index'); ?>" class="c-h-t-menu m2"></a>
+					<a href="javascript:;" class="c-h-t-menu m3"></a>
+					<a href="javascript:;" class="c-h-t-jiaoban"></a>
+				</div>
+			</div>
+			<?php echo $content; ?>
+		</div>	
+	</div>
 	<?php $this->endBody(); ?>
 </body>
 </html>

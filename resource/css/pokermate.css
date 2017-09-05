@@ -1215,5 +1215,69 @@ body{
     top: 25px;
 	cursor:pointer;
 }
-
+.J-edit-user-info-win{
+	width:650px;
+	height:425px;
+	background: url(./../images/103.png) no-repeat;
+}
+.J-edit-user-info-win .J-input{
+	float:left;
+	display:block;
+	position:relative;
+	left:200px;
+	background:none;
+	outline:none;
+	border:none;
+	color:#ffffff;
+	text-align:center;
+	width:123px;
+	height:26px;
+	line-height:26px;
+}
+.J-edit-user-info-win .J-input.J-login-name{
+	top: 97px;
+}
+.J-edit-user-info-win .J-input.J-password{
+	top: 162px;
+    left: 77px;
+}
+.J-edit-user-info-win .J-input.J-qibu-choushui{
+	top: 224px;
+    left: -46px;
+}
+.J-edit-user-info-win .J-input.J-choushui-shuanfa{
+	width: 211px;
+    top: 281px;
+    left: -211px;
+    cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.J-edit-user-info-win .J-choushui-shuanfa-item-wrap{
+	display:none;
+	height: 60px;
+    width: 144px;
+    top: 274px;
+    left: 190px;
+    background: url(./../images/sprite.png) no-repeat;
+    background-position: -672px -282px;
+}
+.J-choushui-shuanfa-item-wrap .J-choushui-shuanfa-item{
+	float:left;
+	position:relative;
+	height: 26px;
+    width:100%;
+    top: 8px;
+	cursor:pointer;
+}
+.J-edit-user-info-win .J-save-btn{
+	top: 347px;
+    left: 296px;
+    width: 73px;
+	cursor:pointer;
+}
 /*background:rgba(0,0,0,0.2);*/
