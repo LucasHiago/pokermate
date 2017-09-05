@@ -33,6 +33,9 @@ if($mUser){
 			placeholder = function(input){
 				var text = input.attr('placeholder'),
 				defaultValue = input.defaultValue;
+				if(text == undefined){
+					return;
+				}
 				if(typeof(input.attr('data-type')) == 'undefined'){
 					input.attr('data-type', input.attr('type'));
 					input.attr('type', 'text');
