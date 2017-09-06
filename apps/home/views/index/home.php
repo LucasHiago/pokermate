@@ -204,8 +204,8 @@ $this->setTitle('结账台');
 			</div>
 			<div class="c-b-c-r-bottom">
 				<div class="txt-wrap">
-					<a class="momey1">100000</a>
-					<a class="momey2">100000</a>
+					<a class="momey1"><?php echo $moneyTypeTotalMoney; ?></a>
+					<a class="momey2"><?php echo $moneyOutPutTypeTotalMoney; ?></a>
 				</div>
 				<div class="c-b-c-r-bottom-body">
 					<div class="b-b-item-left">

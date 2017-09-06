@@ -155,5 +155,17 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		]);
 	}
 	
+	public function getMoneyTypeTotalMoney(){
+		$sql = 'SELECT SUM(`money`) as `total_money` FROM ' . MoneyType::tableName() . ' WHERE `user_id`=' . $this->id . ' AND `is_delete`=0';
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return $aResult[0]['total_money'];
+	}
+	
+	public function getMoneyOutPutTypeTotalMoney(){
+		$sql = 'SELECT SUM(`money`) as `total_money` FROM ' . MoneyOutPutType::tableName() . ' WHERE `user_id`=' . $this->id . ' AND `is_delete`=0';
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return $aResult[0]['total_money'];
+	}
+	
 	
 }

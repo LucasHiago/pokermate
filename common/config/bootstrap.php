@@ -23,6 +23,7 @@ Yii::setAlias('p.resource',		$appPath . '/resource');
 Yii::setAlias('p.system_view',		$appPath . '/common/views/system');
 Yii::setAlias('@p.user_profile', 'data/user/profile/');
 Yii::setAlias('@p.temp_upload', 'data/temp/');
+Yii::setAlias('@p.import', 'data/import/');
 
 defined('NOW_TIME') || define('NOW_TIME', time());
 unset($appPath, $domainSuffix);

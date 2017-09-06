@@ -89,7 +89,7 @@ return [
 
        'db' => [
             'class' => 'umeworld\lib\Connection',
-            'charset' => 'utf8',
+            'charset' => 'utf8mb4',
 			'aTables' => [
 				/**
 				 * 当你要求user表不使用缓存

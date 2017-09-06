@@ -41,6 +41,9 @@ return [
 		'agent/index.html'														=> 'agent/index',
 		
 		
+		'import/index.html'														=> 'import/index',
+		
+		
 		''																		=> 'site/index',
 		'<lang:.*>'																=> 'site/index',
 		

@@ -9,6 +9,7 @@ use umeworld\lib\DbCommand;
  * @inheritdoc
  */
 class Connection extends \yii\db\Connection{
+	public $charset = 'utf8mb4';
 	/**
 	 * @var array 表别名集合,键名就是别名的名称,键值就是表的真实位置,可以是 数据库.数据表 格式或纯数据表名称
 	 */

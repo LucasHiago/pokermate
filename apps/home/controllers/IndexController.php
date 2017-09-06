@@ -17,10 +17,14 @@ class IndexController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
+		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
+		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
 		
 		return $this->render('home', [
 			'aMoneyTypeList' => $aMoneyTypeList,
 			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
+			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
+			'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
 		]);
 	}
 	
