@@ -18,10 +18,10 @@ class UserController extends Controller{
 		$choushuiShuanfa = (int)Yii::$app->request->post('choushuiShuanfa');
 		
 		if(!$loginName){
-			return new Response('账号不能为空', -1);
+			return new Response('请填写账号', -1);
 		}
 		if(!$password){
-			return new Response('密码不能为空', -1);
+			return new Response('请填写密码', -1);
 		}
 		if(!in_array($choushuiShuanfa, [1, 2])){
 			return new Response('抽水算法有误', 0);

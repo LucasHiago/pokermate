@@ -10,6 +10,7 @@ class ManageCoreAsset extends \umeworld\lib\AssetBundle
 		'@r.js.core',
 		'@r.js.ui',
 		'@r.js.tools',
+		'@r.js.content.viewer',
     ];
 
     public $css = [

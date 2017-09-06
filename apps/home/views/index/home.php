@@ -198,7 +198,7 @@ $this->setTitle('结账台');
 			<div class="c-b-c-r-center">
 				<a class="krbh"><input type="text" value="71" /></a>
 				<a class="bj"><input type="text" value="1571" /></a>
-				<a class="J-jsfs jsfs">支付宝</a>
+				<a class="J-jsfs jsfs" data-value="<?php echo $aMoneyTypeList ? $aMoneyTypeList[0]['id'] : 0; ?>"><?php echo $aMoneyTypeList ? $aMoneyTypeList[0]['pay_type'] : ''; ?></a>
 				<a class="jsjer"><input type="text" value="0" /></a>
 				<a class="sure"></a>
 			</div>
@@ -210,36 +210,29 @@ $this->setTitle('结账台');
 				<div class="c-b-c-r-bottom-body">
 					<div class="b-b-item-left">
 						<div class="h30"></div>
-						<div class="b-b-i-l-i">
-							<div class="type">支付宝</div>
-							<div class="in-text"><input type="text" value="1000" /></div>
-							<div class="edit-btn"></div>
+						<div class="b-b-item-left-list">
+						<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
+							<div class="b-b-i-l-i">
+								<div class="type"><?php echo $aMoneyType['pay_type']; ?></div>
+								<div class="in-text"><input type="text" value="<?php echo $aMoneyType['money']; ?>" data-id="<?php echo $aMoneyType['id']; ?>" /></div>
+								<div class="edit-btn"></div>
+							</div>
+						<?php } ?>
 						</div>
-						<div class="b-b-i-l-i">
-							<div class="type">微信</div>
-							<div class="in-text"><input type="text" value="1000" /></div>
-							<div class="edit-btn"></div>
-						</div>
-						<div class="b-b-i-l-i">
-							<div class="type">银行卡</div>
-							<div class="in-text"><input type="text" value="1000" /></div>
-							<div class="edit-btn"></div>
-						</div>
-						<div class="op-btn">新增/删除</div>
+						<div class="op-btn" onclick='AlertWin.showMoneyTypeList(<?php echo json_encode($aMoneyTypeList); ?>);'>新增/删除</div>
 					</div>
 					<div class="b-b-item-center">
 						<div class="h30"></div>
-						<div class="b-b-i-l-i">
-							<div class="type">采金</div>
-							<div class="in-text"><input type="text" value="1000" /></div>
-							<div class="edit-btn"></div>
+						<div class="b-b-item-center-list">
+							<?php foreach($aMoneyOutPutTypeList as $aMoneyOutPutType){ ?>
+							<div class="b-b-i-l-i">
+								<div class="type"><?php echo $aMoneyOutPutType['out_put_type']; ?></div>
+								<div class="in-text"><input type="text" value="<?php echo $aMoneyOutPutType['money']; ?>" data-id="<?php echo $aMoneyOutPutType['id']; ?>" /></div>
+								<div class="edit-btn"></div>
+							</div>
+						<?php } ?>
 						</div>
-						<div class="b-b-i-l-i">
-							<div class="type">伙食</div>
-							<div class="in-text"><input type="text" value="1000" /></div>
-							<div class="edit-btn"></div>
-						</div>
-						<div class="op-btn">新增/删除</div>
+						<div class="op-btn" onclick='AlertWin.showMoneyOutPutTypeList(<?php echo json_encode($aMoneyOutPutTypeList); ?>);'>新增/删除</div>
 					</div>
 					<div class="b-b-item-right">
 						<div class="h30"></div>
@@ -257,27 +250,137 @@ $this->setTitle('结账台');
 
 
 <script type="text/javascript">	
-	$(function(){
-		$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
-		$('.J-jsfs').on('click', function(){
-			var html = '';
-			html += '<div class="J-jsfs-select">';
-				html += '<div class="J-jsfs-select-item">支付宝</div>';
-				html += '<div class="J-jsfs-select-item">微信</div>';
-				html += '<div class="J-jsfs-select-item">银行卡</div>';
-			html += '</div>';
-			var oHtml = $(html);
-			$('#pageWraper').append(oHtml);
-			oHtml.css({top: $(this).offset().top + 33, left: $(this).offset().left});
-			oHtml.find('.J-jsfs-select-item').on('click', function(){
-				$('.J-jsfs').text($(this).text());
-				oHtml.remove();
-			});
-			$(document).on('click', function(e){
-				if(!$(e.target).hasClass('J-jsfs')){
-					oHtml.remove();
+	function initMoneyOutPutType(){
+		$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		
+		function commitMoneyTypeChange(o){
+			ajax({
+				url : Tools.url('home', 'money-out-put-type/save'),
+				data : {
+					id : $(o).attr('data-id'),
+					money : $(o).val()
+				},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					if(aResult.status == 1){
+						UBox.show(aResult.msg, aResult.status, function(){
+							location.reload();
+						}, 3);
+					}else{
+						UBox.show(aResult.msg, aResult.status);
+					}
 				}
 			});
-		});
+		}
+		
+		function initMoneyTypeListEvent(){
+			$('.b-b-item-center-list').find('.edit-btn').on('click', function(){
+				var oTxt = $(this).parent().find('input');
+				var txt = oTxt.val();
+				oTxt.val('');
+				oTxt.focus();
+				oTxt.val(txt);
+			});
+			
+			$('.b-b-item-center-list').find('input').keyup(function(e){
+				if(e.keyCode == 13){
+					commitMoneyTypeChange(this);
+				}
+			});
+		}
+		initMoneyTypeListEvent();
+	}
+
+	function initMoneyType(){
+		function initJsfs(){
+			$('.J-jsfs').on('click', function(){
+				var html = '';
+				html += '<div class="J-jsfs-select">';
+				<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
+					html += '<div class="J-jsfs-select-item" data-value="<?php echo $aMoneyType['id']; ?>"><?php echo $aMoneyType['pay_type']; ?></div>';
+				<?php } ?>
+				html += '</div>';
+				var oHtml = $(html);
+				$('#pageWraper').append(oHtml);
+				oHtml.css({top: $(this).offset().top + 33, left: $(this).offset().left});
+				oHtml.find('.J-jsfs-select-item').on('click', function(){
+					$('.J-jsfs').attr('data-value', $(this).attr('data-value'));
+					$('.J-jsfs').text($(this).text());
+					oHtml.remove();
+				});
+				$(document).on('click', function(e){
+					if(!$(e.target).hasClass('J-jsfs')){
+						oHtml.remove();
+					}
+				});
+			});
+		}
+		
+		function initMoneyTypeListScroll(){
+			$('.b-b-item-left-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		}
+		
+		function commitMoneyTypeChange(o){
+			ajax({
+				url : Tools.url('home', 'money-type/save'),
+				data : {
+					id : $(o).attr('data-id'),
+					money : $(o).val()
+				},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					if(aResult.status == 1){
+						UBox.show(aResult.msg, aResult.status, function(){
+							location.reload();
+						}, 3);
+					}else{
+						UBox.show(aResult.msg, aResult.status);
+					}
+				}
+			});
+		}
+		
+		function initMoneyTypeListEvent(){
+			$('.b-b-item-left-list').find('.edit-btn').on('click', function(){
+				var oTxt = $(this).parent().find('input');
+				var txt = oTxt.val();
+				oTxt.val('');
+				oTxt.focus();
+				oTxt.val(txt);
+			});
+			
+			$('.b-b-item-left-list').find('input').keyup(function(e){
+				if(e.keyCode == 13){
+					commitMoneyTypeChange(this);
+				}
+			});
+		}
+		
+		initJsfs();
+		initMoneyTypeListScroll();
+		initMoneyTypeListEvent();
+	}
+
+	function ajustClubList(){
+		$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
+	}
+	
+	$(function(){
+		$('.c-h-t-menu.m1').addClass('active');
+		
+		ajustClubList();
+		
+		initMoneyType();
+		initMoneyOutPutType();
 	});
 </script>

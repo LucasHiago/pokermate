@@ -237,6 +237,7 @@ $this->setTitle('结账台');
 
 <script type="text/javascript">	
 	$(function(){
+		$('.c-h-t-menu.m2').addClass('active');
 		$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
 		$('.J-jsfs').on('click', function(){
 			var html = '';

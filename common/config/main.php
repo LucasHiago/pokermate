@@ -225,5 +225,9 @@ return [
 			'htmlLayout' => '@common/views/mail/html-layout',
 			'textLayout' => '@common/views/mail/text-layout',
         ],
+		
+		'excel' => [
+			'class' => 'umeworld\lib\PHPExcel\excel',
+		],
     ],
 ];

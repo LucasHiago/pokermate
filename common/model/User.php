@@ -134,4 +134,26 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return $aWhere;
 	}
 	
+	public function getUserClubList(){
+		return Club::findAll([
+			'user_id' => $this->id,
+			'is_delete' => 0,
+		]);
+	}
+	
+	public function getMoneyTypeList(){
+		return MoneyType::findAll([
+			'user_id' => $this->id,
+			'is_delete' => 0,
+		]);
+	}
+	
+	public function getMoneyOutPutTypeList(){
+		return MoneyOutPutType::findAll([
+			'user_id' => $this->id,
+			'is_delete' => 0,
+		]);
+	}
+	
+	
 }

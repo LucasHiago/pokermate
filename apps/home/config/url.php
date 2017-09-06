@@ -16,12 +16,26 @@ return [
 	'rules' => [
 	
 		'login.json'															=> 'login/login',
+		'logout.html'															=> 'login/logout',
 		
 		
 		'home.html'																=> 'index/index',
 		
 		
 		'user/save.json'														=> 'user/save',
+		
+		
+		'club/save.json'														=> 'club/save',
+		'club/delete.json'														=> 'club/delete',
+		
+		
+		'money-type/save.json'													=> 'money-type/save',
+		'money-type/delete.json'												=> 'money-type/delete',
+		
+		
+		'money-out-put-type/save.json'											=> 'money-out-put-type/save',
+		'money-out-put-type/delete.json'										=> 'money-out-put-type/delete',
+		
 		
 		
 		'agent/index.html'														=> 'agent/index',

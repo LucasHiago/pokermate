@@ -50,4 +50,8 @@ class LoginController extends Controller{
 		return new Response('登录成功', 1, Url::to('home', 'index/index'));
 	}
 	
+	public function actionLogout(){
+		Yii::$app->user->logout();
+		return Yii::$app->response->redirect(Url::to('home', 'site/index'));
+	}
 }

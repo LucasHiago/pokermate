@@ -20,6 +20,7 @@ body{
 .h100{height:100px;margin:0px;padding:0px;}
 .h200{height:200px;margin:0px;padding:0px;}
 .h500{height:500px;margin:0px;padding:0px;}
+input{border:none;outline:none;background:none;}
 #pageWraper a{
 	text-decoration:none;
 	outline:none;
@@ -653,6 +654,7 @@ body{
     text-align: center;
     line-height: 31px;
     left: 7px;
+    top: 20px;
 	cursor:pointer;
 }
 .c-b-c-r-bottom .c-b-c-r-bottom-body .b-b-item-center{
@@ -665,6 +667,14 @@ body{
 	float:left;
 	width: 161px;
     height: 100%;
+}
+.c-b-c-r-bottom .c-b-c-r-bottom-body .b-b-item-left-list{
+	width:100%;
+	height:228px;
+}
+.c-b-c-r-bottom .c-b-c-r-bottom-body .b-b-item-center-list{
+	width:100%;
+	height:228px;
 }
 .c-b-c-r-bottom .c-b-c-r-bottom-body .b-b-i-l-i{
 	float:left;
@@ -785,19 +795,8 @@ body{
 	cursor:pointer;
 }
 .c-body-wrap .ag-bg .ag-left .ag-l-r1 .r1-select-all.active{
-	display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-	font-size: 42px;
-    color: #ffff00;
-    line-height: 38px;
-    text-align: center;
-}
-.c-body-wrap .ag-bg .ag-left .ag-l-r1 .r1-select-all.active:before{
-	content: "\f14a";
+	background:url('./../images/sprite.png') no-repeat;
+	background-position:-979px -217px;
 }
 .c-body-wrap .ag-bg .ag-left .ag-l-r1 .r1-delete{
 	position:relative;
@@ -837,19 +836,8 @@ body{
 	height:38px;
 }
 .ag-l-list .ag-l-list-item .agi-chk.active{
-	display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-	font-size: 30px;
-    color: #ffff00;
-    line-height: 38px;
-    text-align: center;
-}
-.ag-l-list .ag-l-list-item .agi-chk.active:before{
-	content: "\f14a";
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -1034px -219px
 }
 .ag-l-list .ag-l-list-item .agi-txt{
 	position: relative;
@@ -1083,19 +1071,8 @@ body{
     cursor: pointer;
 }
 .c-body-wrap .ag-bg .ag-right .ag-r-select-all.active{
-	display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-	font-size: 42px;
-    color: #ffff00;
-    line-height: 38px;
-    text-align: center;
-}
-.c-body-wrap .ag-bg .ag-right .ag-r-select-all.active:before{
-	content: "\f14a";
+	background:url('./../images/sprite.png') no-repeat;
+	background-position:-979px -217px;
 }
 .c-body-wrap .ag-bg .ag-right .ag-r-list{
 	width:100%;
@@ -1126,19 +1103,8 @@ body{
 	cursor:pointer;
 }
 .c-body-wrap .ag-bg .ag-right .ag-r-list .ag-r-list-item .agr-li-chk.active{
-	display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-size: 30px;
-    color: #ffff00;
-    line-height: 38px;
-    text-align: center;
-}
-.c-body-wrap .ag-bg .ag-right .ag-r-list .ag-r-list-item .agr-li-chk.active:before{
-	content: "\f14a";
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -1034px -219px
 }
 .c-body-wrap .ag-bg .ag-right .ag-r-list .ag-r-list-item .agr-li-name{
 	left: 25px;
@@ -1280,4 +1246,152 @@ body{
     width: 73px;
 	cursor:pointer;
 }
+.J-edit-club-win{
+	background: url(./../images/104.png) no-repeat;
+    background-position: 0px -7px;
+}
+.J-edit-club-win .J-new-btn{
+	position:relative;
+	float:left;
+	top: 364px;
+    left: -209px;
+	height:30px;
+	width:100px;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -915px -335px;
+	cursor:pointer;
+}
+.J-edit-club-win .J-del-btn{
+	position:relative;
+	float:left;
+	top: 364px;
+    left: -278px;
+	height:30px;
+	width:100px;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -850px -284px;
+	cursor:pointer;
+}
+.J-edit-club-win .J-edit-btn{
+	position: relative;
+    float: left;
+    top: 335px;
+    left: 333px;
+    height: 30px;
+    width: 100px;
+    background: url(./../images/sprite.png) no-repeat;
+    background-position: -986px -287px;
+    cursor: pointer;
+}
+.J-edit-club-win .J-input.J-club-name{
+	top: 97px;
+}
+.J-edit-club-win .J-input.J-club-id{
+	top: 162px;
+    left: 77px;
+}
+.J-edit-club-win .J-input.J-club-login-name{
+	top: 224px;
+    left: -46px;
+}
+.J-edit-club-win .J-input.J-club-login-password{
+	top: 280px;
+    left: -167px;
+}
+.J-money-type-list-win{
+	width:650px;
+	height:469px;
+	background: url(./../images/108.png) no-repeat;
+}
+.J-money-type-list-win .m-t-l-head{
+	width:100%;
+	height:62px;
+}
+.J-money-type-list-win .m-t-l-head .m-t-l-h-delete{
+	position:relative;
+	float:right;
+	bottom: -21px;
+    right: 45px;
+	height:35px;
+	width:95px;
+	cursor:pointer;
+}
+.J-money-type-list-win .m-t-l-title{
+	width:100%;
+	height:85px;
+}
+.J-money-type-list-win .m-t-l-h-select{
+	position:relative;
+	float:right;
+	bottom: -32px;
+    right: 66px;
+	height:45px;
+	width:45px;
+	cursor:pointer;
+    background: url(./../images/sprite.png) no-repeat;
+    background-position: -231px -422px;
+}
+.J-money-type-list-win .m-t-l-h-select.active{
+    background-position: -679px -419px;
+}
+.J-money-type-list-win .m-t-l-list{
+    width:100%;
+	height:222px;
+}
+.J-money-type-list-win .m-t-l-list-item{
+    width:650px;
+	height:70px;
+}
+.J-money-type-list-win .m-t-l-list-item-txt{
+	position:relative;
+	float:left;
+	top:0px;
+	width:195px;
+	height:70px;
+	line-height:70px;
+	color:#ffffff;
+	text-align:center;
+	font-size:28px;
+    background: url(./../images/sprite.png) no-repeat;
+    background-position: -2px -408px;
+}
+.J-money-type-list-win .m-t-l-list-item-txt.txt-pay-type{
+	left:76px;
+}
+.J-money-type-list-win .m-t-l-list-item-txt.txt-money{
+	left:106px;
+}
+.J-money-type-list-win .m-t-l-bottom{
+	width:100%;
+	height:48px;
+}
+.J-money-type-list-win .m-t-l-bottom input{
+	display:inline-block;
+	position:relative;
+	float:left;
+	top:0px;
+	width:170px;
+	height:48px;
+	line-height:48px;
+	text-align:center;
+	color:#ffffff;
+	font-size:20px;
+}
+.J-money-type-list-win .m-t-l-bottom .m-t-l-b-txt-pay-type{
+	left: 88px;
+}
+.J-money-type-list-win .m-t-l-bottom .m-t-l-b-txt-money{
+	left: 144px;
+}
+.J-money-type-list-win .m-t-l-bottom .m-t-l-b-add{
+	display: inline-block;
+    position: relative;
+    float: left;
+    top: 4px;
+    width: 94px;
+    height: 38px;
+    left: 174px;
+	cursor:pointer;
+}
+
 /*background:rgba(0,0,0,0.2);*/

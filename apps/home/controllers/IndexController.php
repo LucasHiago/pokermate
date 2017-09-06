@@ -14,7 +14,14 @@ use common\model\User;
 class IndexController extends Controller{
 	
 	public function actionIndex(){
-		return $this->render('home');
+		$mUser = Yii::$app->user->getIdentity();
+		$aMoneyTypeList = $mUser->getMoneyTypeList();
+		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
+		
+		return $this->render('home', [
+			'aMoneyTypeList' => $aMoneyTypeList,
+			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
+		]);
 	}
 	
 }

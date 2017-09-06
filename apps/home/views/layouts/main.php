@@ -1,12 +1,15 @@
 <?php 
 use umeworld\lib\Url;
+use yii\helpers\ArrayHelper;
 $this->registerAssetBundle('common\assets\ManageCoreAsset');
 $this->beginPage(); 
 $mUser = Yii::$app->user->getIdentity();
 $aUser = [];
+$aClubList = [];
 if($mUser){
 	$aUser = $mUser->toArray();
 	//unset($aUser['password']);
+	$aClubList = $mUser->getUserClubList();
 }
 ?>
 <!DOCTYPE html>
@@ -97,10 +100,10 @@ if($mUser){
 			oHtml.append(oDom);
 			$('#framework').append(oHtml);
 			document.documentElement.style.overflow = 'hidden';
-			var firstClick = true;
+			
 			setTimeout(function(){
 				$(document).on('click', function(e){
-					if(!$(e.target).parents().hasClass('J-alert-win-wrap')){
+					if(!$(e.target).parents().hasClass('J-alert-win-wrap') && !$(e.target).hasClass('wrapUBox') && !$(e.target).parents().hasClass('wrapUBox')){
 						oHtml.remove();
 						document.documentElement.style.overflow = '';
 					}
@@ -137,14 +140,12 @@ if($mUser){
 				</div>
 				<div class="c-h-center">
 					<div class="c-h-center-w">
+					<?php foreach($aClubList as $aClub){ ?>
 						<div class="c-h-item">
-							<a href="javascript:;" class="c-h-i-up">俱乐部</a>
+							<a href="javascript:;" class="c-h-i-up" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></a>
 							<a href="javascript:;" class="c-h-i-down"></a>
 						</div>
-						<div class="c-h-item">
-							<a  href="javascript:;" class="c-h-i-up">俱乐部</a>
-							<a href="javascript:;" class="c-h-i-down"></a>
-						</div>
+					<?php } ?>
 						<div class="c-h-item" style="width:43px;margin-left: 15px;">
 							<a href="javascript:;" class="add-icon" onclick="AlertWin.showAddClub();"></a>
 						</div>
@@ -153,10 +154,10 @@ if($mUser){
 				<div class="c-h-right">
 					<a href="javascript:;" class="log-icon"></a>
 					<a href="javascript:;" class="setting-icon" onclick="AlertWin.showEditUserInfo();"></a>
-					<a href="javascript:;" class="close-icon"></a>
+					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="close-icon"></a>
 				</div>
 				<div class="c-h-tab-w">
-					<a href="<?php echo Url::to('home', 'index/index'); ?>" class="c-h-t-menu m1 active"></a>
+					<a href="<?php echo Url::to('home', 'index/index'); ?>" class="c-h-t-menu m1"></a>
 					<a href="<?php echo Url::to('home', 'agent/index'); ?>" class="c-h-t-menu m2"></a>
 					<a href="javascript:;" class="c-h-t-menu m3"></a>
 					<a href="javascript:;" class="c-h-t-jiaoban"></a>

@@ -1,6 +1,320 @@
 (function(container, $){
 	container.AlertWin = {
 		
+		showMoneyOutPutTypeList : function(aMoneyOutPutTypeList){
+			var html = '';
+			html += '<div class="J-money-type-list-win">';
+				html += '<div class="m-t-l-head"><div class="m-t-l-h-delete"></div></div>';
+				html += '<div class="m-t-l-title"><div class="J-select-all m-t-l-h-select"></div></div>';
+				html += '<div class="m-t-l-list">';
+					for(var i in aMoneyOutPutTypeList){
+						html += '<div class="m-t-l-list-item">';
+							html += '<div class="m-t-l-list-item-txt txt-pay-type">' + aMoneyOutPutTypeList[i].out_put_type + '</div>';
+							html += '<div class="m-t-l-list-item-txt txt-money">' + aMoneyOutPutTypeList[i].money + '</div>';
+							html += '<div class="m-t-l-h-select" style="bottom: -16px;" data-id="' + aMoneyOutPutTypeList[i].id + '"></div>';
+						html += '</div>';
+					}
+				html += '</div>';
+				html += '<div class="m-t-l-bottom">';
+					html += '<input type="text" class="m-t-l-b-txt-pay-type" />';
+					html += '<input type="text" class="m-t-l-b-txt-money" />';
+					html += '<div class="m-t-l-b-add"></div>';
+				html += '</div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			oHtml.find('.J-select-all').on('click', function(){
+				if($(this).hasClass('active')){
+					$(this).removeClass('active');
+					oHtml.find('.m-t-l-list-item .m-t-l-h-select').removeClass('active');
+				}else{
+					$(this).addClass('active');
+					oHtml.find('.m-t-l-list-item .m-t-l-h-select').addClass('active');
+				}
+			});
+			oHtml.find('.m-t-l-list-item .m-t-l-h-select').on('click', function(){
+				if($(this).hasClass('active')){
+					$(this).removeClass('active');
+					oHtml.find('.J-select-all').removeClass('active');
+				}else{
+					$(this).addClass('active');
+				}
+			});
+			oHtml.find('.m-t-l-h-delete').on('click', function(){
+				var o = this;
+				var aId = [];
+				oHtml.find('.m-t-l-list-item .m-t-l-h-select.active').each(function(){
+					aId.push($(this).attr('data-id'));
+				});
+				ajax({
+					url : Tools.url('home', 'money-out-put-type/delete'),
+					data : {
+						aId : aId
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+			oHtml.find('.m-t-l-b-add').on('click', function(){
+				var o = this;
+				ajax({
+					url : Tools.url('home', 'money-out-put-type/save'),
+					data : {
+						outPutType : $(o).parent().find('.m-t-l-b-txt-pay-type').val(),
+						money : $(o).parent().find('.m-t-l-b-txt-money').val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){console.log(1);
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.m-t-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+			});
+		},
+		
+		showMoneyTypeList : function(aMoneyTypeList){
+			var html = '';
+			html += '<div class="J-money-type-list-win">';
+				html += '<div class="m-t-l-head"><div class="m-t-l-h-delete"></div></div>';
+				html += '<div class="m-t-l-title"><div class="J-select-all m-t-l-h-select"></div></div>';
+				html += '<div class="m-t-l-list">';
+					for(var i in aMoneyTypeList){
+						html += '<div class="m-t-l-list-item">';
+							html += '<div class="m-t-l-list-item-txt txt-pay-type">' + aMoneyTypeList[i].pay_type + '</div>';
+							html += '<div class="m-t-l-list-item-txt txt-money">' + aMoneyTypeList[i].money + '</div>';
+							html += '<div class="m-t-l-h-select" style="bottom: -16px;" data-id="' + aMoneyTypeList[i].id + '"></div>';
+						html += '</div>';
+					}
+				html += '</div>';
+				html += '<div class="m-t-l-bottom">';
+					html += '<input type="text" class="m-t-l-b-txt-pay-type" />';
+					html += '<input type="text" class="m-t-l-b-txt-money" />';
+					html += '<div class="m-t-l-b-add"></div>';
+				html += '</div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			oHtml.find('.J-select-all').on('click', function(){
+				if($(this).hasClass('active')){
+					$(this).removeClass('active');
+					oHtml.find('.m-t-l-list-item .m-t-l-h-select').removeClass('active');
+				}else{
+					$(this).addClass('active');
+					oHtml.find('.m-t-l-list-item .m-t-l-h-select').addClass('active');
+				}
+			});
+			oHtml.find('.m-t-l-list-item .m-t-l-h-select').on('click', function(){
+				if($(this).hasClass('active')){
+					$(this).removeClass('active');
+					oHtml.find('.J-select-all').removeClass('active');
+				}else{
+					$(this).addClass('active');
+				}
+			});
+			oHtml.find('.m-t-l-h-delete').on('click', function(){
+				var o = this;
+				var aId = [];
+				oHtml.find('.m-t-l-list-item .m-t-l-h-select.active').each(function(){
+					aId.push($(this).attr('data-id'));
+				});
+				ajax({
+					url : Tools.url('home', 'money-type/delete'),
+					data : {
+						aId : aId
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+			oHtml.find('.m-t-l-b-add').on('click', function(){
+				var o = this;
+				ajax({
+					url : Tools.url('home', 'money-type/save'),
+					data : {
+						payType : $(o).parent().find('.m-t-l-b-txt-pay-type').val(),
+						money : $(o).parent().find('.m-t-l-b-txt-money').val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.m-t-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+			});
+		},
+		
+		showAddClub : function(){
+			var html = '';
+			html += '<div class="J-edit-club-win J-edit-user-info-win">';
+				html += '<input type="text" class="J-input J-club-name" value="" />';
+				html += '<input type="text" class="J-input J-club-id" value="" />';
+				html += '<input type="text" class="J-input J-club-login-name" value="" />';
+				html += '<input type="text" class="J-input J-club-login-password" value="" />';
+				html += '<div class="J-new-btn"></div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			
+			oHtml.find('.J-new-btn').on('click', function(){
+				var o = this;
+				ajax({
+					url : Tools.url('home', 'club/save'),
+					data : {
+						clubName : oHtml.find('.J-club-name').val(),
+						clubId : oHtml.find('.J-club-id').val(),
+						clubLoginName : oHtml.find('.J-club-login-name').val(),
+						clubLoginPassword : oHtml.find('.J-club-login-password').val(),
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+			showAlertWin(oHtml, function(){
+				
+			});
+		},
+		
+		showEditClub : function(aClub){
+			var html = '';
+			html += '<div class="J-edit-club-win J-edit-user-info-win">';
+				html += '<input type="text" class="J-input J-club-name" value="' + aClub.club_name + '" />';
+				html += '<input type="text" class="J-input J-club-id" value="' + aClub.club_id + '" />';
+				html += '<input type="text" class="J-input J-club-login-name" value="' + aClub.club_login_name + '" />';
+				html += '<input type="text" class="J-input J-club-login-password" value="' + aClub.club_login_password + '" />';
+				html += '<div class="J-del-btn"></div>';
+				html += '<div class="J-edit-btn"></div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			
+			oHtml.find('.J-del-btn').on('click', function(){
+				if(confirm('确定删除？')){
+					var o = this;
+					ajax({
+						url : Tools.url('home', 'club/delete'),
+						data : {
+							id : aClub.id
+						},
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								UBox.show(aResult.msg, aResult.status, function(){
+									location.reload();
+								}, 3);
+							}else{
+								UBox.show(aResult.msg, aResult.status);
+							}
+						}
+					});
+				}
+			});
+			
+			oHtml.find('.J-edit-btn').on('click', function(){
+				var o = this;
+				ajax({
+					url : Tools.url('home', 'club/save'),
+					data : {
+						id : aClub.id,
+						clubName : oHtml.find('.J-club-name').val(),
+						clubId : oHtml.find('.J-club-id').val(),
+						clubLoginName : oHtml.find('.J-club-login-name').val(),
+						clubLoginPassword : oHtml.find('.J-club-login-password').val(),
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+			
+			showAlertWin(oHtml, function(){
+				
+			});
+		},
+		
 		showEditUserInfo : function(){
 			var aUser = App.oCurrentUser;
 			var html = '';
