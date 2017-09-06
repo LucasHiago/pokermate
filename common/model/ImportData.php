@@ -38,10 +38,46 @@ class ImportData extends \common\lib\DbOrmModel{
 			'zhanji',
 			'end_time_format',
 			'end_time',
-			'create_time'
+			'create_time',
+			'paiju_id'
 		], $aInsertList)->execute();
 	}
 	
+	public static function importFromExcelDataList($aDataList){
+		debug(PaiJu::findAll(),11);
+		if(!$aDataList){
+			return false;
+		}
+		//去掉表头
+		unset($aDataList[0]);
+		$aInserDataList = [];
+		$aUniquePaiJuList = [];
+		$aPlayerList = [];
+		foreach($aDataList as $aData){
+			 $aData[1] = trim($aData[1]);
+			//结束时间转为时间戳
+			$endTime = strtotime($aData[19]);
+			array_push($aData, $endTime);
+			array_push($aData, NOW_TIME);
+			//总手数为0为无效牌局（不计算桌子费）
+			if($aData[6]){
+				array_push($aPlayerList, [
+					'player_id' => (int)$aData[7],
+					'player_name' => $aData[8],
+				]);
+				$aUniquePaiJuInfo = static::_getUniquePaiJuInfo($aUniquePaiJuList, $aData[1], $endTime);
+				$aUniquePaiJuList = $aUniquePaiJuInfo['list'];
+				array_push($aData, $aUniquePaiJuInfo['id']);
+				array_push($aInserDataList, $aData);
+			}
+		}
+		if($aInserDataList){
+			static::bathInsertData($aInserDataList);
+			Player::checkAddNewPlayer($aPlayerList);
+		}
+		debug($aInserDataList,11);
+	}
+		
 	private static function _getUniquePaiJuInfo($aDataList, $paijuName, $endTime){
 		foreach($aDataList as $aData){
 			if($aData['paiju_name'] == $paijuName && $aData['end_time'] == $endTime){
@@ -68,29 +104,4 @@ class ImportData extends \common\lib\DbOrmModel{
 		];
 	}
 	
-	public static function importFromExcelDataList($aDataList){debug(PaiJu::findOne(1),11);
-		if(!$aDataList){
-			return false;
-		}
-		//去掉表头
-		unset($aDataList[0]);
-		$aInserDataList = [];
-		$aUniquePaiJuList = [];
-		foreach($aDataList as $aData){
-			 $aData[1] = trim($aData[1]);
-			//结束时间转为时间戳
-			$endTime = strtotime($aData[19]);
-			array_push($aData, $endTime);
-			array_push($aData, NOW_TIME);
-			//总手数为0为无效牌局（不计算桌子费）
-			if($aData[6]){
-				$aUniquePaiJuInfo = static::_getUniquePaiJuInfo($aUniquePaiJuList, $aData[1], $endTime);
-				$aUniquePaiJuList = $aUniquePaiJuInfo['list'];
-				array_push($aData, $aUniquePaiJuInfo['id']);
-				array_push($aInserDataList, $aData);
-			}
-		}
-		//static::bathInsertData($aInserDataList);
-		debug($aInserDataList,11);
-	}
 }
