@@ -6,7 +6,7 @@ defined('FRAMEWORK_PATH') || define('FRAMEWORK_PATH', PROJECT_PATH . '/framework
 $aLocal = [
 	'is_debug' => true,
 	'env' => 'prod',
-	'domain_host_name' => 'lansif7z_pokermate',
+	'domain_host_name' => 'pokermate',
 	'domain_suffix' => [
 		'dev' => 'dev',
 		'test' => 'test',
