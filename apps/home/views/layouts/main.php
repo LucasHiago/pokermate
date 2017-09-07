@@ -175,6 +175,11 @@ if($mUser){
 		</div>	
 	</div>
 	<?php $this->endBody(); ?>
+	<script type="text/javascript">
+		$(function(){
+			$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
+		});
+	</script>
 </body>
 </html>
 <?php $this->endPage();

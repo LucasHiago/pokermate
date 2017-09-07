@@ -825,7 +825,7 @@ input{border:none;outline:none;background:none;}
 	margin-top: 18px;
 }
 .ag-l-list .ag-l-list-item{
-	width:100%;
+	width:297px;
 	height:42px;
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:19px -290px;
@@ -866,7 +866,7 @@ input{border:none;outline:none;background:none;}
 	margin-top: 122px;
 }
 .c-body-wrap .ag-bg .ag-center .ag-c-list .ag-c-list-item{
-	width: 100%;
+	width: 297px;
 	height: 42px;
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:-275px -268px;
@@ -1395,6 +1395,94 @@ input{border:none;outline:none;background:none;}
     height: 38px;
     left: 174px;
 	cursor:pointer;
+}
+.J-add-agent-win{
+	width:650px;
+	height:182px;
+    background: url(./../images/105.png) no-repeat;
+}
+.J-add-agent-win .agent-name{
+	float: left;
+    position: relative;
+    top: 63px;
+    left: 172px;
+    width: 158px;
+    height: 48px;
+    line-height: 48px;
+    color: #ffffff;
+    font-size: 20px;
+}
+.J-add-agent-win .add-agent{
+	float: left;
+    position: relative;
+    top: 74px;
+    left: 238px;
+    width: 93px;
+    height: 34px;
+	cursor:pointer;
+}
+.J-player-list-win{
+	width:1320px;
+	height:848px;
+    background: url(./../images/110.png) no-repeat;
+}
+.J-player-list-win .p-l-head{
+	width:100%;
+	height:156px;
+}
+.J-player-list-win .p-l-head .search-krbh{
+	float: right;
+    position: relative;
+    right: 185px;
+    bottom: -108px;
+    width: 116px;
+    height: 33px;
+    line-height: 33px;
+	text-align:center;
+	color:#ffffff;
+	font-size:18px;
+}
+.J-player-list-win .p-l-head .add-player{
+	float: right;
+    position: relative;
+    right: -70px;
+    bottom: -97px;
+    width: 128px;
+    height: 48px;
+	cursor:pointer;
+}
+.J-player-list-win .p-l-title{
+	width:100%;
+	height:80px;
+}
+.J-player-list-win .p-l-body{
+	width:100%;
+	height:580px;
+}
+.J-player-list-win .p-l-body{
+	width:1320px;
+	height:580px;
+}
+.J-player-list-win .p-l-body .p-l-item{
+	float:left;
+	width:1320px;
+	height:80px;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -711px -473px;
+}
+.J-player-list-win .p-l-body .p-l-item .c-td{
+	margin-top: 15px;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+	text-align:center;
+	color:#ffffff;
+}
+.J-player-list-win .p-l-body .p-l-item .c-td input{
+	width:100%;
+	height:100%;
+	text-align:center;
+	color:#ffffff;
 }
 
 /*background:rgba(0,0,0,0.2);*/

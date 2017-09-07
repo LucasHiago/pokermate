@@ -1,8 +1,8 @@
--- MySQL dump 10.14  Distrib 5.5.40-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.47, for Win32 (x86)
 --
 -- Host: localhost    Database: lansif7z_pokermate
 -- ------------------------------------------------------
--- Server version	5.5.40-MariaDB-log
+-- Server version	5.5.47
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,7 +37,7 @@ CREATE TABLE `agent` (
   `is_delete` tinyint(4) NOT NULL COMMENT '是否删除:1是0否',
   `create_time` int(11) NOT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +46,8 @@ CREATE TABLE `agent` (
 
 LOCK TABLES `agent` WRITE;
 /*!40000 ALTER TABLE `agent` DISABLE KEYS */;
+INSERT INTO `agent` VALUES (1,1,'李白',0,1504790304);
+INSERT INTO `agent` VALUES (2,1,'南苏',0,1504791752);
 /*!40000 ALTER TABLE `agent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +96,7 @@ CREATE TABLE `fencheng_setting` (
   `yingfan` decimal(10,2) NOT NULL COMMENT '赢返',
   `shufan` decimal(10,2) NOT NULL COMMENT '输返',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,6 +105,17 @@ CREATE TABLE `fencheng_setting` (
 
 LOCK TABLES `fencheng_setting` WRITE;
 /*!40000 ALTER TABLE `fencheng_setting` DISABLE KEYS */;
+INSERT INTO `fencheng_setting` VALUES (1,1,'1/2',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (2,1,'2/4',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (3,1,'5/10',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (4,1,'10/20',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (5,1,'20/40',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (6,1,'25/50',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (7,1,'50/100',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (8,1,'100/200',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (9,1,'200/400',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (10,1,'300/600',0.00,0.00);
+INSERT INTO `fencheng_setting` VALUES (11,1,'1000/2000',0.00,0.00);
 /*!40000 ALTER TABLE `fencheng_setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,4 +448,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-07 18:56:10
+-- Dump completed on 2017-09-08  3:53:28

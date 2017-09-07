@@ -1,5 +1,84 @@
 (function(container, $){
 	container.AlertWin = {
+		showPlayerList : function(){
+			var html = '';
+			html += '<div class="J-player-list-win">';
+				html += '<div class="p-l-head">';
+					html += '<input type="text" class="search-krbh" />';
+					html += '<input type="text" class="add-player" />';
+				html += '</div>';
+				html += '<div class="p-l-title"></div>';
+				html += '<div class="p-l-body">';
+					html += '<div class="p-l-item-wrap">';
+						html += '<div class="p-l-item">';
+							html += '<div style="width:58px;" class="c-td"></div>';
+							html += '<div style="width:108px;" class="c-td"><input type="text" value="56" /></div>';
+							html += '<div style="width:33px;" class="c-td"></div>';
+							html += '<div style="width:174px;" class="c-td"><input type="text" value="1000" /></div>';
+							html += '<div style="width:170px;cursor:pointer;" class="c-td"><div style="width:120px;text-align:right;">5</div></div>';
+							html += '<div style="width:156px;" class="c-td">';
+								html += '<input type="text" style="float:left;display:block;width:94px;height:100%;text-align: right;" value="0.25" />';
+								html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
+								html += '<a style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
+							html += '</div>';
+							html += '<div style="width:157px;" class="c-td">';
+								html += '<input type="text" style="float:left;display:block;width:102px;height:100%;text-align: right;" value="0.25" />';
+								html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
+								html += '<a style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
+							html += '</div>';
+							html += '<div style="width:154px;" class="c-td"><div style="width:90px;text-align:right;">5</div></div>';
+							html += '<div style="width:157px;" class="c-td"><input type="text" value="56" /></div>';
+							html += '<div style="width:116px;" class="c-td"><a style="position: relative;left: 16px;top: 8px;display: block;width: 78px;height: 33px;cursor:pointer;"></a></div>';
+						html += '</div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+			});
+		},
+		
+		showAddAgent : function(){
+			var html = '';
+			html += '<div class="J-add-agent-win">';
+				html += '<input type="text" class="agent-name" placeholder="请输入代理名字" />';
+				html += '<a class="add-agent"></a>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			
+			oHtml.find('.add-agent').click(function(){
+				var o = this;
+				ajax({
+					url : Tools.url('home', 'agent/add'),
+					data : {
+						agentName : $(o).prev().val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.agent-name').focus();
+			});
+		},
 		
 		showMoneyOutPutTypeList : function(aMoneyOutPutTypeList){
 			var html = '';

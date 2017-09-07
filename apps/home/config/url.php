@@ -43,6 +43,10 @@ return [
 		
 		
 		'agent/index.html'														=> 'agent/index',
+		'agent/add.json'														=> 'agent/add',
+		'agent/delete.json'														=> 'agent/delete',
+		'agent/save-setting.json'												=> 'agent/save-setting',
+		'agent/one-key-save-setting.json'										=> 'agent/one-key-save-setting',
 		
 		
 		'import/index.html'														=> 'import/index',

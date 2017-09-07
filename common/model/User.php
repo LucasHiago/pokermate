@@ -167,6 +167,36 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return $aResult[0]['total_money'];
 	}
 	
+	public function getAgentList(){
+		return Agent::findAll(['user_id' => $this->id, 'is_delete' => 0]);
+	}
+	
+	public function getFenchengListSetting(){
+		$aFenchengConfigList = FenchengSetting::getFenchengConfigList();
+		$aList = FenchengSetting::findAll(['user_id' => $this->id, 'zhuozi_jibie' => $aFenchengConfigList]);
+		$aInsertList = [];
+		foreach($aFenchengConfigList as $zhuoziJibie){
+			$flag = false;
+			foreach($aList as $value){
+				if(in_array($value['zhuozi_jibie'], $aFenchengConfigList)){
+					$flag = true;
+				}
+			}
+			if(!$flag){
+				array_push($aInsertList, [
+					'user_id' => $this->id,
+					'zhuozi_jibie' => $zhuoziJibie,
+					'yingfan' => 0,
+					'shufan' => 0,
+				]);
+			}
+		}
+		if($aInsertList){
+			FenchengSetting::bathInsertData($aInsertList);
+		}
+		return FenchengSetting::findAll(['user_id' => $this->id, 'zhuozi_jibie' => $aFenchengConfigList]);
+	}
+	
 	public function getLastPaijuList($page = 1, $pageSize = 0, $aOrder = ['`t1`.`id`' => SORT_DESC]){
 		$aCondition = [
 			'user_id' => $this->id,

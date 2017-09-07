@@ -146,7 +146,7 @@ $this->setTitle('结账台');
 			<a href="javascript:;" class="chaer"></a>
 			<a href="javascript:;" class="ball fu">-100</a>
 			<a href="javascript:;" class="lmzz"></a>
-			<a href="javascript:;" class="krxx"></a>
+			<a href="javascript:;" class="krxx" onclick="AlertWin.showPlayerList();"></a>
 			<a href="javascript:;" class="lspj"></a>
 			<a href="javascript:;" class="jbzc"></a>
 			<a href="javascript:;" class="ball">100</a>
@@ -338,10 +338,6 @@ $this->setTitle('结账台');
 		initMoneyTypeListEvent();
 	}
 
-	function ajustClubList(){
-		$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
-	}
-	
 	function showAllPaijuList(o){
 		ajax({
 			url : Tools.url('home', 'index/get-paiju-list'),
@@ -455,8 +451,6 @@ $this->setTitle('结账台');
 	
 	$(function(){
 		$('.c-h-t-menu.m1').addClass('active');
-		
-		ajustClubList();
 		
 		initMoneyType();
 		initJiaoShouJinEr();

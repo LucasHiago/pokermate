@@ -35,6 +35,7 @@ class Player extends \common\lib\DbOrmModel{
 					'user_id' => $userId,
 					'player_id' => $aPlayer['player_id'],
 					'player_name' => $aPlayer['player_name'],
+					'ying_chou' => 5,
 					'create_time' => NOW_TIME,
 				]);
 			}
