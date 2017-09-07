@@ -167,5 +167,25 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return $aResult[0]['total_money'];
 	}
 	
+	public function getLastPaijuList($page = 1, $pageSize = 0, $aOrder = ['`t1`.`id`' => SORT_DESC]){
+		$aCondition = [
+			'user_id' => $this->id,
+			'status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE],
+		];
+		$aClubList = $this->getUserClubList();
+		if($aClubList){
+			$aCondition['club_id'] = ArrayHelper::getColumn($aClubList, 'club_id');
+		}
+		$aControll = [
+			'select' => '`t1`.*',
+			'order_by' => $aOrder,
+		];
+		if($pageSize){
+			$aControll['page'] = $page;
+			$aControll['page_size'] = $pageSize;
+		}
+		return Paiju::getList($aCondition, $aControll);
+	}
+	
 	
 }

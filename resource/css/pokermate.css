@@ -235,7 +235,7 @@ input{border:none;outline:none;background:none;}
 	background-position:-1794px -179px;	
 }
 .c-b-list-item .c-b-l-i-title{
-	margin-top: 5px;
+	margin-top: 7px;
 	width:100%;
 	height:20px;
 	line-height:20px;
@@ -254,6 +254,9 @@ input{border:none;outline:none;background:none;}
 	height:35px;
 	line-height:35px;
 	margin-left:5px;
+}
+.c-b-list-item .c-b-l-i-bottom .l-text{
+	margin-left:8px;
 }
 .c-b-list-item .c-b-l-i-bottom a.l-edit{
 	background:url('./../images/sprite.png') no-repeat;
@@ -1130,18 +1133,18 @@ input{border:none;outline:none;background:none;}
 .J-bill-list-win{
 	width:1200px;
 	height:849px;
-	background: url(./../images/bill-list-bg.png) no-repeat;
+	background: url(./../images/bill-list-bg1.png) no-repeat;
 }
 .J-bill-list-win .content-body{
 	width:100%;
-	height: 526px;
+	height: 595px;
     margin-top: 153px;
     float: left;
 }
 .J-bill-list-win .content-body .item-wrap{
 	width:1134px;
-	height: 100%;
-    margin:0 auto;
+	height: 595px;
+	margin-left: 30px;
 }
 .J-bill-list-win .content-body .item-wrap .c-b-list-item{
 	margin-bottom: 10px;

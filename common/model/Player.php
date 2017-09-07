@@ -20,18 +20,19 @@ class Player extends \common\lib\DbOrmModel{
 		}
 		$mKerenBenjin = KerenBenjin::findOne(['keren_bianhao' => $mPlayer->keren_bianhao]);
 		if(!$mKerenBenjin){
-			KerenBenjin::addRecord(['keren_bianhao' => $mPlayer->keren_bianhao]);
+			KerenBenjin::addRecord(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao]);
 		}
 		return $id;
 	}
 	
-	public static function checkAddNewPlayer($aPlayerList){
+	public static function checkAddNewPlayer($userId, $aPlayerList){
 		$aPlayerId = ArrayHelper::getColumn($aPlayerList, 'player_id');
-		$aList = static::findAll(['player_id' => $aPlayerId]);
+		$aList = static::findAll(['user_id' => $userId, 'player_id' => $aPlayerId]);
 		$aExistPlayerId = ArrayHelper::getColumn($aList, 'player_id');
 		foreach($aPlayerList as $aPlayer){
 			if(!in_array($aPlayer['player_id'], $aExistPlayerId)){
 				static::addRecord([
+					'user_id' => $userId,
 					'player_id' => $aPlayer['player_id'],
 					'player_name' => $aPlayer['player_name'],
 					'create_time' => NOW_TIME,

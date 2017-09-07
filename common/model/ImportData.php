@@ -39,19 +39,20 @@ class ImportData extends \common\lib\DbOrmModel{
 			'end_time_format',
 			'end_time',
 			'create_time',
-			'paiju_id'
+			'paiju_id',
+			'user_id'
 		], $aInsertList)->execute();
 	}
 	
 	public static function importFromExcelDataList($aDataList){
-		debug(PaiJu::findAll(),11);
+		debug(Paiju::findAll(),11);
 		if(!$aDataList){
 			return false;
 		}
 		//去掉表头
 		unset($aDataList[0]);
 		$aInserDataList = [];
-		$aUniquePaiJuList = [];
+		$aUniquePaijuList = [];
 		$aPlayerList = [];
 		foreach($aDataList as $aData){
 			 $aData[1] = trim($aData[1]);
@@ -65,20 +66,21 @@ class ImportData extends \common\lib\DbOrmModel{
 					'player_id' => (int)$aData[7],
 					'player_name' => $aData[8],
 				]);
-				$aUniquePaiJuInfo = static::_getUniquePaiJuInfo($aUniquePaiJuList, $aData[1], $endTime);
-				$aUniquePaiJuList = $aUniquePaiJuInfo['list'];
-				array_push($aData, $aUniquePaiJuInfo['id']);
+				$aUniquePaijuInfo = static::_getUniquePaijuInfo($aUniquePaijuList, $aData[1], $endTime);
+				$aUniquePaijuList = $aUniquePaijuInfo['list'];
+				array_push($aData, $aUniquePaijuInfo['id']);
+				array_push($aData, Yii::$app->user->id);
 				array_push($aInserDataList, $aData);
 			}
 		}
 		if($aInserDataList){
 			static::bathInsertData($aInserDataList);
-			Player::checkAddNewPlayer($aPlayerList);
+			Player::checkAddNewPlayer(Yii::$app->user->id, $aPlayerList);
 		}
 		debug($aInserDataList,11);
 	}
 		
-	private static function _getUniquePaiJuInfo($aDataList, $paijuName, $endTime){
+	private static function _getUniquePaijuInfo($aDataList, $paijuName, $endTime){
 		foreach($aDataList as $aData){
 			if($aData['paiju_name'] == $paijuName && $aData['end_time'] == $endTime){
 				return [
@@ -87,19 +89,20 @@ class ImportData extends \common\lib\DbOrmModel{
 				];
 			}
 		}
-		$mPaiJu = PaiJu::findOne(['paiju_name' => $paijuName, 'end_time' => $endTime]);
-		if(!$mPaiJu){
-			$mPaiJu = PaiJu::addRecord([
+		$mPaiju = Paiju::findOne(['user_id' => Yii::$app->user->id, 'paiju_name' => $paijuName, 'end_time' => $endTime]);
+		if(!$mPaiju){
+			$mPaiju = Paiju::addRecord([
+				'user_id' => Yii::$app->user->id,
 				'paiju_name' => $paijuName, 
 				'end_time' => $endTime,
-				'status' => PaiJu::STATUS_UNDO,
+				'status' => Paiju::STATUS_UNDO,
 				'create_time' => NOW_TIME,
 			]);
 		}
-		array_push($aDataList, $mPaiJu->toArray(['id', 'paiju_name', 'end_time']));
+		array_push($aDataList, $mPaiju->toArray(['id', 'paiju_name', 'end_time']));
 		
 		return [
-			'id' => $mPaiJu->id,
+			'id' => $mPaiju->id,
 			'list' => $aDataList,
 		];
 	}

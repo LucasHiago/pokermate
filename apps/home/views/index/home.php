@@ -5,56 +5,18 @@ $this->setTitle('结账台');
 <div class="c-body-wrap">
 	<div class="c-b-list">
 		<div class="c-b-list-wrap">
-			<div class="c-b-list-item">
-				<div class="c-b-l-i-title">2017-02-03</div>
+		<?php foreach($aLastPaijuList as $aPaiju){ ?>
+			<div class="c-b-list-item <?php echo !$aPaiju['status'] ? 'new' : ''; ?>">
+				<div class="c-b-l-i-title"><?php echo $aPaiju['paiju_name']; ?></div>
 				<div class="c-b-l-i-bottom">
-					<a class="l-text"><span>核对数字</span><span>99</span></a>
+					<a class="l-text"><span>核对数字</span><span><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
 					<a class="l-edit"></a>
-					<a class="l-status"></a>
+					<a class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"></a>
 				</div>
 			</div>
-			<div class="c-b-list-item new">
-				<div class="c-b-l-i-title">2017-02-03</div>
-				<div class="c-b-l-i-bottom">
-					<a class="l-text"><span>核对数字</span><span>99</span></a>
-					<a class="l-edit"></a>
-					<a class="l-status l-clean"></a>
-				</div>
-			</div>
-			<div class="c-b-list-item">
-				<div class="c-b-l-i-title">2017-02-03</div>
-				<div class="c-b-l-i-bottom">
-					<a class="l-text"><span>核对数字</span><span>99</span></a>
-					<a class="l-edit"></a>
-					<a class="l-status"></a>
-				</div>
-			</div>
-			<div class="c-b-list-item new">
-				<div class="c-b-l-i-title">2017-02-03</div>
-				<div class="c-b-l-i-bottom">
-					<a class="l-text"><span>核对数字</span><span>99</span></a>
-					<a class="l-edit"></a>
-					<a class="l-status l-clean"></a>
-				</div>
-			</div>
-			<div class="c-b-list-item">
-				<div class="c-b-l-i-title">2017-02-03</div>
-				<div class="c-b-l-i-bottom">
-					<a class="l-text"><span>核对数字</span><span>99</span></a>
-					<a class="l-edit"></a>
-					<a class="l-status"></a>
-				</div>
-			</div>
-			<div class="c-b-list-item new">
-				<div class="c-b-l-i-title">2017-02-03</div>
-				<div class="c-b-l-i-bottom">
-					<a class="l-text"><span>核对数字</span><span>99</span></a>
-					<a class="l-edit"></a>
-					<a class="l-status l-clean"></a>
-				</div>
-			</div>
+		<?php } ?>
 		</div>
-		<div class="c-b-list-arrow" onclick="AlertWin.showBillList();"></div>
+		<div class="c-b-list-arrow" onclick="showAllPaijuList(this);"></div>
 	</div>
 	<div class="c-b-content">
 		<div class="c-b-c-left">
@@ -196,11 +158,11 @@ $this->setTitle('结账台');
 				<div class="h-szrs">10000</div>
 			</div>
 			<div class="c-b-c-r-center">
-				<a class="krbh"><input type="text" value="71" /></a>
-				<a class="bj"><input type="text" value="1571" /></a>
+				<a class="krbh"><input type="text" class="J-search-keren-bianhao" value="" /></a>
+				<a class="bj"><input type="text" class="J-search-benjin " value="0" /></a>
 				<a class="J-jsfs jsfs" data-value="<?php echo $aMoneyTypeList ? $aMoneyTypeList[0]['id'] : 0; ?>"><?php echo $aMoneyTypeList ? $aMoneyTypeList[0]['pay_type'] : ''; ?></a>
-				<a class="jsjer"><input type="text" value="0" /></a>
-				<a class="sure"></a>
+				<a class="jsjer"><input type="text" class="J-search-jsjer" value="0" /></a>
+				<a class="J-submit-search-benjin sure"></a>
 			</div>
 			<div class="c-b-c-r-bottom">
 				<div class="txt-wrap">
@@ -293,6 +255,9 @@ $this->setTitle('结账台');
 				}
 			});
 		}
+		/*$('.b-b-item-center input').bind('input propertychange', function() {  
+			setInputInterval(this);
+		}); */
 		initMoneyTypeListEvent();
 	}
 
@@ -365,7 +330,9 @@ $this->setTitle('结账台');
 				}
 			});
 		}
-		
+		/*$('.b-b-item-left input').bind('input propertychange', function() {  
+			setInputInterval(this);
+		}); */
 		initJsfs();
 		initMoneyTypeListScroll();
 		initMoneyTypeListEvent();
@@ -375,12 +342,124 @@ $this->setTitle('结账台');
 		$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
 	}
 	
+	function showAllPaijuList(o){
+		ajax({
+			url : Tools.url('home', 'index/get-paiju-list'),
+			data : {},
+			beforeSend : function(){
+				$(o).attr('disabled', 'disabled');
+			},
+			complete : function(){
+				$(o).attr('disabled', false);
+			},
+			success : function(aResult){
+				if(aResult.status == 1){
+					AlertWin.showPaijuList(aResult.data);
+				}else{
+					UBox.show(aResult.msg, aResult.status);
+				}
+			}
+		});
+	}
+	
+	function getKerenBenjin(o, kerenBianhao){
+		ajax({
+			url : Tools.url('home', 'index/get-keren-benjin') + '?r=' + Math.random(),
+			data : {
+				kerenBianhao : kerenBianhao
+			},
+			beforeSend : function(){
+				//$(o).attr('disabled', 'disabled');
+			},
+			complete : function(){
+				//$(o).attr('disabled', false);
+			},
+			success : function(aResult){
+				if(aResult.status == 1){
+					//$(o).val(aResult.data.keren_bianhao);
+					$(o).parent().parent().find('.J-search-benjin').val(aResult.data.benjin);
+				}
+			}
+		});
+	}
+	
+	function updateBenjin(o){
+		ajax({
+			url : Tools.url('home', 'index/update-benjin'),
+			data : {
+				kerenBianhao : $('.J-search-keren-bianhao').val(),
+				benjin : $(o).val()
+			},
+			beforeSend : function(){
+				$(o).attr('disabled', 'disabled');
+			},
+			complete : function(){
+				$(o).attr('disabled', false);
+			},
+			success : function(aResult){
+				if(aResult.status == 1){
+					UBox.show(aResult.msg, aResult.status, function(){
+						location.reload();
+					}, 3);
+				}else{
+					UBox.show(aResult.msg, aResult.status);
+				}
+			}
+		});
+	}
+	
+	function initJiaoShouJinEr(){
+		$('.J-search-keren-bianhao, .J-search-benjin, .J-search-jsjer').bind('input propertychange', function() {  
+			setInputInterval(this);
+		}); 
+		$('.J-search-keren-bianhao').bind('input propertychange', function(){
+			var o = this;
+			setTimeout(function(){
+				getKerenBenjin(o, $(o).val());
+			}, 500);
+		}); 
+		$('.J-submit-search-benjin').on('click', function(){
+			var o = this;
+			ajax({
+				url : Tools.url('home', 'index/jiaoshou-jiner'),
+				data : {
+					kerenBianhao : $('.J-search-keren-bianhao').val(),
+					//benjin : benjin,
+					payType : $('.J-jsfs').attr('data-value'),
+					jsjer : $('.J-search-jsjer').val()
+				},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					if(aResult.status == 1){
+						UBox.show(aResult.msg, aResult.status, function(){
+							location.reload();
+						}, 3);
+					}else{
+						UBox.show(aResult.msg, aResult.status);
+					}
+				}
+			});
+		});
+		
+		$('.J-search-benjin').keyup(function(e){
+			if(e.keyCode == 13){
+				updateBenjin(this);
+			}
+		});
+	}
+	
 	$(function(){
 		$('.c-h-t-menu.m1').addClass('active');
 		
 		ajustClubList();
 		
 		initMoneyType();
+		initJiaoShouJinEr();
 		initMoneyOutPutType();
 	});
 </script>

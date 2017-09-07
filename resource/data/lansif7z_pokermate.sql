@@ -32,6 +32,7 @@ DROP TABLE IF EXISTS `agent`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `agent` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
   `agent_name` varchar(50) NOT NULL COMMENT '代理名字',
   `is_delete` tinyint(4) NOT NULL COMMENT '是否删除:1是0否',
   `create_time` int(11) NOT NULL COMMENT '时间',
@@ -65,7 +66,7 @@ CREATE TABLE `club` (
   `is_delete` tinyint(4) NOT NULL COMMENT '是否删除:1是0否',
   `create_time` int(11) NOT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,6 +76,7 @@ CREATE TABLE `club` (
 LOCK TABLES `club` WRITE;
 /*!40000 ALTER TABLE `club` DISABLE KEYS */;
 INSERT INTO `club` VALUES (1,1,'888分舵',888520,'jay','123456',0,1504667409);
+INSERT INTO `club` VALUES (2,1,'888国际',2767536,'13612646126','123456789',0,1504766433);
 /*!40000 ALTER TABLE `club` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,6 +89,7 @@ DROP TABLE IF EXISTS `fencheng_setting`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fencheng_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
   `zhuozi_jibie` varchar(50) NOT NULL COMMENT '桌子级别',
   `yingfan` decimal(10,2) NOT NULL COMMENT '赢返',
   `shufan` decimal(10,2) NOT NULL COMMENT '输返',
@@ -135,8 +138,9 @@ CREATE TABLE `import_data` (
   `end_time` int(11) NOT NULL COMMENT '结束时间戳',
   `create_time` int(11) NOT NULL COMMENT '时间',
   `paiju_id` int(11) NOT NULL COMMENT '牌局ID',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,27 +149,27 @@ CREATE TABLE `import_data` (
 
 LOCK TABLES `import_data` WRITE;
 /*!40000 ALTER TABLE `import_data` DISABLE KEYS */;
-INSERT INTO `import_data` VALUES (22,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','735304085','妖股','21955639','新西兰27poker','800','657','0','0','0','0','295','-143','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (23,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','481124234','DAB621','21340895','渔船','400','1337','0','0','0','0','295','937','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (24,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','441053099','PersonZ','21340895','渔船','400','383','0','0','0','0','295','-17','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (25,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','796020048','神相李布衣','21065196','海洋馆','400','400','0','0','0','8','295','0','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (26,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1272637032','阿玮（TW）','21065196','海洋馆','400','79','8','0','-8','8','295','-321','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (27,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1292548547','厚先生','2767536','888国际','1000','1447','0','0','0','0','295','447','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (28,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','94816688','冰泉水','2767536','888国际','400','580','0','0','0','0','295','180','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (29,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1490946566','买牌买到底','2767536','888国际','600','507','0','0','0','0','295','-93','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (30,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1232996650','高尔基','1798364','🌟村长家🌟','400','400','0','0','0','14','295','0','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (31,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1355487424','哈气','1798364','🌟村长家🌟','400','0','14','0','-14','14','295','-400','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (32,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1239328724','releeyk0','568568','小肥羊俱乐部','800','1272','273','0','-273','273','295','472','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (33,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1191529058','價值下注','568568','小肥羊俱乐部','600','984','0','0','0','273','295','384','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (34,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1130923485','AAFish','568568','小肥羊俱乐部','800','991','0','0','0','273','295','191','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (35,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1355192654','MU Jheng','568568','小肥羊俱乐部','1200','1270','0','0','0','273','295','70','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (36,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1608005878','踩过介','568568','小肥羊俱乐部','600','600','0','0','0','273','295','0','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (37,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1626414532','人數字','568568','小肥羊俱乐部','400','0','0','0','0','273','295','-400','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (38,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1413166582','稀粥炒饭','555558','打死为止小班💎','1000','913','0','0','0','0','295','-87','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (39,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','54381787','深海小醜🐟','555558','打死为止小班💎','400','0','0','0','0','0','295','-400','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (40,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1015655431','美少女月野兔','555558','打死为止小班💎','800','217','0','0','0','0','295','-583','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (41,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1032824372','狼狼的刷','288888','金字塔俱乐部','800','0','0','0','0','0','295','-800','2017-08-12 07:30:58',1502494258,1504750183,2);
-INSERT INTO `import_data` VALUES (42,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1157888537','老虎一号','227733','水上公园轻级别','400','666','0','0','0','0','295','266','2017-08-12 07:30:58',1502494258,1504750183,2);
+INSERT INTO `import_data` VALUES (64,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','735304085','妖股','21955639','新西兰27poker','800','657','0','0','0','0','295','-143','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (65,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','481124234','DAB621','21340895','渔船','400','1337','0','0','0','0','295','937','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (66,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','441053099','PersonZ','21340895','渔船','400','383','0','0','0','0','295','-17','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (67,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','796020048','神相李布衣','21065196','海洋馆','400','400','0','0','0','8','295','0','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (68,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1272637032','阿玮（TW）','21065196','海洋馆','400','79','8','0','-8','8','295','-321','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (69,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1292548547','厚先生','2767536','888国际','1000','1447','0','0','0','0','295','447','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (70,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','94816688','冰泉水','2767536','888国际','400','580','0','0','0','0','295','180','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (71,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1490946566','买牌买到底','2767536','888国际','600','507','0','0','0','0','295','-93','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (72,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1232996650','高尔基','1798364','🌟村长家🌟','400','400','0','0','0','14','295','0','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (73,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1355487424','哈气','1798364','🌟村长家🌟','400','0','14','0','-14','14','295','-400','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (74,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1239328724','releeyk0','568568','小肥羊俱乐部','800','1272','273','0','-273','273','295','472','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (75,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1191529058','價值下注','568568','小肥羊俱乐部','600','984','0','0','0','273','295','384','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (76,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1130923485','AAFish','568568','小肥羊俱乐部','800','991','0','0','0','273','295','191','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (77,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1355192654','MU Jheng','568568','小肥羊俱乐部','1200','1270','0','0','0','273','295','70','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (78,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1608005878','踩过介','568568','小肥羊俱乐部','600','600','0','0','0','273','295','0','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (79,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1626414532','人數字','568568','小肥羊俱乐部','400','0','0','0','0','273','295','-400','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (80,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1413166582','稀粥炒饭','555558','打死为止小班💎','1000','913','0','0','0','0','295','-87','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (81,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','54381787','深海小醜🐟','555558','打死为止小班💎','400','0','0','0','0','0','295','-400','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (82,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1015655431','美少女月野兔','555558','打死为止小班💎','800','217','0','0','0','0','295','-583','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (83,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1032824372','狼狼的刷','288888','金字塔俱乐部','800','0','0','0','0','0','295','-800','2017-08-12 07:30:58',1502494258,1504764191,4,1);
+INSERT INTO `import_data` VALUES (84,'普通保险局','2/4🍎1181A','海洋馆导游','2/4','8','3.0','242','1157888537','老虎一号','227733','水上公园轻级别','400','666','0','0','0','0','295','266','2017-08-12 07:30:58',1502494258,1504764191,4,1);
 /*!40000 ALTER TABLE `import_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,10 +182,11 @@ DROP TABLE IF EXISTS `keren_benjin`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `keren_benjin` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
   `keren_bianhao` int(11) NOT NULL COMMENT '客人编号',
   `benjin` int(11) NOT NULL COMMENT '本金',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,27 +195,27 @@ CREATE TABLE `keren_benjin` (
 
 LOCK TABLES `keren_benjin` WRITE;
 /*!40000 ALTER TABLE `keren_benjin` DISABLE KEYS */;
-INSERT INTO `keren_benjin` VALUES (22,22,0);
-INSERT INTO `keren_benjin` VALUES (23,23,0);
-INSERT INTO `keren_benjin` VALUES (24,24,0);
-INSERT INTO `keren_benjin` VALUES (25,25,0);
-INSERT INTO `keren_benjin` VALUES (26,26,0);
-INSERT INTO `keren_benjin` VALUES (27,27,0);
-INSERT INTO `keren_benjin` VALUES (28,28,0);
-INSERT INTO `keren_benjin` VALUES (29,29,0);
-INSERT INTO `keren_benjin` VALUES (30,30,0);
-INSERT INTO `keren_benjin` VALUES (31,31,0);
-INSERT INTO `keren_benjin` VALUES (32,32,0);
-INSERT INTO `keren_benjin` VALUES (33,33,0);
-INSERT INTO `keren_benjin` VALUES (34,34,0);
-INSERT INTO `keren_benjin` VALUES (35,35,0);
-INSERT INTO `keren_benjin` VALUES (36,36,0);
-INSERT INTO `keren_benjin` VALUES (37,37,0);
-INSERT INTO `keren_benjin` VALUES (38,38,0);
-INSERT INTO `keren_benjin` VALUES (39,39,0);
-INSERT INTO `keren_benjin` VALUES (40,40,0);
-INSERT INTO `keren_benjin` VALUES (41,41,0);
-INSERT INTO `keren_benjin` VALUES (42,42,0);
+INSERT INTO `keren_benjin` VALUES (64,1,64,70);
+INSERT INTO `keren_benjin` VALUES (65,1,65,0);
+INSERT INTO `keren_benjin` VALUES (66,1,66,0);
+INSERT INTO `keren_benjin` VALUES (67,1,67,0);
+INSERT INTO `keren_benjin` VALUES (68,1,68,0);
+INSERT INTO `keren_benjin` VALUES (69,1,69,0);
+INSERT INTO `keren_benjin` VALUES (70,1,70,0);
+INSERT INTO `keren_benjin` VALUES (71,1,71,0);
+INSERT INTO `keren_benjin` VALUES (72,1,72,0);
+INSERT INTO `keren_benjin` VALUES (73,1,73,0);
+INSERT INTO `keren_benjin` VALUES (74,1,74,0);
+INSERT INTO `keren_benjin` VALUES (75,1,75,0);
+INSERT INTO `keren_benjin` VALUES (76,1,76,0);
+INSERT INTO `keren_benjin` VALUES (77,1,77,0);
+INSERT INTO `keren_benjin` VALUES (78,1,78,0);
+INSERT INTO `keren_benjin` VALUES (79,1,79,0);
+INSERT INTO `keren_benjin` VALUES (80,1,80,0);
+INSERT INTO `keren_benjin` VALUES (81,1,81,0);
+INSERT INTO `keren_benjin` VALUES (82,1,82,0);
+INSERT INTO `keren_benjin` VALUES (83,1,83,0);
+INSERT INTO `keren_benjin` VALUES (84,1,84,0);
 /*!40000 ALTER TABLE `keren_benjin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,6 +228,7 @@ DROP TABLE IF EXISTS `lianmeng`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lianmeng` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
   `name` varchar(50) NOT NULL COMMENT '联盟名称',
   `qianzhang` int(11) NOT NULL COMMENT '联盟欠账',
   `duizhangfangfa` int(11) NOT NULL COMMENT '对账方法（1：0.975 2：无水账单）',
@@ -296,8 +302,8 @@ CREATE TABLE `money_type` (
 
 LOCK TABLES `money_type` WRITE;
 /*!40000 ALTER TABLE `money_type` DISABLE KEYS */;
-INSERT INTO `money_type` VALUES (1,1,'支付宝',0,0,1504680294);
-INSERT INTO `money_type` VALUES (2,1,'微信',0,0,1504682724);
+INSERT INTO `money_type` VALUES (1,1,'支付宝',20,0,1504680294);
+INSERT INTO `money_type` VALUES (2,1,'微信',50,0,1504682724);
 INSERT INTO `money_type` VALUES (3,1,'银行卡',0,0,1504688074);
 /*!40000 ALTER TABLE `money_type` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -311,12 +317,14 @@ DROP TABLE IF EXISTS `paiju`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paiju` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
   `paiju_name` varchar(50) NOT NULL COMMENT '牌局名',
   `end_time` int(11) NOT NULL COMMENT '结束时间戳',
+  `hedui_shuzi` int(11) NOT NULL COMMENT '核对数字',
   `status` tinyint(4) NOT NULL COMMENT '牌局状态:0未结算1已结算2已交班',
   `create_time` int(11) NOT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -325,7 +333,7 @@ CREATE TABLE `paiju` (
 
 LOCK TABLES `paiju` WRITE;
 /*!40000 ALTER TABLE `paiju` DISABLE KEYS */;
-INSERT INTO `paiju` VALUES (2,'2/4🍎1181A',1502494258,0,1504750183);
+INSERT INTO `paiju` VALUES (4,1,'2/4🍎1181A',1502494258,0,0,1504764191);
 /*!40000 ALTER TABLE `paiju` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,6 +346,7 @@ DROP TABLE IF EXISTS `player`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `player` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
   `keren_bianhao` int(11) NOT NULL COMMENT '客人编号',
   `player_id` int(11) NOT NULL COMMENT '玩家游戏ID',
   `player_name` varchar(50) NOT NULL COMMENT '玩家游戏名字',
@@ -348,7 +357,7 @@ CREATE TABLE `player` (
   `is_delete` tinyint(4) NOT NULL COMMENT '是否删除:1是0否',
   `create_time` int(11) NOT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -357,27 +366,27 @@ CREATE TABLE `player` (
 
 LOCK TABLES `player` WRITE;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` VALUES (22,22,735304085,'妖股',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (23,23,481124234,'DAB621',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (24,24,441053099,'PersonZ',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (25,25,796020048,'神相李布衣',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (26,26,1272637032,'阿玮（TW）',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (27,27,1292548547,'厚先生',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (28,28,94816688,'冰泉水',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (29,29,1490946566,'买牌买到底',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (30,30,1232996650,'高尔基',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (31,31,1355487424,'哈气',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (32,32,1239328724,'releeyk0',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (33,33,1191529058,'價值下注',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (34,34,1130923485,'AAFish',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (35,35,1355192654,'MU Jheng',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (36,36,1608005878,'踩过介',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (37,37,1626414532,'人數字',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (38,38,1413166582,'稀粥炒饭',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (39,39,54381787,'深海小醜🐟',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (40,40,1015655431,'美少女月野兔',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (41,41,1032824372,'狼狼的刷',0.00,0.00,0,'',0,1504750183);
-INSERT INTO `player` VALUES (42,42,1157888537,'老虎一号',0.00,0.00,0,'',0,1504750183);
+INSERT INTO `player` VALUES (64,1,64,735304085,'妖股',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (65,1,65,481124234,'DAB621',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (66,1,66,441053099,'PersonZ',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (67,1,67,796020048,'神相李布衣',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (68,1,68,1272637032,'阿玮（TW）',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (69,1,69,1292548547,'厚先生',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (70,1,70,94816688,'冰泉水',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (71,1,71,1490946566,'买牌买到底',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (72,1,72,1232996650,'高尔基',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (73,1,73,1355487424,'哈气',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (74,1,74,1239328724,'releeyk0',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (75,1,75,1191529058,'價值下注',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (76,1,76,1130923485,'AAFish',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (77,1,77,1355192654,'MU Jheng',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (78,1,78,1608005878,'踩过介',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (79,1,79,1626414532,'人數字',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (80,1,80,1413166582,'稀粥炒饭',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (81,1,81,54381787,'深海小醜🐟',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (82,1,82,1015655431,'美少女月野兔',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (83,1,83,1032824372,'狼狼的刷',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (84,1,84,1157888537,'老虎一号',0.00,0.00,0,'',0,1504764191);
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -426,4 +435,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-07 11:05:27
+-- Dump completed on 2017-09-07 18:56:10

@@ -126,6 +126,14 @@ if($mUser){
 				callback();
 			}
 		}
+		
+		function setInputInterval(o){
+			if(isNaN($(o).val()) || $(o).val() == ''){
+				$(o).val(0);
+			}else{
+				$(o).val(parseInt($(o).val()));
+			}
+		}
 		<?php echo $this->render(Yii::getAlias('@r.js.alert.win')); ?>
 	</script>
 </head>
