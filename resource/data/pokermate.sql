@@ -1,6 +1,6 @@
 -- MySQL dump 10.14  Distrib 5.5.40-MariaDB, for Linux (x86_64)
 --
--- Host: localhost    Database: pokermate
+-- Host: localhost    Database: lansif7z_pokermate
 -- ------------------------------------------------------
 -- Server version	5.5.40-MariaDB-log
 
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `pokermate`
+-- Current Database: `lansif7z_pokermate`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `pokermate` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `lansif7z_pokermate` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-USE `pokermate`;
+USE `lansif7z_pokermate`;
 
 --
 -- Table structure for table `agent`
