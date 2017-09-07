@@ -6,7 +6,7 @@ defined('FRAMEWORK_PATH') || define('FRAMEWORK_PATH', PROJECT_PATH . '/framework
 $aLocal = [
 	'is_debug' => true,
 	'env' => 'prod',
-	'domain_host_name' => 'pokermate',
+	'domain_host_name' => 'lansif7z_pokermate',
 	'domain_suffix' => [
 		'dev' => 'dev',
 		'test' => 'test',
@@ -18,7 +18,7 @@ $aLocal = [
 			'username' => 'root',
 			'password' => '123456',
 			'node' => [
-				['dsn' => 'mysql:host=127.0.0.1;dbname=pokermate'],
+				['dsn' => 'mysql:host=127.0.0.1;dbname=lansif7z_pokermate'],
 			],
 		],
 		'slaver' => [
@@ -26,7 +26,7 @@ $aLocal = [
 			'username' => 'root',
 			'password' => '123456',
 			'node' => [
-				['dsn' => 'mysql:host=127.0.0.1;dbname=pokermate'],
+				['dsn' => 'mysql:host=127.0.0.1;dbname=lansif7z_pokermate'],
 			],
 		],
 	],
