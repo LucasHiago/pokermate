@@ -16,7 +16,7 @@ $this->setTitle('结账台');
 			</div>
 		<?php } ?>
 		</div>
-		<div class="c-b-list-arrow" onclick="showAllPaijuList(this);"></div>
+		<div class="c-b-list-arrow" onclick="AlertWin.showPaijuList();"></div>
 	</div>
 	<div class="c-b-content">
 		<div class="c-b-c-left">
@@ -147,7 +147,7 @@ $this->setTitle('结账台');
 			<a href="javascript:;" class="ball fu">-100</a>
 			<a href="javascript:;" class="lmzz"></a>
 			<a href="javascript:;" class="krxx" onclick="AlertWin.showPlayerList();"></a>
-			<a href="javascript:;" class="lspj"></a>
+			<a href="javascript:;" class="lspj" onclick="AlertWin.showPaijuList({isHistory : 1});"></a>
 			<a href="javascript:;" class="jbzc"></a>
 			<a href="javascript:;" class="ball">100</a>
 		</div>
@@ -213,6 +213,7 @@ $this->setTitle('结账台');
 
 <script type="text/javascript">	
 	var aAgentList = <?php echo json_encode($aAgentList); ?>;
+	<?php echo $this->render(Yii::getAlias('@r.js.paiju.list')); ?>
 	<?php echo $this->render(Yii::getAlias('@r.js.keren.list')); ?>
 	function initMoneyOutPutType(){
 		$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});

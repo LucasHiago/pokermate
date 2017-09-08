@@ -5,7 +5,7 @@
 		this.oWrapDom = $('#wrapPage');
 		this.url = Tools.url('home', 'index/get-keren-list');
 		this.page = 1;
-		this.pageSize = 10;
+		this.pageSize = 20;
 		this.aExtentParam = {};
 		this.isNoMoreData = false;
 		this.aCacheData = {};
@@ -95,7 +95,7 @@
 						html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
 					html += '</div>';
 					var agentListHtml = '';
-					var agentName = '请选择'
+					var agentName = '请选择';
 					if(aAgentList.length != 0){
 						agentListHtml += '<div class="play-select-list"><div class="p-s-wrap">';
 						for(var k in aAgentList){
@@ -103,7 +103,7 @@
 								agentName = aAgentList[k].agent_name;
 							}
 							agentListHtml += '<div class="h10"></div>';
-							agentListHtml += '<div class="play-select-list-item" data-record-id="' + aData[i].id + '" data-id="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</div>';
+							agentListHtml += '<div class="play-select-list-item" data-type="agent_id" data-record-id="' + aData[i].id + '" data-id="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</div>';
 						}
 						agentListHtml += '</div></div>';
 					}
@@ -123,7 +123,9 @@
 				$(this).find('.play-select-list').show();
 			});
 			oHtml.find('.play-select-list').each(function(){
-				$(this).css({top : $(this).parent().offset().top - 305, left : $(this).parent().offset().left + 100});
+				$(this).show();
+				$(this).css({left : 120});
+				$(this).hide();
 			});
 			oHtml.find('.play-select-list').on('mouseleave', function(){
 				$(this).hide();
@@ -135,7 +137,9 @@
 				setTimeout(function(){
 					oList.hide();
 				}, 100);
-				_updateRecordAgentIdValue($(this).attr('data-record-id'), $(this).attr('data-id'));
+				if($(this).attr('data-type') == 'agent_id'){
+					_updateRecordAgentIdValue($(this).attr('data-record-id'), $(this).attr('data-id'));
+				}
 			});
 			oHtml.find('.play-select-list .p-s-wrap').each(function(){
 				$(this).parent().show();
@@ -155,14 +159,18 @@
 			});
 		}
 		
-		function _updateRecordValue(o){
+		function _updateRecordValue(o, isMerge){
+			var aData = {
+				id : $(o).attr('data-record-id'),
+				type : $(o).attr('data-type'),
+				value : $(o).val()
+			};
+			if(isMerge){
+				aData.isMerge = 1;
+			}
 			ajax({
 				url : Tools.url('home', 'index/update-keren-info'),
-				data : {
-					id : $(o).attr('data-record-id'),
-					type : $(o).attr('data-type'),
-					value : $(o).val()
-				},
+				data : aData,
 				beforeSend : function(){
 					$(o).attr('disabled', 'disabled');
 				},
@@ -170,7 +178,19 @@
 					$(o).attr('disabled', false);
 				},
 				success : function(aResult){
+					if(aResult.status == 2){
+						if(confirm(aResult.msg)){
+							_updateRecordValue(o, 1);
+						}
+						return;
+					}
 					if(aResult.status == 1){
+						if(aResult.data == 'reload'){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+							return;
+						}
 						$(o).val(aResult.data);
 					}
 					UBox.show(aResult.msg, aResult.status);

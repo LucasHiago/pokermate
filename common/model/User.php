@@ -197,10 +197,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return FenchengSetting::findAll(['user_id' => $this->id, 'zhuozi_jibie' => $aFenchengConfigList]);
 	}
 	
-	public function getLastPaijuList($page = 1, $pageSize = 0, $aOrder = ['`t1`.`id`' => SORT_DESC]){
+	public function getLastPaijuList($page = 1, $pageSize = 0, $aParam = ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder = ['`t1`.`id`' => SORT_DESC]){
 		$aCondition = [
 			'user_id' => $this->id,
-			'status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE],
+			'status' => $aParam['status'],
 		];
 		$aClubList = $this->getUserClubList();
 		if($aClubList){

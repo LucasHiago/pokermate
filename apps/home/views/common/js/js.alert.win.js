@@ -1,13 +1,118 @@
 (function(container, $){
 	container.AlertWin = {
+		showAddPlayer : function(){
+			var html = '';
+			html += '<div class="J-player-list-win add-player">';
+				html += '<div class="p-l-head">';
+					//html += '<input type="text" class="search-krbh" />';
+					//html += '<input type="text" class="add-player"/>';
+				html += '</div>';
+				html += '<div class="p-l-title"></div>';
+				html += '<div class="p-l-body">';
+					html += '<div class="p-l-item-wrap">';
+						html += '<div class="p-l-item" style="background:none;">';
+							html += '<div style="width:58px;" class="c-td"></div>';
+							html += '<div style="width:108px;" class="c-td"><input type="text" data-type="keren_bianhao" /></div>';
+							html += '<div style="width:33px;" class="c-td"></div>';
+							html += '<div style="width:174px;" class="c-td"><input type="text" data-type="benjin" /></div>';
+							var playerListHtml = '';
+							
+							html += '<div style="width:170px;cursor:pointer;" class="J-select-play c-td"><input type="text" data-type="player_name" style="height:100%;width:100%;" /></div>';
+							html += '<div style="width:156px;" class="c-td">';
+								html += '<input type="text" style="float:left;display:block;width:94px;height:100%;text-align: right;" data-type="ying_chou" />';
+								html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
+								html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
+							html += '</div>';
+							html += '<div style="width:157px;" class="c-td">';
+								html += '<input type="text" style="float:left;display:block;width:102px;height:100%;text-align: right;" data-type="shu_fan" />';
+								html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
+								html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
+							html += '</div>';
+							var agentListHtml = '';
+							var agentName = '请选择';
+							if(aAgentList.length != 0){
+								agentListHtml += '<div class="play-select-list"><div class="p-s-wrap">';
+								for(var k in aAgentList){
+									agentListHtml += '<div class="h10"></div>';
+									agentListHtml += '<div class="play-select-list-item" data-id="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</div>';
+								}
+								agentListHtml += '</div></div>';
+							}
+							html += '<div style="width:154px;cursor:pointer;" class="J-agent-id J-select-play c-td" data-id="0"><div style="width:90px;text-align:right;">' + agentName + '</div>' + agentListHtml + '</div>';
+							html += '<div style="width:157px;" class="c-td"><input type="text" data-type="play_id" /></div>';
+							html += '<div style="width:116px;" class="c-td"><a class="add-btn" style="position: relative;left: 25px;top: 8px;display: block;width: 78px;height: 33px;cursor:pointer;"></a></div>';
+						html += '</div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.J-select-play').click(function(){
+					$(this).find('.play-select-list').show();
+				});
+				oHtml.find('.play-select-list').each(function(){
+					$(this).show();
+					$(this).css({left : 100});
+					$(this).hide();
+				});
+				oHtml.find('.play-select-list').on('mouseleave', function(){
+					$(this).hide();
+				});
+				oHtml.find('.play-select-list .play-select-list-item').on('click', function(){
+					var oList = $(this).parent().parent().parent().parent();
+					oList.prev().text($(this).text());
+					oList.parent().attr('data-id', $(this).attr('data-id'));
+					setTimeout(function(){
+						oList.hide();
+					}, 100);
+					
+				});
+				oHtml.find('.play-select-list .p-s-wrap').each(function(){
+					$(this).parent().show();
+					$(this).tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+					$(this).parent().hide();
+				});
+				oHtml.find('.add-btn').click(function(){
+					console.log($(this).parent().parent().find('input[data-type=keren_bianhao]').val());
+					var o = this;
+					ajax({
+						url : Tools.url('home', 'index/add-keren'),
+						data : {
+							kerenBianhao : $(o).parent().parent().find('input[data-type=keren_bianhao]').val(),
+							benjin : $(o).parent().parent().find('input[data-type=benjin]').val(),
+							playerName : $(o).parent().parent().find('input[data-type=player_name]').val(),
+							yingChou : $(o).parent().parent().find('input[data-type=ying_chou]').val(),
+							shuFan : $(o).parent().parent().find('input[data-type=shu_fan]').val(),
+							agentId : $(o).parent().parent().find('.J-agent-id').attr('data-id'),
+							playerId : $(o).parent().parent().find('input[data-type=play_id]').val()
+						},
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								$(o).parent().parent().parent().parent().parent().parent().remove();
+							}
+							UBox.show(aResult.msg, aResult.status);
+						}
+					});
+				});
+			});
+		},
+		
 		showPlayerList : function(){
 			var html = '';
 			html += '<div class="J-player-list-win">';
 				html += '<div class="p-l-head">';
 					html += '<input type="text" class="search-krbh" />';
-					html += '<input type="text" class="add-player" />';
+					html += '<input type="text" class="add-player" onclick="AlertWin.showAddPlayer();"  />';
 				html += '</div>';
-				html += '<div class="p-l-title"></div>';
+				html += '<div class="p-l-title"><div class="krbh-sort"></div><div class="bj-sort"></div></div>';
 				html += '<div class="p-l-body">';
 					html += '<div class="p-l-item-wrap">';
 						
@@ -27,10 +132,35 @@
 				}
 				oHtml.find('.search-krbh').keyup('input propertychange', function(){
 					if($(this).val() == ''){
-						oKerenListObject.show(1, {kerenBianhao : 0});
+						oKerenListObject.aExtentParam.kerenBianhao = 0;
 					}else{
-						oKerenListObject.show(1, {kerenBianhao : $(this).val()});
+						oKerenListObject.aExtentParam.kerenBianhao = $(this).val();
 					}
+					oKerenListObject.show(1);
+				});
+				oHtml.find('.krbh-sort').click(function(){
+					oKerenListObject.aExtentParam.benjinSort = 0;
+					oHtml.find('.bj-sort').removeClass('active');
+					if($(this).hasClass('active')){
+						$(this).removeClass('active');
+						oKerenListObject.aExtentParam.kerenBianhaoSort = 2;
+					}else{
+						$(this).addClass('active');
+						oKerenListObject.aExtentParam.kerenBianhaoSort = 1;
+					}
+					oKerenListObject.show(1);
+				});
+				oHtml.find('.bj-sort').click(function(){
+					oKerenListObject.aExtentParam.kerenBianhaoSort = 0;
+					oHtml.find('.krbh-sort').removeClass('active');
+					if($(this).hasClass('active')){
+						$(this).removeClass('active');
+						oKerenListObject.aExtentParam.benjinSort = 2;
+					}else{
+						$(this).addClass('active');
+						oKerenListObject.aExtentParam.benjinSort = 1;
+					}
+					oKerenListObject.show(1);
 				});
 			});
 		},
@@ -453,22 +583,13 @@
 			});
 		},
 		
-		showPaijuList : function(aList){
+		showPaijuList : function(aParam){
 			var html = '';
 			
 			html += '<div class="J-bill-list-win">';
 				html += '<div class="content-body">';
 					html += '<div class="item-wrap">';
-					for(var i in aList){
-						html += '<div class="c-b-list-item ' + (aList[i].status == 0 ? 'new' : '') + '">';
-							html += '<div class="c-b-l-i-title">' + aList[i].paiju_name + '</div>';
-							html += '<div class="c-b-l-i-bottom">';
-								html += '<a class="l-text"><span>核对数字</span><span>' + aList[i].hedui_shuzi + '</span></a>';
-								html += '<a class="l-edit"></a>';
-								html += '<a class="l-status ' + (aList[i].status == 1 ? 'l-clean' : '') + '"></a>';
-							html += '</div>';
-						html += '</div>';
-					}
+					
 					html += '</div>';
 				html += '</div>';
 				html += '<div class="content-bottom" style="display:none;">';
@@ -480,7 +601,16 @@
 			
 			var oHtml = $(html);
 			showAlertWin(oHtml, function(){
-				oHtml.find('.content-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				oPaijuListObject = new PaijuList({oWrapDom : oHtml.find('.item-wrap')});
+				if(aParam && typeof(aParam.isHistory)){
+					oPaijuListObject.aExtentParam.isHistory = 1;
+				}
+				oPaijuListObject.show(1);
+				oPaijuListObject.oScrollBar = oHtml.find('.content-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				oPaijuListObject.oScrollBar.scrollEndEventFunc = function(){
+					var page = oPaijuListObject.oWrapDom.attr('data-page');
+					oPaijuListObject.show(parseInt(page) + 1);
+				}
 			});
 		}
 				

@@ -18,7 +18,7 @@ class Player extends \common\lib\DbOrmModel{
 			$mPlayer->set('keren_bianhao', $id);
 			$mPlayer->save();
 		}
-		$mKerenBenjin = KerenBenjin::findOne(['keren_bianhao' => $mPlayer->keren_bianhao]);
+		$mKerenBenjin = KerenBenjin::findOne(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao]);
 		if(!$mKerenBenjin){
 			KerenBenjin::addRecord(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao, 'create_time' => NOW_TIME]);
 		}
@@ -35,7 +35,6 @@ class Player extends \common\lib\DbOrmModel{
 					'user_id' => $userId,
 					'player_id' => $aPlayer['player_id'],
 					'player_name' => $aPlayer['player_name'],
-					'ying_chou' => 5,
 					'create_time' => NOW_TIME,
 				]);
 			}

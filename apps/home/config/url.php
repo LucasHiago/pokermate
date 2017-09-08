@@ -28,6 +28,7 @@ return [
 		'update-keren-info.json'												=> 'index/update-keren-info',
 		'update-keren-agent-id.json'											=> 'index/update-keren-agent-id',
 		'delete-keren.json'														=> 'index/delete-keren',
+		'add-keren.json'														=> 'index/add-keren',
 		
 		
 		'user/save.json'														=> 'user/save',

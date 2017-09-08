@@ -1426,6 +1426,11 @@ input{border:none;outline:none;background:none;}
 	height:848px;
     background: url(./../images/110.png) no-repeat;
 }
+.J-player-list-win.add-player{
+	width:1320px;
+	height:848px;
+    background: url(./../images/113.png) no-repeat;
+}
 .J-player-list-win .p-l-head{
 	width:100%;
 	height:156px;
@@ -1487,7 +1492,7 @@ input{border:none;outline:none;background:none;}
 .play-select-list{
 	display:none;
 	float:left;
-	position:absolute;
+	position:relative;
 	top:0px;
 	left:0px;
 	width:121px;
@@ -1509,5 +1514,30 @@ input{border:none;outline:none;background:none;}
     background-position: -346px -424px;
 	cursor:pointer;
 }
-
+.krbh-sort{
+	float: left;
+    position: relative;
+    top: 11px;
+    left: 36px;
+    width: 156px;
+    height: 60px;
+	cursor:pointer;
+}
+.krbh-sort.active{
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -806px -392px;
+}
+.bj-sort{
+    float: left;
+    position: relative;
+    top: 11px;
+    left: 40px;
+    width: 193px;
+    height: 60px;
+	cursor:pointer;
+}
+.bj-sort.active{
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -966px -392px;
+}
 /*background:rgba(0,0,0,0.2);*/
