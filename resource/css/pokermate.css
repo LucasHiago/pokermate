@@ -1540,4 +1540,90 @@ input{border:none;outline:none;background:none;}
 	background: url(./../images/sprite.png) no-repeat;
     background-position: -966px -392px;
 }
+.J-paiju-data-list-win{
+	width:1200px;
+	height:851px;
+    background: url(./../images/300.png) no-repeat;
+}
+.J-paiju-data-list-win  .top-title{
+	width:1200px;
+	height:76px;
+	line-height:76px;
+	color:#ffffff;
+	font-size:22px;
+	font-weight:bold;
+	text-align:center;
+}
+.J-paiju-data-list-win  .top-up{
+	width:1200px;
+	height:90px;
+}
+.J-paiju-data-list-win  .top-up .info-detail{
+	position: relative;
+    float: left;
+    width: 934px;
+    height: 33px;
+    background: url(./../images/sprite.png) no-repeat;
+    background-position: -1052px -565px;
+    left: 132px;
+    top: 29px;
+	text-align:center;
+}
+.J-paiju-data-list-win  .top-up .info-detail a{
+	display:inline-block;
+    min-width:10px;
+    height: 33px;
+    line-height: 33px;
+	color:#ffffff;
+	margin:0 2px;
+	text-decoration:none;
+}
+.J-paiju-data-list-win  .top-up .info-detail .val{
+	color:#e49d76;
+}
+.J-paiju-data-list-win  .top-th{
+	margin-top:16px;
+	width:1200px;
+	height:45px;
+}
+.J-paiju-data-list-win  .top-th table{
+	margin-left:15px;
+	width:1164px;
+	height:45px;
+}
+.J-paiju-data-list-win  .top-th table td{
+	min-width:85px;
+	height:45px;
+	background: url(./../images/301.png) no-repeat center;
+	text-align:center;
+	color:#ffffff;
+	font-weight:bold;
+}
+.J-paiju-data-list-win  .body-list{
+	margin-top:16px;
+	width:1200px;
+	height:563px;
+}
+.J-paiju-data-list-win  .body-list table{
+	margin-left:15px;
+	width:1164px;
+	height:50px;
+}
+.J-paiju-data-list-win  .body-list table td{
+	min-width:85px;
+	height:50px;
+	background: url(./../images/item-bg.png) repeat-x center;
+	text-align:center;
+	color:#f8f6c3;
+}
+.J-paiju-data-list-win  .edit-icn{
+	float: left;
+    display: block;
+    width: 13px;
+    height: 35px;
+    cursor: pointer;
+    margin-top: 10px;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -1204px -100px;
+}
 /*background:rgba(0,0,0,0.2);*/

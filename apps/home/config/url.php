@@ -55,6 +55,8 @@ return [
 		
 		
 		'import/index.html'														=> 'import/index',
+		'import/paiju-data-list.json'											=> 'import/get-paiju-data-list',
+		'import/save-paiju-data-info.json'										=> 'import/save-paiju-data-info',
 		
 		
 		''																		=> 'site/index',

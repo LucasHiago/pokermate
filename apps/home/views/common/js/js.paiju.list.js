@@ -73,7 +73,7 @@
 					html += '<div class="c-b-l-i-title">' + aData[i].paiju_name + '</div>';
 					html += '<div class="c-b-l-i-bottom">';
 						html += '<a class="l-text"><span>核对数字</span><span>' + aData[i].hedui_shuzi + '</span></a>';
-						html += '<a class="l-edit"></a>';
+						html += '<a class="l-edit" onclick="AlertWin.showPaijuDataList(' + aData[i].id + ');"></a>';
 						html += '<a class="l-status ' + (aData[i].status == 1 ? 'l-clean' : '') + '"></a>';
 					html += '</div>';
 				html += '</div>';

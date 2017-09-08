@@ -1,5 +1,110 @@
 (function(container, $){
 	container.AlertWin = {
+		showPaijuDataList : function(paijuId){
+			var html = '';
+			html += '<div class="J-paiju-data-list-win">';
+				html += '<div class="top-title"></div>';
+				html += '<div class="top-up"><div class="info-detail"></div></div>';
+				html += '<div class="top-th">';
+					html += '<table>';
+						html += '<tr>';
+							html += '<td>玩家ID</td>';
+							html += '<td>玩家昵称</td>';
+							html += '<td>俱乐部ID</td>';
+							html += '<td>俱乐部</td>';
+							html += '<td>买入</td>';
+							html += '<td>带出</td>';
+							html += '<td>保险买入</td>';
+							html += '<td>保险收入</td>';
+							html += '<td>保险</td>';
+							html += '<td>俱乐部保险</td>';
+							html += '<td>保险合计</td>';
+							html += '<td>战绩</td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="body-list">';
+				
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function _bulidItemHmtl(aData){
+				var html = '';
+				for(var i in aData){
+					html += '<table>';
+						html += '<tr>';
+							html += '<td>' + aData[i].player_id + '</td>';
+							html += '<td>' + aData[i].player_name + '</td>';
+							html += '<td>' + aData[i].club_id + '</td>';
+							html += '<td>' + aData[i].club_name + '</td>';
+							html += '<td>' + aData[i].mairu + '</td>';
+							html += '<td>' + aData[i].daicu + '</td>';
+							html += '<td>' + aData[i].baoxian_mairu + '</td>';
+							html += '<td>' + aData[i].baoxian_shouru + '</td>';
+							html += '<td>' + aData[i].baoxian + '</td>';
+							html += '<td>' + aData[i].club_baoxian + '</td>';
+							html += '<td style="color:#ff0000;"><input type="text" data-type="baoxian_heji" data-id="' + aData[i].id + '" value="' + aData[i].baoxian_heji + '" style="text-align:center;height:50px;line-height:50px;max-width:80px;float:left;display:block;" /><a class="edit-icn"></a></td>';
+							html += '<td style="color:#ff0000;"><input type="text" data-type="zhanji" data-id="' + aData[i].id + '" value="' + aData[i].zhanji + '" style="text-align:center;height:50px;line-height:50px;max-width:80px;float:left;display:block;" /><a class="edit-icn"></a></td>';
+						html += '</tr>';
+					html += '</table>';
+				}
+				var oHtml = $(html);
+				oHtml.find('.edit-icn').click(function(){
+					$(this).prev().focus();
+				});
+				oHtml.find('input').keyup(function(e){
+					if(e.keyCode == 13){
+						var o = this;
+						ajax({
+							url : Tools.url('home', 'import/save-paiju-data-info'),
+							data : {
+								id : $(o).attr('data-id'),
+								type : $(o).attr('data-type'),
+								value : $(o).val()
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								UBox.show(aResult.msg, aResult.status);
+							}
+						});
+					}
+				});
+				return oHtml;
+			}
+			
+			showAlertWin(oHtml, function(){
+				ajax({
+					url : Tools.url('home', 'import/get-paiju-data-list'),
+					data : {
+						paijuId : paijuId
+					},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							var aRecord = aResult.data.list[0];
+							oHtml.find('.top-title').text(aRecord.paiju_type);
+							oHtml.find('.info-detail').html('<a>牌局类型:</a><a class="val">' + aRecord.paiju_type + '</a><a>牌局名:</a><a class="val">' + aRecord.paiju_name + '</a><a>创建者:</a><a class="val">' + aRecord.paiju_creater + '</a><a>盲注:</a><a class="val">' + aRecord.mangzhu + '</a><a>牌桌:</a><a class="val">' + aRecord.paizuo + '</a><a>牌局时长:</a><a class="val">' + aRecord.paiju_duration + '</a><a>总手数:</a><a class="val">' + aRecord.zongshoushu + '</a><a>结束时间:</a><a class="val">' + aRecord.end_time_format + '</a>');
+							oHtml.find('.body-list').append(_bulidItemHmtl(aResult.data.list));
+							oHtml.find('.body-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+		},
+		
 		showAddPlayer : function(){
 			var html = '';
 			html += '<div class="J-player-list-win add-player">';

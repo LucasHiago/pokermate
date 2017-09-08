@@ -10,7 +10,7 @@ $this->setTitle('结账台');
 				<div class="c-b-l-i-title"><?php echo $aPaiju['paiju_name']; ?></div>
 				<div class="c-b-l-i-bottom">
 					<a class="l-text"><span>核对数字</span><span><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
-					<a class="l-edit"></a>
+					<a class="l-edit" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>);"></a>
 					<a class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"></a>
 				</div>
 			</div>
