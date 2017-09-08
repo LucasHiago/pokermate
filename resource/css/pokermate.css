@@ -1484,5 +1484,30 @@ input{border:none;outline:none;background:none;}
 	text-align:center;
 	color:#ffffff;
 }
+.play-select-list{
+	display:none;
+	float:left;
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:121px;
+	height:184px;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -6px -508px;
+}
+.play-select-list .p-s-wrap{
+	width: 105px;
+    margin-left: 8px;
+    height: 173px;
+	margin-top:5px;
+}
+.play-select-list .play-select-list-item{
+	width:105px;
+	height:34px;
+	line-height:34px;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -346px -424px;
+	cursor:pointer;
+}
 
 /*background:rgba(0,0,0,0.2);*/

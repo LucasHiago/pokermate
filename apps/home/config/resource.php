@@ -5,4 +5,5 @@ return [
 	
 	
 	'js.alert.win' => '/common/js/js.alert.win.js',
+	'js.keren.list' => '/common/js/js.keren.list.js',
 ];

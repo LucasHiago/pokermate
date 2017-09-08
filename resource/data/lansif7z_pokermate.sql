@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.47, for Win32 (x86)
+-- MySQL dump 10.14  Distrib 5.5.40-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: lansif7z_pokermate
 -- ------------------------------------------------------
--- Server version	5.5.47
+-- Server version	5.5.40-MariaDB-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -198,6 +198,12 @@ CREATE TABLE `keren_benjin` (
   `user_id` int(11) NOT NULL COMMENT '用户ID',
   `keren_bianhao` int(11) NOT NULL COMMENT '客人编号',
   `benjin` int(11) NOT NULL COMMENT '本金',
+  `ying_chou` decimal(10,2) NOT NULL COMMENT '赢抽点数',
+  `shu_fan` decimal(10,2) NOT NULL COMMENT '输返点数',
+  `agent_id` int(11) NOT NULL COMMENT '代理人ID',
+  `remark` varchar(500) NOT NULL COMMENT '备注',
+  `is_delete` tinyint(4) NOT NULL COMMENT '是否删除:1是0否',
+  `create_time` int(11) NOT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -208,27 +214,27 @@ CREATE TABLE `keren_benjin` (
 
 LOCK TABLES `keren_benjin` WRITE;
 /*!40000 ALTER TABLE `keren_benjin` DISABLE KEYS */;
-INSERT INTO `keren_benjin` VALUES (64,1,64,70);
-INSERT INTO `keren_benjin` VALUES (65,1,65,0);
-INSERT INTO `keren_benjin` VALUES (66,1,66,0);
-INSERT INTO `keren_benjin` VALUES (67,1,67,0);
-INSERT INTO `keren_benjin` VALUES (68,1,68,0);
-INSERT INTO `keren_benjin` VALUES (69,1,69,0);
-INSERT INTO `keren_benjin` VALUES (70,1,70,0);
-INSERT INTO `keren_benjin` VALUES (71,1,71,0);
-INSERT INTO `keren_benjin` VALUES (72,1,72,0);
-INSERT INTO `keren_benjin` VALUES (73,1,73,0);
-INSERT INTO `keren_benjin` VALUES (74,1,74,0);
-INSERT INTO `keren_benjin` VALUES (75,1,75,0);
-INSERT INTO `keren_benjin` VALUES (76,1,76,0);
-INSERT INTO `keren_benjin` VALUES (77,1,77,0);
-INSERT INTO `keren_benjin` VALUES (78,1,78,0);
-INSERT INTO `keren_benjin` VALUES (79,1,79,0);
-INSERT INTO `keren_benjin` VALUES (80,1,80,0);
-INSERT INTO `keren_benjin` VALUES (81,1,81,0);
-INSERT INTO `keren_benjin` VALUES (82,1,82,0);
-INSERT INTO `keren_benjin` VALUES (83,1,83,0);
-INSERT INTO `keren_benjin` VALUES (84,1,84,0);
+INSERT INTO `keren_benjin` VALUES (64,1,64,70,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (65,1,65,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (66,1,66,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (67,1,67,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (68,1,68,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (69,1,69,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (70,1,70,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (71,1,71,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (72,1,72,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (73,1,73,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (74,1,74,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (75,1,75,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (76,1,76,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (77,1,77,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (78,1,78,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (79,1,79,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (80,1,80,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (81,1,81,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (82,1,82,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (83,1,83,0,0.00,0.00,0,'',0,0);
+INSERT INTO `keren_benjin` VALUES (84,1,84,0,0.00,0.00,2,'',0,0);
 /*!40000 ALTER TABLE `keren_benjin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -363,10 +369,6 @@ CREATE TABLE `player` (
   `keren_bianhao` int(11) NOT NULL COMMENT '客人编号',
   `player_id` int(11) NOT NULL COMMENT '玩家游戏ID',
   `player_name` varchar(50) NOT NULL COMMENT '玩家游戏名字',
-  `ying_chou` decimal(10,2) NOT NULL COMMENT '赢抽点数',
-  `shu_fan` decimal(10,2) NOT NULL COMMENT '输返点数',
-  `agent_id` int(10) NOT NULL COMMENT '代理人ID',
-  `remark` varchar(500) NOT NULL COMMENT '备注',
   `is_delete` tinyint(4) NOT NULL COMMENT '是否删除:1是0否',
   `create_time` int(11) NOT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
@@ -379,27 +381,27 @@ CREATE TABLE `player` (
 
 LOCK TABLES `player` WRITE;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` VALUES (64,1,64,735304085,'妖股',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (65,1,65,481124234,'DAB621',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (66,1,66,441053099,'PersonZ',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (67,1,67,796020048,'神相李布衣',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (68,1,68,1272637032,'阿玮（TW）',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (69,1,69,1292548547,'厚先生',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (70,1,70,94816688,'冰泉水',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (71,1,71,1490946566,'买牌买到底',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (72,1,72,1232996650,'高尔基',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (73,1,73,1355487424,'哈气',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (74,1,74,1239328724,'releeyk0',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (75,1,75,1191529058,'價值下注',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (76,1,76,1130923485,'AAFish',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (77,1,77,1355192654,'MU Jheng',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (78,1,78,1608005878,'踩过介',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (79,1,79,1626414532,'人數字',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (80,1,80,1413166582,'稀粥炒饭',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (81,1,81,54381787,'深海小醜🐟',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (82,1,82,1015655431,'美少女月野兔',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (83,1,83,1032824372,'狼狼的刷',0.00,0.00,0,'',0,1504764191);
-INSERT INTO `player` VALUES (84,1,84,1157888537,'老虎一号',0.00,0.00,0,'',0,1504764191);
+INSERT INTO `player` VALUES (64,1,64,735304085,'妖股',0,1504764191);
+INSERT INTO `player` VALUES (65,1,65,481124234,'DAB621',0,1504764191);
+INSERT INTO `player` VALUES (66,1,66,441053099,'PersonZ',0,1504764191);
+INSERT INTO `player` VALUES (67,1,67,796020048,'神相李布衣',0,1504764191);
+INSERT INTO `player` VALUES (68,1,68,1272637032,'阿玮（TW）',0,1504764191);
+INSERT INTO `player` VALUES (69,1,69,1292548547,'厚先生',0,1504764191);
+INSERT INTO `player` VALUES (70,1,70,94816688,'冰泉水',0,1504764191);
+INSERT INTO `player` VALUES (71,1,71,1490946566,'买牌买到底',0,1504764191);
+INSERT INTO `player` VALUES (72,1,72,1232996650,'高尔基',0,1504764191);
+INSERT INTO `player` VALUES (73,1,73,1355487424,'哈气',0,1504764191);
+INSERT INTO `player` VALUES (74,1,74,1239328724,'releeyk0',0,1504764191);
+INSERT INTO `player` VALUES (75,1,75,1191529058,'價值下注',0,1504764191);
+INSERT INTO `player` VALUES (76,1,76,1130923485,'AAFish',0,1504764191);
+INSERT INTO `player` VALUES (77,1,77,1355192654,'MU Jheng',0,1504764191);
+INSERT INTO `player` VALUES (78,1,78,1608005878,'踩过介',0,1504764191);
+INSERT INTO `player` VALUES (79,1,79,1626414532,'人數字',0,1504764191);
+INSERT INTO `player` VALUES (80,1,80,1413166582,'稀粥炒饭',0,1504764191);
+INSERT INTO `player` VALUES (81,1,81,54381787,'深海小醜🐟',0,1504764191);
+INSERT INTO `player` VALUES (82,1,82,1015655431,'美少女月野兔',0,1504764191);
+INSERT INTO `player` VALUES (83,1,83,1032824372,'狼狼的刷',0,1504764191);
+INSERT INTO `player` VALUES (84,1,84,1157888537,'老虎一号',0,1504764191);
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -448,4 +450,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-08  3:53:28
+-- Dump completed on 2017-09-08 17:37:21

@@ -212,6 +212,8 @@ $this->setTitle('结账台');
 
 
 <script type="text/javascript">	
+	var aAgentList = <?php echo json_encode($aAgentList); ?>;
+	<?php echo $this->render(Yii::getAlias('@r.js.keren.list')); ?>
 	function initMoneyOutPutType(){
 		$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
 		

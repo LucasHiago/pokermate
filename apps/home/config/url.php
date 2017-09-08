@@ -24,6 +24,10 @@ return [
 		'keren-benjin.json'														=> 'index/get-keren-benjin',
 		'jiaoshou-jiner.json'													=> 'index/jiaoshou-jiner',
 		'update-benjin.json'													=> 'index/update-benjin',
+		'keren-list.json'														=> 'index/get-keren-list',
+		'update-keren-info.json'												=> 'index/update-keren-info',
+		'update-keren-agent-id.json'											=> 'index/update-keren-agent-id',
+		'delete-keren.json'														=> 'index/delete-keren',
 		
 		
 		'user/save.json'														=> 'user/save',

@@ -140,7 +140,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			'is_delete' => 0,
 		]);
 	}
-	
+		
 	public function getMoneyTypeList(){
 		return MoneyType::findAll([
 			'user_id' => $this->id,

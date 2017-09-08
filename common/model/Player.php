@@ -20,7 +20,7 @@ class Player extends \common\lib\DbOrmModel{
 		}
 		$mKerenBenjin = KerenBenjin::findOne(['keren_bianhao' => $mPlayer->keren_bianhao]);
 		if(!$mKerenBenjin){
-			KerenBenjin::addRecord(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao]);
+			KerenBenjin::addRecord(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao, 'create_time' => NOW_TIME]);
 		}
 		return $id;
 	}
