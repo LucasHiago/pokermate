@@ -47,17 +47,17 @@ $this->setTitle('结账台');
 		<div class="c-b-c-center">
 			<a href="javascript:;" class="chaer"></a>
 			<a href="javascript:;" class="ball fu">-100</a>
-			<a href="javascript:;" class="lmzz"></a>
+			<a href="javascript:;" class="lmzz" onclick="AlertWin.showLianmengZhongZhang();"></a>
 			<a href="javascript:;" class="krxx" onclick="AlertWin.showPlayerList();"></a>
 			<a href="javascript:;" class="lspj" onclick="AlertWin.showPaijuList({isHistory : 1});"></a>
-			<a href="javascript:;" class="jbzc"></a>
+			<a href="javascript:;" class="jbzc" onclick="AlertWin.showJiaoBanZhuanChu();"></a>
 			<a href="javascript:;" class="ball">100</a>
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
-				<div class="h-zcs">10000</div>
-				<div class="h-zbx">10000</div>
-				<div class="h-szrs">10000</div>
+				<div class="h-zcs" onclick="AlertWin.showChouShuiList();">10000</div>
+				<div class="h-zbx" onclick="AlertWin.showZhongBaoXianList();">10000</div>
+				<div class="h-szrs" onclick="AlertWin.showShanZhuoRenShuList();">10000</div>
 			</div>
 			<div class="c-b-c-r-center">
 				<a class="krbh"><input type="text" class="J-search-keren-bianhao" value="" /></a>

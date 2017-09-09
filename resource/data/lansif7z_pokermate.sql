@@ -257,7 +257,7 @@ CREATE TABLE `lianmeng` (
   `is_delete` tinyint(4) NOT NULL COMMENT '是否删除:1是0否',
   `create_time` int(11) NOT NULL COMMENT '时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,6 +266,10 @@ CREATE TABLE `lianmeng` (
 
 LOCK TABLES `lianmeng` WRITE;
 /*!40000 ALTER TABLE `lianmeng` DISABLE KEYS */;
+INSERT INTO `lianmeng` VALUES (1,1,'BOO小',0,1,4,4,0,1504964957);
+INSERT INTO `lianmeng` VALUES (2,1,'BOO大',0,1,0,0,0,1504966087);
+INSERT INTO `lianmeng` VALUES (3,1,'77联盟',0,1,0,0,0,1504966515);
+INSERT INTO `lianmeng` VALUES (4,1,'五特区',0,1,0,0,0,1504966761);
 /*!40000 ALTER TABLE `lianmeng` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -425,7 +429,7 @@ CREATE TABLE `user` (
   `profile_path` varchar(200) NOT NULL COMMENT '头像',
   `sex` tinyint(1) NOT NULL COMMENT '性别：1男2女',
   `qibu_choushui` int(11) NOT NULL COMMENT '起步抽水',
-  `choushui_shuanfa` tinyint(4) NOT NULL COMMENT '抽水算法',
+  `choushui_shuanfa` tinyint(4) NOT NULL COMMENT '抽水算法:1四舍五入2余数抹零',
   `is_forbidden` tinyint(4) NOT NULL COMMENT '是否禁用:1是0否',
   `create_time` int(11) NOT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`)
@@ -451,4 +455,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-09 16:39:38
+-- Dump completed on 2017-09-10  3:38:06

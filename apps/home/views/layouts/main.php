@@ -167,8 +167,8 @@ if($mUser){
 				<div class="c-h-tab-w">
 					<a href="<?php echo Url::to('home', 'index/index'); ?>" class="c-h-t-menu m1"></a>
 					<a href="<?php echo Url::to('home', 'agent/index'); ?>" class="c-h-t-menu m2"></a>
-					<a href="javascript:;" class="c-h-t-menu m3"></a>
-					<a href="javascript:;" class="c-h-t-jiaoban"></a>
+					<a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>" class="c-h-t-menu m3"></a>
+					<a href="javascript:;" class="c-h-t-jiaoban" onclick="AlertWin.showJiaoBanZhuanChu();"></a>
 				</div>
 			</div>
 			<?php echo $content; ?>

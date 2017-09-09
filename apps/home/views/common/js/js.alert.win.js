@@ -1,5 +1,650 @@
 (function(container, $){
 	container.AlertWin = {
+		showJiaoBanZhuanChu : function(){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
+				html += '<div class="h100">';
+					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #ffffff; font-size: 18px; font-weight: bold;">交班转出</div>';
+					html += '<div class="h30"></div>';
+				html += '</div>';
+				html += '<div class="h50">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">总抽水</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">总保险</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">总支出</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">交接金额</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">转出渠道</td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="ls-list-wrap" style="height:260px;">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td>0</td>';
+							html += '<td>0</td>';
+							html += '<td>0</td>';
+							html += '<td>0</td>';
+							html += '<td>0</td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="jbzc-sure-btn"></div>';
+			html += '</div>';
+			var oHtml = $(html);
+			
+			showAlertWin(oHtml, function(){
+				
+			});	
+		},
+		
+		showShanZhuoRenShuList : function(){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
+				html += '<div class="h100">';
+					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #ffffff; font-size: 18px; font-weight: bold;">上桌人数</div>';
+					html += '<div class="h30">';
+						html += '<div style="float:left;width:300px;height:100%;"></div>';
+						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">上桌人数: <font style="color:#f4e2a9;">390</font> </div></div>';
+					html += '</div>';
+				html += '</div>';
+				html += '<div class="h50">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">上桌人数</td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
+				
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function appendLianmengItemHtml(aDataList){
+				var listHtml = '';
+				for(var i in aDataList){
+					var aData = aDataList[i];
+					listHtml += '<table class="ls-th">';
+						listHtml += '<tr>';
+							listHtml += '<td>牌局名称</td>';
+							listHtml += '<td>0</td>';
+						listHtml += '</tr>';
+					listHtml += '</table>';
+					listHtml += '<div class="h10"></div>';
+				}
+				var oListHtml = $(listHtml);
+				oHtml.find('.ls-list-wrap').append(oListHtml);
+				
+				bindLianmengEvent(oHtml);
+				
+				return oListHtml;
+			}
+			
+			function bindLianmengEvent(oHtml){
+				
+			}
+			
+			function _loadLianmengList(){
+				ajax({
+					url : Tools.url('home', 'lianmeng/get-list'),
+					data : {},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.ls-list-wrap').html('');
+							if(aResult.data.length != 0){
+								appendLianmengItemHtml(aResult.data);
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+							}
+						}
+					}
+				});
+			}
+			
+			showAlertWin(oHtml, function(){
+				_loadLianmengList();
+			});	
+		},
+		
+		showZhongBaoXianList : function(){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
+				html += '<div class="h100">';
+					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #ffffff; font-size: 18px; font-weight: bold;">总保险</div>';
+					html += '<div class="h30">';
+						html += '<div style="float:left;width:300px;height:100%;"></div>';
+						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总保险: <font style="color:#f4e2a9;">390</font> 元</div></div>';
+					html += '</div>';
+				html += '</div>';
+				html += '<div class="h50">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">牌桌保险</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">实际保险</td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
+				
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function appendLianmengItemHtml(aDataList){
+				var listHtml = '';
+				for(var i in aDataList){
+					var aData = aDataList[i];
+					listHtml += '<table class="ls-th">';
+						listHtml += '<tr>';
+							listHtml += '<td>牌局名称</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+						listHtml += '</tr>';
+					listHtml += '</table>';
+					listHtml += '<div class="h10"></div>';
+				}
+				var oListHtml = $(listHtml);
+				oHtml.find('.ls-list-wrap').append(oListHtml);
+				
+				bindLianmengEvent(oHtml);
+				
+				return oListHtml;
+			}
+			
+			function bindLianmengEvent(oHtml){
+				
+			}
+			
+			function _loadLianmengList(){
+				ajax({
+					url : Tools.url('home', 'lianmeng/get-list'),
+					data : {},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.ls-list-wrap').html('');
+							if(aResult.data.length != 0){
+								appendLianmengItemHtml(aResult.data);
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+							}
+						}
+					}
+				});
+			}
+			
+			showAlertWin(oHtml, function(){
+				_loadLianmengList();
+			});	
+		},
+		
+		showChouShuiList : function(){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
+				html += '<div class="h100">';
+					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #ffffff; font-size: 18px; font-weight: bold;">抽水列表</div>';
+					html += '<div class="h30">';
+						html += '<div style="float:left;width:300px;height:100%;"></div>';
+						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总抽水: <font style="color:#f4e2a9;">390</font> 元</div><div class="s-lms-txt">牌局总数: <font style="color:#f4e2a9;">390</font> </div></div>';
+					html += '</div>';
+				html += '</div>';
+				html += '<div class="h50">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">抽水</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">联盟补贴</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">实际抽水</td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
+				
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function appendLianmengItemHtml(aDataList){
+				var listHtml = '';
+				for(var i in aDataList){
+					var aData = aDataList[i];
+					listHtml += '<table class="ls-th">';
+						listHtml += '<tr>';
+							listHtml += '<td>牌局名称</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+						listHtml += '</tr>';
+					listHtml += '</table>';
+					listHtml += '<div class="h10"></div>';
+				}
+				var oListHtml = $(listHtml);
+				oHtml.find('.ls-list-wrap').append(oListHtml);
+				
+				bindLianmengEvent(oHtml);
+				
+				return oListHtml;
+			}
+			
+			function bindLianmengEvent(oHtml){
+				
+			}
+			
+			function _loadLianmengList(){
+				ajax({
+					url : Tools.url('home', 'lianmeng/get-list'),
+					data : {},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.ls-list-wrap').html('');
+							if(aResult.data.length != 0){
+								appendLianmengItemHtml(aResult.data);
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+							}
+						}
+					}
+				});
+			}
+			
+			showAlertWin(oHtml, function(){
+				_loadLianmengList();
+			});	
+		},
+		
+		showLianmengZhangDanDetail : function(){
+			var html = '';
+			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
+				html += '<div class="h100">';
+					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #ffffff; font-size: 18px; font-weight: bold;">联盟账单详情</div>';
+					html += '<div class="h30">';
+						html += '<div style="float:left;width:300px;height:100%;"><div class="lml-select-wrap"><select class="lml-select" style="width:100%;height:100%;"><option value="0">BOO小</option></select></div></div>';
+						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn">联盟设置</div><div class="s-lms-txt">新账单累计: <font style="color:#f4e2a9;">390</font> 元</div></div>';
+					html += '</div>';
+				html += '</div>';
+				html += '<div class="h50">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">保险</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">当局账单</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">更改联盟</td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
+				
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function appendLianmengItemHtml(aDataList){
+				var listHtml = '';
+				for(var i in aDataList){
+					var aData = aDataList[i];
+					listHtml += '<table class="ls-th">';
+						listHtml += '<tr>';
+							listHtml += '<td>牌局名称</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td><select class="lml-item-select"><option value="0">BOO小</option></select></td>';
+						listHtml += '</tr>';
+					listHtml += '</table>';
+					listHtml += '<div class="h10"></div>';
+				}
+				var oListHtml = $(listHtml);
+				oHtml.find('.ls-list-wrap').append(oListHtml);
+				
+				bindLianmengEvent(oHtml);
+				
+				return oListHtml;
+			}
+			
+			function bindLianmengEvent(oHtml){
+				
+			}
+			
+			function _loadLianmengList(){
+				ajax({
+					url : Tools.url('home', 'lianmeng/get-list'),
+					data : {},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.ls-list-wrap').html('');
+							if(aResult.data.length != 0){
+								appendLianmengItemHtml(aResult.data);
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+							}
+						}
+					}
+				});
+			}
+			
+			function reloadList(){
+				$(document).click();
+				AlertWin.showLianmengZhongZhang();
+			}
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.s-lms-btn').click(function(){
+					$(document).click();
+					AlertWin.showLianmengSetting();
+				});
+				_loadLianmengList();
+				
+			});	
+		},
+		
+		showLianmengZhongZhang : function(){
+			var html = '';
+			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
+				html += '<div class="h100">';
+					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #ffffff; font-size: 18px; font-weight: bold;">联盟总账</div>';
+					html += '<div class="h30">';
+						html += '<div style="float:left;width:300px;height:100%;"><div style="line-height:30px;color:#ffffff;padding-left:30px;">所有联盟总账：<font style="color:#f4e2a9;">1000</font></div></div>';
+						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn">联盟设置</div></div>';
+					html += '</div>';
+				html += '</div>';
+				html += '<div class="h50">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">联盟名称</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">联盟总账单</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">上桌人数</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">联盟旧账</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">新账单累计</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">操作</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">清账</td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
+				
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function appendLianmengItemHtml(aDataList){
+				var listHtml = '';
+				for(var i in aDataList){
+					var aData = aDataList[i];
+					listHtml += '<table class="ls-th">';
+						listHtml += '<tr>';
+							listHtml += '<td>' + aData.name + '</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td><input type="text" data-type="baoxian_choucheng" value="0" style="float:left;width:62px;text-align:right;" /><span class="i-edit"></span></td>';
+							listHtml += '<td>0</td>';
+							listHtml += '<td class="op-btn detail-btn">账单详情</td>';
+							listHtml += '<td class="op-btn clear-btn">清账</td>';
+						listHtml += '</tr>';
+					listHtml += '</table>';
+					listHtml += '<div class="h10"></div>';
+				}
+				var oListHtml = $(listHtml);
+				oHtml.find('.ls-list-wrap').append(oListHtml);
+				
+				bindLianmengEvent(oHtml);
+				
+				return oListHtml;
+			}
+			
+			function bindLianmengEvent(oHtml){
+				oHtml.find('.i-edit').click(function(){
+					$(this).prev().focus();
+				});
+				oHtml.find('.detail-btn').click(function(){
+					$(document).click();
+					AlertWin.showLianmengZhangDanDetail();
+				});
+			}
+			
+			function _loadLianmengList(){
+				ajax({
+					url : Tools.url('home', 'lianmeng/get-list'),
+					data : {},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.ls-list-wrap').html('');
+							if(aResult.data.length != 0){
+								appendLianmengItemHtml(aResult.data);
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+							}
+						}
+					}
+				});
+			}
+			
+			function reloadList(){
+				$(document).click();
+				AlertWin.showLianmengZhongZhang();
+			}
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.s-lms-btn').click(function(){
+					$(document).click();
+					AlertWin.showLianmengSetting();
+				});
+				_loadLianmengList();
+				
+			});	
+		},
+		
+		showLianmengSetting : function(){
+			var html = '';
+			html += '<div class="J-lianmeng-setting-win">';
+				html += '<div class="h100"></div>';
+				html += '<div class="h50">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">联盟名称</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">联盟欠账</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">对账方法</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">上缴桌费/桌</td>';
+							html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽成</td>';
+							html += '<td style="background:none;"></td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+				html += '<div class="ls-list-wrap"></div>';
+				html += '<div class="h10"></div>';
+				html += '<div class="ls-add-wrap">';
+					html += '<table class="ls-th">';
+						html += '<tr>';
+							html += '<td><input type="text" data-type="name" /></td>';
+							html += '<td><input type="text" data-type="qianzhang" value="0" /></td>';
+							//html += '<td><div class="t-type">r</div><a class="i-select"></a></td>';
+							html += '<td><select class="ls-t-select" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option></select></td>';
+							html += '<td><input type="text" data-type="paiju_fee" value="0" /></td>';
+							html += '<td><input type="text" data-type="baoxian_choucheng" value="0" style="float:left;width:62px;text-align:right;" /><span class="i-edit" style="background:none;">%</span></td>';
+							html += '<td style="background:none;"><div class="la-add-btn"></div></td>';
+						html += '</tr>';
+					html += '</table>';
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function commitLianmengChange(o , aData){
+				ajax({
+					url : Tools.url('home', 'lianmeng/update-lianmeng-info'),
+					data : aData,
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						UBox.show(aResult.msg, aResult.status);
+					}
+				});
+			}
+			
+			function bindLianmengEvent(oHtml){
+				oHtml.find('.i-edit').click(function(){
+					$(this).prev().focus();
+				});
+				oHtml.find('.J-commit-input').keyup(function(e){
+					if(e.keyCode == 13){
+						commitLianmengChange(this, {
+							id : $(this).attr('data-id'),
+							type : $(this).attr('data-type'),
+							value : $(this).val()
+						});
+					}
+				});
+				oHtml.find('.ls-t-select').change(function(){
+					commitLianmengChange(this, {
+						id : $(this).attr('data-id'),
+						type : $(this).attr('data-type'),
+						value : $(this).val()
+					});
+				});
+				oHtml.find('.la-delete-btn').click(function(){
+					var o = this;
+					if(confirm('确定删除？')){
+						ajax({
+							url : Tools.url('home', 'lianmeng/delete'),
+							data : {id : $(o).attr('data-id')},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									reloadList();
+								}
+							}
+						});
+					}
+				});
+			}
+			
+			function appendLianmengItemHtml(aDataList){
+				var listHtml = '';
+				for(var i in aDataList){
+					var aData = aDataList[i];
+					listHtml += '<table class="ls-th">';
+						listHtml += '<tr>';
+							listHtml += '<td><input type="text" class="J-commit-input" data-id="' + aData.id + '" data-type="name" value="' + aData.name + '" /></td>';
+							listHtml += '<td><input type="text" class="J-commit-input" data-id="' + aData.id + '" data-type="qianzhang" value="' + aData.qianzhang + '" /></td>';
+							//listHtml += '<td><div class="t-type">r</div><a class="i-select"></a></td>';
+							var opitonHtml = '';
+							if(aData.duizhangfangfa == 1){
+								opitonHtml = '<option value="1">0.975</option><option value="2">无水账单</option>';
+							}else{
+								opitonHtml = '<option value="2">无水账单</option><option value="1">0.975</option>';
+							}
+							listHtml += '<td><select class="J-commit-input ls-t-select" data-id="' + aData.id + '" data-type="duizhangfangfa">' + opitonHtml + '</select></td>';
+							listHtml += '<td><input type="text" class="J-commit-input" data-id="' + aData.id + '" data-type="paiju_fee" value="' + aData.paiju_fee + '" /></td>';
+							listHtml += '<td><input type="text" class="J-commit-input" data-id="' + aData.id + '" data-type="baoxian_choucheng" value="' + aData.baoxian_choucheng + '" style="float:left;width:62px;text-align:right;" /><span class="i-edit">%</span></td>';
+							listHtml += '<td style="background:none;"><div class="la-delete-btn" data-id="' + aData.id + '"></div></td>';
+						listHtml += '</tr>';
+					listHtml += '</table>';
+					listHtml += '<div class="h10"></div>';
+				}
+				var oListHtml = $(listHtml);
+				oHtml.find('.ls-list-wrap').append(oListHtml);
+				bindLianmengEvent(oListHtml);
+				return oListHtml;
+			}
+			
+			function _loadLianmengList(){
+				ajax({
+					url : Tools.url('home', 'lianmeng/get-list'),
+					data : {},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.ls-list-wrap').html('');
+							if(aResult.data.length != 0){
+								appendLianmengItemHtml(aResult.data);
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+							}
+						}
+					}
+				});
+			}
+			
+			function reloadList(){
+				$(document).click();
+				AlertWin.showLianmengSetting();
+			}
+			
+			showAlertWin(oHtml, function(){
+				bindLianmengEvent(oHtml);
+				_loadLianmengList();
+				oHtml.find('.la-add-btn').click(function(){
+					var o = this;
+					ajax({
+						url : Tools.url('home', 'lianmeng/add-lianmeng'),
+						data : {
+							name : $(o).parent().parent().find('input[data-type=name]').val(),
+							qianzhang : $(o).parent().parent().find('input[data-type=qianzhang]').val(),
+							duizhangfangfa : $(o).parent().parent().find('select[data-type=duizhangfangfa]').val(),
+							paijuFee : $(o).parent().parent().find('input[data-type=paiju_fee]').val(),
+							baoxianChoucheng : $(o).parent().parent().find('input[data-type=baoxian_choucheng]').val()
+						},
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								//$(o).parent().parent().find('input').val('');
+								reloadList();
+							}
+							UBox.show(aResult.msg, aResult.status);
+						}
+					});
+				});
+
+			});	
+		},
+		
 		showPaijuDataList : function(paijuId){
 			var html = '';
 			html += '<div class="J-paiju-data-list-win">';
@@ -180,7 +825,6 @@
 					$(this).parent().hide();
 				});
 				oHtml.find('.add-btn').click(function(){
-					console.log($(this).parent().parent().find('input[data-type=keren_bianhao]').val());
 					var o = this;
 					ajax({
 						url : Tools.url('home', 'index/add-keren'),
@@ -390,7 +1034,7 @@
 					complete : function(){
 						$(o).attr('disabled', false);
 					},
-					success : function(aResult){console.log(1);
+					success : function(aResult){
 						if(aResult.status == 1){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();

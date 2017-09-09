@@ -47,6 +47,15 @@ return [
 		
 		
 		
+		'lianmeng/add-lianmeng.json'											=> 'lianmeng/add-lianmeng',
+		'lianmeng/list.json'													=> 'lianmeng/get-list',
+		'lianmeng/update-lianmeng-info.json'									=> 'lianmeng/update-lianmeng-info',
+		'lianmeng/delete.json'													=> 'lianmeng/delete',
+		'lianmeng/lianmeng-host-duizhang.html'									=> 'lianmeng/lianmeng-host-duizhang',
+		
+		
+		
+		
 		'agent/index.html'														=> 'agent/index',
 		'agent/add.json'														=> 'agent/add',
 		'agent/delete.json'														=> 'agent/delete',

@@ -151,10 +151,12 @@ class ImportData extends \common\lib\DbOrmModel{
 		
 		$aKerenBenjinList = [];
 		$qibuChoushui = 0;
+		$choushuiShuanfa = User::CHOUSHUI_SHUANFA_YUSHUMOLIN;
 		if(isset($aCondition['user_id']) && isset($aControl['with_keren_benjin_info']) && $aControl['with_keren_benjin_info']){
 			$mUser = User::findOne($aCondition['user_id']);
 			if($mUser){
 				$qibuChoushui = $mUser->qibu_choushui;
+				$choushuiShuanfa = $mUser->choushui_shuanfa;
 			}
 			$aPlayerId = ArrayHelper::getColumn($aList, 'player_id');
 			//$aPlayerList = Player::findAll(['player_id' => $aPlayerId, 'user_id' => $aCondition['user_id']]);
@@ -166,7 +168,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			foreach($aKerenBenjinList as $aKerenBenjin){
 				if($value['player_id'] == $aKerenBenjin['player_id']){
 					$aList[$key]['keren_benjin_info'] = $aKerenBenjin;
-					$aList[$key]['jiesuan_value'] = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $aKerenBenjin['ying_chou'], $aKerenBenjin['shu_fan'], $qibuChoushui);
+					$aList[$key]['jiesuan_value'] = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $aKerenBenjin['ying_chou'], $aKerenBenjin['shu_fan'], $qibuChoushui, $choushuiShuanfa);
 					$aList[$key]['new_benjin'] = $aKerenBenjin['benjin'] + $aList[$key]['jiesuan_value'];
 				}
 			}
