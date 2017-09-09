@@ -20,12 +20,17 @@ class IndexController extends Controller{
 		$paijuId = (int)Yii::$app->request->get('paijuId');
 		
 		$mUser = Yii::$app->user->getIdentity();
+		$aAgentList = $mUser->getAgentList();
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
 		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
 		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
 		$aLastPaijuList = $mUser->getLastPaijuList(1, 6);
-		$aAgentList = $mUser->getAgentList();
+		$aCurrentPaiju = [];
+		if($aLastPaijuList){
+			$aCurrentPaiju = current($aLastPaijuList);
+			$paijuId = $aCurrentPaiju['id'];
+		}
 		
 		$aPaijuDataList = [];
 		if($paijuId){
