@@ -11,7 +11,7 @@ $this->setTitle('结账台');
 				<div class="c-b-l-i-bottom">
 					<a class="l-text"><span>核对数字</span><span><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
 					<a class="l-edit" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>);"></a>
-					<a class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"></a>
+					<a href="<?php echo Url::to('home', 'index/index'); ?>?paijuId=<?php echo $aPaiju['id']; ?>" class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"></a>
 				</div>
 			</div>
 		<?php } ?>
@@ -29,116 +29,18 @@ $this->setTitle('结账台');
 					<a href="javascript:;" class="cbcl-tab-btn b5"></a>
 				</div>
 				<div class="c-b-c-l-tab-list">
+				<?php foreach($aPaijuDataList as $aPaijuData){ ?>
 					<div class="c-b-c-l-tab-list-item">
 						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
+							<div class="i-text" title="<?php echo $aPaijuData['player_name']; ?>"><?php echo $aPaijuData['player_name']; ?></div>
+							<div class="i-text"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?></div>
+							<div class="i-text"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['benjin'] : 0; ?></div>
+							<div class="i-text"><?php echo $aPaijuData['jiesuan_value']; ?></div>
+							<div class="i-text"><?php echo $aPaijuData['new_benjin']; ?></div>
 						</div>
-						<div class="c-b-c-l-tab-list-item-right"></div>
+						<div class="c-b-c-l-tab-list-item-right <?php echo $aPaijuData['status'] ? 'clean' : ''; ?>"></div>
 					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right clean"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right clean"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right clean"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right clean"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right clean"></div>
-					</div>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text">liuliu</div>
-							<div class="i-text">74</div>
-							<div class="i-text">1400</div>
-							<div class="i-text">1370</div>
-							<div class="i-text">13570</div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right clean"></div>
-					</div>
+				<?php } ?>
 				</div>
 			</div>
 		</div>
@@ -452,9 +354,14 @@ $this->setTitle('结账台');
 		});
 	}
 	
+	function initPaijuDataList(){
+		$('.c-b-c-l-tab-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+	}
+	
 	$(function(){
 		$('.c-h-t-menu.m1').addClass('active');
 		
+		initPaijuDataList();
 		initMoneyType();
 		initJiaoShouJinEr();
 		initMoneyOutPutType();

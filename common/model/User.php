@@ -217,5 +217,19 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return Paiju::getList($aCondition, $aControll);
 	}
 	
-	
+	public function getPaijuDataList($paijuId, $withKerenBbenjinInfo = false){
+		$mPaiju = Paiju::findOne(['id' => $paijuId, 'user_id' => $this->id]);
+		if(!$mPaiju){
+			return false;
+		}
+		//$aList = ImportData::findAll(['paiju_id' => $paijuId, 'user_id' => $this->id]);
+		$aCondition = ['paiju_id' => $paijuId, 'user_id' => $this->id];
+		$aControll = [];
+		if($withKerenBbenjinInfo){
+			$aControll['with_keren_benjin_info'] = true;
+		}
+		$aList = ImportData::getList($aCondition, $aControll);
+		
+		return $aList;
+	}
 }

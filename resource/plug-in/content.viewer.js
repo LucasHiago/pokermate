@@ -446,7 +446,7 @@
     */
     $.fn[pluginName] = function(options) {
 		var oChild = $(this).children();
-		var oHtml = $('<div class="J-tinyscrollbar-scrollbar" style="border-radius:4px; position: relative; float: right; width: 8px;"><div class="J-tinyscrollbar-track" style="background: rgba(0,0,0,0.7); border-radius:4px; height: 100%; width: 8px; position: relative;"><div class="J-tinyscrollbar-thumb" style="background: rgba(255,255,255,0.5); border-radius:4px; width: 6px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: 1px;"></div></div></div><div class="J-tinyscrollbar-viewport" style="/*width:500px;height:200px;*/overflow: hidden; position: relative;"><div class="J-tinyscrollbar-overview" style="list-style: none; position: absolute; left: 0; top: 0; padding: 0; margin: 0;"></div></div></div><style type="text/css">.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; } .J-tinyscrollbar-thumb:hover{ background: rgba(255,255,255,0.6);filter:"alpha(opacity=50)"; -ms-filter:"alpha(opacity=50)";}</style>');
+		var oHtml = $('<div class="J-tinyscrollbar-scrollbar" style="border-radius:4px; position: relative; float: right; width: 8px;z-index:1;"><div class="J-tinyscrollbar-track" style="background: rgba(0,0,0,0.7); border-radius:4px; height: 100%; width: 8px; position: relative;"><div class="J-tinyscrollbar-thumb" style="background: rgba(255,255,255,0.5); border-radius:4px; width: 6px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: 1px;"></div></div></div><div class="J-tinyscrollbar-viewport" style="/*width:500px;height:200px;*/overflow: hidden; position: relative;"><div class="J-tinyscrollbar-overview" style="list-style: none; position: absolute; left: 0; top: 0; padding: 0; margin: 0;"></div></div></div><style type="text/css">.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; } .J-tinyscrollbar-thumb:hover{ background: rgba(255,255,255,0.6);filter:"alpha(opacity=50)"; -ms-filter:"alpha(opacity=50)";}</style>');
 		$(this).prepend(oHtml);
 		$(oChild).appendTo(oHtml.find('.J-tinyscrollbar-overview'));
 		$(this).find('.J-tinyscrollbar-scrollbar').height($(this).height());
@@ -454,6 +454,9 @@
 		var w = 0;
 		if(options.axis == 'y'){
 			w = 0;
+			if(options.scrollbarVisable){
+				$(this).find('.J-tinyscrollbar-viewport').css('position', 'absolute');
+			}
 		}
 		$(this).find('.J-tinyscrollbar-viewport').width($(this).width() - w);
 		

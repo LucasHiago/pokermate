@@ -17,6 +17,8 @@ use common\model\Player;
 class IndexController extends Controller{
 	
 	public function actionIndex(){
+		$paijuId = (int)Yii::$app->request->get('paijuId');
+		
 		$mUser = Yii::$app->user->getIdentity();
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
@@ -25,6 +27,14 @@ class IndexController extends Controller{
 		$aLastPaijuList = $mUser->getLastPaijuList(1, 6);
 		$aAgentList = $mUser->getAgentList();
 		
+		$aPaijuDataList = [];
+		if($paijuId){
+			$aPaijuDataList = $mUser->getPaijuDataList($paijuId, true);
+			if(!$aPaijuDataList){
+				return new Response('牌局不存在', 0);
+			}
+		}
+		
 		return $this->render('home', [
 			'aMoneyTypeList' => $aMoneyTypeList,
 			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
@@ -32,6 +42,7 @@ class IndexController extends Controller{
 			'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
 			'aLastPaijuList' => $aLastPaijuList,
 			'aAgentList' => $aAgentList,
+			'aPaijuDataList' => $aPaijuDataList,
 		]);
 	}
 	

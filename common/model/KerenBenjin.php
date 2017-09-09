@@ -62,6 +62,8 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		
 		foreach($aList as $key => $value){
 			$aList[$key]['player_list'] = [];
+			$aList[$key]['ying_chou'] =floatval($value['ying_chou']);
+			$aList[$key]['shu_fan'] = floatval($value['shu_fan']);
 			foreach($aPlayerList as $aPlayer){
 				if($value['keren_bianhao'] == $aPlayer['keren_bianhao']){
 					array_push($aList[$key]['player_list'], $aPlayer);
@@ -105,4 +107,5 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		}
 		return $aWhere;
 	}
+	
 }
