@@ -1780,4 +1780,88 @@ input, select{border:none;outline:none;background:none;}
 	height:660px;
 	background: url(./../images/666.png) no-repeat;
 }
+.lmzj-wrap .h-left, .lmzj-wrap .h-right{
+	display:inline-block;
+	width:658px;
+	height:100%;
+}
+.lmzj-wrap .h-left .h-l-div, .lmzj-wrap .h-right .h-l-div{
+	float:left;
+	height:35px;
+	line-height:35px;
+	min-width:100px;
+	margin-top:10px;
+	color:#ffffff;
+}
+.lmzj-wrap .h-l-div.h-select-list-bg{
+	margin-left:50px;
+	min-width:86px;
+	width:86px;
+	background: url(./../images/304.png) no-repeat center;
+}
+.lmzj-wrap .h-l-div.h-text-bg{
+	margin-left:20px;
+	width:150px;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -1834px -433px;
+}
+.gy-btn-bg{
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -666px -364px;
+    font-weight: bold;
+    cursor: pointer;
+	text-align:center;
+}
+.lmzj-wrap .lmzj-content-wrap .body-list-wrap{
+	margin-left:20px;
+	height:635px;
+	max-width: 1230px;
+	overflow-y:scroll;
+	overflow-x:scroll;
+}
+.lmzj-wrap .body-list-wrap .row-item{
+	height:40px;
+	display:block;
+	float:left;
+	margin:2px 0px;
+}
+.lmzj-wrap .body-list-wrap .col-item{
+	float:left;
+	display:block;
+	height:40px;
+	line-height:40px;
+	width:128px;
+	margin:0px 2px;
+	background: url(./../images/912.png) no-repeat center;
+	text-align:center;
+	color:#f4e2a9;
+}
+.lmzj-wrap .body-list-wrap .col-item.thh{
+	color:#ffffff;
+	font-weight:bold;
+	background: url(./../images/913.png) no-repeat center;
+}
+.lmzj-wrap .body-list-wrap .row-item.lbb{
+	background: url(./../images/item-bg.png) repeat-x center;
+}
+.lmzj-wrap .body-list-wrap .col-item .ci-txt{
+	float:left;
+	width:100%;
+	text-align:center;
+}
+.lmzj-wrap .body-list-wrap .col-item .ci-edit{
+	display:block;
+	position:relative;
+	float:right;
+	height:40px;
+	width:20px;
+	right: 0px;
+    top: -40px;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -1058px -159px;
+	cursor:pointer;
+}
+.bcell{
+	background: url(./../images/bcell.png) repeat-y;
+}
 /*background:rgba(0,0,0,0.2);*/
