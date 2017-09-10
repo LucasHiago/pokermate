@@ -219,7 +219,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if($pageSize){
 			$aControll['page'] = $page;
 			$aControll['page_size'] = $pageSize;
-		}
+		}debug($aControll);
 		return Paiju::getList($aCondition, $aControll);
 	}
 	

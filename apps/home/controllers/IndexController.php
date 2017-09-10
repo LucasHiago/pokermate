@@ -35,7 +35,7 @@ class IndexController extends Controller{
 			$aCurrentPaiju = current($aLastPaijuList);
 			$paijuId = $aCurrentPaiju['id'];
 		}
-		debug($aLastPaijuList,11);
+		
 		$aPaijuDataList = [];
 		if($paijuId){
 			$aPaijuDataList = $mUser->getPaijuDataList($paijuId, true);

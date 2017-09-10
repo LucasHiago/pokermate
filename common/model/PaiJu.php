@@ -75,7 +75,7 @@ class Paiju extends \common\lib\DbOrmModel{
 					$aList[$key]['hedui_shuzi'] = (int)($aPaijuHeduishuzi['sum_zhanji'] - $aPaijuHeduishuzi['sum_baoxian_heji']);
 				}
 			}
-		}
+		}debug($aList,11);
 		return $aList;
 	}
 	
