@@ -57,7 +57,7 @@ class Paiju extends \common\lib\DbOrmModel{
 			$offset = ($aControl['page'] - 1) * $aControl['page_size'];
 			$oQuery->offset($offset)->limit($aControl['page_size']);
 		}
-		$aList = $oQuery->all();debug($aList,11);
+		$aList = $oQuery->all();
 		if(!$aList){
 			return [];
 		}
