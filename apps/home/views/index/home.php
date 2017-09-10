@@ -1,6 +1,6 @@
 <?php
 use umeworld\lib\Url;
-$this->setTitle('结账台');debug($aLastPaijuList,11);
+$this->setTitle('结账台');
 ?>
 <div class="c-body-wrap">
 	<div class="c-b-list">

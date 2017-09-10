@@ -38,7 +38,7 @@ class Paiju extends \common\lib\DbOrmModel{
 	 *		'width_heduishuzi' =>
 	 *	]
 	 */
-	public static function getList($aCondition = [], $aControl = []){debug($aList);
+	public static function getList($aCondition = [], $aControl = []){
 		$aWhere = static::_parseWhereCondition($aCondition);
 		$oQuery = new Query();
 		if(isset($aControl['select'])){
@@ -57,7 +57,7 @@ class Paiju extends \common\lib\DbOrmModel{
 			$offset = ($aControl['page'] - 1) * $aControl['page_size'];
 			$oQuery->offset($offset)->limit($aControl['page_size']);
 		}
-		$aList = $oQuery->all();debug($aList);
+		$aList = $oQuery->all();
 		if(!$aList){
 			return [];
 		}
@@ -75,7 +75,7 @@ class Paiju extends \common\lib\DbOrmModel{
 					$aList[$key]['hedui_shuzi'] = (int)($aPaijuHeduishuzi['sum_zhanji'] - $aPaijuHeduishuzi['sum_baoxian_heji']);
 				}
 			}
-		}debug($aList);
+		}
 		return $aList;
 	}
 	
