@@ -57,7 +57,7 @@ class Paiju extends \common\lib\DbOrmModel{
 			$offset = ($aControl['page'] - 1) * $aControl['page_size'];
 			$oQuery->offset($offset)->limit($aControl['page_size']);
 		}
-		$aList = $oQuery->all();
+		$aList = $oQuery->all();debug($aList);
 		if(!$aList){
 			return [];
 		}
@@ -75,7 +75,7 @@ class Paiju extends \common\lib\DbOrmModel{
 					$aList[$key]['hedui_shuzi'] = (int)($aPaijuHeduishuzi['sum_zhanji'] - $aPaijuHeduishuzi['sum_baoxian_heji']);
 				}
 			}
-		}
+		}debug($aList);
 		return $aList;
 	}
 	
