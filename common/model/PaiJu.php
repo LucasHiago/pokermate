@@ -35,7 +35,7 @@ class Paiju extends \common\lib\DbOrmModel{
 	 *		'order_by' =>
 	 *		'page' =>
 	 *		'page_size' =>
-	 *		'width_heduishuzi' => 
+	 *		'width_heduishuzi' =>
 	 *	]
 	 */
 	public static function getList($aCondition = [], $aControl = []){
