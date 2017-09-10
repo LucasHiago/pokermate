@@ -69,6 +69,7 @@ class Paiju extends \common\lib\DbOrmModel{
 			$aPaijuHeduishuziList = Yii::$app->db->createCommand($sql)->queryAll();
 		}
 		foreach($aList as $key => $value){
+			$aList[$key]['hedui_shuzi'] = 0;
 			foreach($aPaijuHeduishuziList as $aPaijuHeduishuzi){
 				if($value['id'] == $aPaijuHeduishuzi['paiju_id']){
 					$aList[$key]['hedui_shuzi'] = (int)($aPaijuHeduishuzi['sum_zhanji'] - $aPaijuHeduishuzi['sum_baoxian_heji']);
