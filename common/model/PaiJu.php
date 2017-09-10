@@ -38,7 +38,7 @@ class Paiju extends \common\lib\DbOrmModel{
 	 *		'width_heduishuzi' =>
 	 *	]
 	 */
-	public static function getList($aCondition = [], $aControl = []){
+	public static function getList($aCondition = [], $aControl = []){debug($aList);
 		$aWhere = static::_parseWhereCondition($aCondition);
 		$oQuery = new Query();
 		if(isset($aControl['select'])){
