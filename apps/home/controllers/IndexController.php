@@ -4,6 +4,7 @@ namespace home\controllers;
 use Yii;
 //use umeworld\lib\Controller;
 use umeworld\lib\StringHelper;
+use yii\helpers\ArrayHelper;
 use umeworld\lib\Url;
 use home\lib\Controller;
 use umeworld\lib\Response;
@@ -21,13 +22,16 @@ class IndexController extends Controller{
 		
 		$mUser = Yii::$app->user->getIdentity();
 		$aAgentList = $mUser->getAgentList();
+		$aLianmengList = $mUser->getLianmengList();
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
 		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
 		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
-		$aLastPaijuList = $mUser->getLastPaijuList(1, 6);
+		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		
 		$aCurrentPaiju = [];
-		if($aLastPaijuList){
+		$aLastPaijuList = $mUser->getLastPaijuList(1, 6, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], ['`t1`.`status`' => SORT_ASC, '`t1`.`id`' => SORT_DESC]);
+		if(!$paijuId && $aLastPaijuList){
 			$aCurrentPaiju = current($aLastPaijuList);
 			$paijuId = $aCurrentPaiju['id'];
 		}
@@ -41,6 +45,7 @@ class IndexController extends Controller{
 		}
 		
 		return $this->render('home', [
+			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'aMoneyTypeList' => $aMoneyTypeList,
 			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
 			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
@@ -48,6 +53,7 @@ class IndexController extends Controller{
 			'aLastPaijuList' => $aLastPaijuList,
 			'aAgentList' => $aAgentList,
 			'aPaijuDataList' => $aPaijuDataList,
+			'aLianmengList' => $aLianmengList,
 		]);
 	}
 	
@@ -254,8 +260,7 @@ class IndexController extends Controller{
 		if($mKerenBenjin->user_id != Yii::$app->user->id){
 			return new Response('出错了', 0);
 		}
-		$mKerenBenjin->set('is_delete', 1);
-		$mKerenBenjin->save();
+		$mKerenBenjin->delete();
 		
 		return new Response('删除成功', 1);
 	}

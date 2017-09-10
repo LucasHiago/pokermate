@@ -108,4 +108,12 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		return $aWhere;
 	}
 	
+	public function delete(){
+		$this->set('is_delete', 1);
+		$this->save();
+		
+		$sql = 'UPDATE ' . Player::tableName() . ' SET `is_delete`=1 WHERE `user_id`=' . $this->user_id . ' AND `keren_bianhao`=' . $this->keren_bianhao;
+		Yii::$app->db->createCommand($sql)->execute();
+	}
+	
 }

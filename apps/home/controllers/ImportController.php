@@ -9,11 +9,12 @@ use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\ImportData;
 use common\model\Paiju;
+use common\model\Lianmeng;
 
 class ImportController extends Controller{
 	
 	public function actionIndex(){
-		$fileName = Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.import') . '/test.xls';
+		$fileName = Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.import') . '/test2.xls';
 		$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
 		if($aDataList){
 			ImportData::importFromExcelDataList($aDataList);
@@ -52,6 +53,39 @@ class ImportController extends Controller{
 			return new Response('出错啦', 0);
 		}
 		return new Response('更新成功', 1);
+	}
+	
+	public function actionDoJieShuan(){
+		$id = (int)Yii::$app->request->post('id');
+		$lianmengId = (int)Yii::$app->request->post('lianmengId');
+		
+		$mImportData = ImportData::findOne($id);
+		if(!$mImportData){
+			return new Response('记录不存在', 0);
+		}
+		if($mImportData->user_id != Yii::$app->user->id){
+			return new Response('出错啦', 0);
+		}
+		if($mImportData->status){
+			return new Response('不能重复结算', 0);
+		}
+		$mLianmeng = Lianmeng::findOne($lianmengId);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		if($mLianmeng->user_id != Yii::$app->user->id){
+			return new Response('出错啦', 0);
+		}
+		if(!$mImportData->doJieShuan($lianmengId)){
+			return new Response('结算失败', 0);
+		}
+		
+		$mUser = Yii::$app->user->getIdentity();
+		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		
+		return new Response('结算成功', 1, [
+			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+		]);
 	}
 	
 }

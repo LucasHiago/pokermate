@@ -50,7 +50,9 @@ class LianmengController extends Controller{
 	}
 	
 	public function actionGetList(){
-		$aList = Lianmeng::findAll(['user_id' => Yii::$app->user->id, 'is_delete' => 0]);
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aList = $mUser->getLianmengList();
 		
 		return new Response('', 1, $aList);
 	}

@@ -10,8 +10,16 @@ $this->setTitle('结账台');
 				<div class="c-b-l-i-title"><?php echo $aPaiju['paiju_name']; ?></div>
 				<div class="c-b-l-i-bottom">
 					<a class="l-text"><span>核对数字</span><span><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
+					<?php if(!$aPaiju['status']){ ?>
 					<a class="l-edit" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>);"></a>
+					<?php }else{ ?>
+					<a class="l-edit" style="background:none;cursor:default;"></a>
+					<?php } ?>
+					<?php if(!$aPaiju['status']){ ?>
 					<a href="<?php echo Url::to('home', 'index/index'); ?>?paijuId=<?php echo $aPaiju['id']; ?>" class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"></a>
+					<?php }else{ ?>
+					<a class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"></a>
+					<?php } ?>
 				</div>
 			</div>
 		<?php } ?>
@@ -38,10 +46,20 @@ $this->setTitle('结账台');
 							<div class="i-text"><?php echo $aPaijuData['jiesuan_value']; ?></div>
 							<div class="i-text"><?php echo $aPaijuData['new_benjin']; ?></div>
 						</div>
-						<div class="c-b-c-l-tab-list-item-right <?php echo $aPaijuData['status'] ? 'clean' : ''; ?>"></div>
+						<div class="c-b-c-l-tab-list-item-right <?php echo $aPaijuData['status'] ? 'clean' : ''; ?>" <?php echo $aPaijuData['status'] ? '' : 'onclick="doJieShuanPaijuRecord(this, ' . $aPaijuData['id'] . ');"'; ?>></div>
 					</div>
 				<?php } ?>
 				</div>
+			</div>
+			<div class="cbb-lm-wrap">
+				<a>2/4🍎1183A当前联盟：-选择联盟</a>
+				<a>
+					<select class="J-jieshuan-lianmeng-select" style="border: 1px solid;height:25px;border-radius:5px;">
+						<?php foreach($aLianmengList as $aLianmeng){ ?>
+							<option value="<?php echo $aLianmeng['id']; ?>"><?php echo $aLianmeng['name']; ?></option>
+						<?php } ?>
+					</select>
+				</a>
 			</div>
 		</div>
 		<div class="c-b-c-center">
@@ -55,9 +73,9 @@ $this->setTitle('结账台');
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
-				<div class="h-zcs" onclick="AlertWin.showChouShuiList();">10000</div>
-				<div class="h-zbx" onclick="AlertWin.showZhongBaoXianList();">10000</div>
-				<div class="h-szrs" onclick="AlertWin.showShanZhuoRenShuList();">10000</div>
+				<div class="J-h-zcs h-zcs" onclick="AlertWin.showChouShuiList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['zhongChouShui']; ?></div>
+				<div class="J-h-zbx h-zbx" onclick="AlertWin.showZhongBaoXianList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian']; ?></div>
+				<div class="J-h-szrs h-szrs" onclick="AlertWin.showShanZhuoRenShuList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['shangZhuoRenShu']; ?></div>
 			</div>
 			<div class="c-b-c-r-center">
 				<a class="krbh"><input type="text" class="J-search-keren-bianhao" value="" /></a>
@@ -356,6 +374,31 @@ $this->setTitle('结账台');
 	
 	function initPaijuDataList(){
 		$('.c-b-c-l-tab-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+	}
+	
+	function doJieShuanPaijuRecord(o, id){
+		ajax({
+			url : Tools.url('home', 'import/do-jie-shuan'),
+			data : {
+				id : id,
+				lianmengId : $('.J-jieshuan-lianmeng-select').val()
+			},
+			beforeSend : function(){
+				$(o).attr('disabled', 'disabled');
+			},
+			complete : function(){
+				$(o).attr('disabled', false);
+			},
+			success : function(aResult){
+				if(aResult.status == 1){
+					$(o).addClass('clean');
+					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongChouShui);
+					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
+					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
+				}
+				UBox.show(aResult.msg, aResult.status);
+			}
+		});
 	}
 	
 	$(function(){

@@ -40,4 +40,9 @@ class Player extends \common\lib\DbOrmModel{
 			}
 		}
 	}
+	
+	public function getMKerenBenjin(){
+		return KerenBenjin::findOne(['user_id' => $this->user_id, 'keren_bianhao' => $this->keren_bianhao]);
+	}
+	
 }

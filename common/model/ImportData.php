@@ -39,6 +39,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			'end_time_format',
 			'end_time',
 			'create_time',
+			'original_zhanji',
 			'paiju_id',
 			'user_id'
 		], $aInsertList)->execute();
@@ -60,6 +61,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			$endTime = strtotime($aData[19]);
 			array_push($aData, $endTime);
 			array_push($aData, NOW_TIME);
+			array_push($aData, $aData[18]);
 			//总手数为0为无效牌局（不计算桌子费）
 			if($aData[6]){
 				array_push($aPlayerList, [
@@ -169,7 +171,12 @@ class ImportData extends \common\lib\DbOrmModel{
 				if($value['player_id'] == $aKerenBenjin['player_id']){
 					$aList[$key]['keren_benjin_info'] = $aKerenBenjin;
 					$aList[$key]['jiesuan_value'] = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $aKerenBenjin['ying_chou'], $aKerenBenjin['shu_fan'], $qibuChoushui, $choushuiShuanfa);
-					$aList[$key]['new_benjin'] = $aKerenBenjin['benjin'] + $aList[$key]['jiesuan_value'];
+					if($value['status']){
+						//如果该记录已结算，显示最新本金
+						$aList[$key]['new_benjin'] = $aKerenBenjin['benjin'];
+					}else{
+						$aList[$key]['new_benjin'] = $aKerenBenjin['benjin'] + $aList[$key]['jiesuan_value'];
+					}
 				}
 			}
 		}
@@ -219,4 +226,86 @@ class ImportData extends \common\lib\DbOrmModel{
 		}
 		return $aWhere;
 	}
+	
+	public static function getUserUnJiaoBanPaijuZhongChouShui($userId, $aClubId = []){
+		$clubIdWhere = '';
+		if($aClubId){
+			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
+		}else{
+			return 0;
+		}
+		$sql = 'SELECT SUM(`t1`.`choushui_value`) AS `sum_choushui_value` FROM ' . static::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0 AND `t1`.`choushui_value`>0' . $clubIdWhere;
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return $aResult[0]['sum_choushui_value'];
+	}
+	
+	public static function getUserUnJiaoBanPaijuZhongBaoXian($userId, $aClubId = []){
+		$clubIdWhere = '';
+		if($aClubId){
+			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
+		}else{
+			return 0;
+		}
+		$sql = 'SELECT SUM(`t1`.`baoxian_heji`) AS `sum_baoxian_heji` FROM ' . static::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0' . $clubIdWhere;
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return $aResult[0]['sum_baoxian_heji'];
+	}
+	
+	public static function getUserUnJiaoBanPaijuShangZhuoRenShu($userId, $aClubId = []){
+		$clubIdWhere = '';
+		if($aClubId){
+			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
+		}else{
+			return 0;
+		}
+		$sql = 'SELECT COUNT(`t1`.`id`) AS `player_num` FROM ' . static::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0' . $clubIdWhere;
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return $aResult[0]['player_num'];
+	}
+	
+	public function getMUser(){
+		return User::findOne($this->user_id);
+	}
+	
+	public function getMPlayer(){
+		return Player::findOne(['user_id' => $this->user_id, 'player_id' => $this->player_id]);
+	}
+	
+	public function getMPaiju(){
+		return Paiju::findOne($this->paiju_id);
+	}
+	
+	/**
+	 *	修改了玩家的战绩、客人的赢抽点数、输返点数、俱乐的部起步抽水、抽水算法 都要重新计算结算未交班的账单
+	 */
+	public static function reDoJieShuan($userId){
+		
+	}
+	
+	public function doJieShuan($lianmengId = 0){
+		$mUser = $this->getMUser();
+		$mKerenBenjin = $this->getMPlayer()->getMKerenBenjin();
+		//1.计算结算值
+		$jiesuanValue = Calculate::paijuPlayerJiesuanValue($this->zhanji, $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $mUser->qibu_choushui, $mUser->choushui_shuanfa);
+		//2.设置结算状态、关联联盟、结算值、抽水值
+		$this->set('status', 1);
+		if($lianmengId){
+			$this->set('lianmeng_id', $lianmengId);
+		}
+		$this->set('jiesuan_value', $jiesuanValue);
+		$this->set('choushui_value', $this->zhanji - $jiesuanValue);
+		$this->save();
+		//3.判断是否已结算完当前牌局记录，是则更新牌局状态
+		if($mUser->checkIsJieShuanAllPaijuRecord($this->paiju_id)){
+			$mPaiju = $this->getMPaiju();
+			$mPaiju->set('status', Paiju::STATUS_DONE);
+			$mPaiju->save();
+		}
+		//4.更新客人钱包
+		$mKerenBenjin->set('benjin', ['add', $jiesuanValue]);
+		$mKerenBenjin->save();
+		
+		return true;
+	}
+	
 }

@@ -35,6 +35,7 @@ class Paiju extends \common\lib\DbOrmModel{
 	 *		'order_by' =>
 	 *		'page' =>
 	 *		'page_size' =>
+	 *		'width_heduishuzi' =>
 	 *	]
 	 */
 	public static function getList($aCondition = [], $aControl = []){
@@ -59,6 +60,20 @@ class Paiju extends \common\lib\DbOrmModel{
 		$aList = $oQuery->all();
 		if(!$aList){
 			return [];
+		}
+		$aPaijuId = [];
+		$aPaijuHeduishuziList = [];
+		if(isset($aControl['width_hedui_shuzi']) && $aControl['width_hedui_shuzi']){
+			$aPaijuId = ArrayHelper::getColumn($aList, 'id');
+			$sql = 'SELECT `paiju_id`,SUM(`zhanji`) AS `sum_zhanji`,SUM(`baoxian_heji`) AS `sum_baoxian_heji` FROM ' . ImportData::tableName() . ' WHERE `paiju_id` IN(' . implode(',', $aPaijuId) . ') GROUP BY `paiju_id`';
+			$aPaijuHeduishuziList = Yii::$app->db->createCommand($sql)->queryAll();
+		}
+		foreach($aList as $key => $value){
+			foreach($aPaijuHeduishuziList as $aPaijuHeduishuzi){
+				if($value['id'] == $aPaijuHeduishuzi['paiju_id']){
+					$aList[$key]['hedui_shuzi'] = (int)($aPaijuHeduishuzi['sum_zhanji'] - $aPaijuHeduishuzi['sum_baoxian_heji']);
+				}
+			}
 		}
 		return $aList;
 	}

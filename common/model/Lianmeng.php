@@ -10,6 +10,13 @@ class Lianmeng extends \common\lib\DbOrmModel{
 	const DUIZHANGFANGFA_LINDIANJIUQIWU = 1;
 	const DUIZHANGFANGFA_WUSHUIDUIZHANG = 2;
 	
+	public static function getDuizhangfangfaList(){
+		return [
+			DUIZHANGFANGFA_LINDIANJIUQIWU => 0.975,
+			DUIZHANGFANGFA_WUSHUIDUIZHANG => 1,
+		];
+	}
+	
 	public static function tableName(){
 		return Yii::$app->db->parseTable('_@lianmeng');
 	}
