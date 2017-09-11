@@ -55,7 +55,11 @@ return [
 		'lianmeng/update-lianmeng-info.json'									=> 'lianmeng/update-lianmeng-info',
 		'lianmeng/delete.json'													=> 'lianmeng/delete',
 		'lianmeng/lianmeng-host-duizhang.html'									=> 'lianmeng/lianmeng-host-duizhang',
-		'lianmeng/get-lianmeng-zhang-dan-detail-list.json'						=> 'lianmeng/get-lianmeng-zhang-dan-detail-list',
+		'lianmeng/lianmeng-zhang-dan-detail-list.json'							=> 'lianmeng/get-lianmeng-zhang-dan-detail-list',
+		'lianmeng/lianmeng-zhong-zhang-list.json'								=> 'lianmeng/get-lianmeng-zhong-zhang-list',
+		
+		
+		'paiju/chang-paiju-lianmeng.json'										=> 'paiju/chang-paiju-lianmeng',
 		
 		
 		

@@ -57,7 +57,6 @@ class ImportController extends Controller{
 	
 	public function actionDoJieShuan(){
 		$id = (int)Yii::$app->request->post('id');
-		$lianmengId = (int)Yii::$app->request->post('lianmengId');
 		
 		$mImportData = ImportData::findOne($id);
 		if(!$mImportData){
@@ -66,17 +65,10 @@ class ImportController extends Controller{
 		if($mImportData->user_id != Yii::$app->user->id){
 			return new Response('出错啦', 0);
 		}
-		if($mImportData->status){
+		/*if($mImportData->status){
 			return new Response('不能重复结算', 0);
-		}
-		$mLianmeng = Lianmeng::findOne($lianmengId);
-		if(!$mLianmeng){
-			return new Response('联盟不存在', 0);
-		}
-		if($mLianmeng->user_id != Yii::$app->user->id){
-			return new Response('出错啦', 0);
-		}
-		if(!$mImportData->doJieShuan($lianmengId)){
+		}*/
+		if(!$mImportData->doJieShuan()){
 			return new Response('结算失败', 0);
 		}
 		

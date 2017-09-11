@@ -30,10 +30,13 @@ class IndexController extends Controller{
 		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
 		
 		$aCurrentPaiju = [];
+		$currentPaijuLianmengId = 0;
 		$aLastPaijuList = $mUser->getLastPaijuList(1, 6, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], ['`t1`.`status`' => SORT_ASC, '`t1`.`id`' => SORT_DESC]);
 		if(!$paijuId && $aLastPaijuList){
-			$aCurrentPaiju = current($aLastPaijuList);
+			$aCurrentPaiju = $aLastPaijuList[0];
 			$paijuId = $aCurrentPaiju['id'];
+			$mPaiju = Paiju::toModel($aCurrentPaiju);
+			$currentPaijuLianmengId = $mPaiju->getLianmengId();
 		}
 		
 		$aPaijuDataList = [];
@@ -41,6 +44,11 @@ class IndexController extends Controller{
 			$aPaijuDataList = $mUser->getPaijuDataList($paijuId);
 			if(!$aPaijuDataList){
 				return new Response('牌局不存在', 0);
+			}
+			if(!$aCurrentPaiju){
+				$mPaiju = Paiju::findOne($paijuId);
+				$currentPaijuLianmengId = $mPaiju->getLianmengId();
+				$aCurrentPaiju = $mPaiju->toArray();
 			}
 		}
 		
@@ -54,6 +62,8 @@ class IndexController extends Controller{
 			'aAgentList' => $aAgentList,
 			'aPaijuDataList' => $aPaijuDataList,
 			'aLianmengList' => $aLianmengList,
+			'aCurrentPaiju' => $aCurrentPaiju,
+			'currentPaijuLianmengId' => $currentPaijuLianmengId,
 		]);
 	}
 	
@@ -70,10 +80,13 @@ class IndexController extends Controller{
 		}
 		
 		$mUser = Yii::$app->user->getIdentity();
+		$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`id`' => SORT_DESC];
 		if($isHistory){
-			$aList = $mUser->getLastPaijuList($page, $pageSize, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE, Paiju::STATUS_FINISH]]);
+			$aOrder = ['`t1`.`id`' => SORT_DESC];
+			$aList = $mUser->getLastPaijuList($page, $pageSize, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE, Paiju::STATUS_FINISH]], $aOrder);
 		}else{
-			$aList = $mUser->getLastPaijuList($page, $pageSize);
+			$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`id`' => SORT_DESC];
+			$aList = $mUser->getLastPaijuList($page, $pageSize, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);
 		}
 		
 		return new Response('', 1, $aList);
@@ -260,6 +273,9 @@ class IndexController extends Controller{
 		if($mKerenBenjin->user_id != Yii::$app->user->id){
 			return new Response('出错了', 0);
 		}
+		if(!$mKerenBenjin->checkIsCanDelete()){
+			return new Response('客人尚有牌局数据未处理，不能删除', -1);
+		}
 		$mKerenBenjin->delete();
 		
 		return new Response('删除成功', 1);
@@ -280,7 +296,7 @@ class IndexController extends Controller{
 		if(!$playerId){
 			return new Response('请输入玩家ID', -1);
 		}
-		$mPlayer = Player::findOne(['user_id' => Yii::$app->user->id, 'player_id' => $playerId]);
+		$mPlayer = Player::findOne(['user_id' => Yii::$app->user->id, 'player_id' => $playerId, 'is_delete' => 0]);
 		if($mPlayer){
 			return new Response('玩家ID已存在', -1);
 		}

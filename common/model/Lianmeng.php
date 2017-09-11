@@ -30,7 +30,33 @@ class Lianmeng extends \common\lib\DbOrmModel{
 	}
 	
 	public static function addRecord($aData){
+		if(!isset($aData['duizhangfangfa'])){
+			$aData['duizhangfangfa'] = static::DUIZHANGFANGFA_LINDIANJIUQIWU;
+		}
+		if(!isset($aData['paiju_fee'])){
+			$aData['paiju_fee'] = 0;
+		}
+		if(!isset($aData['baoxian_choucheng'])){
+			$aData['baoxian_choucheng'] = 0;
+		}
 		$id = static::insert($aData);
 		return $id;
 	}
+	
+		
+	public function checkIsCanDelete(){
+		//检查是否有未清账单
+		$mUser = User::findOne($this->user_id);
+		$aLianmengList = $mUser->getLianmengList();
+		$aLianmengZhangDanDetailList = $mUser->getLianmengZhangDanDetailList($this->id);
+		$totalZhangDan = 0;
+		foreach($aLianmengZhangDanDetailList as $aLianmengZhangDanDetail){
+			$totalZhangDan += $aLianmengZhangDanDetail['zhang_dan'];
+		}
+		if(!$totalZhangDan){
+			return true;
+		}
+		return false;
+	}
+	
 }

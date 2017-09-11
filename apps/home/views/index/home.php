@@ -52,9 +52,9 @@ $this->setTitle('结账台');
 				</div>
 			</div>
 			<div class="cbb-lm-wrap">
-				<a>2/4🍎1183A当前联盟：-选择联盟</a>
+				<a><?php echo $aCurrentPaiju['paiju_name']; ?>当前联盟：-选择联盟</a>
 				<a>
-					<select class="J-jieshuan-lianmeng-select" style="border: 1px solid;height:25px;border-radius:5px;">
+					<select class="J-jieshuan-lianmeng-select" data-paiju-id="<?php echo $aCurrentPaiju['id']; ?>" style="border: 1px solid;height:25px;border-radius:5px;">
 						<?php foreach($aLianmengList as $aLianmeng){ ?>
 							<option value="<?php echo $aLianmeng['id']; ?>"><?php echo $aLianmeng['name']; ?></option>
 						<?php } ?>
@@ -373,15 +373,36 @@ $this->setTitle('结账台');
 	}
 	
 	function initPaijuDataList(){
+		<?php if($currentPaijuLianmengId){ ?>
+			$('.J-jieshuan-lianmeng-select').val(<?php echo $currentPaijuLianmengId; ?>);
+		<?php } ?>
 		$('.c-b-c-l-tab-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		$('.J-jieshuan-lianmeng-select').on('change', function(){
+			var o = this;
+			ajax({
+				url : Tools.url('home', 'paiju/chang-paiju-lianmeng'),
+				data : {
+					paijuId : $(o).attr('data-paiju-id'),
+					lianmengId : $(o).val()
+				},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					UBox.show(aResult.msg, aResult.status);
+				}
+			});
+		});
 	}
 	
 	function doJieShuanPaijuRecord(o, id){
 		ajax({
 			url : Tools.url('home', 'import/do-jie-shuan'),
 			data : {
-				id : id,
-				lianmengId : $('.J-jieshuan-lianmeng-select').val()
+				id : id
 			},
 			beforeSend : function(){
 				$(o).attr('disabled', 'disabled');

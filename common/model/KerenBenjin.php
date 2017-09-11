@@ -6,12 +6,20 @@ use umeworld\lib\Query;
 use yii\helpers\ArrayHelper;
 
 class KerenBenjin extends \common\lib\DbOrmModel{
+	const YING_CHOU_DEFAULT = 5;
+	const SHU_FAN_DEFAULT = 0;
 	
 	public static function tableName(){
 		return Yii::$app->db->parseTable('_@keren_benjin');
 	}
 	
 	public static function addRecord($aData){
+		if(!isset($aData['ying_chou'])){
+			$aData['ying_chou'] = static::YING_CHOU_DEFAULT;
+		}
+		if(!isset($aData['shu_fan'])){
+			$aData['shu_fan'] = static::SHU_FAN_DEFAULT;
+		}
 		$id = static::insert($aData);
 		return $id;
 	}
@@ -107,7 +115,23 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		}
 		return $aWhere;
 	}
-	
+		
+	public function checkIsCanDelete(){
+		$aPlayerList = Player::findAll(['user_id' => $this->user_id, 'keren_bianhao' => $this->keren_bianhao]);
+		if(!$aPlayerList){
+			return true;
+		}
+		$aPlayerId = ArrayHelper::getColumn($aPlayerList, 'player_id');
+		//检查是否有未交班的数据
+		$mUser = User::findOne($this->user_id);
+		$sql = 'SELECT `t1`.* FROM `paiju` `t1` LEFT JOIN ' . ImportData::tableName() . ' AS `t2` ON `t1`.`id`=`t2`.`paiju_id` WHERE (`t1`.`user_id`=' . $mUser->id . ') AND (`t1`.`status` IN (' . Paiju::STATUS_UNDO . ', ' . Paiju::STATUS_DONE . ')) AND (`t2`.`player_id` IN (' . implode(',', $aPlayerId) . ')) GROUP BY `t1`.`id`';
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		if(!$aResult){
+			return true;
+		}
+		return false;
+	}
+		
 	public function delete(){
 		$this->set('is_delete', 1);
 		$this->save();

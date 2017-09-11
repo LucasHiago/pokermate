@@ -249,6 +249,18 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return $aReturnList;
 	}
 	
+	public function getDefaultLianmengId(){
+		$mLianmeng = Lianmeng::findOne(['user_id' => $this->id, 'is_delete' => 0]);
+		if(!$mLianmeng){
+			return Lianmeng::addRecord([
+				'user_id' => $this->id,
+				'name' => '默认联盟',
+				'create_time' => NOW_TIME,
+			]);
+		}
+		return $mLianmeng->id;
+	}
+	
 	public function getLianmengList(){
 		return Lianmeng::findAll(['user_id' => $this->id, 'is_delete' => 0]);
 	}
@@ -412,7 +424,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if($lianmengId){
 			$lianmengIdWhere = ' AND `t1`.`lianmeng_id`=' . $lianmengId;
 		}
-		$sql = 'SELECT `t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`lianmeng_id`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t1`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t3`.`is_delete`=0' . $lianmengIdWhere . $clubIdWhere;
+		$sql = 'SELECT `t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t1`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t3`.`is_delete`=0' . $lianmengIdWhere . $clubIdWhere;
 		return Yii::$app->db->createCommand($sql)->queryAll();
 	}
 	
@@ -441,4 +453,35 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		return $aReturnList;
 	}
+		
+	public function getLianmengZhongZhangList(){
+		$aLianmengList = $this->getLianmengList();
+		$aResult = $this->_getUnJiaoBanPaijuDataListWithLianmengInfo();
+		$aReturnList = [];
+		foreach($aLianmengList as $aLianmeng){
+			if(!isset($aReturnList[$aLianmeng['id']])){
+				$aReturnList[$aLianmeng['id']] = [
+					'lianmeng_id' => $aLianmeng['id'],
+					'lianmeng_name' => $aLianmeng['name'],
+					'lianmeng_zhong_zhang' => 0,
+					'lianmeng_shang_zhuo_ren_shu' => 0,
+					'lianmeng_qian_zhang' => $aLianmeng['qianzhang'],
+					'lianmeng_zhang_dan' => 0,
+				];
+			}
+		}
+		foreach($aResult as $value){
+			$aReturnList[$value['lianmeng_id']]['lianmeng_zhong_zhang'] += 1;
+			$aReturnList[$value['lianmeng_id']]['lianmeng_shang_zhuo_ren_shu'] += 1;
+			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
+			$aReturnList[$value['lianmeng_id']]['lianmeng_zhang_dan'] += Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
+		}
+		
+		foreach($aReturnList as $lianmengId => $aValue){
+			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aValue['lianmeng_qian_zhang'] + $aValue['lianmeng_zhang_dan'];
+		}
+		
+		return $aReturnList;
+	}
+	
 }

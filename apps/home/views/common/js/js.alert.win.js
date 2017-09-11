@@ -330,7 +330,7 @@
 				oHtml.find('.ls-list-wrap select').on('change', function(){
 					var o = this;
 					ajax({
-						url : Tools.url('home', 'lianmeng/chang-paiju-lianmeng'),
+						url : Tools.url('home', 'paiju/chang-paiju-lianmeng'),
 						data : {
 							paijuId : $(o).attr('data-paiju-id'),
 							lianmengId : $(o).val(),
@@ -402,7 +402,7 @@
 				html += '<div class="h100">';
 					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟总账</div>';
 					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;"><div style="line-height:30px;color:#ffffff;padding-left:30px;">所有联盟总账：<font style="color:#f4e2a9;">1000</font></div></div>';
+						html += '<div style="float:left;width:300px;height:100%;"><div style="line-height:30px;color:#ffffff;padding-left:30px;">所有联盟总账：<font class="J-total-zhong-zhang" style="color:#f4e2a9;">0</font></div></div>';
 						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn">联盟设置</div></div>';
 					html += '</div>';
 				html += '</div>';
@@ -430,13 +430,13 @@
 					var aData = aDataList[i];
 					listHtml += '<table class="ls-th">';
 						listHtml += '<tr>';
-							listHtml += '<td>' + aData.name + '</td>';
-							listHtml += '<td>0</td>';
-							listHtml += '<td>0</td>';
-							listHtml += '<td><input type="text" data-type="baoxian_choucheng" value="0" style="float:left;width:62px;text-align:right;" /><span class="i-edit"></span></td>';
-							listHtml += '<td>0</td>';
-							listHtml += '<td class="op-btn detail-btn">账单详情</td>';
-							listHtml += '<td class="op-btn clear-btn">清账</td>';
+							listHtml += '<td>' + aData.lianmeng_name + '</td>';
+							listHtml += '<td>' + aData.lianmeng_zhong_zhang + '</td>';
+							listHtml += '<td>' + aData.lianmeng_shang_zhuo_ren_shu + '</td>';
+							listHtml += '<td><input type="text" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;width:62px;text-align:right;" /><span class="i-edit"></span></td>';
+							listHtml += '<td>' + aData.lianmeng_zhang_dan + '</td>';
+							listHtml += '<td class="J-detail-btn op-btn detail-btn" data-id="' + aData.lianmeng_id + '">账单详情</td>';
+							listHtml += '<td class="op-btn clear-btn" data-id="' + aData.lianmeng_id + '">清账</td>';
 						listHtml += '</tr>';
 					listHtml += '</table>';
 					listHtml += '<div class="h10"></div>';
@@ -455,13 +455,41 @@
 				});
 				oHtml.find('.detail-btn').click(function(){
 					$(document).click();
-					AlertWin.showLianmengZhangDanDetail();
+					AlertWin.showLianmengZhangDanDetail($(this).attr('data-id'));
+				});
+				oHtml.find('.ls-list-wrap input[data-type=qian_zhang]').keyup(function(e){
+					var o = this;
+					if(e.keyCode == 13){
+						ajax({
+							url : Tools.url('home', 'lianmeng/update-lianmeng-info'),
+							data : {
+								id : $(o).attr('data-id'),
+								type : 'qianzhang',
+								value : $(o).val()
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 3);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
+								}
+							}
+						});
+					}
 				});
 			}
 			
 			function _loadLianmengList(){
 				ajax({
-					url : Tools.url('home', 'lianmeng/get-list'),
+					url : Tools.url('home', 'lianmeng/get-lianmeng-zhong-zhang-list'),
 					data : {},
 					beforeSend : function(){
 						//$(o).attr('disabled', 'disabled');
@@ -473,7 +501,8 @@
 						if(aResult.status == 1){
 							oHtml.find('.ls-list-wrap').html('');
 							if(aResult.data.length != 0){
-								appendLianmengItemHtml(aResult.data);
+								appendLianmengItemHtml(aResult.data.list);
+								oHtml.find('.J-total-zhong-zhang').text(aResult.data.totalZhongZhang);
 								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
 							}
 						}
@@ -581,6 +610,8 @@
 							success : function(aResult){
 								if(aResult.status == 1){
 									reloadList();
+								}else{
+									UBox.show(aResult.msg, aResult.status);
 								}
 							}
 						});

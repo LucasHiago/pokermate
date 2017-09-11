@@ -41,11 +41,13 @@ class ImportData extends \common\lib\DbOrmModel{
 			'create_time',
 			'original_zhanji',
 			'paiju_id',
-			'user_id'
+			'user_id',
+			'lianmeng_id'
 		], $aInsertList)->execute();
 	}
 	
-	public static function importFromExcelDataList($aDataList){
+	public static function importFromExcelDataList($mUser, $aDataList){
+		$lianmengId = $mUser->getDefaultLianmengId();
 		debug(Paiju::findAll(),11);
 		if(!$aDataList){
 			return false;
@@ -68,21 +70,22 @@ class ImportData extends \common\lib\DbOrmModel{
 					'player_id' => (int)$aData[7],
 					'player_name' => $aData[8],
 				]);
-				$aUniquePaijuInfo = static::_getUniquePaijuInfo($aUniquePaijuList, $aData[1], $endTime);
+				$aUniquePaijuInfo = static::_getUniquePaijuInfo($mUser->id, $aUniquePaijuList, $aData[1], $endTime);
 				$aUniquePaijuList = $aUniquePaijuInfo['list'];
 				array_push($aData, $aUniquePaijuInfo['id']);
-				array_push($aData, Yii::$app->user->id);
+				array_push($aData, $mUser->id);
+				array_push($aData, $lianmengId);
 				array_push($aInserDataList, $aData);
 			}
 		}
 		if($aInserDataList){
 			static::bathInsertData($aInserDataList);
-			Player::checkAddNewPlayer(Yii::$app->user->id, $aPlayerList);
+			Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 		}
 		debug($aInserDataList,11);
 	}
 		
-	private static function _getUniquePaijuInfo($aDataList, $paijuName, $endTime){
+	private static function _getUniquePaijuInfo($userId, $aDataList, $paijuName, $endTime){
 		foreach($aDataList as $aData){
 			if($aData['paiju_name'] == $paijuName && $aData['end_time'] == $endTime){
 				return [
@@ -91,10 +94,10 @@ class ImportData extends \common\lib\DbOrmModel{
 				];
 			}
 		}
-		$mPaiju = Paiju::findOne(['user_id' => Yii::$app->user->id, 'paiju_name' => $paijuName, 'end_time' => $endTime]);
+		$mPaiju = Paiju::findOne(['user_id' => $userId, 'paiju_name' => $paijuName, 'end_time' => $endTime]);
 		if(!$mPaiju){
 			$mPaiju = Paiju::addRecord([
-				'user_id' => Yii::$app->user->id,
+				'user_id' => $userId,
 				'paiju_name' => $paijuName, 
 				'end_time' => $endTime,
 				'status' => Paiju::STATUS_UNDO,
@@ -161,7 +164,6 @@ class ImportData extends \common\lib\DbOrmModel{
 				$choushuiShuanfa = $mUser->choushui_shuanfa;
 			}
 			$aPlayerId = ArrayHelper::getColumn($aList, 'player_id');
-			//$aPlayerList = Player::findAll(['player_id' => $aPlayerId, 'user_id' => $aCondition['user_id']]);
 			$sql = 'SELECT `t1`.`player_id`,`t2`.* FROM ' . Player::tableName() . ' AS `t1` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t2` ON `t1`.`keren_bianhao`=`t2`.`keren_bianhao` WHERE `t1`.`user_id`=' . $aCondition['user_id'] . ' AND `t2`.`user_id`=' . $aCondition['user_id'] . ' AND `t1`.`player_id` IN("' . implode('","', $aPlayerId) .'")';
 			$aKerenBenjinList = Yii::$app->db->createCommand($sql)->queryAll();
 		}
@@ -282,16 +284,13 @@ class ImportData extends \common\lib\DbOrmModel{
 		
 	}
 	
-	public function doJieShuan($lianmengId = 0){
+	public function doJieShuan(){
 		$mUser = $this->getMUser();
 		$mKerenBenjin = $this->getMPlayer()->getMKerenBenjin();
 		//1.计算结算值
 		$jiesuanValue = Calculate::paijuPlayerJiesuanValue($this->zhanji, $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $mUser->qibu_choushui, $mUser->choushui_shuanfa);
-		//2.设置结算状态、关联联盟、结算值、抽水值
+		//2.设置结算状态、结算值、抽水值
 		$this->set('status', 1);
-		if($lianmengId){
-			$this->set('lianmeng_id', $lianmengId);
-		}
 		$this->set('jiesuan_value', $jiesuanValue);
 		$this->set('choushui_value', $this->zhanji - $jiesuanValue);
 		$this->save();

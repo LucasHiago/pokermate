@@ -30,7 +30,7 @@ class LianmengController extends Controller{
 		}
 		$mUser = Yii::$app->user->getIdentity();
 		
-		$mLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'name' => $name]);
+		$mLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'name' => $name, 'is_delete' => 0]);
 		if($mLianmeng){
 			return new Response('联盟已存在', -1);
 		}
@@ -70,7 +70,7 @@ class LianmengController extends Controller{
 		}else{
 			$value = (int)$value;
 		}
-		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
 		if(!$mLianmeng){
 			return new Response('联盟不存在', 0);
 		}
@@ -83,9 +83,12 @@ class LianmengController extends Controller{
 	public function actionDelete(){
 		$id = (int)Yii::$app->request->post('id');
 		
-		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
 		if(!$mLianmeng){
 			return new Response('联盟不存在', 0);
+		}
+		if(!$mLianmeng->checkIsCanDelete()){
+			return new Response('联盟尚有账单未清账，不能删除', -1);
 		}
 		$mLianmeng->set('is_delete', 1);
 		$mLianmeng->save();
@@ -93,10 +96,26 @@ class LianmengController extends Controller{
 		return new Response('删除成功', 1);
 	}
 	
+	public function actionGetLianmengZhongZhangList(){
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aLianmengZhongZhangList = $mUser->getLianmengZhongZhangList();
+		$totalZhongZhang = 0;
+		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
+			$totalZhongZhang += $aLianmengZhongZhang['lianmeng_zhong_zhang'];
+		}
+		$aReturn = [
+			'list' => $aLianmengZhongZhangList,
+			'totalZhongZhang' => $totalZhongZhang,
+		];
+		
+		return new Response('', 1, $aReturn);
+	}
+		
 	public function actionGetLianmengZhangDanDetailList(){
 		$id = Yii::$app->request->post('id');
 		
-		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
 		if(!$mLianmeng){
 			return new Response('联盟不存在', 0);
 		}

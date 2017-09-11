@@ -109,4 +109,18 @@ class Paiju extends \common\lib\DbOrmModel{
 		}
 		return $aWhere;
 	}
+	
+	public function getLianmengId(){
+		$mImportData = ImportData::findOne(['paiju_id' => $this->id]);
+		if($mImportData){
+			return $mImportData->lianmeng_id;
+		}
+		return 0;
+	}
+	
+	public function setLianmeng($lianmengId){
+		$sql = 'UPDATE ' . ImportData::tableName() . ' SET `lianmeng_id`=' . $lianmengId . ' WHERE `paiju_id`=' . $this->id . ' AND `user_id`=' . $this->user_id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+	}
+	
 }
