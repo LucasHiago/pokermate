@@ -93,4 +93,27 @@ class LianmengController extends Controller{
 		return new Response('删除成功', 1);
 	}
 	
+	public function actionGetLianmengZhangDanDetailList(){
+		$id = Yii::$app->request->post('id');
+		
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		$aLianmengList = $mUser->getLianmengList();
+		$aLianmengZhangDanDetailList = $mUser->getLianmengZhangDanDetailList($id);
+		$totalZhangDan = 0;
+		foreach($aLianmengZhangDanDetailList as $aLianmengZhangDanDetail){
+			$totalZhangDan += $aLianmengZhangDanDetail['zhang_dan'];
+		}
+		$aReturn = [
+			'list' => $aLianmengZhangDanDetailList,
+			'totalZhangDan' => $totalZhangDan,
+			'aLianmengList' => $aLianmengList,
+		];
+		
+		return new Response('', 1, $aReturn);
+	}
+	
 }

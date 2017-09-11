@@ -38,7 +38,7 @@ class IndexController extends Controller{
 		
 		$aPaijuDataList = [];
 		if($paijuId){
-			$aPaijuDataList = $mUser->getPaijuDataList($paijuId, true);
+			$aPaijuDataList = $mUser->getPaijuDataList($paijuId);
 			if(!$aPaijuDataList){
 				return new Response('牌局不存在', 0);
 			}

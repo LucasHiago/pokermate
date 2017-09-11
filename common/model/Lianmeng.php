@@ -12,9 +12,17 @@ class Lianmeng extends \common\lib\DbOrmModel{
 	
 	public static function getDuizhangfangfaList(){
 		return [
-			DUIZHANGFANGFA_LINDIANJIUQIWU => 0.975,
-			DUIZHANGFANGFA_WUSHUIDUIZHANG => 1,
+			static::DUIZHANGFANGFA_LINDIANJIUQIWU => 0.975,
+			static::DUIZHANGFANGFA_WUSHUIDUIZHANG => 1,
 		];
+	}
+	
+	public static function getDuizhangfangfaValue($duizhangfangfa = 0){
+		$aDuizhangfangfaList = static::getDuizhangfangfaList();
+		if($duizhangfangfa){
+			return $aDuizhangfangfaList[$duizhangfangfa];
+		}
+		return static::DUIZHANGFANGFA_LINDIANJIUQIWU;
 	}
 	
 	public static function tableName(){

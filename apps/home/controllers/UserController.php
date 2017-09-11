@@ -55,4 +55,53 @@ class UserController extends Controller{
 		return new Response('保存成功', 1);
 	}
 	
+	public function actionGetChouShuiList(){
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aChouShuiList = $mUser->getUnJiaoBanPaijuChouShuiList();
+		
+		$totalChouShui = 0;
+		foreach($aChouShuiList as $aChouShui){
+			$totalChouShui += $aChouShui['choushui_value'];
+		}
+		$aData = [
+			'list' => $aChouShuiList,
+			'count' => count($aChouShuiList),
+			'totalChouShui' => $totalChouShui,
+		];
+		return new Response('', 1, $aData);
+	}
+	
+	public function actionGetBaoXianList(){
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aBaoXianList = $mUser->getUnJiaoBanPaijuBaoXianList();
+		
+		$totalBaoXian = 0;
+		foreach($aBaoXianList as $aBaoXian){
+			$totalBaoXian += $aBaoXian['baoxian_heji'];
+		}
+		$aData = [
+			'list' => $aBaoXianList,
+			'totalBaoXian' => $totalBaoXian,
+		];
+		return new Response('', 1, $aData);
+	}
+	
+	public function actionGetShangZhuoRenShuList(){
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aShangZhuoRenShuList = $mUser->getUnJiaoBanPaijuShangZhuoRenShuList();
+		
+		$totalShangZhuoRenShu = 0;
+		foreach($aShangZhuoRenShuList as $aShangZhuoRenShu){
+			$totalShangZhuoRenShu += $aShangZhuoRenShu['shang_zhuo_ren_shu'];
+		}
+		$aData = [
+			'list' => $aShangZhuoRenShuList,
+			'totalShangZhuoRenShu' => $totalShangZhuoRenShu,
+		];
+		return new Response('', 1, $aData);
+	}
+	
 }
