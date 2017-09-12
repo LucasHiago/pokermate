@@ -604,15 +604,29 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if(!$jiaoBanZhuanChuMoney){
 			return false;
 		}
-		//清空支出类型金额
-		$sql = 'UPDATE ' . MoneyOutPutType::tableName() . ' SET `money`=0 WHERE `user_id`=' . $this->id;
-		Yii::$app->db->createCommand($sql)->execute();
-		//交班转出金额转到转出渠道
-		$mMoneyType->set('money', ['add', $jiaoBanZhuanChuMoney]);
-		$mMoneyType->save();
-		//设置牌局状态为已交班
+		//1.所有联盟清账
+		$aLianmengZhongZhangList = $this->getLianmengZhongZhangList();
+		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
+			$zhangDan = $aLianmengZhongZhang['lianmeng_zhang_dan'];
+			if($zhangDan){
+				$mLianmeng = Lianmeng::findOne($aLianmengZhongZhang['lianmeng_id']);
+				if(!$mLianmeng){
+					return false;
+				}
+				if(!$this->qinZhang($mLianmeng, $zhangDan)){
+					return false;
+				}
+			}
+		}
+		//2.设置牌局状态为已交班
 		$sql = 'UPDATE ' . Paiju::tableName() . ' SET `status`=' . Paiju::STATUS_FINISH . ' WHERE `user_id`=' . $this->id . ' AND `status`=' . Paiju::STATUS_DONE;
 		Yii::$app->db->createCommand($sql)->execute();
+		//3.清空支出类型金额
+		$sql = 'UPDATE ' . MoneyOutPutType::tableName() . ' SET `money`=0 WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		//4.交班转出金额转到转出渠道
+		$mMoneyType->set('money', ['sub', $jiaoBanZhuanChuMoney]);
+		$mMoneyType->save();
 		
 		return true;
 	}
