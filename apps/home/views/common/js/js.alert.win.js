@@ -67,14 +67,32 @@
 				oHtml.find('.J-jbzc-sure-btn').click(function(){
 					var o = this;
 					var tipText = '';
-					var imbalanceMoney = parseInt($(o).attr('data-imbalance-money'));
+					/*var imbalanceMoney = parseInt($(o).attr('data-imbalance-money'));
 					if($(o).attr('data-imbalance-money') != 0){
-						if(imbalanceMoney > 0){
-							tipText = '交班后你需要转出' + Math.abs(imbalanceMoney) + '金额，你的差额才会为0！';
+						var zhuanChuMoney = 0;
+						var jiaobanZhuanChuMoney = parseInt($(o).parent().find('.J-jiao-ban-zhuan-chu-money').text());
+						var absImbalanceMoney = parseInt(Math.abs(imbalanceMoney));
+						if(jiaobanZhuanChuMoney > 0){
+							if(imbalanceMoney > 0){
+								zhuanChuMoney += absImbalanceMoney;
+							}else{
+								zhuanChuMoney -= absImbalanceMoney;
+							}
 						}else{
-							tipText = '交班后你需要转入' + Math.abs(imbalanceMoney) + '金额，你的差额才会为0！';
+							if(imbalanceMoney > 0){
+								zhuanChuMoney -= absImbalanceMoney;
+							}else{
+								zhuanChuMoney += absImbalanceMoney;
+							}
 						}
-					}
+						if(zhuanChuMoney != 0){
+							if(zhuanChuMoney > 0){
+								tipText = '交班后你需要转出' + zhuanChuMoney + '金额，你的差额才会为0！';
+							}else{
+								tipText = '交班后你需要转入' + zhuanChuMoney + '金额，你的差额才会为0！';
+							}
+						}
+					}*/
 					if(confirm('确定交班转出？交班后已结算账单将会变为已清算!' + tipText)){
 						ajax({
 							url : Tools.url('home', 'user/do-jiao-ban-zhuan-chu'),
