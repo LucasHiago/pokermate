@@ -22,78 +22,63 @@ $this->setTitle('联盟主机对账');
 	<div class="lmzj-content-wrap">
 		<div class="h20"></div>
 		<div class="body-list-wrap">
+			<?php if($aLianmengHostDuizhang){ ?>
 			<div class="row-item">
 				<div class="col-item thh">新帐</div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
+				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
+				<div class="col-item"><?php echo $aClubZhangDan['zhang_dan']; ?></div>
+				<?php } ?>
+				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < 9; $i++){ ?>
+					<div class="col-item" style="background:none;"></div>
+				<?php } ?>
 			</div>
 			<div class="row-item">
 				<div class="col-item thh">旧帐</div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
-				<div class="col-item"><input type="text" class="ci-txt" value="" /><i class="ci-edit"></i></div>
+				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
+				<div class="col-item"><input type="text" class="ci-txt" value="<?php echo $aClubZhangDan['qianzhang']; ?>" /><i class="ci-edit"></i></div>
+				<?php } ?>
+				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < 9; $i++){ ?>
+					<div class="col-item" style="background:none;"></div>
+				<?php } ?>
 			</div>
 			<div class="row-item">
 				<div class="col-item thh">汇总</div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
+				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
+				<div class="col-item"><?php echo $aClubZhangDan['hui_zhong']; ?></div>
+				<?php } ?>
+				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < 9; $i++){ ?>
+					<div class="col-item" style="background:none;"></div>
+				<?php } ?>
 			</div>
 			<div class="row-item">
 				<div class="col-item thh">桌子</div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
+				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
+				<div class="col-item"><?php echo $aClubZhangDan['club_name']; ?></div>
+				<?php } ?>
+				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < 9; $i++){ ?>
+					<div class="col-item" style="background:none;"></div>
+				<?php } ?>
 			</div>
+			<?php foreach($aLianmengHostDuizhang['aPaijuZhangDanList'] as $aPaijuZhangDan){ ?>
 			<div class="row-item lbb">
-				<div class="col-item">牌局名</div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
+				<div class="col-item"><?php echo $aPaijuZhangDan['paiju_name']; ?></div>
+			<?php 
+				foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ 
+					$num = 0;
+					foreach($aClubZhangDan['paiju_zhang_dan_list'] as $aClubPaiju){
+						if($aClubPaiju['paiju_id'] == $aPaijuZhangDan['paiju_id']){
+							$num += $aClubPaiju['zhang_dan'];
+						}
+					}
+			?>
+				<div class="col-item"><?php echo $num; ?></div>
+				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < 9; $i++){ ?>
+					<div class="col-item" style="background:#231b2d;width:132px;margin:0px;"></div>
+				<?php } ?>
+			<?php } ?>
 			</div>
-			<div class="row-item lbb">
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-				<div class="col-item"></div>
-			</div>
+			<?php } ?>
+		<?php } ?>
 		</div>
 	</div>
 </div>

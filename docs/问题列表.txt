@@ -10,3 +10,16 @@
 联盟总账单 = 联盟旧账 + 新账单累计
 
 联盟旧账 = 联盟欠账 + 现有账单转换的旧账
+
+
+user表添加字段
+`choushui_ajust_value` int(11) NOT NULL COMMENT '总抽水修正值：总抽水=总抽水修正值+公式算出来的总抽水',
+`baoxian_ajust_value` int(11) NOT NULL COMMENT '总保险修正值：总保险=总保险修正值+公式算出来的总保险',
+`agent_fencheng_ajust_value` int(11) NOT NULL COMMENT '代理总分成修正值：代理总分成=代理总分成修正值+公式算出来的代理总分成',
+
+import_data表
+`agent_is_clean` tinyint(4) NOT NULL COMMENT '代理是否清账：1是0否',
+
+club表
+
+`qianzhang` int(11) NOT NULL COMMENT '俱乐部欠账（旧账）',

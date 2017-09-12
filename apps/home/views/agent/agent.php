@@ -1,6 +1,6 @@
 <?php
 use umeworld\lib\Url;
-$this->setTitle('结账台');
+$this->setTitle('代理分成');
 ?>
 <div class="c-body-wrap">
 	<div class="ag-bg">
@@ -40,93 +40,24 @@ $this->setTitle('结账台');
 		</div>
 		<div class="ag-right">
 			<div class="ag-r-head">
-				<a class="zfc-txt">10000</a>
-				<a class="qz-btn"></a>
+				<a class="zfc-txt"><?php echo $totalFenCheng; ?></a>
+				<a class="qz-btn" onclick="cleanAgentFencheng(this);"></a>
+				<a style="float: left;position: relative;display: inline-block;width: 150px;height: 30px;top: 60px;left: -126px;"><span style="float:left;display: inline-block;line-height: 30px;width: 70px;color: #ffffff;">分成微调：</span><input type="text" class="J-agent-fencheng-ajust-value" style="margin-top: 4px;float:left;display: inline-block;width: 70px;text-align:center;color: #f4e2a9;background:#1c1924;border-radius: 5px;" value="<?php echo $agentFenchengAjustValue; ?>" /></a>
 			</div>
 			<div class="ag-r-title">
 				<div class="ag-r-select-all"></div>
 			</div>
 			<div class="ag-r-list">
+			<?php foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){ ?>
 				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
+					<a class="agr-li-chk" data-id="<?php echo $aAgentUnCleanFenCheng['id']; ?>"></a>
+					<a class="agr-li-name"><?php echo $aAgentUnCleanFenCheng['paiju_name']; ?></a>
+					<a class="agr-li-level"><?php echo $aAgentUnCleanFenCheng['mangzhu']; ?></a>
+					<a class="agr-li-uanme"><?php echo $aAgentUnCleanFenCheng['player_name']; ?></a>
+					<a class="agr-li-score"><?php echo $aAgentUnCleanFenCheng['zhanji']; ?></a>
+					<a class="agr-li-fc"><?php echo $aAgentUnCleanFenCheng['fencheng']; ?></a>
 				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk active"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
-				<div class="ag-r-list-item">
-					<a class="agr-li-chk"></a>
-					<a class="agr-li-name">20170224</a>
-					<a class="agr-li-level">10/20</a>
-					<a class="agr-li-uanme">一只白兔</a>
-					<a class="agr-li-score">10</a>
-					<a class="agr-li-fc">10</a>
-				</div>
+			<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -283,9 +214,90 @@ $this->setTitle('结账台');
 		});
 	}
 	
+	function initAgentFenCheng(){
+		$('.ag-r-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		$('.ag-right .ag-r-select-all').on('click', function(){
+			if($(this).hasClass('active')){
+				$(this).removeClass('active');
+				$('.ag-r-list-item .agr-li-chk').removeClass('active');
+			}else{
+				$(this).addClass('active');
+				$('.ag-r-list-item .agr-li-chk').addClass('active');
+			}
+		});
+		$('.ag-r-list-item .agr-li-chk').on('click', function(){
+			if($(this).hasClass('active')){
+				$(this).removeClass('active');
+				$('.ag-right .ag-r-select-all').removeClass('active');
+			}else{
+				$(this).addClass('active');
+			}
+		});
+		$('.J-agent-fencheng-ajust-value').keyup(function(e){
+			var o = this;
+			if(e.keyCode == 13){
+				ajax({
+					url : Tools.url('home', 'user/update-user-info'),
+					data : {
+						type : 'agent_fencheng_ajust_value',
+						value : $(o).val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){console.log(5);
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			}
+		});
+	}
+	
+	function cleanAgentFencheng(o){
+		var aId = [];
+		$('.ag-r-list-item .agr-li-chk.active').each(function(){
+			aId.push($(this).attr('data-id'));
+		});
+		if(aId.length == 0){
+			UBox.show('请选择要清账的记录', -1);
+			return;
+		}
+		if(confirm('确定要清账？')){
+			ajax({
+				url : Tools.url('home', 'agent/clean'),
+				data : {aId : aId},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					if(aResult.status == 1){
+						UBox.show(aResult.msg, aResult.status, function(){
+							location.reload();
+						}, 3);
+					}else{
+						UBox.show(aResult.msg, aResult.status);
+					}
+				}
+			});
+		}
+	}
+	
 	$(function(){
 		$('.c-h-t-menu.m2').addClass('active');
 		initAgentList();
 		initAgentSetting();
+		initAgentFenCheng();
 	});
 </script>

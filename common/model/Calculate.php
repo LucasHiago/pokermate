@@ -150,4 +150,29 @@ class Calculate extends \yii\base\Object{
 		return ($totalChouShui + $totalBaoXian) - $totalOutPutTypeMoney;
 	}
 	
+	/**
+	 *	计算代理分成 	abs(战绩*赢返) 或 abs(战绩*输返)
+	 *	$zhanji				战绩
+	 *	$yinFan				赢返
+	 *	$shuFan				输返
+	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 */
+	public static function calculateFenchengMoney($zhanji = 0, $yinFan = 0, $shuFan = 0, $choushuiShuanfa = 0){
+		$fencheng = 0;
+		if(!$zhanji){
+			return 0;
+		}
+		$zhanji = abs($zhanji);
+		if($zhanji > 0){
+			$fencheng = $zhanji * ($yinFan / 100);
+		}else{
+			$fencheng = $zhanji * ($shuFan / 100);
+		}
+		if($choushuiShuanfa){
+			return static::getIntValueByChoushuiShuanfa($fencheng, $choushuiShuanfa);
+		}else{
+			return static::getIntValueByChoushuiShuanfa($fencheng);
+		}
+	}
+	
 }

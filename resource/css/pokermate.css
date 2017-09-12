@@ -1097,12 +1097,12 @@ input, select{border:none;outline:none;background:none;}
 	background-position:-979px -217px;
 }
 .c-body-wrap .ag-bg .ag-right .ag-r-list{
-	width:100%;
+	width: 631px;
 	height:486px;
 	margin-top:10px;
 }
 .c-body-wrap .ag-bg .ag-right .ag-r-list .ag-r-list-item{
-	width:100%;
+	width: 631px;
 	height:45px;
     background: url(./../images/sprite.png) no-repeat;
     background-position: 4px -343px;

@@ -9,6 +9,7 @@ use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\Agent;
 use common\model\FenchengSetting;
+use common\model\ImportData;
 
 class AgentController extends Controller{
 	
@@ -16,10 +17,18 @@ class AgentController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		$aAgentList = $mUser->getAgentList();
 		$aFenchengListSetting = $mUser->getFenchengListSetting();
+		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList();
+		$totalFenCheng = $mUser->agent_fencheng_ajust_value;
+		foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
+			$totalFenCheng += $aAgentUnCleanFenCheng['fencheng'];
+		}
 		
 		return $this->render('agent', [
 			'aAgentList' => $aAgentList,
 			'aFenchengListSetting' => $aFenchengListSetting,
+			'aAgentUnCleanFenChengList' => $aAgentUnCleanFenChengList,
+			'agentFenchengAjustValue' => $mUser->agent_fencheng_ajust_value,
+			'totalFenCheng' => $totalFenCheng,
 		]);
 	}
 	
@@ -90,6 +99,30 @@ class AgentController extends Controller{
 			return new Response('操作失败', 1);
 		}
 		return new Response('操作成功', 1);
+	}
+		
+	public function actionClean(){
+		$aId = (array)Yii::$app->request->post('aId');
+		
+		if(!$aId){
+			return new Response('请选择要清账的记录', -1);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList();
+		$aUpdateId = [];
+		foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
+			if(in_array($aAgentUnCleanFenCheng['id'], $aId)){
+				array_push($aUpdateId, $aAgentUnCleanFenCheng['id']);
+			}
+		}
+		if(!$aUpdateId){
+			return new Response('请选择要清账的记录', 0);
+		}
+		if(!$mUser->agentQinZhang($aUpdateId)){
+			return new Response('清账失败', 0);
+		}
+		
+		return new Response('清账成功', 1);
 	}
 	
 }

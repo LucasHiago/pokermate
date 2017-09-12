@@ -32,6 +32,7 @@ return [
 		
 		
 		'user/save.json'														=> 'user/save',
+		'user/update-user-info.json'											=> 'user/update-user-info',
 		'user/chou-shui-list.json'												=> 'user/get-chou-shui-list',
 		'user/bao-xian-list.json'												=> 'user/get-bao-xian-list',
 		'user/shang-zhuo-ren-shu-list.json'										=> 'user/get-shang-zhuo-ren-shu-list',
@@ -72,6 +73,7 @@ return [
 		'agent/delete.json'														=> 'agent/delete',
 		'agent/save-setting.json'												=> 'agent/save-setting',
 		'agent/one-key-save-setting.json'										=> 'agent/one-key-save-setting',
+		'agent/clean.json'														=> 'agent/clean',
 		
 		
 		'import/index.html'														=> 'import/index',

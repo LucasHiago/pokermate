@@ -12,7 +12,22 @@ use common\model\Lianmeng;
 class LianmengController extends Controller{
 	
 	public function actionLianmengHostDuizhang(){
-		return $this->render('lianmeng_host_duizhang');
+		$id = (int)Yii::$app->request->get('id');
+		
+		$mUser = Yii::$app->user->getIdentity();
+		if($id){
+			$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => $this->id, 'is_delete' => 0]);
+			if(!$mLianmeng){
+				$id = $mUser->getDefaultLianmengId();
+			}
+		}else{
+			$id = $mUser->getDefaultLianmengId();
+		}
+		$aLianmengHostDuizhang = $mUser->getLianmengHostDuizhang($id);
+		
+		return $this->render('lianmeng_host_duizhang', [
+			'aLianmengHostDuizhang' => $aLianmengHostDuizhang,
+		]);
 	}
 	
 	public function actionAddLianmeng(){

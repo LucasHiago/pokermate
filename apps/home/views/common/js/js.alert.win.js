@@ -193,7 +193,10 @@
 				html += '<div class="h100">';
 					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">总保险</div>';
 					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;"></div>';
+						html += '<div style="float:left;width:300px;height:100%;">';
+							html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">保险微调：</div>';
+							html += '<input type="text" class="J-baoxian-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" />';
+						html += '</div>';
 						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总保险: <font class="J-total-baoxian" style="color:#f4e2a9;">0</font> 元</div></div>';
 					html += '</div>';
 				html += '</div>';
@@ -248,6 +251,7 @@
 							if(aResult.data.length != 0){
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-baoxian').text(aResult.data.totalBaoXian);
+								oHtml.find('.J-baoxian-ajust-value').val(aResult.data.baoxianAjustValue);
 								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
 							}
 						}
@@ -255,8 +259,37 @@
 				});
 			}
 			
+			function reloadList(){
+				$(document).click();
+				AlertWin.showZhongBaoXianList();
+			}
+			
 			showAlertWin(oHtml, function(){
 				_loadList();
+				oHtml.find('.J-baoxian-ajust-value').keyup(function(e){
+					var o = this;
+					if(e.keyCode == 13){
+						ajax({
+							url : Tools.url('home', 'user/update-user-info'),
+							data : {
+								type : 'baoxian_ajust_value',
+								value : $(o).val()
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									reloadList();
+								}
+								UBox.show(aResult.msg, aResult.status);
+							}
+						});
+					}
+				});
 			});	
 		},
 		
@@ -266,7 +299,10 @@
 				html += '<div class="h100">';
 					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">抽水列表</div>';
 					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;"></div>';
+						html += '<div style="float:left;width:300px;height:100%;">';
+							html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">抽水微调：</div>';
+							html += '<input type="text" class="J-choushui-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" />';
+						html += '</div>';
 						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总抽水: <font class="J-total-choushui" style="color:#f4e2a9;">0</font> 元</div><div class="s-lms-txt">牌局总数: <font class="J-total-paiju" style="color:#f4e2a9;">0</font> </div></div>';
 					html += '</div>';
 				html += '</div>';
@@ -309,6 +345,11 @@
 				return oListHtml;
 			}
 			
+			function reloadList(){
+				$(document).click();
+				AlertWin.showChouShuiList();
+			}
+			
 			function _loadList(){
 				ajax({
 					url : Tools.url('home', 'user/get-chou-shui-list'),
@@ -326,6 +367,7 @@
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-choushui').text(aResult.data.totalChouShui);
 								oHtml.find('.J-total-paiju').text(aResult.data.count);
+								oHtml.find('.J-choushui-ajust-value').val(aResult.data.choushuiAjustValue);
 								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
 							}
 						}
@@ -335,6 +377,30 @@
 			
 			showAlertWin(oHtml, function(){
 				_loadList();
+				oHtml.find('.J-choushui-ajust-value').keyup(function(e){
+					var o = this;
+					if(e.keyCode == 13){
+						ajax({
+							url : Tools.url('home', 'user/update-user-info'),
+							data : {
+								type : 'choushui_ajust_value',
+								value : $(o).val()
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									reloadList();
+								}
+								UBox.show(aResult.msg, aResult.status);
+							}
+						});
+					}
+				});
 			});	
 		},
 		

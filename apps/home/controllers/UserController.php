@@ -56,12 +56,34 @@ class UserController extends Controller{
 		return new Response('保存成功', 1);
 	}
 	
+	public function actionUpdateUserInfo(){
+		$type = (string)Yii::$app->request->post('type');
+		$value = Yii::$app->request->post('value');
+		
+		if(!in_array($type, ['choushui_ajust_value', 'baoxian_ajust_value', 'agent_fencheng_ajust_value'])){
+			return new Response('出错了', 0);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		if($type == 'choushui_ajust_value'){
+			$mUser->set('choushui_ajust_value', (int)$value);
+		}
+		if($type == 'baoxian_ajust_value'){
+			$mUser->set('baoxian_ajust_value', (int)$value);
+		}
+		if($type == 'agent_fencheng_ajust_value'){
+			$mUser->set('agent_fencheng_ajust_value', (int)$value);
+		}
+		$mUser->save();
+		
+		return new Response('保存成功', 1);
+	}
+	
 	public function actionGetChouShuiList(){
 		$mUser = Yii::$app->user->getIdentity();
 		
 		$aChouShuiList = $mUser->getUnJiaoBanPaijuChouShuiList();
 		
-		$totalChouShui = 0;
+		$totalChouShui = $mUser->choushui_ajust_value;
 		foreach($aChouShuiList as $aChouShui){
 			$totalChouShui += $aChouShui['choushui_value'];
 		}
@@ -69,6 +91,7 @@ class UserController extends Controller{
 			'list' => $aChouShuiList,
 			'count' => count($aChouShuiList),
 			'totalChouShui' => $totalChouShui,
+			'choushuiAjustValue' => $mUser->choushui_ajust_value,
 		];
 		return new Response('', 1, $aData);
 	}
@@ -78,13 +101,14 @@ class UserController extends Controller{
 		
 		$aBaoXianList = $mUser->getUnJiaoBanPaijuBaoXianList();
 		
-		$totalBaoXian = 0;
+		$totalBaoXian = $mUser->baoxian_ajust_value;
 		foreach($aBaoXianList as $aBaoXian){
 			$totalBaoXian += $aBaoXian['baoxian_heji'];
 		}
 		$aData = [
 			'list' => $aBaoXianList,
 			'totalBaoXian' => $totalBaoXian,
+			'baoxianAjustValue' => $mUser->baoxian_ajust_value,
 		];
 		return new Response('', 1, $aData);
 	}
