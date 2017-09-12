@@ -127,4 +127,27 @@ class Calculate extends \yii\base\Object{
 		}
 	}
 	
+	/**
+	 *	计算差额 	公式：（（所有资金-（所有客人本金+总抽水+总保险+所有支出））+所有联盟总帐
+	 *	$totalMoneyTypeMoney		所有资金
+	 *	$totalOutPutTypeMoney		所有支出
+	 *	$totalKerenBenjin			所有客人本金
+	 *	$totalChouShui				总抽水
+	 *	$totalBaoXian				总保险
+	 *	$totalLianmengZhongZhang	所有联盟总帐
+	 */
+	public static function calculateImbalanceMoney($totalMoneyTypeMoney = 0, $totalOutPutTypeMoney = 0, $totalKerenBenjin = 0, $totalChouShui = 0, $totalBaoXian = 0, $totalLianmengZhongZhang = 0){
+		return ($totalMoneyTypeMoney - ($totalKerenBenjin + $totalChouShui + $totalBaoXian + $totalOutPutTypeMoney)) + $totalLianmengZhongZhang;
+	}
+	
+	/**
+	 *	计算交班转出 	公式：（总抽水+总保险）-总支出
+	 *	$totalOutPutTypeMoney		所有支出
+	 *	$totalChouShui				总抽水
+	 *	$totalBaoXian				总保险
+	 */
+	public static function calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney = 0, $totalChouShui = 0, $totalBaoXian = 0){
+		return ($totalChouShui + $totalBaoXian) - $totalOutPutTypeMoney;
+	}
+	
 }

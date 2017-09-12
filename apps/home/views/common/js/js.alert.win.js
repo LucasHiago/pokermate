@@ -21,20 +21,82 @@
 				html += '<div class="ls-list-wrap" style="height:260px;">';
 					html += '<table class="ls-th">';
 						html += '<tr>';
-							html += '<td>0</td>';
-							html += '<td>0</td>';
-							html += '<td>0</td>';
-							html += '<td>0</td>';
-							html += '<td>0</td>';
+							html += '<td class="J-zhong-chou-shui">0</td>';
+							html += '<td class="J-zhong-bao-xian">0</td>';
+							html += '<td class="J-total-out-put-type-money">0</td>';
+							html += '<td class="J-jiao-ban-zhuan-chu-money">0</td>';
+							html += '<td><select class="J-zhuan-chu-qidao" style="color:#ff6a6a;"></select></td>';
 						html += '</tr>';
 					html += '</table>';
 				html += '</div>';
-				html += '<div class="jbzc-sure-btn"></div>';
+				html += '<div class="J-jbzc-sure-btn jbzc-sure-btn" data-imbalance-money="0"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
+			function _loadList(){
+				ajax({
+					url : Tools.url('home', 'user/get-jiao-ban-zhuan-chu-detail'),
+					data : {},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.J-zhong-chou-shui').text(aResult.data.aJiaoBanZhuanChuDetail.zhongChouShui);
+							oHtml.find('.J-zhong-bao-xian').text(aResult.data.aJiaoBanZhuanChuDetail.zhongBaoXian);
+							oHtml.find('.J-total-out-put-type-money').text(aResult.data.aJiaoBanZhuanChuDetail.totalOutPutTypeMoney);
+							oHtml.find('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aJiaoBanZhuanChuDetail.jiaoBanZhuanChuMoney);
+							var selectHtml = '';
+							for(var i in aResult.data.aMoneyTypeList){
+								selectHtml += '<option value="' + aResult.data.aMoneyTypeList[i].id + '">' + aResult.data.aMoneyTypeList[i].pay_type + '</option>';
+							}
+							oHtml.find('.J-zhuan-chu-qidao').html(selectHtml);
+							oHtml.find('.J-jbzc-sure-btn').attr('data-imbalance-money', aResult.data.imbalanceMoney);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			}
+			
 			showAlertWin(oHtml, function(){
-				
+				_loadList();
+				oHtml.find('.J-jbzc-sure-btn').click(function(){
+					var o = this;
+					var tipText = '';
+					var imbalanceMoney = parseInt($(o).attr('data-imbalance-money'));
+					if($(o).attr('data-imbalance-money') != 0){
+						if(imbalanceMoney > 0){
+							tipText = '交班后你需要转出' + Math.abs(imbalanceMoney) + '金额，你的差额才会为0！';
+						}else{
+							tipText = '交班后你需要转入' + Math.abs(imbalanceMoney) + '金额，你的差额才会为0！';
+						}
+					}
+					if(confirm('确定交班转出？交班后已结算账单将会变为已清算!' + tipText)){
+						ajax({
+							url : Tools.url('home', 'user/do-jiao-ban-zhuan-chu'),
+							data : {moneyTypeId : $(o).parent().find('.J-zhuan-chu-qidao').val()},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 3);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
+								}
+							}
+						});
+					}
+				});
 			});	
 		},
 		
@@ -76,13 +138,7 @@
 				var oListHtml = $(listHtml);
 				oHtml.find('.ls-list-wrap').append(oListHtml);
 				
-				bindLianmengEvent(oHtml);
-				
 				return oListHtml;
-			}
-			
-			function bindLianmengEvent(oHtml){
-				
 			}
 			
 			function _loadList(){
@@ -436,13 +492,13 @@
 							listHtml += '<td><input type="text" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;width:62px;text-align:right;" /><span class="i-edit"></span></td>';
 							listHtml += '<td>' + aData.lianmeng_zhang_dan + '</td>';
 							listHtml += '<td class="J-detail-btn op-btn detail-btn" data-id="' + aData.lianmeng_id + '">账单详情</td>';
-							listHtml += '<td class="op-btn clear-btn" data-id="' + aData.lianmeng_id + '">清账</td>';
+							listHtml += '<td class="J-qin-zhang op-btn clear-btn" data-id="' + aData.lianmeng_id + '">清账</td>';
 						listHtml += '</tr>';
 					listHtml += '</table>';
 					listHtml += '<div class="h10"></div>';
 				}
 				var oListHtml = $(listHtml);
-				oHtml.find('.ls-list-wrap').append(oListHtml);
+				oHtml.find('.ls-list-wrap').html(oListHtml);
 				
 				bindLianmengEvent(oHtml);
 				
@@ -456,6 +512,29 @@
 				oHtml.find('.detail-btn').click(function(){
 					$(document).click();
 					AlertWin.showLianmengZhangDanDetail($(this).attr('data-id'));
+				});
+				oHtml.find('.ls-list-wrap .J-qin-zhang').click(function(){
+					if(confirm('确定清账？')){
+						var o = this;
+						ajax({
+							url : Tools.url('home', 'lianmeng/qin-zhang'),
+							data : {
+								id : $(o).attr('data-id')
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									reloadList();
+								}
+								UBox.show(aResult.msg, aResult.status);
+							}
+						});
+					}
 				});
 				oHtml.find('.ls-list-wrap input[data-type=qian_zhang]').keyup(function(e){
 					var o = this;

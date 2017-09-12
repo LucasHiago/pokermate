@@ -8,6 +8,7 @@ use umeworld\lib\Url;
 use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\User;
+use common\model\MoneyType;
 
 class UserController extends Controller{
 	
@@ -102,6 +103,42 @@ class UserController extends Controller{
 			'totalShangZhuoRenShu' => $totalShangZhuoRenShu,
 		];
 		return new Response('', 1, $aData);
+	}
+	
+	public function actionGetJiaoBanZhuanChuDetail(){
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aMoneyTypeList = $mUser->getMoneyTypeList();
+		$aJiaoBanZhuanChuDetail = $mUser->getJiaoBanZhuanChuDetail();
+		/*if(!$aJiaoBanZhuanChuDetail){
+			return new Response('交班转出为0', -1);
+		}*/
+		return new Response('', 1, [
+			'aMoneyTypeList' => $aMoneyTypeList,
+			'aJiaoBanZhuanChuDetail' => $aJiaoBanZhuanChuDetail,
+			'imbalanceMoney' => $mUser->getImbalanceMoney(),
+		]);
+	}
+	
+	public function actionDoJiaoBanZhuanChu(){
+		$moneyTypeId = Yii::$app->request->post('moneyTypeId');
+		
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$mMoneyType = MoneyType::findOne($moneyTypeId);
+		if(!$mMoneyType || $mMoneyType->is_delete){
+			return new Response('转出渠道不存在', -1);
+		}
+		$aMoneyTypeList = $mUser->getMoneyTypeList();
+		$aJiaoBanZhuanChuDetail = $mUser->getJiaoBanZhuanChuDetail();
+		if(!$aJiaoBanZhuanChuDetail){
+			return new Response('交班转出为0', -1);
+		}
+		if(!$mUser->doJiaoBanZhuanChu($mMoneyType, $aJiaoBanZhuanChuDetail['jiaoBanZhuanChuMoney'])){
+			return new Response('交班转出失败', 0);
+		}
+		
+		return new Response('交班转出成功', 1);
 	}
 	
 }

@@ -41,8 +41,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			'create_time',
 			'original_zhanji',
 			'paiju_id',
-			'user_id',
-			'lianmeng_id'
+			'user_id'
 		], $aInsertList)->execute();
 	}
 	
@@ -70,11 +69,10 @@ class ImportData extends \common\lib\DbOrmModel{
 					'player_id' => (int)$aData[7],
 					'player_name' => $aData[8],
 				]);
-				$aUniquePaijuInfo = static::_getUniquePaijuInfo($mUser->id, $aUniquePaijuList, $aData[1], $endTime);
+				$aUniquePaijuInfo = static::_getUniquePaijuInfo($mUser->id, $aUniquePaijuList, $aData[1], $endTime, $lianmengId);
 				$aUniquePaijuList = $aUniquePaijuInfo['list'];
 				array_push($aData, $aUniquePaijuInfo['id']);
 				array_push($aData, $mUser->id);
-				array_push($aData, $lianmengId);
 				array_push($aInserDataList, $aData);
 			}
 		}
@@ -85,7 +83,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		debug($aInserDataList,11);
 	}
 		
-	private static function _getUniquePaijuInfo($userId, $aDataList, $paijuName, $endTime){
+	private static function _getUniquePaijuInfo($userId, $aDataList, $paijuName, $endTime, $lianmengId){
 		foreach($aDataList as $aData){
 			if($aData['paiju_name'] == $paijuName && $aData['end_time'] == $endTime){
 				return [
@@ -101,6 +99,7 @@ class ImportData extends \common\lib\DbOrmModel{
 				'paiju_name' => $paijuName, 
 				'end_time' => $endTime,
 				'status' => Paiju::STATUS_UNDO,
+				'lianmeng_id' => $lianmengId,
 				'create_time' => NOW_TIME,
 			]);
 		}
@@ -238,7 +237,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		}
 		$sql = 'SELECT SUM(`t1`.`choushui_value`) AS `sum_choushui_value` FROM ' . static::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0 AND `t1`.`choushui_value`>0' . $clubIdWhere;
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
-		return $aResult[0]['sum_choushui_value'];
+		return (int)$aResult[0]['sum_choushui_value'];
 	}
 	
 	public static function getUserUnJiaoBanPaijuZhongBaoXian($userId, $aClubId = []){
@@ -250,7 +249,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		}
 		$sql = 'SELECT SUM(`t1`.`baoxian_heji`) AS `sum_baoxian_heji` FROM ' . static::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0' . $clubIdWhere;
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
-		return $aResult[0]['sum_baoxian_heji'];
+		return (int)$aResult[0]['sum_baoxian_heji'];
 	}
 	
 	public static function getUserUnJiaoBanPaijuShangZhuoRenShu($userId, $aClubId = []){
@@ -262,7 +261,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		}
 		$sql = 'SELECT COUNT(`t1`.`id`) AS `player_num` FROM ' . static::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0' . $clubIdWhere;
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
-		return $aResult[0]['player_num'];
+		return (int)$aResult[0]['player_num'];
 	}
 	
 	public function getMUser(){

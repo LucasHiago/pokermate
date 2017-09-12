@@ -35,6 +35,8 @@ return [
 		'user/chou-shui-list.json'												=> 'user/get-chou-shui-list',
 		'user/bao-xian-list.json'												=> 'user/get-bao-xian-list',
 		'user/shang-zhuo-ren-shu-list.json'										=> 'user/get-shang-zhuo-ren-shu-list',
+		'user/jiao-ban-zhuan-chu-detail.json'									=> 'user/get-jiao-ban-zhuan-chu-detail',
+		'user/do-jiao-ban-zhuan-chu.json'										=> 'user/do-jiao-ban-zhuan-chu',
 		
 		
 		'club/save.json'														=> 'club/save',
@@ -57,6 +59,7 @@ return [
 		'lianmeng/lianmeng-host-duizhang.html'									=> 'lianmeng/lianmeng-host-duizhang',
 		'lianmeng/lianmeng-zhang-dan-detail-list.json'							=> 'lianmeng/get-lianmeng-zhang-dan-detail-list',
 		'lianmeng/lianmeng-zhong-zhang-list.json'								=> 'lianmeng/get-lianmeng-zhong-zhang-list',
+		'lianmeng/qin-zhang.json'												=> 'lianmeng/qin-zhang',
 		
 		
 		'paiju/chang-paiju-lianmeng.json'										=> 'paiju/chang-paiju-lianmeng',

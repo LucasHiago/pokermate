@@ -9,7 +9,7 @@ $this->setTitle('结账台');
 			<div class="c-b-list-item <?php echo !$aPaiju['status'] ? 'new' : ''; ?>">
 				<div class="c-b-l-i-title"><?php echo $aPaiju['paiju_name']; ?></div>
 				<div class="c-b-l-i-bottom">
-					<a class="l-text"><span>核对数字</span><span><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
+					<a class="l-text"><span>核对数字</span><span <?php echo $aPaiju['hedui_shuzi'] ? 'style="color:#ff0000;"' : ''; ?>><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
 					<?php if(!$aPaiju['status']){ ?>
 					<a class="l-edit" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>);"></a>
 					<?php }else{ ?>
@@ -52,6 +52,7 @@ $this->setTitle('结账台');
 				</div>
 			</div>
 			<div class="cbb-lm-wrap">
+				<?php if($aCurrentPaiju){ ?>
 				<a><?php echo $aCurrentPaiju['paiju_name']; ?>当前联盟：-选择联盟</a>
 				<a>
 					<select class="J-jieshuan-lianmeng-select" data-paiju-id="<?php echo $aCurrentPaiju['id']; ?>" style="border: 1px solid;height:25px;border-radius:5px;">
@@ -60,16 +61,17 @@ $this->setTitle('结账台');
 						<?php } ?>
 					</select>
 				</a>
+				<?php } ?>
 			</div>
 		</div>
 		<div class="c-b-c-center">
 			<a href="javascript:;" class="chaer"></a>
-			<a href="javascript:;" class="ball fu">-100</a>
+			<a href="javascript:;" class="J-imbalance-money ball <?php echo abs($aUnJiaoBanPaijuTotalStatistic['imbalanceMoney']) > 100 ? 'fu' : ''; ?>"><?php echo $aUnJiaoBanPaijuTotalStatistic['imbalanceMoney']; ?></a>
 			<a href="javascript:;" class="lmzz" onclick="AlertWin.showLianmengZhongZhang();"></a>
 			<a href="javascript:;" class="krxx" onclick="AlertWin.showPlayerList();"></a>
 			<a href="javascript:;" class="lspj" onclick="AlertWin.showPaijuList({isHistory : 1});"></a>
 			<a href="javascript:;" class="jbzc" onclick="AlertWin.showJiaoBanZhuanChu();"></a>
-			<a href="javascript:;" class="ball">100</a>
+			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money ball"><?php echo $aUnJiaoBanPaijuTotalStatistic['jiaoBanZhuanChuMoney']; ?></a>
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
@@ -119,9 +121,9 @@ $this->setTitle('结账台');
 					<div class="b-b-item-right">
 						<div class="h30"></div>
 						<div class="b-r-stat-w">
-							<div class="stat-txt krzbj">10000</div>
-							<div class="stat-txt krqk">20000</div>
-							<div class="stat-txt krsy">10000</div>
+							<div class="J-krzbj stat-txt krzbj"><?php echo $aUnJiaoBanPaijuTotalStatistic['kerenTotalBenjinMoney']; ?></div>
+							<div class="J-krqk stat-txt krqk"><?php echo $aUnJiaoBanPaijuTotalStatistic['kerenTotalQianKuanMoney']; ?></div>
+							<div class="J-krsy stat-txt krsy"><?php echo $aUnJiaoBanPaijuTotalStatistic['kerenTotalShuYin']; ?></div>
 						</div>
 					</div>
 				</div>
@@ -416,6 +418,11 @@ $this->setTitle('结账台');
 					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
 					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
+					$('.J-imbalance-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
+					$('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
+					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
+					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
+					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
 				}
 				UBox.show(aResult.msg, aResult.status);
 			}

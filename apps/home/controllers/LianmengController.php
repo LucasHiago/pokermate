@@ -135,4 +135,26 @@ class LianmengController extends Controller{
 		return new Response('', 1, $aReturn);
 	}
 	
+	public function actionQinZhang(){
+		$id = Yii::$app->request->post('id');
+		
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		$aLianmengZhongZhangList = $mUser->getLianmengZhongZhangList();
+		if(!isset($aLianmengZhongZhangList[$id])){
+			return new Response('清账失败', 0);
+		}
+		$zhangDan = $aLianmengZhongZhangList[$id]['lianmeng_zhang_dan'];
+		if(!$zhangDan){
+			return new Response('新账单为0', -1);
+		}
+		if(!$mUser->qinZhang($mLianmeng, $zhangDan)){
+			return new Response('清账失败', 0);
+		}
+		return new Response('清账成功', 1);
+	}
+	
 }

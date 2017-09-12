@@ -28,6 +28,8 @@ class IndexController extends Controller{
 		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
 		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
 		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		$imbalanceMoney = $mUser->getImbalanceMoney();
+		$jiaoBanZhuanChuMoney = $mUser->getJiaoBanZhuanChuMoney();
 		
 		$aCurrentPaiju = [];
 		$currentPaijuLianmengId = 0;
@@ -36,7 +38,7 @@ class IndexController extends Controller{
 			$aCurrentPaiju = $aLastPaijuList[0];
 			$paijuId = $aCurrentPaiju['id'];
 			$mPaiju = Paiju::toModel($aCurrentPaiju);
-			$currentPaijuLianmengId = $mPaiju->getLianmengId();
+			$currentPaijuLianmengId = $aCurrentPaiju['lianmeng_id'];
 		}
 		
 		$aPaijuDataList = [];
@@ -47,7 +49,7 @@ class IndexController extends Controller{
 			}
 			if(!$aCurrentPaiju){
 				$mPaiju = Paiju::findOne($paijuId);
-				$currentPaijuLianmengId = $mPaiju->getLianmengId();
+				$currentPaijuLianmengId = $mPaiju->lianmeng_id;
 				$aCurrentPaiju = $mPaiju->toArray();
 			}
 		}
@@ -64,6 +66,8 @@ class IndexController extends Controller{
 			'aLianmengList' => $aLianmengList,
 			'aCurrentPaiju' => $aCurrentPaiju,
 			'currentPaijuLianmengId' => $currentPaijuLianmengId,
+			'imbalanceMoney' => $imbalanceMoney,
+			'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney,
 		]);
 	}
 	
@@ -110,6 +114,9 @@ class IndexController extends Controller{
 		$payType = (int)Yii::$app->request->post('payType');
 		$jsjer = Yii::$app->request->post('jsjer');
 		
+		if(!$kerenBianhao){
+			return new Response('请输入客人编号', -1);
+		}
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 		if(!$mKerenBenjin){
 			return new Response('客人不存在', 0);

@@ -27,6 +27,7 @@ class Paiju extends \common\lib\DbOrmModel{
 	 *		'user_id' =>
 	 *		'club_id' =>
 	 *		'status' =>
+	 *		'lianmeng_id' =>
 	 *		'start_time' =>
 	 *		'end_time' =>
 	 *	]
@@ -98,6 +99,9 @@ class Paiju extends \common\lib\DbOrmModel{
 		if(isset($aCondition['status'])){
 			$aWhere[] = ['`t1`.`status`' => $aCondition['status']];
 		}
+		if(isset($aCondition['lianmeng_id'])){
+			$aWhere[] = ['`t1`.`lianmeng_id`' => $aCondition['lianmeng_id']];
+		}
 		if(isset($aCondition['start_time'])){
 			$aWhere[] = ['>', '`t1`.`create_time`', $aCondition['start_time']];
 		}
@@ -111,16 +115,19 @@ class Paiju extends \common\lib\DbOrmModel{
 	}
 	
 	public function getLianmengId(){
-		$mImportData = ImportData::findOne(['paiju_id' => $this->id]);
+		return $this->lianmeng_id;
+		/*$mImportData = ImportData::findOne(['paiju_id' => $this->id]);
 		if($mImportData){
 			return $mImportData->lianmeng_id;
 		}
-		return 0;
+		return 0;*/
 	}
 	
 	public function setLianmeng($lianmengId){
-		$sql = 'UPDATE ' . ImportData::tableName() . ' SET `lianmeng_id`=' . $lianmengId . ' WHERE `paiju_id`=' . $this->id . ' AND `user_id`=' . $this->user_id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$this->set('lianmeng_id', $lianmengId);
+		$this->save();
+		/*$sql = 'UPDATE ' . ImportData::tableName() . ' SET `lianmeng_id`=' . $lianmengId . ' WHERE `paiju_id`=' . $this->id . ' AND `user_id`=' . $this->user_id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();*/
 	}
 	
 }
