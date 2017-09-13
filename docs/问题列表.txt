@@ -23,3 +23,8 @@ import_data表
 club表
 
 `qianzhang` int(11) NOT NULL COMMENT '俱乐部欠账（旧账）',这里不要看,是错的
+
+
+http://cms.pokermanager.club/cms/
+账号：13612646126
+密码：123456789

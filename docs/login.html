@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript" src="./md5.js"></script>
+	<script type="text/javascript" src="./security.js"></script>
+</head>
+<body>
+	
+	<script type="text/javascript"> 
+		function doLogin(){
+			//http://cms.pokermanager.club/cms/
+			//key:39aa73053c0728544fcc0c3e194a66490744fe983d1a9edb6beb71a55731ec339e0bc12d117cd18d8b9b932f99b76fb97f44a702ed5754ec4f8a91c609e1fa7c120afbc9d07e622ba759ada3b566064b68b5c33160f17b86ce6d1bd555d8d8ec69f0ced53e10889c4b84e0cc91896d8690af2979d088ab9d5c36fceeac4
+			var username = '13612646126';
+			var pwd = '123456789';
+			var exponent = '010001';
+			var modulus = '008bec657d62f3a746ed28377c0749393d7d7dec2b68835dc7e23bc45551e800174d60bc1bebea362a4206799cd5f7e829118735085afbe684235ac1daea34cf181166f0b9c86e4ccc68bfb18d0b2a52743fe32726c3a388da9c4fa1cb7a9ef17faab6d4e107df24415acf48ab0fb97e5b9104c3222698d5d6707294805216de81';
+			
+			var k = RSAUtils.getKeyPair(exponent, '', modulus);
+			var k2 = "name=" + username + "&pwd=" + hex_md5(pwd);
+			console.log(RSAUtils.encryptedString(k, k2));
+		}
+	</script>
+</body>
+</html>
