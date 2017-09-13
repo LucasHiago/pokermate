@@ -229,5 +229,16 @@ return [
 		'excel' => [
 			'class' => 'umeworld\lib\PHPExcel\excel',
 		],
+		
+		'downLoadExcel' => [
+			'class' => 'common\model\DownLoadExcel',
+			'host' => 'cms.pokermanager.club',					
+			'port' => 80,
+			'savecodePath' => '/cms/servlet/safecode',			//验证码
+			'loginPath' => '/cms/user/login',					//用户登录
+			'selectClubPath' => '/cms/club/clubInfo?clubId=',	//选择俱乐部
+			'historyExportPath' => '/cms/club/historyExport',	//导出Excel页面
+		],
+		
     ],
 ];

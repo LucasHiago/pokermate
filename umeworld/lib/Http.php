@@ -16,6 +16,10 @@ class Http extends \yii\base\Component{
 	 * @var string
 	 */
 	public $url = '';
+	
+	
+	public $refererUrl = '';
+	public $noOutBody = false;
 
 	/**
 	 * 最大的请求等待时间
@@ -89,6 +93,18 @@ class Http extends \yii\base\Component{
 		$timeOut = $this->timeOut;
 
 		$curlHandle = curl_init();
+		if($this->refererUrl){
+			curl_setopt ($curlHandle, CURLOPT_REFERER, $this->refererUrl);
+		}
+		if(is_dir(Yii::getAlias('@p.resource'))){
+			curl_setopt($curlHandle, CURLOPT_COOKIEFILE, Yii::getAlias('@p.resource') . '/cookie.tmp');
+		}
+		if(is_dir(Yii::getAlias('@p.resource'))){
+			curl_setopt($curlHandle, CURLOPT_COOKIEJAR, Yii::getAlias('@p.resource') . '/cookie.tmp');
+		}
+		if($this->noOutBody){
+			curl_setopt($curlHandle, CURLOPT_NOBODY, false);	//设定是否输出页面 内容
+		}
 		curl_setopt($curlHandle, CURLOPT_BINARYTRANSFER, 1);
 		curl_setopt($curlHandle, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 10);

@@ -1,5 +1,88 @@
 (function(container, $){
 	container.AlertWin = {
+		showFillSavecode : function(clubId){
+			var aData = {};
+			var html = '';
+			html += '<div class="J-save-code-win">';
+				html += '<img style="float: left; position: relative; top: 63px; border-radius: 5px; left: 150px; width: 120px; height: 48px;border:none;" />';
+				html += '<input type="text" class="save-code" style="text-align: center; border-radius: 5px;float: left; position: relative; top: 63px; left: 160px;background:#181326; width: 120px; height: 48px; line-height: 48px; color: #ffffff; font-size: 20px;" />';
+				html += '<a class="commit-save-code"></a>';
+				html += '<div class="J-wait-tip" style="background: #1f1f2f; float: left; position: relative;text-align:center; line-height: 100px; height: 100px; width: 400px; top: -4px; left: 125px;color:#f4e2a9;display:none;">正在获取牌局，请稍等...</div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			
+			oHtml.find('.commit-save-code').click(function(){
+				var o = this;
+				if($(o).prev().val().length != 4){
+					UBox.show('验证码不正确', -1);
+					return;
+				}
+				oHtml.find('.J-wait-tip').show();return;
+				ajax({
+					url : Tools.url('home', 'agent/add'),
+					data : {
+						agentName : $(o).prev().val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+				
+			oHtml.find('.add-agent').click(function(){
+				var o = this;
+				ajax({
+					url : Tools.url('home', 'agent/add'),
+					data : {
+						agentName : $(o).prev().val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 3);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+			
+			showAlertWin(oHtml, function(){
+				ajax({
+					url : Tools.url('home', 'import/get-download-save-code'),
+					data : {clubId : clubId},
+					success : function(aResult){
+						if(aResult.status == 1){
+							aData = aResult.data;
+							oHtml.find('img').attr('src', App.url.resource + aResult.data.path);
+							oHtml.find('.save-code').focus();
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+		},
 		
 		showClubZhangDanDetail : function(lianmengId, aData, clubName){
 			var html = '';

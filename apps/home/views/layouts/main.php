@@ -151,7 +151,7 @@ if($mUser){
 					<?php foreach($aClubList as $aClub){ ?>
 						<div class="c-h-item">
 							<a href="javascript:;" class="c-h-i-up" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></a>
-							<a href="javascript:;" class="c-h-i-down"></a>
+							<a href="javascript:;" class="c-h-i-down" onclick="AlertWin.showFillSavecode(<?php echo $aClub['id']; ?>);"></a>
 						</div>
 					<?php } ?>
 						<div class="c-h-item" style="width:43px;margin-left: 15px;">

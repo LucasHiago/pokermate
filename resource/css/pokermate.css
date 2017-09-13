@@ -1877,4 +1877,20 @@ input, select{border:none;outline:none;background:none;}
 .bcell{
 	background: url(./../images/bcell.png) repeat-y;
 }
+.J-save-code-win{
+	width:650px;
+	height:182px;
+    background: url(./../images/1050.png) no-repeat;
+}
+.J-save-code-win .commit-save-code{
+	float: left;
+    position: relative;
+    top: 62px;
+    left: 181px;
+    width: 93px;
+    height: 48px;
+    cursor: pointer;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -1913px -374px;
+}
 /*background:rgba(0,0,0,0.2);*/

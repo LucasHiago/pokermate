@@ -15,7 +15,7 @@ $minColumn = 9;
 					<?php } ?>
 				</select>
 			</div>
-			<div class="h-text-bg h-l-div" style="text-align:center;color: #f4e2a9;"><?php echo $aLianmengHostDuizhang['totalZhanDan']; ?></div>
+			<div class="h-text-bg h-l-div" style="text-align:center;color: #f4e2a9;"><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
 		</div>
 		<div class="h-right">
 			<div class="J-club-qin-zhang gy-btn-bg h-l-div" style="margin-left:400px;">清账</div>
@@ -25,7 +25,7 @@ $minColumn = 9;
 	<div class="lmzj-content-wrap">
 		<div class="h20"></div>
 		<div class="body-list-wrap">
-			<?php if($aLianmengHostDuizhang){ ?>
+			<?php if($aLianmengHostDuizhang && $aLianmengHostDuizhang['aClubZhangDanList']){ ?>
 			<div class="row-item">
 				<div class="col-item thh">新帐</div>
 				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>

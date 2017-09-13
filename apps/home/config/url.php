@@ -85,6 +85,7 @@ return [
 		'import/paiju-data-list.json'											=> 'import/get-paiju-data-list',
 		'import/save-paiju-data-info.json'										=> 'import/save-paiju-data-info',
 		'import/do-jie-shuan.json'												=> 'import/do-jie-shuan',
+		'import/download-save-code.json'										=> 'import/get-download-save-code',
 		
 		
 		''																		=> 'site/index',
