@@ -10,6 +10,7 @@ use umeworld\lib\Response;
 use common\model\ImportData;
 use common\model\Paiju;
 use common\model\Lianmeng;
+use common\model\Club;
 
 class ImportController extends Controller{
 	
@@ -80,6 +81,25 @@ class ImportController extends Controller{
 		return new Response('结算成功', 1, [
 			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 		]);
+	}
+	
+	public function actionGetDownloadSaveCode(){
+		$clubId = (int)Yii::$app->request->post('clubId');
+		
+		$mClub = Club::findOne($clubId);
+		if(!$mClub){
+			return new Response('俱乐部不存在', 0);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		$filePathName = Yii::getAlias('@p.temp_upload') . '/savecode.jpg';
+		$aData = Yii::$app->downLoadExcel->downSaveCode($filePathName);
+		if(!$aData){
+			return new Response('获取验证码失败', 0);
+		}
+		$aData['club_login_name'] = $mClub->club_login_name;
+		$aData['club_login_password'] = $mClub->club_login_password;
+		
+		return new Response('', 1, $aData);
 	}
 	
 }
