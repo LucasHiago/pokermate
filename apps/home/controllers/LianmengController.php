@@ -8,6 +8,7 @@ use umeworld\lib\Url;
 use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\Lianmeng;
+use common\model\LianmengClub;
 
 class LianmengController extends Controller{
 	
@@ -15,8 +16,9 @@ class LianmengController extends Controller{
 		$id = (int)Yii::$app->request->get('id');
 		
 		$mUser = Yii::$app->user->getIdentity();
+		$aLianmengList = $mUser->getLianmengList();
 		if($id){
-			$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => $this->id, 'is_delete' => 0]);
+			$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => $mUser->id, 'is_delete' => 0]);
 			if(!$mLianmeng){
 				$id = $mUser->getDefaultLianmengId();
 			}
@@ -26,7 +28,9 @@ class LianmengController extends Controller{
 		$aLianmengHostDuizhang = $mUser->getLianmengHostDuizhang($id);
 		
 		return $this->render('lianmeng_host_duizhang', [
+			'aLianmengList' => $aLianmengList,
 			'aLianmengHostDuizhang' => $aLianmengHostDuizhang,
+			'lianmengId' => $id,
 		]);
 	}
 	
@@ -111,6 +115,112 @@ class LianmengController extends Controller{
 		return new Response('删除成功', 1);
 	}
 	
+	
+	public function actionAddLianmengClub(){
+		$id = (string)Yii::$app->request->post('id');
+		$clubName = (string)Yii::$app->request->post('clubName');
+		$clubId = (int)Yii::$app->request->post('clubId');
+		$duizhangfangfa = (int)Yii::$app->request->post('duizhangfangfa');
+		$paijuFee = (int)Yii::$app->request->post('paijuFee');
+		$baoxianChoucheng = (int)Yii::$app->request->post('baoxianChoucheng');
+		
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		if(!$clubId){
+			return new Response('请输入俱乐部ID', -1);
+		}
+		if(!in_array($duizhangfangfa, [Lianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, Lianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG])){
+			return new Response('对账方法有误', -1);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$mLianmengClub = LianmengClub::findOne(['user_id' => $mUser->id, 'lianmeng_id' => $id, 'club_id' => $clubId, 'is_delete' => 0]);
+		if($mLianmengClub){
+			return new Response('俱乐部已存在', -1);
+		}
+		$isSuccess = LianmengClub::addRecord([
+			'user_id' => $mUser->id,
+			'lianmeng_id' => $id,
+			'club_id' => $clubId,
+			'club_name' => $clubName,
+			'duizhangfangfa' => $duizhangfangfa,
+			'paiju_fee' => $paijuFee,
+			'baoxian_choucheng' => $baoxianChoucheng,
+			'create_time' => NOW_TIME,
+		]);
+		if(!$isSuccess){
+			return new Response('添加失败', 0);
+		}
+		return new Response('添加成功', 1);
+	}
+	
+	public function actionGetClubList(){
+		$id = (string)Yii::$app->request->post('id');
+		
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aList = $mLianmeng->getLianmengClubList();
+		
+		return new Response('', 1, [
+			'list' => $aList,
+			'aLianmeng' => $mLianmeng->toArray(),
+		]);
+	}
+	
+	public function actionUpdateLianmengClubInfo(){
+		$id = (int)Yii::$app->request->post('id');
+		$type = (string)Yii::$app->request->post('type');
+		$value = Yii::$app->request->post('value');
+		
+		if(!in_array($type, ['club_id', 'club_name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng'])){
+			return new Response('出错啦', 0);
+		}
+		if($type == 'club_id'){
+			$mTempLianmengClub = LianmengClub::findOne(['user_id' => Yii::$app->user->id, 'club_id' => $value]);
+			if($mTempLianmengClub && $mTempLianmengClub->id != $id){
+				return new Response('俱乐部已存在', -1);
+			}
+		}
+		if($type == 'club_name'){
+			$value = (string)$value;
+		}else{
+			$value = (int)$value;
+		}
+		$mLianmengClub = LianmengClub::findOne($id);
+		if(!$mLianmengClub){
+			return new Response('俱乐部不存在', 0);
+		}
+		if($mLianmengClub->user_id != Yii::$app->user->id){
+			return new Response('出错啦', 0);
+		}
+		$mLianmengClub->set($type, $value);
+		$mLianmengClub->save();
+		
+		return new Response('更新成功', 1);
+	}
+	
+	public function actionDeleteClub(){
+		$id = (int)Yii::$app->request->post('id');
+		
+		$mLianmengClub = LianmengClub::findOne(['id' => $id]);
+		if(!$mLianmengClub){
+			return new Response('俱乐部不存在', 0);
+		}
+		if($mLianmengClub->user_id != Yii::$app->user->id){
+			return new Response('出错啦', 0);
+		}
+		$mLianmengClub->set('is_delete', 1);
+		$mLianmengClub->save();
+		
+		return new Response('删除成功', 1);
+	}
+	
 	public function actionGetLianmengZhongZhangList(){
 		$mUser = Yii::$app->user->getIdentity();
 		
@@ -167,6 +277,34 @@ class LianmengController extends Controller{
 			return new Response('新账单为0', -1);
 		}
 		if(!$mUser->qinZhang($mLianmeng, $zhangDan)){
+			return new Response('清账失败', 0);
+		}
+		return new Response('清账成功', 1);
+	}
+	
+	public function actionLianmengClubQinZhang(){
+		$id = Yii::$app->request->post('id');
+		
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		$aLianmengHostDuizhang = $mUser->getLianmengHostDuizhang($id);
+		if(!$aLianmengHostDuizhang){
+			return new Response('清账失败', 0);
+		}
+		$aClubZhangDan = [];
+		foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDanList){
+			array_push($aClubZhangDan, [
+				'club_id' => $aClubZhangDanList['club_id'],
+				'zhang_dan' => $aClubZhangDanList['zhang_dan'],
+			]);
+		}
+		if(!$aClubZhangDan){
+			return new Response('新账单为0', -1);
+		}
+		if(!$mUser->clubQinZhang($mLianmeng, $aClubZhangDan)){
 			return new Response('清账失败', 0);
 		}
 		return new Response('清账成功', 1);

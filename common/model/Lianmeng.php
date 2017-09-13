@@ -43,6 +43,13 @@ class Lianmeng extends \common\lib\DbOrmModel{
 		return $id;
 	}
 	
+	public function getLianmengClubList(){
+		$aLianmengClubList = LianmengClub::findAll(['user_id' => $this->user_id, 'lianmeng_id' => $this->id, 'is_delete' => 0]);
+		foreach($aLianmengClubList as $key => $value){
+			$aLianmengClubList[$key]['lianmeng_name'] = $this->name;
+		}
+		return $aLianmengClubList;
+	}
 		
 	public function checkIsCanDelete(){
 		//检查是否有未清账单

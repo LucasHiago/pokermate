@@ -61,6 +61,11 @@ return [
 		'lianmeng/lianmeng-zhang-dan-detail-list.json'							=> 'lianmeng/get-lianmeng-zhang-dan-detail-list',
 		'lianmeng/lianmeng-zhong-zhang-list.json'								=> 'lianmeng/get-lianmeng-zhong-zhang-list',
 		'lianmeng/qin-zhang.json'												=> 'lianmeng/qin-zhang',
+		'lianmeng/add-lianmeng-club.json'										=> 'lianmeng/add-lianmeng-club',
+		'lianmeng/club-list.json'												=> 'lianmeng/get-club-list',
+		'lianmeng/update-lianmeng-club-info.json'								=> 'lianmeng/update-lianmeng-club-info',
+		'lianmeng/delete-club.json'												=> 'lianmeng/delete-club',
+		'lianmeng/lianmeng-club-qin-zhang.json'									=> 'lianmeng/lianmeng-club-qin-zhang',
 		
 		
 		'paiju/chang-paiju-lianmeng.json'										=> 'paiju/chang-paiju-lianmeng',

@@ -248,7 +248,7 @@ $this->setTitle('代理分成');
 					complete : function(){
 						$(o).attr('disabled', false);
 					},
-					success : function(aResult){console.log(5);
+					success : function(aResult){
 						if(aResult.status == 1){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();

@@ -22,4 +22,4 @@ import_data表
 
 club表
 
-`qianzhang` int(11) NOT NULL COMMENT '俱乐部欠账（旧账）',
+`qianzhang` int(11) NOT NULL COMMENT '俱乐部欠账（旧账）',这里不要看,是错的

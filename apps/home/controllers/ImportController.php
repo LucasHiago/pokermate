@@ -24,9 +24,11 @@ class ImportController extends Controller{
 	
 	public function actionGetPaijuDataList(){
 		$paijuId = (int)Yii::$app->request->post('paijuId');
+		$isAllRecordData = (int)Yii::$app->request->post('isAllRecordData');
 		
+		$isAllRecordData = $isAllRecordData ? true : false;
 		$mUser = Yii::$app->user->getIdentity();
-		$aList = $mUser->getPaijuDataList($paijuId);
+		$aList = $mUser->getPaijuDataList($paijuId, $isAllRecordData);
 		if(!$aList){
 			return new Response('牌局不存在', 0);
 		}
