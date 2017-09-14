@@ -47,16 +47,34 @@ class ImportData extends \common\lib\DbOrmModel{
 	
 	public static function importFromExcelDataList($mUser, $aDataList){
 		$lianmengId = $mUser->getDefaultLianmengId();
-		debug(Paiju::findAll(),11);
+		
 		if(!$aDataList){
 			return false;
 		}
 		//去掉表头
 		unset($aDataList[0]);
+		//过滤已导入过的牌局
+		$aPaijuName = ArrayHelper::getColumn($aDataList, 1);
+		$aEndTimeFormat = ArrayHelper::getColumn($aDataList, 19);
+		$aAlreadyImportDataList = ImportData::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName, 'end_time_format' => $aEndTimeFormat]);
+		$aImportDataList = [];
+		foreach($aDataList as $value){
+			$isFind = false;
+			foreach($aAlreadyImportDataList as $v){
+				if($v['paiju_name'] == $value[1] && $v['end_time_format'] == $value[19]){
+					$isFind = true;
+					break;
+				}
+			}
+			if(!$isFind){
+				array_push($aImportDataList, $value);
+			}
+		}
+		
 		$aInserDataList = [];
 		$aUniquePaijuList = [];
 		$aPlayerList = [];
-		foreach($aDataList as $aData){
+		foreach($aImportDataList as $aData){
 			 $aData[1] = trim($aData[1]);
 			//结束时间转为时间戳
 			$endTime = strtotime($aData[19]);
@@ -80,7 +98,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			static::bathInsertData($aInserDataList);
 			Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 		}
-		debug($aInserDataList,11);
+		return true;
 	}
 		
 	private static function _getUniquePaijuInfo($userId, $aDataList, $paijuName, $endTime, $lianmengId){
@@ -109,6 +127,32 @@ class ImportData extends \common\lib\DbOrmModel{
 			'id' => $mPaiju->id,
 			'list' => $aDataList,
 		];
+	}
+	
+	public static function importDownloadExcelFiles($mUser, $clubId){
+		$aWhere = [
+			'and',
+			['user_id' => $mUser->id],
+			['club_id' => $clubId],
+			['>', 'download_time', 0],
+			['import_time' => 0],
+		];
+		$aExcelFileList = ExcelFile::findAll($aWhere);
+		foreach($aExcelFileList as $aExcelFile){
+			$mExcelFile = ExcelFile::toModel($aExcelFile);
+			$fileName = Yii::getAlias('@p.resource') . '/' . $mExcelFile->path;
+			if($mExcelFile->path && file_exists($fileName)){
+				try{
+					$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
+					if($aDataList){
+						ImportData::importFromExcelDataList($mUser, $aDataList);
+					}
+				}catch(\Exception $e){
+					continue;
+				}
+			}
+		}
+		return true;
 	}
 	
 	

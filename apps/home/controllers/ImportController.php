@@ -7,6 +7,7 @@ use umeworld\lib\StringHelper;
 use umeworld\lib\Url;
 use home\lib\Controller;
 use umeworld\lib\Response;
+use yii\web\UploadedFile;
 use common\model\ImportData;
 use common\model\Paiju;
 use common\model\Lianmeng;
@@ -15,12 +16,27 @@ use common\model\Club;
 class ImportController extends Controller{
 	
 	public function actionIndex(){
-		$fileName = Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.import') . '/test2.xls';
-		$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
-		if($aDataList){
-			ImportData::importFromExcelDataList($aDataList);
+		return $this->render('index');
+	}
+	
+	public function actionUploadExcel(){
+		$oUploadedFile = UploadedFile::getInstanceByName('filecontent');
+		$fileName = Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.import') . '/' . md5(microtime()) . '.' . $oUploadedFile->getExtension();
+		if(!$oUploadedFile->saveAs($fileName)){
+			return new Response('上传Excel文件失败', 0);
 		}
-		debug('导入Excel文成功', 11);
+		
+		$mUser = Yii::$app->user->getIdentity();
+		try{
+			$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
+			if($aDataList){
+				ImportData::importFromExcelDataList($mUser, $aDataList);
+			}
+		}catch(\Exception $e){
+			return new Response('Excel文件格式有错误', 0);
+		}
+		
+		return new Response('导入Excel文件成功', 0);
 	}
 	
 	public function actionGetPaijuDataList(){
@@ -107,18 +123,25 @@ class ImportController extends Controller{
 		$safecode = (string)Yii::$app->request->post('safecode');
 		$skey = (string)Yii::$app->request->post('skey');
 		$aCookie = (array)Yii::$app->request->post('aCookie');
+		$retry = (int)Yii::$app->request->post('retry');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		$mClub = Club::findOne($clubId);
 		if(!$mClub){
 			return new Response('俱乐部不存在', 0);
 		}
 		
-		$aDownloadExcelUrl = Yii::$app->downLoadExcel->getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie);
-		if(!$aDownloadExcelUrl){
-			return new Response('服务器连接中断，请稍后重试', 2);
+		$isSuccess = Yii::$app->downLoadExcel->getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie, $retry);
+		if(!$isSuccess){
+			return new Response('服务器连接中断，是否继续请求完成？', 2, Yii::$app->downLoadExcel->aCookieList);
+		}
+		//导入下载的Excel文件
+		$isSuccess = ImportData::importDownloadExcelFiles($mUser, $mClub->club_id);
+		if(!$isSuccess){
+			return new Response('导入Excel文件数据失败', 0);
 		}
 		
-		return new Response('Success', 1, $aDownloadExcelUrl);
+		return new Response('Success', 1);
 	}
 	
 }

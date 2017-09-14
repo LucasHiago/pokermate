@@ -82,6 +82,7 @@ return [
 		
 		
 		'import/index.html'														=> 'import/index',
+		'import/upload-excel.json'												=> 'import/upload-excel',
 		'import/paiju-data-list.json'											=> 'import/get-paiju-data-list',
 		'import/save-paiju-data-info.json'										=> 'import/save-paiju-data-info',
 		'import/do-jie-shuan.json'												=> 'import/do-jie-shuan',

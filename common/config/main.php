@@ -239,6 +239,7 @@ return [
 			'selectClubPath' => '/cms/club/clubInfo?clubId=',	//选择俱乐部
 			'historyExportPath' => '/cms/club/historyExport',	//导出战绩列表页面
 			'exportRoomPath' => '/cms/club/exportRoom',			//下载Excel
+			'aCookieList' => [],
 		],
 		
     ],

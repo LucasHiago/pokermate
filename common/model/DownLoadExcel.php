@@ -111,35 +111,36 @@ class DownLoadExcel extends \yii\base\Object{
 		return false;
 	}
 	
-	public function getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie){
+	public function getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie, $retry){
 		set_time_limit(0);
 		$clubId = $mClub->club_id;
 		$aParam = ['key' => $skey, 'safecode' => $safecode];
 		$this->aCookieList = $aCookie;
-		//登录请求
-		$this->path = $this->loginPath;
-		$returnString = $this->_sentRequest(http_build_query($aParam), true);
-		if(!$returnString){
-			return false;
+		if(!$retry){
+			//登录请求
+			$this->path = $this->loginPath;
+			$returnString = $this->_sentRequest(http_build_query($aParam), true);
+			if(!$returnString){
+				return false;
+			}
+			$isLoginSuccess = false;
+			$responseText = $this->_getResponseText($returnString);
+			if($responseText === "0"){
+				$isLoginSuccess = true;
+			}
+			if(!$isLoginSuccess){
+				return false;
+			}
+			//选择俱乐部页面请求
+			$this->path = $this->selectClubPath . $clubId;
+			$returnString = $this->_sentRequest('');
+			if(!$returnString){
+				return false;
+			}
+			$responseText = $this->_getResponseText($returnString);
+			file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/select_club_' . $clubId . '.html', $responseText);
 		}
-		$isLoginSuccess = false;
-		$responseText = $this->_getResponseText($returnString);
-		if($responseText === "0"){
-			$isLoginSuccess = true;
-		}
-		if(!$isLoginSuccess){
-			return false;
-		}
-		//选择俱乐部页面请求
-		$this->path = $this->selectClubPath . $clubId;
-		$returnString = $this->_sentRequest('');
-		if(!$returnString){
-			return false;
-		}
-		$responseText = $this->_getResponseText($returnString);
-		file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/select_club_' . $clubId . '.html', $responseText);
 		//////////////////////////////楼上的代码都不干正事的2333////////////////////////////////////////////
-		
 		$type = 1;
 		$startTime = '2017-09-12';
 		if($mClub->last_import_date){
@@ -185,42 +186,66 @@ class DownLoadExcel extends \yii\base\Object{
 			$aRoomIdList = array_unique(array_merge($aRoomIdList, $aRoomId));
 			$page = $page + 1;
 		}
-		//先把分析出来的房间保存起来先
-		$aExcelFileList = ExcelFile::findAll(['club_id' => $mClub->club_id, 'room_id' => $aRoomId]);
-		foreach($aRoomIdList as $roomId){
-			$isFind = false;
-			foreach($aExcelFileList as $aExcelFile){
-				if($aExcelFile['room_id'] == $roomId){
-					$isFind = true;
-					break;
+		if($aRoomIdList){
+			//先把分析出来的房间保存起来先
+			$aExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'type' => $type, 'club_id' => $mClub->club_id, 'room_id' => $aRoomIdList]);
+			foreach($aRoomIdList as $roomId){
+				$isFind = false;
+				foreach($aExcelFileList as $aExcelFile){
+					if($aExcelFile['room_id'] == $roomId){
+						$isFind = true;
+						break;
+					}
+				}
+				if(!$isFind){
+					ExcelFile::addRecord([
+						'user_id' => $mClub->user_id,
+						'club_id' => $mClub->club_id,
+						'room_id' => $roomId,
+						'type' => $type,
+					]);
 				}
 			}
-			if(!$isFind){
-				ExcelFile::addRecord([
-					'club_id' => $mClub->club_id,
-					'room_id' => $roomId,
-				]);
-			}
 		}
+		//找出已保存未下载的记录
+		$aUnDownloadExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'club_id' => $mClub->club_id]);
 		//下载Excel文件
-		return $this->_downLoadExcelFile($mClub->club_id, $type, $aRoomIdList);
+		$isSuccess = $this->_downLoadExcelFile($mClub->club_id, $aUnDownloadExcelFileList);
+		if(is_array($isSuccess) && $isSuccess){
+			//重新下载一次出错的文件
+			$this->_downLoadExcelFile($mClub->club_id, $isSuccess);
+		}
+		return $isSuccess ? true : false;
 	}
 	
-	private function _downLoadExcelFile($clubId, $type, $aRoomIdList){
-		foreach($aRoomIdList as $roomId){
-			$this->path = $this->exportRoomPath . '?paramVo.type=' . $type . '&roomId=' . $roomId;
+	private function _downLoadExcelFile($clubId, $aUnDownloadExcelFileList){
+		$aDownUnSuccessExcelFile = [];
+		foreach($aUnDownloadExcelFileList as $aUnDownloadExcelFile){
+			$mExcelFile = ExcelFile::toModel($aUnDownloadExcelFile);
+			$roomId = $mExcelFile->room_id;
+			$this->path = $this->exportRoomPath . '?paramVo.type=' . $mExcelFile->type . '&roomId=' . $roomId;
 			$returnString = $this->_sentRequest('');
 			$responseText = $this->_getResponseText($returnString);
 			if(!$responseText){
 				return false;
 			}
 			$fileName = Yii::getAlias('@p.import') . '/' . $clubId . '_' . $roomId . '.xls';
-			file_put_contents(Yii::getAlias('@p.resource') . '/' . $fileName, $responseText);
-			$mExcelFile = ExcelFile::findOne(['club_id' => $clubId, 'room_id' => $roomId]);
-			$mExcelFile->set('type', $type);
+			$saveName = Yii::getAlias('@p.resource') . '/' . $fileName;
+			file_put_contents($saveName, $responseText);
+			//检查文件是否下载正常
+			try{
+				$aDataList = Yii::$app->excel->getSheetDataInArray($saveName);
+			}catch(\Exception $e){
+				array_push($aDownUnSuccessExcelFile, $aUnDownloadExcelFile);
+				continue;
+			}
+			//$mExcelFile->set('type', $type);
 			$mExcelFile->set('path', $fileName);
 			$mExcelFile->set('download_time', NOW_TIME);
 			$mExcelFile->save();
+		}
+		if($aDownUnSuccessExcelFile){
+			return $aDownUnSuccessExcelFile;
 		}
 		return true;
 	}

@@ -12,27 +12,10 @@
 			
 			var oHtml = $(html);
 			
-			oHtml.find('.commit-save-code').click(function(){
-				var o = this;
-				var safecode = $(o).prev().val();
-				var exponent = '010001';
-				var modulus = '008bec657d62f3a746ed28377c0749393d7d7dec2b68835dc7e23bc45551e800174d60bc1bebea362a4206799cd5f7e829118735085afbe684235ac1daea34cf181166f0b9c86e4ccc68bfb18d0b2a52743fe32726c3a388da9c4fa1cb7a9ef17faab6d4e107df24415acf48ab0fb97e5b9104c3222698d5d6707294805216de81';
-				var skey = RSAUtils.encryptedString(RSAUtils.getKeyPair(exponent, '', modulus), "name=" + aData.club_login_name + "&pwd=" + hex_md5(aData.club_login_password));
-				if($(o).prev().val().length != 4){
-					UBox.show('验证码不正确', -1);
-					return;
-				}
-				aData.safecode = safecode;
-				aData.skey = skey;
-				oHtml.find('.J-wait-tip').show();
+			function _doImportPaiju(o, aData){
 				ajax({
 					url : Tools.url('home', 'import/do-import-paiju'),
-					data : {
-						clubId : clubId,
-						safecode : aData.safecode,
-						skey : aData.skey,
-						aCookie : aData.aCookie
-					},
+					data : aData,
 					beforeSend : function(){
 						$(o).attr('disabled', 'disabled');
 					},
@@ -46,11 +29,37 @@
 								//location.reload();
 							}, 3);
 						}else if(aResult.status == 2){
-							UBox.show(aResult.msg, aResult.status);
+							if(confirm(aResult.msg)){
+								aData.retry = 1;
+								aData.aCookie = aResult.data;
+								_doImportPaiju(o, aData);
+							}else{
+								location.reload();
+							}
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
 					}
+				});
+			}
+			oHtml.find('.commit-save-code').click(function(){
+				var o = this;
+				var safecode = $(o).prev().val();
+				var exponent = '010001';
+				var modulus = '008bec657d62f3a746ed28377c0749393d7d7dec2b68835dc7e23bc45551e800174d60bc1bebea362a4206799cd5f7e829118735085afbe684235ac1daea34cf181166f0b9c86e4ccc68bfb18d0b2a52743fe32726c3a388da9c4fa1cb7a9ef17faab6d4e107df24415acf48ab0fb97e5b9104c3222698d5d6707294805216de81';
+				var skey = RSAUtils.encryptedString(RSAUtils.getKeyPair(exponent, '', modulus), "name=" + aData.club_login_name + "&pwd=" + hex_md5(aData.club_login_password));
+				if($(o).prev().val().length != 4){
+					UBox.show('验证码不正确', -1);
+					return;
+				}
+				aData.safecode = safecode;
+				aData.skey = skey;
+				oHtml.find('.J-wait-tip').show();
+				_doImportPaiju(o, {
+					clubId : clubId,
+					safecode : aData.safecode,
+					skey : aData.skey,
+					aCookie : aData.aCookie
 				});
 			});
 			
