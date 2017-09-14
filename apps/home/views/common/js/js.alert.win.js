@@ -14,15 +14,24 @@
 			
 			oHtml.find('.commit-save-code').click(function(){
 				var o = this;
+				var safecode = $(o).prev().val();
+				var exponent = '010001';
+				var modulus = '008bec657d62f3a746ed28377c0749393d7d7dec2b68835dc7e23bc45551e800174d60bc1bebea362a4206799cd5f7e829118735085afbe684235ac1daea34cf181166f0b9c86e4ccc68bfb18d0b2a52743fe32726c3a388da9c4fa1cb7a9ef17faab6d4e107df24415acf48ab0fb97e5b9104c3222698d5d6707294805216de81';
+				var skey = RSAUtils.encryptedString(RSAUtils.getKeyPair(exponent, '', modulus), "name=" + aData.club_login_name + "&pwd=" + hex_md5(aData.club_login_password));
 				if($(o).prev().val().length != 4){
 					UBox.show('验证码不正确', -1);
 					return;
 				}
-				oHtml.find('.J-wait-tip').show();return;
+				aData.safecode = safecode;
+				aData.skey = skey;
+				oHtml.find('.J-wait-tip').show();
 				ajax({
-					url : Tools.url('home', 'agent/add'),
+					url : Tools.url('home', 'import/do-import-paiju'),
 					data : {
-						agentName : $(o).prev().val()
+						clubId : clubId,
+						safecode : aData.safecode,
+						skey : aData.skey,
+						aCookie : aData.aCookie
 					},
 					beforeSend : function(){
 						$(o).attr('disabled', 'disabled');
@@ -32,34 +41,12 @@
 					},
 					success : function(aResult){
 						if(aResult.status == 1){
+							$(document).click();
 							UBox.show(aResult.msg, aResult.status, function(){
-								location.reload();
+								//location.reload();
 							}, 3);
-						}else{
+						}else if(aResult.status == 2){
 							UBox.show(aResult.msg, aResult.status);
-						}
-					}
-				});
-			});
-				
-			oHtml.find('.add-agent').click(function(){
-				var o = this;
-				ajax({
-					url : Tools.url('home', 'agent/add'),
-					data : {
-						agentName : $(o).prev().val()
-					},
-					beforeSend : function(){
-						$(o).attr('disabled', 'disabled');
-					},
-					complete : function(){
-						$(o).attr('disabled', false);
-					},
-					success : function(aResult){
-						if(aResult.status == 1){
-							UBox.show(aResult.msg, aResult.status, function(){
-								location.reload();
-							}, 3);
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
@@ -74,7 +61,7 @@
 					success : function(aResult){
 						if(aResult.status == 1){
 							aData = aResult.data;
-							oHtml.find('img').attr('src', App.url.resource + aResult.data.path);
+							oHtml.find('img').attr('src', App.url.resource + aResult.data.path + '?r=' + Math.random());
 							oHtml.find('.save-code').focus();
 						}else{
 							UBox.show(aResult.msg, aResult.status);

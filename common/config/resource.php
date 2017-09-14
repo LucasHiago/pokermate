@@ -55,5 +55,9 @@ return [
 	//滚动条
 	'js.content.viewer' => '@r.url/plug-in/content.viewer.js',
 	
+	//rsa
+	'js.rsa.security' => '@r.url/plug-in/rsa/security.js',
+	'js.rsa.md5' => '@r.url/plug-in/rsa/md5.js',
+	
 	'css.pokermate' => '@r.url/css/pokermate.css',
 ];

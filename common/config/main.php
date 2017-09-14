@@ -237,7 +237,8 @@ return [
 			'savecodePath' => '/cms/servlet/safecode',			//验证码
 			'loginPath' => '/cms/user/login',					//用户登录
 			'selectClubPath' => '/cms/club/clubInfo?clubId=',	//选择俱乐部
-			'historyExportPath' => '/cms/club/historyExport',	//导出Excel页面
+			'historyExportPath' => '/cms/club/historyExport',	//导出战绩列表页面
+			'exportRoomPath' => '/cms/club/exportRoom',			//下载Excel
 		],
 		
     ],

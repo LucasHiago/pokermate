@@ -13,6 +13,7 @@ class DownLoadExcel extends \yii\base\Object{
 	public $loginPath;
 	public $selectClubPath;
 	public $historyExportPath;
+	public $exportRoomPath;
 	public $aCookieList = [];
 	
 	private function _sentRequest($content = '', $isAjax = false){
@@ -26,8 +27,6 @@ class DownLoadExcel extends \yii\base\Object{
 			$sendContent .= "Connection: keep-alive\r\n";
 			$sendContent .= "Cache-Control: no-cache\r\n";
 			$sendContent .= "Pragma: no-cache\r\n";
-			//$sendContent .= "Origin: http://cms.pokermanager.club/cms/\r\n";
-			//$sendContent .= "Referer: http://cms.pokermanager.club/cms/\r\n";
 			$sendContent .= "Content-Type: application/x-www-form-urlencoded; charset=UTF-8\r\n";
 			if($this->aCookieList){
 				//$sendContent .= "Cookie: JSESSIONID=" . $JSESSIONID . "; acw_tc=" . $acw_tc . "\r\n";
@@ -64,16 +63,23 @@ class DownLoadExcel extends \yii\base\Object{
 		foreach($this->aCookieList as $v){
 			$cookieString .= $v . ' ';
 		}
+		$cookieString = rtrim($cookieString);
+		$cookieString = rtrim($cookieString, ';');
+		
 		return $cookieString;
 	}
 	
-	public function downSaveCode($savePathName){
-		$this->path = $this->savecodePath;
-		$returnString = $this->_sentRequest();
-		if(!$returnString){
+	private function _getResponseText($returnString){
+		if($returnString === false){
 			return false;
 		}
 		$aReturn = explode("\r\n", $returnString);
+		if($aReturn){
+			$aHttpStatus = explode(' ', $aReturn[0]);
+			if(!isset($aHttpStatus[1]) || $aHttpStatus[1] != 200){
+				return false;
+			}
+		}
 		foreach($aReturn as $key => $value){
 			$aValue = explode(' ', $value);
 			if($aValue && $aValue[0] == 'Set-Cookie:'){
@@ -82,14 +88,157 @@ class DownLoadExcel extends \yii\base\Object{
 				}
 			}
 			if($value == ''){
-				file_put_contents(Yii::getAlias('@p.resource') . '/' . $savePathName, $aReturn[$key + 1]);
-				return [
-					'path' => $savePathName,
-					'aCookie' => $this->aCookieList,
-				];
+				return $aReturn[$key + 1];
 			}
 		}
 		return false;
 	}
 	
+	public function downSaveCode($savePathName){
+		$this->path = $this->savecodePath;
+		$returnString = $this->_sentRequest();
+		if(!$returnString){
+			return false;
+		}
+		$responseText = $this->_getResponseText($returnString);
+		if($responseText){
+			file_put_contents(Yii::getAlias('@p.resource') . '/' . $savePathName, $responseText);
+			return [
+				'path' => $savePathName,
+				'aCookie' => $this->aCookieList,
+			];
+		}
+		return false;
+	}
+	
+	public function getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie){
+		set_time_limit(0);
+		$clubId = $mClub->club_id;
+		$aParam = ['key' => $skey, 'safecode' => $safecode];
+		$this->aCookieList = $aCookie;
+		//登录请求
+		$this->path = $this->loginPath;
+		$returnString = $this->_sentRequest(http_build_query($aParam), true);
+		if(!$returnString){
+			return false;
+		}
+		$isLoginSuccess = false;
+		$responseText = $this->_getResponseText($returnString);
+		if($responseText === "0"){
+			$isLoginSuccess = true;
+		}
+		if(!$isLoginSuccess){
+			return false;
+		}
+		//选择俱乐部页面请求
+		$this->path = $this->selectClubPath . $clubId;
+		$returnString = $this->_sentRequest('');
+		if(!$returnString){
+			return false;
+		}
+		$responseText = $this->_getResponseText($returnString);
+		file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/select_club_' . $clubId . '.html', $responseText);
+		//////////////////////////////楼上的代码都不干正事的2333////////////////////////////////////////////
+		
+		$type = 1;
+		$startTime = '2017-09-12';
+		if($mClub->last_import_date){
+			$startTime = $mClub->last_import_date;
+		}
+		while(true){
+			if($startTime == date('Y-m-d')){
+				break;
+			}
+			$endTime = date('Y-m-d', strtotime($startTime . ' +1 day'));
+			$isSuccess = $this->_checkAndDownloadExcel($mClub, $type, $startTime, $endTime);
+			if(!$isSuccess){
+				return false;
+			}
+			$mClub->set('last_import_date', $endTime);
+			$mClub->save();
+			$startTime = $endTime;
+		}
+		
+		return true;
+	}
+	
+	private function _checkAndDownloadExcel($mClub, $type, $startTime, $endTime){
+		$aRoomIdList = [];
+		$page = 1;
+		$totalPage = 999999999;
+		while(true){
+			//战绩导出页面请求
+			$this->path = $this->historyExportPath . '?startTime=' . $startTime . '&endTime=' . $endTime . '&paramVo.type=' . $type . '&sort=-4&paramVo.pageNumber=' . $page;
+			$returnString = $this->_sentRequest('');
+			$responseText = $this->_getResponseText($returnString);
+			if(!$responseText){
+				return false;
+			}
+			//file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/history_export_' . $clubId . '.html', $responseText);
+			//分析出所有房间号
+			$aRoomId = $this->_getRoomIdFromHtml($responseText);
+			Yii::info('request success:' . $this->path);
+			Yii::info('$aRoomIdList:' . json_encode($aRoomId));
+			if(!$aRoomId){
+				break;
+			}
+			$aRoomIdList = array_unique(array_merge($aRoomIdList, $aRoomId));
+			$page = $page + 1;
+		}
+		//先把分析出来的房间保存起来先
+		$aExcelFileList = ExcelFile::findAll(['club_id' => $mClub->club_id, 'room_id' => $aRoomId]);
+		foreach($aRoomIdList as $roomId){
+			$isFind = false;
+			foreach($aExcelFileList as $aExcelFile){
+				if($aExcelFile['room_id'] == $roomId){
+					$isFind = true;
+					break;
+				}
+			}
+			if(!$isFind){
+				ExcelFile::addRecord([
+					'club_id' => $mClub->club_id,
+					'room_id' => $roomId,
+				]);
+			}
+		}
+		//下载Excel文件
+		return $this->_downLoadExcelFile($mClub->club_id, $type, $aRoomIdList);
+	}
+	
+	private function _downLoadExcelFile($clubId, $type, $aRoomIdList){
+		foreach($aRoomIdList as $roomId){
+			$this->path = $this->exportRoomPath . '?paramVo.type=' . $type . '&roomId=' . $roomId;
+			$returnString = $this->_sentRequest('');
+			$responseText = $this->_getResponseText($returnString);
+			if(!$responseText){
+				return false;
+			}
+			$fileName = Yii::getAlias('@p.import') . '/' . $clubId . '_' . $roomId . '.xls';
+			file_put_contents(Yii::getAlias('@p.resource') . '/' . $fileName, $responseText);
+			$mExcelFile = ExcelFile::findOne(['club_id' => $clubId, 'room_id' => $roomId]);
+			$mExcelFile->set('type', $type);
+			$mExcelFile->set('path', $fileName);
+			$mExcelFile->set('download_time', NOW_TIME);
+			$mExcelFile->save();
+		}
+		return true;
+	}
+	
+	private function _getRoomIdFromHtml($html){
+		preg_match_all('/exportExcel\(\d+\)/', $html, $aMatchList);
+		$aRoomId = [];
+		foreach($aMatchList[0] as $match){
+			$roomId = '';
+			if(strpos($match, 'exportExcel(') === false){
+				continue;
+			}
+			$roomId = ltrim($match, 'exportExcel(');
+			$roomId = (int)rtrim($roomId, ')');
+			if($roomId){
+				array_push($aRoomId, $roomId);
+			}
+		}
+		return array_unique($aRoomId);
+	}
 }

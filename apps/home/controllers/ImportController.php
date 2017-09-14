@@ -91,7 +91,7 @@ class ImportController extends Controller{
 			return new Response('俱乐部不存在', 0);
 		}
 		$mUser = Yii::$app->user->getIdentity();
-		$filePathName = Yii::getAlias('@p.temp_upload') . '/savecode.jpg';
+		$filePathName = Yii::getAlias('@p.temp_upload') . '/savecode_' . $mClub->club_id . '.jpg';
 		$aData = Yii::$app->downLoadExcel->downSaveCode($filePathName);
 		if(!$aData){
 			return new Response('获取验证码失败', 0);
@@ -100,6 +100,25 @@ class ImportController extends Controller{
 		$aData['club_login_password'] = $mClub->club_login_password;
 		
 		return new Response('', 1, $aData);
+	}
+	
+	public function actionDoImportPaiju(){
+		$clubId = (int)Yii::$app->request->post('clubId');
+		$safecode = (string)Yii::$app->request->post('safecode');
+		$skey = (string)Yii::$app->request->post('skey');
+		$aCookie = (array)Yii::$app->request->post('aCookie');
+		
+		$mClub = Club::findOne($clubId);
+		if(!$mClub){
+			return new Response('俱乐部不存在', 0);
+		}
+		
+		$aDownloadExcelUrl = Yii::$app->downLoadExcel->getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie);
+		if(!$aDownloadExcelUrl){
+			return new Response('服务器连接中断，请稍后重试', 2);
+		}
+		
+		return new Response('Success', 1, $aDownloadExcelUrl);
 	}
 	
 }

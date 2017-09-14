@@ -8,6 +8,8 @@ class ManageCoreAsset extends \umeworld\lib\AssetBundle
 {
     public $js = [
 		'@r.js.core',
+		'@r.js.rsa.md5',
+		'@r.js.rsa.security',
 		'@r.js.ui',
 		'@r.js.tools',
 		'@r.js.content.viewer',
