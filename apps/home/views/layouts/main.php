@@ -164,7 +164,7 @@ if($mUser){
 					</div>
 				</div>
 				<div class="c-h-right">
-					<a href="javascript:;" class="log-icon"></a>
+					<a href="<?php echo Url::to('home', 'user-manage/index'); ?>" class="log-icon"></a>
 					<a href="javascript:;" class="setting-icon" onclick="AlertWin.showEditUserInfo();"></a>
 					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="close-icon"></a>
 				</div>
