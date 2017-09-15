@@ -1827,9 +1827,9 @@ input, select{border:none;outline:none;background:none;}
 }
 .lmzj-wrap .lmzj-content-wrap .body-list-wrap{
 	margin-left:20px;
-	height:635px;
+	height:1635px;
 	max-width: 1230px;
-	overflow-y:scroll;
+	overflow-y:hidden;
 	overflow-x:scroll;
 }
 .lmzj-wrap .body-list-wrap .row-item{
