@@ -206,6 +206,8 @@ class ImportController extends Controller{
 		return new Response('Success', 1);
 	}
 	
+	private  function _importDownloadExcelFiles($mUser, $clubId){
+		$isSuccess = ImportData::importDownloadExcelFiles($mUser, $clubId);
 		return $isSuccess;
 	}
 	
