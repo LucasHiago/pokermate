@@ -306,7 +306,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//过滤掉删除的客人记录
 		$aReturnList = [];
 		foreach($aList as $key => $value){
-			if(!$value['keren_benjin_info']['is_delete']){
+			if(isset($value['keren_benjin_info']) && $value['keren_benjin_info'] && isset($value['keren_benjin_info']['is_delete']) && !$value['keren_benjin_info']['is_delete']){
 				array_push($aReturnList, $value);
 			}
 		}

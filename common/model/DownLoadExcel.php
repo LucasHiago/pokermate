@@ -142,7 +142,7 @@ class DownLoadExcel extends \yii\base\Object{
 		}
 		//////////////////////////////楼上的代码都不干正事的2333////////////////////////////////////////////
 		$type = 1;
-		$startTime = '2017-09-12';
+		$startTime = '2017-09-14';
 		if($mClub->last_import_date){
 			$startTime = $mClub->last_import_date;
 		}

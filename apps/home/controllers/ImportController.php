@@ -189,18 +189,24 @@ class ImportController extends Controller{
 		if(!$mClub){
 			return new Response('俱乐部不存在', 0);
 		}
-		
+		if($retry){
+			//重新请求完成时，先将已下载的Excel文件导入数据库
+			$this->_importDownloadExcelFiles($mUser, $mClub->club_id);
+		}
 		$isSuccess = Yii::$app->downLoadExcel->getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie, $retry);
 		if(!$isSuccess){
 			return new Response('服务器连接中断，是否继续请求完成？', 2, Yii::$app->downLoadExcel->aCookieList);
 		}
 		//导入下载的Excel文件
-		$isSuccess = ImportData::importDownloadExcelFiles($mUser, $mClub->club_id);
+		$isSuccess = $this->_importDownloadExcelFiles($mUser, $mClub->club_id);
 		if(!$isSuccess){
 			return new Response('导入Excel文件数据失败', 0);
 		}
 		
 		return new Response('Success', 1);
+	}
+	
+		return $isSuccess;
 	}
 	
 }

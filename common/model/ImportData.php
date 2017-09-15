@@ -15,7 +15,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		return static::insert($aData);
 	}
 	
-	public static function bathInsertData($aInsertList){
+	private function _bathInsertData($aInsertList){
 		(new Query())->createCommand()->batchInsert(static::tableName(), [
 			'paiju_type', 
 			'paiju_name',
@@ -43,6 +43,22 @@ class ImportData extends \common\lib\DbOrmModel{
 			'paiju_id',
 			'user_id'
 		], $aInsertList)->execute();
+	}
+	
+	public static function bathInsertData($aInsertList){
+		$i = 0;
+		$aPageList = [];
+		foreach($aInsertList as $aData){
+			array_push($aPageList, $aData);
+			if($i % 10 == 0){
+				static::_bathInsertData($aPageList);
+				$aPageList = [];
+			}
+			$i++;
+		}
+		if($aPageList){
+			static::_bathInsertData($aPageList);
+		}
 	}
 	
 	public static function importFromExcelDataList($mUser, $aDataList){
@@ -95,8 +111,8 @@ class ImportData extends \common\lib\DbOrmModel{
 			}
 		}
 		if($aInserDataList){
-			static::bathInsertData($aInserDataList);
 			Player::checkAddNewPlayer($mUser->id, $aPlayerList);
+			static::bathInsertData($aInserDataList);
 		}
 		return true;
 	}
