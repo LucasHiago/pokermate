@@ -89,7 +89,7 @@ $this->setTitle('账号管理');
 					],
 					'operate'	=>	[
 						'title' => '操作',
-						'class' => 'col-sm-1',
+						'class' => 'col-sm-2',
 						'content' => function($aData){
 							$str = '';
 							$str .= '<a href="' . Url::to('home', 'user-manage/show-edit', ['id' => $aData['id']]) . '" type="button" class="btn btn-primary">修改</a>&nbsp;&nbsp;';
