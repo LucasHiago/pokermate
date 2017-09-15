@@ -165,15 +165,14 @@ class ImportController extends Controller{
 		if(!$mClub){
 			return new Response('俱乐部不存在', 0);
 		}
-		$savePathName = Yii::$app->downLoadExcel->downSaveCode($mClub->club_id);
-		if(!$savePathName){
+		$mUser = Yii::$app->user->getIdentity();
+		$filePathName = Yii::getAlias('@p.temp_upload') . '/savecode_' . $mClub->club_id . '.jpg';
+		$aData = Yii::$app->downLoadExcel->downSaveCode($filePathName);
+		if(!$aData){
 			return new Response('获取验证码失败', 0);
 		}
-		$aData = [
-			'path' => $savePathName,
-			'club_login_name' => $mClub->club_login_name,
-			'club_login_password' => $mClub->club_login_password,
-		];
+		$aData['club_login_name'] = $mClub->club_login_name;
+		$aData['club_login_password'] = $mClub->club_login_password;
 		
 		return new Response('', 1, $aData);
 	}
@@ -182,6 +181,7 @@ class ImportController extends Controller{
 		$clubId = (int)Yii::$app->request->post('clubId');
 		$safecode = (string)Yii::$app->request->post('safecode');
 		$skey = (string)Yii::$app->request->post('skey');
+		$aCookie = (array)Yii::$app->request->post('aCookie');
 		$retry = (int)Yii::$app->request->post('retry');
 		
 		$mUser = Yii::$app->user->getIdentity();
@@ -193,9 +193,9 @@ class ImportController extends Controller{
 			//重新请求完成时，先将已下载的Excel文件导入数据库
 			$this->_importDownloadExcelFiles($mUser, $mClub->club_id);
 		}
-		$isSuccess = Yii::$app->downLoadExcel->getDownloadExcelUrl($mClub, $skey, $safecode, $retry);
+		$isSuccess = Yii::$app->downLoadExcel->getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie, $retry);
 		if(!$isSuccess){
-			return new Response('服务器连接中断，是否继续请求完成？', 2);
+			return new Response('服务器连接中断，是否继续请求完成？', 2, Yii::$app->downLoadExcel->aCookieList);
 		}
 		//导入下载的Excel文件
 		$isSuccess = $this->_importDownloadExcelFiles($mUser, $mClub->club_id);

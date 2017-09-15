@@ -31,7 +31,6 @@
 						}else if(aResult.status == 2){
 							if(confirm(aResult.msg)){
 								aData.retry = 1;
-								aData.aCookie = aResult.data;
 								_doImportPaiju(o, aData);
 							}else{
 								location.reload();
@@ -59,7 +58,6 @@
 					clubId : clubId,
 					safecode : aData.safecode,
 					skey : aData.skey,
-					aCookie : aData.aCookie
 				});
 			});
 			

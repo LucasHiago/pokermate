@@ -232,14 +232,11 @@ return [
 		
 		'downLoadExcel' => [
 			'class' => 'common\model\DownLoadExcel',
-			'host' => 'cms.pokermanager.club',					
-			'port' => 80,
-			'savecodePath' => '/cms/servlet/safecode',			//验证码
-			'loginPath' => '/cms/user/login',					//用户登录
-			'selectClubPath' => '/cms/club/clubInfo?clubId=',	//选择俱乐部
-			'historyExportPath' => '/cms/club/historyExport',	//导出战绩列表页面
-			'exportRoomPath' => '/cms/club/exportRoom',			//下载Excel
-			'aCookieList' => [],
+			'savecodeUrl' => 'http://cms.pokermanager.club/cms/servlet/safecode',//验证码
+			'loginUrl' => 'http://cms.pokermanager.club/cms/user/login',//用户登录
+			'selectClubUrl' => 'http://cms.pokermanager.club/cms/club/clubInfo?clubId=',//选择俱乐部	
+			'historyExportUrl' => 'http://cms.pokermanager.club/cms/club/historyExport',//导出战绩列表页面
+			'exportRoomUrl' => 'http://cms.pokermanager.club/cms/club/exportRoom',//下载Excel
 		],
 		
     ],

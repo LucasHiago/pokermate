@@ -6,139 +6,72 @@ use umeworld\lib\Query;
 use yii\helpers\ArrayHelper;
 
 class DownLoadExcel extends \yii\base\Object{
-	public $host;
-	public $port;
-	public $path;
-	public $savecodePath;
-	public $loginPath;
-	public $selectClubPath;
-	public $historyExportPath;
-	public $exportRoomPath;
-	public $aCookieList = [];
+	public $savecodeUrl;
+	public $loginUrl;
+	public $selectClubUrl;
+	public $historyExportUrl;
+	public $exportRoomUrl;
 	
-	private function _sentRequest($content = '', $isAjax = false){
-		try{
-			$sendContent = "POST " . $this->path . " HTTP/1.0\r\n";
-			$sendContent .= "Host: " . $this->host . "\r\n";
-			$sendContent .= "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36\r\n";
-			$sendContent .= "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8\r\n";
-			$sendContent .= "Accept-encoding: gzip, deflate\r\n";
-			$sendContent .= "Accept-language: zh-CN,zh;q=0.8,en;q=0.6,fr;q=0.4\r\n";
-			$sendContent .= "Connection: keep-alive\r\n";
-			$sendContent .= "Cache-Control: no-cache\r\n";
-			$sendContent .= "Pragma: no-cache\r\n";
-			$sendContent .= "Content-Type: application/x-www-form-urlencoded; charset=UTF-8\r\n";
-			if($this->aCookieList){
-				//$sendContent .= "Cookie: JSESSIONID=" . $JSESSIONID . "; acw_tc=" . $acw_tc . "\r\n";
-				$sendContent .= "Cookie: " . $this->_getCookieString($this->aCookieList) . "\r\n";
-			}
-			if($isAjax){
-				$sendContent .= "X-Requested-With: XMLHttpRequest\r\n";
-			}
-			$sendContent .= "Content-Length: " . strlen($content) . "\r\n\r\n";
-			$sendContent .= $content;
-			
-			$returnString = ''; $errno = 0; $errstr = '';
-			$fp = fsockopen($this->host, $this->port, $errno, $errstr, 1);
-			if(!$fp){
-				Yii::info('fsockopen: ' . $errstr);
-				return false;
-				//throw Yii::$app->buildError($errstr);
-			}else{
-				fputs($fp, $sendContent);
-				while(!feof($fp)){
-					$returnString .= fgets($fp, 4096);
-				}
-				fclose($fp);
-			}
-		}catch(\Exception $e){
-			Yii::info('sentRequest error: ' . $e->getMessage());
-			return false;
-		}
-		return $returnString;
+	private $_cookieFile = '';
+	
+	public function init(){
+		parent::init();
+		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie.tmp';
 	}
 	
-	private function _getCookieString(){
-		$cookieString = '';
-		foreach($this->aCookieList as $v){
-			$cookieString .= $v . ' ';
+	private function _doHttpResponsePost($url, $aParam = []){
+		$para = '';
+		if($aParam){
+			$para = http_build_query($aParam);
 		}
-		$cookieString = rtrim($cookieString);
-		$cookieString = rtrim($cookieString, ';');
-		
-		return $cookieString;
+		$curl = curl_init($url);
+		if($this->_cookieFile){
+			curl_setopt($curl, CURLOPT_COOKIEFILE, $this->_cookieFile);
+		}
+		if($this->_cookieFile){
+			curl_setopt($curl, CURLOPT_COOKIEJAR, $this->_cookieFile);
+		}
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);	// SSL证书认证
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);	// 严格认证
+		curl_setopt($curl, CURLOPT_HEADER, 0 ); 	// 过滤HTTP头
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);	// 显示输出结果
+		curl_setopt($curl, CURLOPT_POST, true);	 // post传输数据
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $para);	// post传输数据
+		$responseText = curl_exec($curl);
+		curl_close($curl);
+
+		return $responseText;
 	}
 	
-	private function _getResponseText($returnString){
-		if($returnString === false){
-			return false;
-		}
-		$aReturn = explode("\r\n", $returnString);
-		if($aReturn){
-			$aHttpStatus = explode(' ', $aReturn[0]);
-			if(!isset($aHttpStatus[1]) || $aHttpStatus[1] != 200){
-				return false;
-			}
-		}
-		foreach($aReturn as $key => $value){
-			$aValue = explode(' ', $value);
-			if($aValue && $aValue[0] == 'Set-Cookie:'){
-				if(!in_array($aValue[1], $this->aCookieList)){
-					array_push($this->aCookieList, $aValue[1]);
-				}
-			}
-			if($value == ''){
-				return $aReturn[$key + 1];
-			}
-		}
-		return false;
-	}
-	
-	public function downSaveCode($savePathName){
-		$this->path = $this->savecodePath;
-		$returnString = $this->_sentRequest();
+	public function downSaveCode($clubId){
+		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie_' . $clubId . '.tmp';
+		$savePathName = Yii::getAlias('@p.temp_upload') . '/savecode_' . $clubId . '.jpg';
+		$returnString = $this->_doHttpResponsePost($this->savecodeUrl);
 		if(!$returnString){
 			return false;
 		}
-		$responseText = $this->_getResponseText($returnString);
-		if($responseText){
-			file_put_contents(Yii::getAlias('@p.resource') . '/' . $savePathName, $responseText);
-			return [
-				'path' => $savePathName,
-				'aCookie' => $this->aCookieList,
-			];
-		}
-		return false;
+		file_put_contents(Yii::getAlias('@p.resource') . '/' . $savePathName, $returnString);
+		
+		return $savePathName;
 	}
 	
-	public function getDownloadExcelUrl($mClub, $skey, $safecode, $aCookie, $retry){
+	public function getDownloadExcelUrl($mClub, $skey, $safecode, $retry){
 		set_time_limit(0);
 		$clubId = $mClub->club_id;
+		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie_' . $clubId . '.tmp';
 		$aParam = ['key' => $skey, 'safecode' => $safecode];
-		$this->aCookieList = $aCookie;
 		if(!$retry){
 			//登录请求
-			$this->path = $this->loginPath;
-			$returnString = $this->_sentRequest(http_build_query($aParam), true);
-			if(!$returnString){
-				return false;
-			}
-			$isLoginSuccess = false;
-			$responseText = $this->_getResponseText($returnString);
-			if($responseText === "0"){
-				$isLoginSuccess = true;
-			}
-			if(!$isLoginSuccess){
+			$returnString = $this->_doHttpResponsePost($this->loginUrl, $aParam);
+			if($returnString){
 				return false;
 			}
 			//选择俱乐部页面请求
-			$this->path = $this->selectClubPath . $clubId;
-			$returnString = $this->_sentRequest('');
+			$returnString = $this->_doHttpResponsePost($this->selectClubUrl . $clubId);
 			if(!$returnString){
 				return false;
 			}
-			$responseText = $this->_getResponseText($returnString);
-			file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/select_club_' . $clubId . '.html', $responseText);
+			file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/select_club_' . $clubId . '.html', $returnString);
 		}
 		//////////////////////////////楼上的代码都不干正事的2333////////////////////////////////////////////
 		$type = 1;
@@ -169,16 +102,22 @@ class DownLoadExcel extends \yii\base\Object{
 		$totalPage = 999999999;
 		while(true){
 			//战绩导出页面请求
-			$this->path = $this->historyExportPath . '?startTime=' . $startTime . '&endTime=' . $endTime . '&paramVo.type=' . $type . '&sort=-4&paramVo.pageNumber=' . $page;
-			$returnString = $this->_sentRequest('');
-			$responseText = $this->_getResponseText($returnString);
-			if(!$responseText){
+			$aParam = [
+				'startTime' => $startTime,
+				'endTime' => $endTime,
+				'paramVo.type' => $type,
+				'sort' => -4,
+				'paramVo.pageNumber' => $page,
+			];
+			$historyExportUrl = $this->historyExportUrl . '?startTime=' . $startTime . '&endTime=' . $endTime . '&paramVo.type=' . $type . '&sort=-4&paramVo.pageNumber=' . $page;
+			$returnString = $this->_doHttpResponsePost($historyExportUrl);
+			if(!$returnString){
 				return false;
 			}
 			//file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/history_export_' . $clubId . '.html', $responseText);
 			//分析出所有房间号
-			$aRoomId = $this->_getRoomIdFromHtml($responseText);
-			Yii::info('request success:' . $this->path);
+			$aRoomId = $this->_getRoomIdFromHtml($returnString);
+			Yii::info('request success:' . $historyExportUrl);
 			Yii::info('$aRoomIdList:' . json_encode($aRoomId));
 			if(!$aRoomId){
 				break;
@@ -223,15 +162,14 @@ class DownLoadExcel extends \yii\base\Object{
 		foreach($aUnDownloadExcelFileList as $aUnDownloadExcelFile){
 			$mExcelFile = ExcelFile::toModel($aUnDownloadExcelFile);
 			$roomId = $mExcelFile->room_id;
-			$this->path = $this->exportRoomPath . '?paramVo.type=' . $mExcelFile->type . '&roomId=' . $roomId;
-			$returnString = $this->_sentRequest('');
-			$responseText = $this->_getResponseText($returnString);
-			if(!$responseText){
+			$exportRoomUrl = $this->exportRoomUrl . '?paramVo.type=' . $mExcelFile->type . '&roomId=' . $roomId;
+			$returnString = $this->_doHttpResponsePost($exportRoomUrl);
+			if(!$returnString){
 				return false;
 			}
 			$fileName = Yii::getAlias('@p.import') . '/' . $clubId . '_' . $roomId . '.xls';
 			$saveName = Yii::getAlias('@p.resource') . '/' . $fileName;
-			file_put_contents($saveName, $responseText);
+			file_put_contents($saveName, $returnString);
 			//检查文件是否下载正常
 			try{
 				$aDataList = Yii::$app->excel->getSheetDataInArray($saveName);
