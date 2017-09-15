@@ -15,7 +15,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		return static::insert($aData);
 	}
 	
-	private function _bathInsertData($aInsertList){
+	private static function _bathInsertData($aInsertList){
 		(new Query())->createCommand()->batchInsert(static::tableName(), [
 			'paiju_type', 
 			'paiju_name',
