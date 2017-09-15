@@ -7,7 +7,7 @@ $this->registerAssetBundle('common\assets\FileAsset');
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>导入Excel文件</title>
+	<title>导入客人Excel文件</title>
 	<style type="text/css">
 		html,body,*{margin:0;padding:0;}
 		.J-upfile-wrap{margin: 0 auto; margin-top: 100px; width: 1000px; height: 400px; border-radius: 50px; background: #231b2d;}
@@ -32,7 +32,7 @@ $this->registerAssetBundle('common\assets\FileAsset');
 			$('input[type="file"]').on('change', function(){
 				var self = this;
 				$('.J-tip-msg').show();
-				Tools.uploadFileHandle('<?php echo Url::to('home', 'import/upload-excel'); ?>', self['files'][0], function(aData){
+				Tools.uploadFileHandle('<?php echo Url::to('home', 'import/upload-player-excel'); ?>', self['files'][0], function(aData){
 					UBox.show(aData.msg, aData.status);
 					$('.J-tip-msg').hide();
 				});

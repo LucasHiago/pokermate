@@ -183,8 +183,8 @@ return [
         'user' => [
 			'class' => 'common\role\UserRole',
             'identityClass' => 'common\model\User',
-            'reloginOvertime' => 604800,//3600,
-            'rememberLoginTime' => 604800,//3000000,
+            'reloginOvertime' => 1800,//3600,
+            'rememberLoginTime' => 86400,//3000000,
             'enableAutoLogin' => true,
 			'loginUrl' => function(){
 				return \umeworld\lib\Url::to('home', 'site/index');

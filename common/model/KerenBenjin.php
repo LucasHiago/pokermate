@@ -24,6 +24,10 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		return $id;
 	}
 	
+	public function getPlayerList(){
+		return $aPlayerList = Player::findAll(['keren_bianhao' => $this->keren_bianhao]);
+	}
+	
 	/**
 	 *	获取列表
 	 *	$aCondition = [
@@ -41,6 +45,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 	 *		'page' =>
 	 *		'page_size' =>
 	 *		'with_player_list' =>
+	 *		'with_agent_info' =>
 	 *	]
 	 */
 	public static function getList($aCondition = [], $aControl = []){
@@ -68,13 +73,25 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 			$aPlayerList = Player::findAll(['keren_bianhao' => $aKerenBianhao]);
 		}
 		
+		$aAgentList = [];
+		if(isset($aControl['with_agent_info']) && $aControl['with_agent_info']){
+			$aAgentId = ArrayHelper::getColumn($aList, 'agent_id');
+			$aAgentList = Agent::findAll(['id' => $aAgentId]);
+		}
+		
 		foreach($aList as $key => $value){
 			$aList[$key]['player_list'] = [];
+			$aList[$key]['agent_info'] = [];
 			$aList[$key]['ying_chou'] =floatval($value['ying_chou']);
 			$aList[$key]['shu_fan'] = floatval($value['shu_fan']);
 			foreach($aPlayerList as $aPlayer){
 				if($value['keren_bianhao'] == $aPlayer['keren_bianhao']){
 					array_push($aList[$key]['player_list'], $aPlayer);
+				}
+			}
+			foreach($aAgentList as $aAgent){
+				if($value['agent_id'] == $aAgent['id']){
+					$aList[$key]['agent_info'] = $aAgent;
 				}
 			}
 		}

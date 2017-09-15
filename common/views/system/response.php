@@ -34,7 +34,7 @@ $this->beginPage();
 				echo '<a href="javascript:(history.back())">回上一页</a>';
 			}
 		?>
-		<a href="<?php echo \umeworld\lib\Url::to('mobile', 'site/index'); ?>">回到首页</a>
+		<a href="<?php echo \umeworld\lib\Url::to('home', 'site/index'); ?>">回到首页</a>
 	</div>
 </div>
 

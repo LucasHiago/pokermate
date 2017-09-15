@@ -143,8 +143,12 @@ if($mUser){
 		<div id="pageWraper">
 			<div class="c-head-wrap">
 				<div class="c-h-left">
-					<a href="javascript:;" class="heitao-icon"></a>
-					<a class="vipinfo">VIP7&nbsp;还有15天到期</a>
+					<a href="javascript:;" class="heitao-icon" title="<?php echo $mUser->name; ?>"></a>
+					<?php if($mUser->isVip()){ ?>
+					<a class="vipinfo">VIP<?php echo $mUser->vip_level; ?>&nbsp;还有<?php echo $mUser->vipDaysRemaining(); ?>天到期</a>
+					<?php }else{ ?>
+					<a class="vipinfo">VIP已到期</a>
+					<?php } ?>
 				</div>
 				<div class="c-h-center">
 					<div class="c-h-center-w">

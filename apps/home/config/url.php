@@ -88,6 +88,27 @@ return [
 		'import/do-jie-shuan.json'												=> 'import/do-jie-shuan',
 		'import/download-save-code.json'										=> 'import/get-download-save-code',
 		'import/do-import-paiju.json'											=> 'import/do-import-paiju',
+		'import/import-player.html'												=> 'import/show-import-player',
+		'import/upload-player-excel.json'										=> 'import/upload-player-excel',
+		
+		
+		
+		'user-manage/index.html'												=> 'user-manage/index',
+		'user-manage/set-forbidden-user.json'									=> 'user-manage/set-forbidden-user',
+		'user-manage/edit/<id:.*>.html'											=> 'user-manage/show-edit',
+		'user-manage/edit.json'													=> 'user-manage/edit',
+		
+		
+		
+		'club-manage/index.html'												=> 'club-manage/index',
+		'club-manage/set-delete.json'											=> 'club-manage/set-delete',
+		'club-manage/edit/<id:.*>.html'											=> 'club-manage/show-edit',
+		'club-manage/edit.json'													=> 'club-manage/edit',
+		
+		'keren-benjin-manage/index.html'										=> 'keren-benjin-manage/index',
+		'keren-benjin-manage/set-delete.json'									=> 'keren-benjin-manage/set-delete',
+		'keren-benjin-manage/edit/<id:.*>.html'									=> 'keren-benjin-manage/show-edit',
+		'keren-benjin-manage/edit.json'											=> 'keren-benjin-manage/edit',
 		
 		
 		''																		=> 'site/index',

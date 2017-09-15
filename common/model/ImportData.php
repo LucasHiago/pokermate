@@ -146,6 +146,8 @@ class ImportData extends \common\lib\DbOrmModel{
 					$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
 					if($aDataList){
 						ImportData::importFromExcelDataList($mUser, $aDataList);
+						$mExcelFile->set('import_time', NOW_TIME);
+						$mExcelFile->save();
 					}
 				}catch(\Exception $e){
 					continue;

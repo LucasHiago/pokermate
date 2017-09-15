@@ -52,6 +52,9 @@ return [
 	'js.bootstrap.min' => '@r.url/plug-in/bootstrap-3.3.2/js/bootstrap.min.js',
 	'jquery.bootstrap.teninedialog.v3' => '@r.url/plug-in/jquery.bootstrap.teninedialog.v3.js',
 	
+	//日历
+	'js.wdate-picker' => '@r.url/plug-in/wdatepicker/WdatePicker.js',
+	
 	//滚动条
 	'js.content.viewer' => '@r.url/plug-in/content.viewer.js',
 	

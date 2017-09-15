@@ -1,0 +1,67 @@
+<?php 
+use umeworld\lib\Url;
+use common\model\User;
+$this->setTitle($aClub ? '编辑俱乐部' : '新增俱乐部');
+?>
+<br />
+<div class="row">
+	<div class="col-lg-12">
+		<input class="J-id form-control" type="hidden" value="<?php echo $aClub ? $aClub['id'] : 0; ?>">
+		<div class="form-group">
+			<label>俱乐部名称</label>
+			<input style="width:300px;" class="J-club-name form-control" value="<?php echo $aClub ? $aClub['club_name'] : ''; ?>">
+		</div>
+		<div class="form-group">
+			<label>俱乐部ID</label>
+			<input style="width:300px;" class="J-club-id form-control" value="<?php echo $aClub ? $aClub['club_id'] : ''; ?>">
+		</div>
+		<div class="form-group">
+			<label>登录账号</label>
+			<input style="width:300px;" class="J-club-login-name form-control" value="<?php echo $aClub ? $aClub['club_login_name'] : ''; ?>">
+		</div>
+		<div class="form-group">
+			<label>登录密码</label>
+			<input style="width:300px;" class="J-club-login-password form-control" value="<?php echo $aClub ? $aClub['club_login_password'] : ''; ?>">
+		</div>
+		<br />
+		<div class="form-group">
+			<button type="button" class="J-save-btn btn btn-primary" onclick="save(this);">保存</button>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function save(o){
+		var aData = {
+			id : $('.J-id').val(),
+			clubName : $('.J-club-name').val(),
+			clubId : $('.J-club-id').val(),
+			clubLoginName : $('.J-club-login-name').val(),
+			clubLoginPassword : $('.J-club-login-password').val()
+		};
+		
+		ajax({
+			url : '<?php echo Url::to('home', 'club-manage/edit'); ?>',
+			data : aData,
+			beforeSend : function(){
+				$(o).attr('disabled', 'disabled');
+			},
+			complete : function(){
+				$(o).attr('disabled', false);
+			},
+			success : function(aResult){
+				if(aResult.status == 1){
+					UBox.show(aResult.msg, aResult.status, function(){
+						location.href = Tools.url('home', 'club-manage/index');
+					}, 3);
+				}else{
+					UBox.show(aResult.msg, aResult.status);
+				}
+			}
+		});
+	}
+	
+	$(function(){
+		
+	});
+</script>

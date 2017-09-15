@@ -76,6 +76,13 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//return md5($password);
 	}
 	
+	public static function register($aData){
+		$id = static::insert($aData);
+		$aData['id'] = $id;
+		
+		return static::toModel($aData);
+	}
+	
 	/**
 	 *	获取列表
 	 *	$aCondition = [
@@ -134,7 +141,37 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if(isset($aCondition['login_name'])){
 			$aWhere[] = ['login_name' => $aCondition['login_name']];
 		}
+		if(isset($aCondition['is_forbidden'])){
+			$aWhere[] = ['is_forbidden' => $aCondition['is_forbidden']];
+		}
+		if(isset($aCondition['name_like']) && $aCondition['name_like']){
+			$aWhere[] = ['like', 'name', $aCondition['name_like']];
+		}
+		if(isset($aCondition['login_name_like']) && $aCondition['login_name_like']){
+			$aWhere[] = ['like', 'login_name', $aCondition['login_name_like']];
+		}
 		return $aWhere;
+	}
+	
+	public function isManager(){
+		if($this->type == static::TYPE_MANAGE){
+			return true;
+		}
+		return false;
+	}
+	
+	public function isVip(){
+		if($this->vip_level && $this->vip_expire_time > NOW_TIME){
+			return true;
+		}
+		return false;
+	}
+	
+	public function vipDaysRemaining(){
+		if($this->isVip()){
+			return ceil(($this->vip_expire_time - NOW_TIME) / 86400);
+		}
+		return 0;
 	}
 	
 	public function getUserClubList(){
@@ -186,6 +223,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aClubList = $this->getUserClubList();
 		if($aClubList){
 			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}else{
+			return 0;
 		}
 		$sql = 'SELECT SUM(`zhanji`) as `total_zhanji` FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $this->id . ' AND `club_id` IN(' . implode(',', $aClubId) . ')';
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
@@ -324,6 +363,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aClubList = $this->getUserClubList();
 		if($aClubList){
 			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}else{
+			return [
+				'zhongChouShui' => 0,
+				'zhongBaoXian' => 0,
+				'shangZhuoRenShu' => 0,
+			];
 		}
 		//获取总抽水
 		$zhongChouShui = ImportData::getUserUnJiaoBanPaijuZhongChouShui($this->id, $aClubId) + $this->choushui_ajust_value;

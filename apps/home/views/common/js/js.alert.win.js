@@ -529,7 +529,7 @@
 					html += '<div class="h30">';
 						html += '<div style="float:left;width:300px;height:100%;">';
 							html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">保险微调：</div>';
-							html += '<input type="text" class="J-baoxian-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" />';
+							html += '<input type="text" class="J-baoxian-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
 						html += '</div>';
 						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总保险: <font class="J-total-baoxian" style="color:#f4e2a9;">0</font> 元</div></div>';
 					html += '</div>';
@@ -635,7 +635,7 @@
 					html += '<div class="h30">';
 						html += '<div style="float:left;width:300px;height:100%;">';
 							html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">抽水微调：</div>';
-							html += '<input type="text" class="J-choushui-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" />';
+							html += '<input type="text" class="J-choushui-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
 						html += '</div>';
 						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总抽水: <font class="J-total-choushui" style="color:#f4e2a9;">0</font> 元</div><div class="s-lms-txt">牌局总数: <font class="J-total-paiju" style="color:#f4e2a9;">0</font> </div></div>';
 					html += '</div>';

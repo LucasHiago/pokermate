@@ -12,6 +12,8 @@ use common\model\ImportData;
 use common\model\Paiju;
 use common\model\Lianmeng;
 use common\model\Club;
+use common\model\Player;
+use common\model\KerenBenjin;
 
 class ImportController extends Controller{
 	
@@ -36,7 +38,61 @@ class ImportController extends Controller{
 			return new Response('Excel文件格式有错误', 0);
 		}
 		
-		return new Response('导入Excel文件成功', 0);
+		return new Response('导入Excel文件成功', 1);
+	}
+	
+	public function actionShowImportPlayer(){
+		return $this->render('import_player');
+	}
+	
+	public function actionUploadPlayerExcel(){
+		$oUploadedFile = UploadedFile::getInstanceByName('filecontent');
+		$fileName = Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.import') . '/' . md5(microtime()) . '.' . $oUploadedFile->getExtension();
+		if(!$oUploadedFile->saveAs($fileName)){
+			return new Response('上传Excel文件失败', 0);
+		}
+		
+		$mUser = Yii::$app->user->getIdentity();
+		try{
+			$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
+			if($aDataList){
+				foreach($aDataList as $aData){
+					$kerenBianhao = (int)$aData[1];
+					$playerId = (int)$aData[2];
+					$mKerenBenjin = KerenBenjin::findOne([
+						'user_id' => $mUser->id,
+						'keren_bianhao' => $kerenBianhao,
+						'is_delete' => 0,
+					]);
+					if(!$mKerenBenjin){
+						KerenBenjin::addRecord([
+							'user_id' => $mUser->id, 
+							'keren_bianhao' => $kerenBianhao, 
+							'create_time' => NOW_TIME
+						]);
+					}
+					$mPlayer = Player::findOne([
+						'user_id' => $mUser->id,
+						'keren_bianhao' => $kerenBianhao,
+						'player_id' => $playerId,
+						'is_delete' => 0,
+					]);
+					if(!$mPlayer){
+						Player::addRecord([
+							'user_id' => $mUser->id,
+							'player_id' => $playerId,
+							'player_name' => $aData[0],
+							'create_time' => NOW_TIME,
+						]);
+					}
+				}
+				return new Response('导入Excel文件成功', 1);
+			}
+		}catch(\Exception $e){
+			return new Response('Excel文件格式有错误', 0);
+		}
+		
+		return new Response('导入Excel文件成功', 1);
 	}
 	
 	public function actionGetPaijuDataList(){
@@ -64,6 +120,9 @@ class ImportController extends Controller{
 		}
 		if($mImportData->user_id != Yii::$app->user->id){
 			return new Response('出错啦', 0);
+		}
+		if($mImportData->status){
+			return new Response('已结算的记录不可以修改', -1);
 		}
 		if(in_array($type, ['baoxian_heji', 'zhanji'])){
 			$mImportData->set($type, (int)$value);

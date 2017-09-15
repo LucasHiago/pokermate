@@ -296,6 +296,7 @@ class IndexController extends Controller{
 		$shuFan = (float)Yii::$app->request->post('shuFan');
 		$agentId = (int)Yii::$app->request->post('agentId');
 		$playerId = (int)Yii::$app->request->post('playerId');
+		$remark = (string)Yii::$app->request->post('remark');
 		
 		if(!$kerenBianhao){
 			return new Response('请输入客人编号', -1);
@@ -332,6 +333,7 @@ class IndexController extends Controller{
 		if($agentId){
 			$mKerenBenjin->set('agent_id', $agentId);
 		}
+		$mKerenBenjin->set('remark', $remark);
 		$mKerenBenjin->save();
 		
 		return new Response('添加成功', 1);

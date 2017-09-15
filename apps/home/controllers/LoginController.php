@@ -41,8 +41,11 @@ class LoginController extends Controller{
 		if($mUser->password != User::encryptPassword($password)){
 			return new Response('密码不正确', -1);
 		}
+		if(!$mUser->isVip()){
+			return new Response('VIP已到期', -1);
+		}
 		if($mUser->is_forbidden){
-			return new Response('账号已禁用', -1);
+			return new Response('账号已删除', -1);
 		}
 		if(!Yii::$app->user->login($mUser, true)){
 			return new Response('登录失败', 0);

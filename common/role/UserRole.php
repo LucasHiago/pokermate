@@ -22,6 +22,11 @@ class UserRole extends \yii\web\User{
 	private $_id = null;		//用户id
 
 	/**
+	 * @var array 权限缓存表,同一次请求二次检测时直接从这里判断是否已经允许
+	 */
+	private $_access = [];
+	
+	/**
 	 * 判断当前用户是否游客
 	 * @return type
 	 */
@@ -30,7 +35,7 @@ class UserRole extends \yii\web\User{
 		$oIdentity = $this->getIdentity();
 		return !($oIdentity instanceof \yii\web\IdentityInterface);
     }
-
+	
 	/**
 	 * 登陆检查不通过的回调
 	 * @param type $checkAjax
@@ -155,7 +160,11 @@ class UserRole extends \yii\web\User{
 			Yii::info('登陆检查时找不到该用户!', 'login');
 			return false;
 		}
-
+		//过滤非常vip用户
+		if(!$oIdentity->isVip()){
+			return false;
+		}
+		
 		$this->setIdentity($oIdentity);
 		if($isCookie){
 			//延长cookie时间
