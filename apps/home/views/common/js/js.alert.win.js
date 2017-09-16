@@ -886,8 +886,11 @@
 				html += '<div class="h100">';
 					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟总账</div>';
 					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;"><div style="line-height:30px;color:#ffffff;padding-left:30px;">所有联盟总账：<font class="J-total-zhong-zhang" style="color:#f4e2a9;">0</font></div></div>';
-						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn">联盟设置</div></div>';
+						html += '<div style="float:left;width:300px;height:100%;">';
+							html += '<div style="float:left;margin-left:20px;width:100px;height:30px;line-height:30px;color:#ffffff;">联盟总账微调：</div>';
+							html += '<input type="text" class="J-lianmeng-zhongzhang-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+						html += '</div>';
+						html += '<div style="float:right;width:300px;height:100%;"><div style="line-height:30px;color:#ffffff;padding-left:30px;">所有联盟总账：<font class="J-total-zhong-zhang" style="color:#f4e2a9;">0</font></div><div class="s-lms-btn">联盟设置</div></div>';
 					html += '</div>';
 				html += '</div>';
 				html += '<div class="h50">';
@@ -1010,6 +1013,7 @@
 							if(aResult.data.length != 0){
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-zhong-zhang').text(aResult.data.totalZhongZhang);
+								oHtml.find('.J-lianmeng-zhongzhang-ajust-value').val(aResult.data.lianmengZhongzhangAjustValue);
 								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
 							}
 						}
@@ -1028,7 +1032,30 @@
 					AlertWin.showLianmengSetting();
 				});
 				_loadLianmengList();
-				
+				oHtml.find('.J-lianmeng-zhongzhang-ajust-value').keyup(function(e){
+					var o = this;
+					if(e.keyCode == 13){
+						ajax({
+							url : Tools.url('home', 'user/update-user-info'),
+							data : {
+								type : 'lianmeng_zhongzhang_ajust_value',
+								value : $(o).val()
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									reloadList();
+								}
+								UBox.show(aResult.msg, aResult.status);
+							}
+						});
+					}
+				});
 			});	
 		},
 		

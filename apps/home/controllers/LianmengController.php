@@ -225,13 +225,14 @@ class LianmengController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		
 		$aLianmengZhongZhangList = $mUser->getLianmengZhongZhangList();
-		$totalZhongZhang = 0;
+		$totalZhongZhang = $mUser->lianmeng_zhongzhang_ajust_value;
 		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
 			$totalZhongZhang += $aLianmengZhongZhang['lianmeng_zhong_zhang'];
 		}
 		$aReturn = [
 			'list' => $aLianmengZhongZhangList,
 			'totalZhongZhang' => $totalZhongZhang,
+			'lianmengZhongzhangAjustValue' => $mUser->lianmeng_zhongzhang_ajust_value,
 		];
 		
 		return new Response('', 1, $aReturn);

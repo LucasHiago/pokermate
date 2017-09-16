@@ -1746,18 +1746,19 @@ input, select{border:none;outline:none;background:none;}
 	cursor:pointer;
 }
 .J-lianmeng-zhongzhang-win .s-lms-btn{
-	position:relative;
-	float:right;
-	right:10px;
-	background: url(./../images/sprite.png) no-repeat;
-    background-position: -670px -367px;
-	width:85px;
-	height:30px;
-	line-height:30px;
-	text-align:center;
-	color:#ffffff;
-	font-weight: bold;
-	cursor:pointer;
+	position: relative;
+    float: right;
+    right: 10px;
+    background: url(./../images/sprite.png) no-repeat;
+    background-position: -673px -367px;
+    top: -32px;
+    width: 85px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
 }
 .J-data-list-win .s-lms-txt, .J-lianmeng-zhongzhang-win .s-lms-txt{
 	position: relative;

@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `lianmeng_zhongzhang_ajust_value` INT(11) NOT NULL COMMENT '联盟总账修正值:新账=(账单总和+修正值)' AFTER `agent_fencheng_ajust_value`;
