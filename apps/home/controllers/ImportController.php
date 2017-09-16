@@ -173,6 +173,8 @@ class ImportController extends Controller{
 			'path' => $savePathName,
 			'club_login_name' => $mClub->club_login_name,
 			'club_login_password' => $mClub->club_login_password,
+			'start_time' => date('Y-m-d', NOW_TIME - 86400),
+			'end_time' => date('Y-m-d'),
 		];
 		
 		return new Response('', 1, $aData);
@@ -182,6 +184,8 @@ class ImportController extends Controller{
 		$clubId = (int)Yii::$app->request->post('clubId');
 		$safecode = (string)Yii::$app->request->post('safecode');
 		$skey = (string)Yii::$app->request->post('skey');
+		$startTime = strtotime((string)Yii::$app->request->post('startTime'));
+		$endTime = strtotime((string)Yii::$app->request->post('endTime'));
 		$retry = (int)Yii::$app->request->post('retry');
 		
 		$mUser = Yii::$app->user->getIdentity();
@@ -193,8 +197,25 @@ class ImportController extends Controller{
 			//重新请求完成时，先将已下载的Excel文件导入数据库
 			$this->_importDownloadExcelFiles($mUser, $mClub->club_id);
 		}
-		$isSuccess = Yii::$app->downLoadExcel->getDownloadExcelUrl($mClub, $skey, $safecode, $retry);
+		
+		if($startTime && $endTime){
+			if($startTime > $endTime){
+				return new Response('开始时间不能大于结束时间', 0);
+			}
+			if($startTime < strtotime('2017-08-15')){
+				return new Response('开始时间不能小于2017-08-15', 0);
+			}
+			if($endTime > NOW_TIME){
+				return new Response('结束时间不能大于今天', 0);
+			}
+		}else{
+			return new Response('请选择时间范围', 0);
+		}
+		$isSuccess = Yii::$app->downLoadExcel->goLoginAndDownloadExcel($mClub, $skey, $safecode, $retry, date('Y-m-d', $startTime), date('Y-m-d', $endTime));
 		if(!$isSuccess){
+			if(Yii::$app->downLoadExcel->getMessage() == 'login_fail'){
+				return new Response('验证码或账号不正确', 3);
+			}
 			return new Response('服务器连接中断，是否继续请求完成？', 2);
 		}
 		//导入下载的Excel文件

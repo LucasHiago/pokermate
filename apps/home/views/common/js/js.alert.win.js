@@ -1,13 +1,14 @@
 (function(container, $){
 	container.AlertWin = {
-		showFillSavecode : function(clubId){
+		showFillSavecode : function(oo, clubId){
 			var aData = {};
 			var html = '';
 			html += '<div class="J-save-code-win">';
 				html += '<img style="float: left; position: relative; top: 63px; border-radius: 5px; left: 150px; width: 120px; height: 48px;border:none;" />';
 				html += '<input type="text" class="save-code" style="text-align: center; border-radius: 5px;float: left; position: relative; top: 63px; left: 160px;background:#181326; width: 120px; height: 48px; line-height: 48px; color: #ffffff; font-size: 20px;" />';
 				html += '<a class="commit-save-code"></a>';
-				html += '<div class="J-wait-tip" style="background: #1f1f2f; float: left; position: relative;text-align:center; line-height: 100px; height: 100px; width: 400px; top: -4px; left: 125px;color:#f4e2a9;display:none;">正在获取牌局，请稍等...</div>';
+				html += '<div class="J-select-time"><input type="text" class="st" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /><span style="float: left; width: 28px; text-align: center;">至</span><input type="text" class="et" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /></div>';
+				html += '<div class="J-wait-tip" style="background: #1f1f2f; float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: 125px;color:#f4e2a9;display:none;">正在获取牌局，请稍等...</div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
@@ -35,7 +36,12 @@
 							}else{
 								location.reload();
 							}
+						}else if(aResult.status == 3){
+							$(document).click();
+							$(oo).click();
+							UBox.show(aResult.msg, aResult.status);
 						}else{
+							oHtml.find('.J-wait-tip').hide();
 							UBox.show(aResult.msg, aResult.status);
 						}
 					}
@@ -44,6 +50,8 @@
 			oHtml.find('.commit-save-code').click(function(){
 				var o = this;
 				var safecode = $(o).prev().val();
+				var startTime = $(o).parent().find('.st').val();
+				var endTime = $(o).parent().find('.et').val();
 				var exponent = '010001';
 				var modulus = '008bec657d62f3a746ed28377c0749393d7d7dec2b68835dc7e23bc45551e800174d60bc1bebea362a4206799cd5f7e829118735085afbe684235ac1daea34cf181166f0b9c86e4ccc68bfb18d0b2a52743fe32726c3a388da9c4fa1cb7a9ef17faab6d4e107df24415acf48ab0fb97e5b9104c3222698d5d6707294805216de81';
 				var skey = RSAUtils.encryptedString(RSAUtils.getKeyPair(exponent, '', modulus), "name=" + aData.club_login_name + "&pwd=" + hex_md5(aData.club_login_password));
@@ -58,6 +66,8 @@
 					clubId : clubId,
 					safecode : aData.safecode,
 					skey : aData.skey,
+					startTime : startTime,
+					endTime : endTime
 				});
 			});
 			
@@ -69,6 +79,8 @@
 						if(aResult.status == 1){
 							aData = aResult.data;
 							oHtml.find('img').attr('src', App.url.resource + aResult.data.path + '?r=' + Math.random());
+							oHtml.find('.st').val(aResult.data.start_time);
+							oHtml.find('.et').val(aResult.data.end_time);
 							oHtml.find('.save-code').focus();
 						}else{
 							UBox.show(aResult.msg, aResult.status);

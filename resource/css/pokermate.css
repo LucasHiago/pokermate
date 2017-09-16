@@ -1893,4 +1893,23 @@ input, select{border:none;outline:none;background:none;}
 	background: url(./../images/sprite.png) no-repeat;
     background-position: -1913px -372px;
 }
+.J-save-code-win .J-select-time{
+	float: left;
+    position: relative;
+    top: 127px;
+    left: -123px;
+    width: 249px;
+    height: 30px;
+    line-height: 30px;
+	color:#f4e2a9;
+}
+.J-save-code-win .J-select-time input{
+	float: left;
+    height:100%;
+	width:110px;
+	background:#181326;
+	border-radius:5px;
+	text-align:center;
+	cursor:pointer;
+}
 /*background:rgba(0,0,0,0.2);*/

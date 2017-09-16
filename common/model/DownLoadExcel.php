@@ -13,10 +13,15 @@ class DownLoadExcel extends \yii\base\Object{
 	public $exportRoomUrl;
 	
 	private $_cookieFile = '';
+	private $_message = '';
 	
 	public function init(){
 		parent::init();
 		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie.tmp';
+	}
+	
+	public function getMessage(){
+		return $this->_message;
 	}
 	
 	private function _doHttpResponsePost($url, $aParam = []){
@@ -55,7 +60,7 @@ class DownLoadExcel extends \yii\base\Object{
 		return $savePathName;
 	}
 	
-	public function getDownloadExcelUrl($mClub, $skey, $safecode, $retry){
+	public function goLoginAndDownloadExcel($mClub, $skey, $safecode, $retry, $startDay, $endDay){
 		set_time_limit(0);
 		$clubId = $mClub->club_id;
 		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie_' . $clubId . '.tmp';
@@ -64,6 +69,7 @@ class DownLoadExcel extends \yii\base\Object{
 			//登录请求
 			$returnString = $this->_doHttpResponsePost($this->loginUrl, $aParam);
 			if($returnString){
+				$this->_message = 'login_fail';
 				return false;
 			}
 			//选择俱乐部页面请求
@@ -75,12 +81,13 @@ class DownLoadExcel extends \yii\base\Object{
 		}
 		//////////////////////////////楼上的代码都不干正事的2333////////////////////////////////////////////
 		$type = 1;
-		$startTime = '2017-09-14';
+		//$startTime = '2017-09-14';
+		$startTime = $startDay;
 		if($mClub->last_import_date){
 			$startTime = $mClub->last_import_date;
 		}
 		while(true){
-			if($startTime == date('Y-m-d')){
+			if($startTime == $endDay){
 				break;
 			}
 			$endTime = date('Y-m-d', strtotime($startTime . ' +1 day'));
@@ -88,8 +95,10 @@ class DownLoadExcel extends \yii\base\Object{
 			if(!$isSuccess){
 				return false;
 			}
-			$mClub->set('last_import_date', $endTime);
-			$mClub->save();
+			if(!$mClub->last_import_date || $startTime == $mClub->last_import_date){
+				$mClub->set('last_import_date', $endTime);
+				$mClub->save();
+			}
 			$startTime = $endTime;
 		}
 		
@@ -167,7 +176,11 @@ class DownLoadExcel extends \yii\base\Object{
 			if(!$returnString){
 				return false;
 			}
-			$fileName = Yii::getAlias('@p.import') . '/' . $clubId . '_' . $roomId . '.xls';
+			$dir = Yii::getAlias('@p.import') . '/' . date('Ymd');
+			if(!is_dir(Yii::getAlias('@p.resource') . '/' . $dir)){
+				mkdir(Yii::getAlias('@p.resource') . '/' . $dir);
+			}
+			$fileName = $dir . '/' . $clubId . '_' . $roomId . '.xls';
 			$saveName = Yii::getAlias('@p.resource') . '/' . $fileName;
 			file_put_contents($saveName, $returnString);
 			//检查文件是否下载正常
