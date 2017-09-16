@@ -159,6 +159,7 @@ $minColumn = 9;
 		console.log(parseInt($('.body-list-wrap .row-item').length));
 		var h = parseInt($('.body-list-wrap .row-item').length) * 44 + 20;
 		$('.body-list-wrap').height(h);
+		$('.body-list-wrap').css('min-height', '655px');
 		/*$('#pageWraper').height(h);
 		$('.lmzj-wrap').height(h);
 		$('.lmzj-content-wrap').height(h);
