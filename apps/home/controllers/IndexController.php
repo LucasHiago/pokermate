@@ -53,6 +53,15 @@ class IndexController extends Controller{
 				$aCurrentPaiju = $mPaiju->toArray();
 			}
 		}
+		//如果该未结算牌局默认联盟删除了，则重新绑定一个
+		if($aCurrentPaiju){
+			$mPaiju = Paiju::toModel($aCurrentPaiju);
+			if(!$aCurrentPaiju['status']){
+				$currentPaijuLianmengId = $mUser->getDefaultLianmengId();
+				$mPaiju->set('lianmeng_id', $currentPaijuLianmengId);
+				$mPaiju->save();
+			}
+		}
 		
 		return $this->render('home', [
 			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
