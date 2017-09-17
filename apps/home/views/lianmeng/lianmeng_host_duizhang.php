@@ -76,7 +76,7 @@ $minColumn = 9;
 			?>
 				<div class="col-item"><?php echo $num; ?></div>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
-					<div class="col-item" style="background:#231b2d;width:132px;margin:0px;"></div>
+					<!--<div class="col-item" style="background:#231b2d;width:132px;margin:0px;"></div>-->
 				<?php } ?>
 			<?php } ?>
 			</div>
