@@ -1479,7 +1479,7 @@
 			showAlertWin(oHtml, function(){
 				oKerenListObject = new KerenList({oWrapDom : oHtml.find('.p-l-body .p-l-item-wrap')});
 				oKerenListObject.show(1);
-				oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : true, wheelSpeed : 10});
+				oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				oKerenListObject.oScrollBar.scrollEndEventFunc = function(){
 					var page = oKerenListObject.oWrapDom.attr('data-page');
 					oKerenListObject.show(parseInt(page) + 1);

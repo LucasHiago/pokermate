@@ -16,7 +16,7 @@ if($aCurrentAgent){
 			</div>
 			<div class="ag-l-list">
 			<?php foreach($aAgentList as $aAgent){ ?>
-				<div class="ag-l-list-item">
+				<div class="ag-l-list-item <?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'active' : '' ?>">
 					<a href="javascript:;" class="agi-chk <?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'active' : '' ?>" data-id="<?php echo $aAgent['id']; ?>"></a>
 					<a class="agi-txt"><?php echo $aAgent['agent_name']; ?></a>
 				</div>
@@ -103,9 +103,11 @@ if($aCurrentAgent){
 			if($(this).hasClass('active')){
 				$(this).removeClass('active');
 				$('.ag-l-list-item .agi-chk').removeClass('active');
+				$('.ag-l-list-item').removeClass('active');
 			}else{
 				$(this).addClass('active');
 				$('.ag-l-list-item .agi-chk').addClass('active');
+				$('.ag-l-list-item').addClass('active');
 			}
 		});
 		$('.ag-l-list-item .agi-chk').on('click', function(){

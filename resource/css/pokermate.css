@@ -849,6 +849,9 @@ input, select{border:none;outline:none;background:none;}
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:19px -290px;
 }
+.ag-l-list .ag-l-list-item.active{
+	background-position:-209px -491px;
+}
 .ag-l-list .ag-l-list-item .agi-chk{
 	position:relative;
 	float:left;
