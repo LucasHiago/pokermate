@@ -18,7 +18,7 @@ if($aCurrentAgent){
 			<?php foreach($aAgentList as $aAgent){ ?>
 				<div class="ag-l-list-item <?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'active' : '' ?>">
 					<a href="javascript:;" class="agi-chk <?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'active' : '' ?>" data-id="<?php echo $aAgent['id']; ?>"></a>
-					<a class="agi-txt"><?php echo $aAgent['agent_name']; ?></a>
+					<a href="<?php echo Url::to('home', 'agent/index'); ?>?agentId=<?php echo $aAgent['id']; ?>" class="agi-txt"><?php echo $aAgent['agent_name']; ?></a>
 				</div>
 			<?php } ?>
 			</div>
@@ -115,8 +115,7 @@ if($aCurrentAgent){
 				$(this).removeClass('active');
 				$('.ag-left .r1-select-all').removeClass('active');
 			}else{
-				//$(this).addClass('active');
-				location.href = Tools.url('home', 'agent/index') + '?agentId=' + $(this).attr('data-id');
+				$(this).addClass('active');
 			}
 		});
 	}
