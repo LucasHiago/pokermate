@@ -118,7 +118,6 @@ class Calculate extends \yii\base\Object{
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
 	 */
 	public static function calculateZhangDan($zhanji = 0, $baoxianHeji = 0, $paijuFee = 0, $baoxianBeichou = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0){
-		Yii::info('zhandan:'.$zhanji.';'.$baoxianHeji.';'.$paijuFee.';'.$baoxianBeichou.';'.$duizhangfangfa.';'.$choushuiShuanfa.';');
 		$zhangDan = (($zhanji + $baoxianHeji) * Lianmeng::getDuizhangfangfaValue($duizhangfangfa)) - $paijuFee - $baoxianBeichou;
 		
 		if($choushuiShuanfa){
