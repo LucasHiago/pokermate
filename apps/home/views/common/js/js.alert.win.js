@@ -755,7 +755,7 @@
 					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟账单详情</div>';
 					html += '<div class="h30">';
 						html += '<div style="float:left;width:300px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select lml-select" style="color:#ff6a6a;width:100%;height:100%;"></select></div></div>';
-						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn">联盟设置</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
+						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn" style="top:-2px;">联盟设置</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
 					html += '</div>';
 				html += '</div>';
 				html += '<div class="h50">';
