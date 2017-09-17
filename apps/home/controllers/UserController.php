@@ -88,7 +88,7 @@ class UserController extends Controller{
 		
 		$totalChouShui = $mUser->choushui_ajust_value;
 		foreach($aChouShuiList as $aChouShui){
-			$totalChouShui += $aChouShui['choushui_value'];
+			$totalChouShui += $aChouShui['shiji_choushui_value'];
 		}
 		$aData = [
 			'list' => $aChouShuiList,

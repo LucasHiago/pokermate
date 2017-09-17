@@ -3,6 +3,7 @@ namespace common\model\form;
 
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 use common\model\KerenBenjin;
 
 class KerenBenjinListForm extends \yii\base\Model{
@@ -24,24 +25,31 @@ class KerenBenjinListForm extends \yii\base\Model{
 		$aControl = [
 			'page' => $this->page,
 			'page_size' => $this->pageSize,
-			'order_by' => ['id' => SORT_DESC],
+			'order_by' => '`k1`.`id` DESC',
 			'with_player_list' => true,
 			'with_agent_info' => true,
 		];
-		$aList = KerenBenjin::getList($aCondition, $aControl);
+		$aList = KerenBenjin::getList1($aCondition, $aControl);
 
 		return $aList;
 	}
 
 	public function getListCondition(){
-		$aCondition = ['user_id' => Yii::$app->user->id, 'is_delete' => 0];
-			
+		$mUser = Yii::$app->user->getIdentity();
+		$aClubList = $mUser->getUserClubList();
+		$aClubId = [];
+		if($aClubList){
+			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}
+		array_push($aClubId, 0);
+		$aCondition = ['`k1`.`user_id`' => Yii::$app->user->id, '`k1`.`is_delete`' => 0, 'club_id' => $aClubId];
+		
 		return $aCondition;
 	}
 
 	public function getPageObject(){
 		$aCondition = $this->getListCondition();
-		$count = KerenBenjin::getCount($aCondition);
+		$count = KerenBenjin::getCount1($aCondition);
 		return new Pagination(['totalCount' => $count, 'pageSize' => $this->pageSize]);
 	}
 	

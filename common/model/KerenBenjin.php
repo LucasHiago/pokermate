@@ -28,6 +28,102 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		return $aPlayerList = Player::findAll(['keren_bianhao' => $this->keren_bianhao]);
 	}
 	
+	private static function _parseWhereCondition1($aCondition){
+		$where = '';
+		if(isset($aCondition['`k1`.`user_id`'])){
+			$where = ' AND `k1`.`user_id`=' . $aCondition['`k1`.`user_id`'];
+		}
+		if(isset($aCondition['`k1`.`keren_bianhao`'])){
+			$where = ' AND `k1`.`keren_bianhao`=' . $aCondition['`k1`.`keren_bianhao`'];
+		}
+		if(isset($aCondition['`k1`.`is_delete`'])){
+			$where = ' AND `k1`.`is_delete`=' . $aCondition['`k1`.`is_delete`'];
+		}
+		return $where;
+	}
+	
+	/**
+	 *	获取列表	列出用户添加的俱乐部下的客人和自己导入的客人
+	 *	$aCondition = [
+	 *		'id' =>
+	 *		'user_id' =>
+	 *		'keren_bianhao' =>
+	 *		'agent_id' => 
+	 *		'is_delete' => 
+	 *		'start_time' =>
+	 *		'end_time' =>
+	 *	]
+	 *	$aControl = [
+	 *		'select' =>
+	 *		'order_by' =>
+	 *		'page' =>
+	 *		'page_size' =>
+	 *		'with_player_list' =>
+	 *		'with_agent_info' =>
+	 *	]
+	 */
+	public static function getList1($aCondition = [], $aControl = []){
+		$where = static::_parseWhereCondition1($aCondition);
+		$select = '`k1`.*';
+		if(isset($aControl['select'])){
+			$select = $aControl['select'];
+		}
+		$order = '';
+		if(isset($aControl['order_by'])){
+			$order = 'ORDER BY ' . $aControl['order_by'];
+		}
+		$limit = '';
+		if(isset($aControl['page']) && isset($aControl['page_size'])){
+			$offset = ($aControl['page'] - 1) * $aControl['page_size'];
+			$limit = ' LIMIT ' . $offset . ',' . $aControl['page_size'];
+		}
+		
+		$sql = 'SELECT ' . $select . ' FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT DISTINCT(`player_id`) FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ')) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`)) AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where . ' ' . $order . ' ' . $limit;
+		
+		$aList = Yii::$app->db->createCommand($sql)->queryAll();
+		if(!$aList){
+			return [];
+		}
+		
+		$aPlayerList = [];
+		if(isset($aControl['with_player_list']) && $aControl['with_player_list']){
+			$aKerenBianhao = ArrayHelper::getColumn($aList, 'keren_bianhao');
+			$aPlayerList = Player::findAll(['keren_bianhao' => $aKerenBianhao]);
+		}
+		
+		$aAgentList = [];
+		if(isset($aControl['with_agent_info']) && $aControl['with_agent_info']){
+			$aAgentId = ArrayHelper::getColumn($aList, 'agent_id');
+			$aAgentList = Agent::findAll(['id' => $aAgentId]);
+		}
+		
+		foreach($aList as $key => $value){
+			$aList[$key]['player_list'] = [];
+			$aList[$key]['agent_info'] = [];
+			$aList[$key]['ying_chou'] =floatval($value['ying_chou']);
+			$aList[$key]['shu_fan'] = floatval($value['shu_fan']);
+			foreach($aPlayerList as $aPlayer){
+				if($value['keren_bianhao'] == $aPlayer['keren_bianhao']){
+					array_push($aList[$key]['player_list'], $aPlayer);
+				}
+			}
+			foreach($aAgentList as $aAgent){
+				if($value['agent_id'] == $aAgent['id']){
+					$aList[$key]['agent_info'] = $aAgent;
+				}
+			}
+		}
+		
+		return $aList;
+	}
+	
+	public static function getCount1($aCondition = []){
+		$where = static::_parseWhereCondition1($aCondition);
+		$sql = 'SELECT COUNT(*) AS `num` FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT DISTINCT(`player_id`) FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ')) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`)) AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where;
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return (int)$aResult[0]['num'];
+	}
+	
 	/**
 	 *	获取列表
 	 *	$aCondition = [

@@ -7,7 +7,7 @@ $this->setTitle('结账台');
 		<div class="c-b-list-wrap">
 		<?php foreach($aLastPaijuList as $aPaiju){ ?>
 			<div class="c-b-list-item <?php echo !$aPaiju['status'] ? 'new' : ''; ?>">
-				<div class="c-b-l-i-title"><?php echo $aPaiju['paiju_name']; ?></div>
+				<div class="c-b-l-i-title" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);"><?php echo $aPaiju['paiju_name']; ?></div>
 				<div class="c-b-l-i-bottom">
 					<a class="l-text"><span>核对数字</span><span <?php echo $aPaiju['hedui_shuzi'] ? 'style="color:#ff0000;"' : ''; ?>><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
 					<?php if(!$aPaiju['status']){ ?>

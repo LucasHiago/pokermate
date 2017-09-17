@@ -175,30 +175,38 @@ class IndexController extends Controller{
 		if(!$pageSize || $pageSize <= 0){
 			$pageSize = 20;
 		}
+		$mUser = Yii::$app->user->getIdentity();
+		$aClubList = $mUser->getUserClubList();
+		$aClubId = [];
+		if($aClubList){
+			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}
+		array_push($aClubId, 0);
 		$aCondition = [
-			'user_id' => Yii::$app->user->id,
-			'is_delete' => 0,
+			'`k1`.`user_id`' => Yii::$app->user->id,
+			'`k1`.`is_delete`' => 0,
+			'club_id' => $aClubId,
 		];
 		if($kerenBianhao){
-			$aCondition['keren_bianhao'] = $kerenBianhao;
+			$aCondition['`k1`.`keren_bianhao`'] = $kerenBianhao;
 		}
 		$aControl = [
 			'page' => $page,
 			'page_size' => $pageSize,
-			'order_by' => ['id' => SORT_DESC],
+			'order_by' => '`k1`.id DESC',
 			'with_player_list' => true,
 		];
 		if($kerenBianhaoSort == 1){
-			$aControl['order_by'] = ['keren_bianhao' => SORT_DESC];
+			$aControl['order_by'] = '`k1`.`keren_bianhao` DESC';
 		}elseif($kerenBianhaoSort == 2){
-			$aControl['order_by'] = ['keren_bianhao' => SORT_ASC];
+			$aControl['order_by'] = '`k1`.`keren_bianhao` ASC';
 		}
 		if($benjinSort == 1){
-			$aControl['order_by'] = ['benjin' => SORT_DESC];
+			$aControl['order_by'] = '`k1`.`benjin` DESC';
 		}elseif($benjinSort == 2){
-			$aControl['order_by'] = ['benjin' => SORT_ASC];
+			$aControl['order_by'] = '`k1`.`benjin` ASC';
 		}
-		$aList = KerenBenjin::getList($aCondition, $aControl);
+		$aList = KerenBenjin::getList1($aCondition, $aControl);
 		
 		return new Response('', 1, $aList);
 	}
@@ -330,6 +338,7 @@ class IndexController extends Controller{
 			'player_name' => $playerName,
 			'create_time' => NOW_TIME,
 		]);
+		ImportData::addEmptyDataRecord(Yii::$app->user->id, $playerId, $playerName);
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 		if(!$mKerenBenjin){
 			return new Response('出错啦', 0);

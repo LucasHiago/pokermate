@@ -57,8 +57,10 @@ class ImportController extends Controller{
 			$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
 			if($aDataList){
 				foreach($aDataList as $aData){
+					$playerName = (string)$aData[0];
 					$kerenBianhao = (int)$aData[1];
 					$playerId = (int)$aData[2];
+					ImportData::addEmptyDataRecord($mUser->id, $playerId, $playerName);
 					$mKerenBenjin = KerenBenjin::findOne([
 						'user_id' => $mUser->id,
 						'keren_bianhao' => $kerenBianhao,

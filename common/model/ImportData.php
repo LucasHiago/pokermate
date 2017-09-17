@@ -15,6 +15,19 @@ class ImportData extends \common\lib\DbOrmModel{
 		return static::insert($aData);
 	}
 	
+	/** 
+	 *	为了标记自己导入的客人而插入一条空数据
+	 */
+	public static function addEmptyDataRecord($userId, $playerId, $playerName = ''){
+		static::insert([
+			'user_id' => $userId,
+			'club_id' => 0,
+			'player_id' => $playerId,
+			'player_name' => $playerName,
+			'create_time' => NOW_TIME,
+		]);
+	}
+		
 	private static function _bathInsertData($aInsertList){
 		(new Query())->createCommand()->batchInsert(static::tableName(), [
 			'paiju_type', 
