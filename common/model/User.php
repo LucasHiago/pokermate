@@ -536,10 +536,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$value['paiju_id']]['paiju_fee'] += $value['paiju_fee'];
 			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
 			$aReturnList[$value['paiju_id']]['baoxian_beichou'] += $baoxianBeichou;
-			if(!$value['is_clean']){Yii::info('zhang_dan:'.$value['zhanji'].';'.$value['baoxian_heji'].';'.$value['paiju_fee'].';'.$baoxianBeichou.';');Yii::info('rs:'.Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa));
+			if(!$value['is_clean']){
 				$aReturnList[$value['paiju_id']]['zhang_dan'] += Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
 			}
-		}
+		}Yii::info('$aResult:'.json_encode($aResult));
 		return $aReturnList;
 	}
 		
