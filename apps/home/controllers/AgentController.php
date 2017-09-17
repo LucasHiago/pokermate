@@ -14,18 +14,32 @@ use common\model\ImportData;
 class AgentController extends Controller{
 	
 	public function actionIndex(){
+		$agentId = (int)Yii::$app->request->get('agentId');
+		
 		$mUser = Yii::$app->user->getIdentity();
 		$aAgentList = $mUser->getAgentList();
-		$aFenchengListSetting = $mUser->getFenchengListSetting();
-		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList();
+		$aCurrentAgent = [];
+		if($aAgentList){
+			$aCurrentAgent = $aAgentList[0];
+			foreach($aAgentList as $aAgent){
+				if($aAgent['id'] == $agentId){
+					$aCurrentAgent = $aAgent;
+					break;
+				}
+			}
+		}
+		$aAgentUnCleanFenChengList = [];
+		if($aCurrentAgent){
+			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($aCurrentAgent['id']);
+		}
 		$totalFenCheng = $mUser->agent_fencheng_ajust_value;
 		foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
 			$totalFenCheng += $aAgentUnCleanFenCheng['fencheng'];
 		}
 		
 		return $this->render('agent', [
+			'aCurrentAgent' => $aCurrentAgent,
 			'aAgentList' => $aAgentList,
-			'aFenchengListSetting' => $aFenchengListSetting,
 			'aAgentUnCleanFenChengList' => $aAgentUnCleanFenChengList,
 			'agentFenchengAjustValue' => $mUser->agent_fencheng_ajust_value,
 			'totalFenCheng' => $totalFenCheng,
@@ -88,13 +102,14 @@ class AgentController extends Controller{
 	}
 	
 	public function actionOneKeySaveSetting(){
+		$agentId = (int)Yii::$app->request->post('agentId');
 		$type = (string)Yii::$app->request->post('type');
 		$yingfan = (float)Yii::$app->request->post('yingfan');
 		$shufan = (float)Yii::$app->request->post('shufan');
 		if($type == 'yingfan'){
-			FenchengSetting::oneKeySaveSetting(Yii::$app->user->id, $type, $yingfan);
+			FenchengSetting::oneKeySaveSetting(Yii::$app->user->id, $agentId, $type, $yingfan);
 		}elseif($type == 'shufan'){
-			FenchengSetting::oneKeySaveSetting(Yii::$app->user->id, $type, $shufan);
+			FenchengSetting::oneKeySaveSetting(Yii::$app->user->id, $agentId, $type, $shufan);
 		}else{
 			return new Response('操作失败', 1);
 		}
@@ -102,13 +117,14 @@ class AgentController extends Controller{
 	}
 		
 	public function actionClean(){
+		$agentId = (int)Yii::$app->request->post('agentId');
 		$aId = (array)Yii::$app->request->post('aId');
 		
 		if(!$aId){
 			return new Response('请选择要清账的记录', -1);
 		}
 		$mUser = Yii::$app->user->getIdentity();
-		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList();
+		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId);
 		$aUpdateId = [];
 		foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
 			if(in_array($aAgentUnCleanFenCheng['id'], $aId)){

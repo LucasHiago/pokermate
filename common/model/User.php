@@ -232,12 +232,16 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	}
 	
 	public function getAgentList(){
-		return Agent::findAll(['user_id' => $this->id, 'is_delete' => 0]);
+		$aList = Agent::getList(['user_id' => $this->id, 'is_delete' => 0]);
+		foreach($aList as $key => $value){
+			$aList[$key]['fencheng_setting'] = $this->getFenchengListSetting($value['id']);
+		}
+		return $aList;
 	}
 	
-	public function getFenchengListSetting(){
+	public function getFenchengListSetting($agentId){
 		$aFenchengConfigList = FenchengSetting::getFenchengConfigList();
-		$aList = FenchengSetting::findAll(['user_id' => $this->id, 'zhuozi_jibie' => $aFenchengConfigList]);
+		$aList = FenchengSetting::findAll(['user_id' => $this->id, 'agent_id' => $agentId, 'zhuozi_jibie' => $aFenchengConfigList]);
 		$aInsertList = [];
 		foreach($aFenchengConfigList as $zhuoziJibie){
 			$flag = false;
@@ -249,6 +253,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			if(!$flag){
 				array_push($aInsertList, [
 					'user_id' => $this->id,
+					'agent_id' => $agentId,
 					'zhuozi_jibie' => $zhuoziJibie,
 					'yingfan' => 0,
 					'shufan' => 0,
@@ -258,7 +263,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if($aInsertList){
 			FenchengSetting::bathInsertData($aInsertList);
 		}
-		return FenchengSetting::findAll(['user_id' => $this->id, 'zhuozi_jibie' => $aFenchengConfigList]);
+		return FenchengSetting::findAll(['user_id' => $this->id, 'agent_id' => $agentId, 'zhuozi_jibie' => $aFenchengConfigList]);
 	}
 	
 	public function getLastPaijuList($page = 1, $pageSize = 0, $aParam = ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder = ['`t1`.`end_time`' => SORT_DESC]){
@@ -694,7 +699,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	/**
 	 *	获取代理未清账分成列表
 	 */
-	public function getAgentUnCleanFenChengList(){
+	public function getAgentUnCleanFenChengList($agentId){
 		$clubIdWhere = '';
 		$aClubId = [];
 		$aClubList = $this->getUserClubList();
@@ -706,10 +711,11 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if($aClubId){
 			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
 		}
-		$sql = 'SELECT `t1`.`id`,`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`mangzhu`,`t1`.`player_id`,`t1`.`player_name`,`t1`.`zhanji` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`status`>=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t1`.`agent_is_clean`=0 AND `t3`.`is_delete`=0' . $clubIdWhere;
+		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`mangzhu`,`t1`.`player_id`,`t1`.`player_name`,`t1`.`zhanji` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t6` ON `t6`.`keren_bianhao`=`t6`.`keren_bianhao` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`status`>=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t1`.`agent_is_clean`=0 AND `t3`.`is_delete`=0 AND `t6`.`agent_id`=' . $agentId . $clubIdWhere;
+		$sql = 'SELECT `t7`.* FROM (SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`mangzhu`,`t1`.`player_id`,`t1`.`player_name`,`t1`.`zhanji`,`t3`.`keren_bianhao` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`status`>=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t1`.`agent_is_clean`=0 AND `t3`.`is_delete`=0 ' . $clubIdWhere . ') AS `t7` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t8` ON `t7`.`keren_bianhao`=`t8`.`keren_bianhao` WHERE `t8`.`agent_id`=' . $agentId;
 		$aResult =  Yii::$app->db->createCommand($sql)->queryAll();
 		
-		$aFenchengSetting = ArrayHelper::index($this->getFenchengListSetting(), 'zhuozi_jibie');
+		$aFenchengSetting = ArrayHelper::index($this->getFenchengListSetting($agentId), 'zhuozi_jibie');
 		foreach($aResult as $key => $value){
 			$yinFan = 0;
 			$shuFan = 0;

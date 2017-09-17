@@ -1,6 +1,10 @@
 <?php
 use umeworld\lib\Url;
 $this->setTitle('代理分成');
+$aFenchengListSetting = [];
+if($aCurrentAgent){
+	$aFenchengListSetting = $aCurrentAgent['fencheng_setting'];
+}
 ?>
 <div class="c-body-wrap">
 	<div class="ag-bg">
@@ -13,7 +17,7 @@ $this->setTitle('代理分成');
 			<div class="ag-l-list">
 			<?php foreach($aAgentList as $aAgent){ ?>
 				<div class="ag-l-list-item">
-					<a href="javascript:;" class="agi-chk" data-id="<?php echo $aAgent['id']; ?>"></a>
+					<a href="javascript:;" class="agi-chk <?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'active' : '' ?>" data-id="<?php echo $aAgent['id']; ?>"></a>
 					<a class="agi-txt"><?php echo $aAgent['agent_name']; ?></a>
 				</div>
 			<?php } ?>
@@ -109,7 +113,8 @@ $this->setTitle('代理分成');
 				$(this).removeClass('active');
 				$('.ag-left .r1-select-all').removeClass('active');
 			}else{
-				$(this).addClass('active');
+				//$(this).addClass('active');
+				location.href = Tools.url('home', 'agent/index') + '?agentId=' + $(this).attr('data-id');
 			}
 		});
 	}
@@ -207,10 +212,10 @@ $this->setTitle('代理分成');
 			});
 		}
 		$('.ag-c-bottom-btn1').click(function(){
-			oneKeySaveSetting(this, {type : 'yingfan', yingfan : parseFloat($(this).prev().find('input').val())});
+			oneKeySaveSetting(this, {agentId : <?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, type : 'yingfan', yingfan : parseFloat($(this).prev().find('input').val())});
 		});
 		$('.ag-c-bottom-btn2').click(function(){
-			oneKeySaveSetting(this, {type : 'shufan', shufan : parseFloat($(this).prev().find('input').val())});
+			oneKeySaveSetting(this, {agentId : <?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, type : 'shufan', shufan : parseFloat($(this).prev().find('input').val())});
 		});
 	}
 	
@@ -274,7 +279,10 @@ $this->setTitle('代理分成');
 		if(confirm('确定要清账？')){
 			ajax({
 				url : Tools.url('home', 'agent/clean'),
-				data : {aId : aId},
+				data : {
+					agentId : <?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, 
+					aId : aId
+				},
 				beforeSend : function(){
 					$(o).attr('disabled', 'disabled');
 				},

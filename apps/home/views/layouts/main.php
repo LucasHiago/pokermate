@@ -96,7 +96,7 @@ if($mUser){
 			}
 		});
 		
-		var isCanClose = true;
+		var isCanCloseWin = true;
 		function showAlertWin(oDom, callback){
 			var oHtml = $('<div class="J-alert-win-wrap" style="z-index:100;position:fixed;top:0px;left:0px;width:100%;height:100%;overflow-y: scroll;background:rgba(0,0,0,0.8);"></div>');
 			oHtml.append(oDom);
@@ -106,7 +106,7 @@ if($mUser){
 			setTimeout(function(){
 				$(document).on('click', function(e){
 					if(!$(e.target).parents().hasClass('J-alert-win-wrap') && !$(e.target).hasClass('wrapUBox') && !$(e.target).parents().hasClass('wrapUBox')){
-						if(isCanClose){
+						if(isCanCloseWin){
 							oHtml.remove();
 							document.documentElement.style.overflow = '';
 						}

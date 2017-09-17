@@ -24,7 +24,7 @@
 						$(o).attr('disabled', false);
 					},
 					success : function(aResult){
-						isCanClose = true;
+						isCanCloseWin = true;
 						if(aResult.status == 1){
 							$(document).click();
 							UBox.show(aResult.msg, aResult.status, function(){
@@ -63,7 +63,7 @@
 				aData.safecode = safecode;
 				aData.skey = skey;
 				oHtml.find('.J-wait-tip').show();
-				isCanClose = false;
+				isCanCloseWin = false;
 				_doImportPaiju(o, {
 					clubId : clubId,
 					safecode : aData.safecode,
@@ -1479,7 +1479,7 @@
 			showAlertWin(oHtml, function(){
 				oKerenListObject = new KerenList({oWrapDom : oHtml.find('.p-l-body .p-l-item-wrap')});
 				oKerenListObject.show(1);
-				oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+				oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : true, wheelSpeed : 10});
 				oKerenListObject.oScrollBar.scrollEndEventFunc = function(){
 					var page = oKerenListObject.oWrapDom.attr('data-page');
 					oKerenListObject.show(parseInt(page) + 1);

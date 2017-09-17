@@ -18,14 +18,15 @@ class FenchengSetting extends \common\lib\DbOrmModel{
 	public static function bathInsertData($aInsertList){
 		(new Query())->createCommand()->batchInsert(static::tableName(), [
 			'user_id', 
+			'agent_id', 
 			'zhuozi_jibie',
 			'yingfan',
 			'shufan'
 		], $aInsertList)->execute();
 	}
 	
-	public static function oneKeySaveSetting($userId, $type, $value){
-		$sql = 'UPDATE ' . static::tableName() . ' SET `' . $type . '`=' . $value . ' WHERE `user_id`=' . $userId;
+	public static function oneKeySaveSetting($userId, $agentId, $type, $value){
+		$sql = 'UPDATE ' . static::tableName() . ' SET `' . $type . '`=' . $value . ' WHERE `user_id`=' . $userId . ' AND `agent_id`=' . $agentId;
 		Yii::$app->db->createCommand($sql)->execute();
 	}
 	
