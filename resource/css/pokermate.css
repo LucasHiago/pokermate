@@ -704,7 +704,7 @@ input, select{border:none;outline:none;background:none;}
     height: 31px;
 	background:url('./../images/sprite.png') no-repeat;
 	background-position:-854px -161px;
-	margin-bottom:20px;
+	margin-bottom:5px;
 }
 .c-b-c-r-bottom .c-b-c-r-bottom-body .b-b-i-l-i .type{
 	position: relative;
@@ -1488,14 +1488,13 @@ input, select{border:none;outline:none;background:none;}
 	height:580px;
 }
 .J-player-list-win .p-l-body .p-l-item{
-	float:left;
-	width:1320px;
-	height:80px;
-	background: url(./../images/sprite.png) no-repeat;
-    background-position: -711px -473px;
+	float: left;
+    width: 1320px;
+    height: 50px;
+    background: url(./../images/sprite.png) no-repeat;
+    background-position: -711px -488px;
 }
 .J-player-list-win .p-l-body .p-l-item .c-td{
-	margin-top: 15px;
     float: left;
     height: 50px;
     line-height: 50px;
