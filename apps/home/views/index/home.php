@@ -138,7 +138,7 @@ $this->setTitle('结账台');
 	<?php echo $this->render(Yii::getAlias('@r.js.paiju.list')); ?>
 	<?php echo $this->render(Yii::getAlias('@r.js.keren.list')); ?>
 	function initMoneyOutPutType(){
-		$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		
 		function commitMoneyTypeChange(o){
 			ajax({
@@ -212,7 +212,7 @@ $this->setTitle('结账台');
 		}
 		
 		function initMoneyTypeListScroll(){
-			$('.b-b-item-left-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+			$('.b-b-item-left-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		}
 		
 		function commitMoneyTypeChange(o){
@@ -378,7 +378,7 @@ $this->setTitle('结账台');
 		<?php if($currentPaijuLianmengId){ ?>
 			$('.J-jieshuan-lianmeng-select').val(<?php echo $currentPaijuLianmengId; ?>);
 		<?php } ?>
-		$('.c-b-c-l-tab-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		$('.c-b-c-l-tab-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		$('.J-jieshuan-lianmeng-select').on('change', function(){
 			var o = this;
 			ajax({

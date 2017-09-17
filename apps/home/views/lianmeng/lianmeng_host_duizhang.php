@@ -154,7 +154,7 @@ $minColumn = 9;
 			}
 		});
 		//$('.lmzj-wrap').height($('.body-list-wrap').height());
-		//$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 5});
+		//$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});
 		//$('.body-list-wrap').find('.J-tinyscrollbar-scrollbar').css("right", "-8px");
 		console.log(parseInt($('.body-list-wrap .row-item').length));
 		var h = parseInt($('.body-list-wrap .row-item').length) * 44 + 20;
@@ -164,6 +164,6 @@ $minColumn = 9;
 		$('.lmzj-wrap').height(h);
 		$('.lmzj-content-wrap').height(h);
 		$('.body-list-wrap').height(h);
-		$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 5});*/
+		$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});*/
 	});
 </script>

@@ -143,7 +143,7 @@
 			});
 			oHtml.find('.play-select-list .p-s-wrap').each(function(){
 				$(this).parent().show();
-				$(this).tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				$(this).tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				$(this).parent().hide();
 			});
 			oHtml.find('.del-btn').click(function(){

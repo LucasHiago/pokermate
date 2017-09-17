@@ -607,7 +607,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aUnJiaoBanPaijuTotalStatistic = $this->_getUnJiaoBanPaijuTotalStatistic();
 		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
 		$totalBaoXian = $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian'];
-		$totalLianmengZhongZhang = 0;
+		$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
 		$aLianmengZhongZhangList = $this->getLianmengZhongZhangList();
 		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
 			$totalLianmengZhongZhang += $aLianmengZhongZhang['lianmeng_zhong_zhang'];

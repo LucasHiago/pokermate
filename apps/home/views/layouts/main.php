@@ -183,7 +183,7 @@ if($mUser){
 	<script type="text/javascript">
 		$(function(){
 			$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
-			$('.c-h-center').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 5});
+			$('.c-h-center').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});
 		});
 	</script>
 </body>

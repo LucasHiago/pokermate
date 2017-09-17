@@ -94,7 +94,7 @@ $this->setTitle('代理分成');
 	}
 	
 	function initAgentList(){
-		$('.ag-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		$('.ag-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		$('.ag-left .r1-select-all').on('click', function(){
 			if($(this).hasClass('active')){
 				$(this).removeClass('active');
@@ -114,7 +114,7 @@ $this->setTitle('代理分成');
 		});
 	}
 	function initAgentSetting(){
-		$('.J-ag-c-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		$('.J-ag-c-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		function delPercent(o){
 			var oTxt = $(o).prev().find('input');
 			var txt = oTxt.val();
@@ -215,7 +215,7 @@ $this->setTitle('代理分成');
 	}
 	
 	function initAgentFenCheng(){
-		$('.ag-r-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+		$('.ag-r-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		$('.ag-right .ag-r-select-all').on('click', function(){
 			if($(this).hasClass('active')){
 				$(this).removeClass('active');

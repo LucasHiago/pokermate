@@ -153,7 +153,7 @@
 					$(document).click();
 					AlertWin.showLianmengClubSetting(lianmengId);
 				});
-				oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 			});	
 		},
 		
@@ -300,7 +300,7 @@
 							if(aResult.data.length != 0){
 								appendLianmengClubItemHtml(aResult.data.list);
 								oHtml.find('.J-lianmeng-name').text(aResult.data.aLianmeng.name);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -519,7 +519,7 @@
 							if(aResult.data.length != 0){
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-shan-zhuo-ren-shu').text(aResult.data.totalShangZhuoRenShu);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -596,7 +596,7 @@
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-baoxian').text(aResult.data.totalBaoXian);
 								oHtml.find('.J-baoxian-ajust-value').val(aResult.data.baoxianAjustValue);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -712,7 +712,7 @@
 								oHtml.find('.J-total-choushui').text(aResult.data.totalChouShui);
 								oHtml.find('.J-total-paiju').text(aResult.data.count);
 								oHtml.find('.J-choushui-ajust-value').val(aResult.data.choushuiAjustValue);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -874,7 +874,7 @@
 					$(document).click();
 					AlertWin.showLianmengSetting();
 				});
-				oScrollBar = oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				oScrollBar = oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				_loadList(lianmengId);
 				
 			});	
@@ -1014,7 +1014,7 @@
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-zhong-zhang').text(aResult.data.totalZhongZhang);
 								oHtml.find('.J-lianmeng-zhongzhang-ajust-value').val(aResult.data.lianmengZhongzhangAjustValue);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -1197,7 +1197,7 @@
 							oHtml.find('.ls-list-wrap').html('');
 							if(aResult.data.length != 0){
 								appendLianmengItemHtml(aResult.data);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -1344,7 +1344,7 @@
 							oHtml.find('.top-title').text(aRecord.paiju_type);
 							oHtml.find('.info-detail').html('<a>牌局类型:</a><a class="val">' + aRecord.paiju_type + '</a><a>牌局名:</a><a class="val">' + aRecord.paiju_name + '</a><a>创建者:</a><a class="val">' + aRecord.paiju_creater + '</a><a>盲注:</a><a class="val">' + aRecord.mangzhu + '</a><a>牌桌:</a><a class="val">' + aRecord.paizuo + '</a><a>牌局时长:</a><a class="val">' + aRecord.paiju_duration + '</a><a>总手数:</a><a class="val">' + aRecord.zongshoushu + '</a><a>结束时间:</a><a class="val">' + aRecord.end_time_format + '</a>');
 							oHtml.find('.body-list').append(_bulidItemHmtl(aResult.data.list));
-							oHtml.find('.body-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+							oHtml.find('.body-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
@@ -1424,7 +1424,7 @@
 				});
 				oHtml.find('.play-select-list .p-s-wrap').each(function(){
 					$(this).parent().show();
-					$(this).tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+					$(this).tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 					$(this).parent().hide();
 				});
 				oHtml.find('.add-btn').click(function(){
@@ -1477,7 +1477,7 @@
 			showAlertWin(oHtml, function(){
 				oKerenListObject = new KerenList({oWrapDom : oHtml.find('.p-l-body .p-l-item-wrap')});
 				oKerenListObject.show(1);
-				oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				oKerenListObject.oScrollBar.scrollEndEventFunc = function(){
 					var page = oKerenListObject.oWrapDom.attr('data-page');
 					oKerenListObject.show(parseInt(page) + 1);
@@ -1653,7 +1653,7 @@
 			});
 			
 			showAlertWin(oHtml, function(){
-				oHtml.find('.m-t-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				oHtml.find('.m-t-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 			});
 		},
 		
@@ -1753,7 +1753,7 @@
 				setInputInterval(this);
 			});
 			showAlertWin(oHtml, function(){
-				oHtml.find('.m-t-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				oHtml.find('.m-t-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 			});
 		},
 		
@@ -1958,7 +1958,7 @@
 					oPaijuListObject.aExtentParam.isHistory = 1;
 				}
 				oPaijuListObject.show(1);
-				oPaijuListObject.oScrollBar = oHtml.find('.content-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 5});
+				oPaijuListObject.oScrollBar = oHtml.find('.content-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				oPaijuListObject.oScrollBar.scrollEndEventFunc = function(){
 					var page = oPaijuListObject.oWrapDom.attr('data-page');
 					oPaijuListObject.show(parseInt(page) + 1);
