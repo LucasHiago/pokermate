@@ -11,7 +11,7 @@ $this->setTitle('结账台');
 				<div class="c-b-l-i-bottom">
 					<a class="l-text"><span>核对数字</span><span <?php echo $aPaiju['hedui_shuzi'] ? 'style="color:#ff0000;"' : ''; ?>><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
 					<?php if(!$aPaiju['status']){ ?>
-					<a class="l-edit" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>);"></a>
+					<a class="l-edit" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);"></a>
 					<?php }else{ ?>
 					<a class="l-edit" style="background:none;cursor:default;"></a>
 					<?php } ?>

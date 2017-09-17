@@ -24,6 +24,7 @@
 						$(o).attr('disabled', false);
 					},
 					success : function(aResult){
+						isCanClose = true;
 						if(aResult.status == 1){
 							$(document).click();
 							UBox.show(aResult.msg, aResult.status, function(){
@@ -62,6 +63,7 @@
 				aData.safecode = safecode;
 				aData.skey = skey;
 				oHtml.find('.J-wait-tip').show();
+				isCanClose = false;
 				_doImportPaiju(o, {
 					clubId : clubId,
 					safecode : aData.safecode,
