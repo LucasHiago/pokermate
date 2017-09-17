@@ -157,7 +157,7 @@ $minColumn = 9;
 		//$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});
 		//$('.body-list-wrap').find('.J-tinyscrollbar-scrollbar').css("right", "-8px");
 		console.log(parseInt($('.body-list-wrap .row-item').length));
-		var h = parseInt($('.body-list-wrap .row-item').length) * 44 + 20;
+		var h = parseInt($('.body-list-wrap .row-item, .body-list-wrap .row-item.lbb').length) * 44 + 20;
 		$('.body-list-wrap').height(h);
 		$('.body-list-wrap').css('min-height', '655px');
 		/*$('#pageWraper').height(h);

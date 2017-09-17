@@ -629,9 +629,13 @@
 							},
 							success : function(aResult){
 								if(aResult.status == 1){
-									reloadList();
+									//reloadList();
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 3);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
 								}
-								UBox.show(aResult.msg, aResult.status);
 							}
 						});
 					}
@@ -740,9 +744,13 @@
 							},
 							success : function(aResult){
 								if(aResult.status == 1){
-									reloadList();
+									//reloadList();
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 3);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
 								}
-								UBox.show(aResult.msg, aResult.status);
 							}
 						});
 					}
@@ -1051,9 +1059,13 @@
 							},
 							success : function(aResult){
 								if(aResult.status == 1){
-									reloadList();
+									//reloadList();
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 3);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
 								}
-								UBox.show(aResult.msg, aResult.status);
 							}
 						});
 					}
