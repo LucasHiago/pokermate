@@ -158,7 +158,7 @@ $minColumn = 9;
 		//$('.body-list-wrap').find('.J-tinyscrollbar-scrollbar').css("right", "-8px");
 		console.log(parseInt($('.body-list-wrap .row-item').length));
 		var h = parseInt($('.body-list-wrap .row-item').length) * 44 + 20;
-		var w = parseInt($('.body-list-wrap .row-item .col-item').length) * 134;
+		var w = parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) * 134;
 		$('.body-list-wrap').width(w);
 		$('.body-list-wrap').height(h);
 		$('.body-list-wrap').css('min-height', '655px');
