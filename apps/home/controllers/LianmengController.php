@@ -53,6 +53,12 @@ class LianmengController extends Controller{
 		if($mLianmeng){
 			return new Response('联盟已存在', -1);
 		}
+		$mLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'name' => $name, 'is_delete' => 1]);
+		if($mLianmeng){
+			$mLianmeng->set('is_delete', 0);
+			$mLianmeng->save();
+			return new Response('添加成功', 1);
+		}
 		$isSuccess = Lianmeng::addRecord([
 			'user_id' => $mUser->id,
 			'name' => $name,
@@ -105,6 +111,10 @@ class LianmengController extends Controller{
 		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
 		if(!$mLianmeng){
 			return new Response('联盟不存在', 0);
+		}
+		$aLianmengList = $mUser->getLianmengList();
+		if(count($aLianmengList) == 1){
+			return new Response('必须保留一个联盟', 0);
 		}
 		if(!$mLianmeng->checkIsCanDelete()){
 			return new Response('联盟尚有账单未清账，不能删除', -1);
@@ -225,10 +235,7 @@ class LianmengController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		
 		$aLianmengZhongZhangList = $mUser->getLianmengZhongZhangList();
-		$totalZhongZhang = $mUser->lianmeng_zhongzhang_ajust_value;
-		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
-			$totalZhongZhang += $aLianmengZhongZhang['lianmeng_zhong_zhang'];
-		}
+		$totalZhongZhang = $mUser->getLianmengZhongZhang();
 		$aReturn = [
 			'list' => $aLianmengZhongZhangList,
 			'totalZhongZhang' => $totalZhongZhang,

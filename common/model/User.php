@@ -607,13 +607,21 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aUnJiaoBanPaijuTotalStatistic = $this->_getUnJiaoBanPaijuTotalStatistic();
 		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
 		$totalBaoXian = $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian'];
+		$totalLianmengZhongZhang = $this->getLianmengZhongZhang();
+		
+		return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $totalChouShui, $totalBaoXian, $totalLianmengZhongZhang);
+	}
+	
+	/**
+	 *	获取联盟总账
+	 */
+	public function getLianmengZhongZhang(){
 		$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
 		$aLianmengZhongZhangList = $this->getLianmengZhongZhangList();
 		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
 			$totalLianmengZhongZhang += $aLianmengZhongZhang['lianmeng_zhong_zhang'];
 		}
-		
-		return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $totalChouShui, $totalBaoXian, $totalLianmengZhongZhang);
+		return $totalLianmengZhongZhang;
 	}
 
 	/**
