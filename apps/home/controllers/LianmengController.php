@@ -26,7 +26,7 @@ class LianmengController extends Controller{
 			$id = $mUser->getDefaultLianmengId();
 		}
 		$aLianmengHostDuizhang = $mUser->getLianmengHostDuizhang($id);
-		
+		Yii::info('$aLianmengHostDuizhang:'.json_encode($aLianmengHostDuizhang));
 		return $this->render('lianmeng_host_duizhang', [
 			'aLianmengList' => $aLianmengList,
 			'aLianmengHostDuizhang' => $aLianmengHostDuizhang,
