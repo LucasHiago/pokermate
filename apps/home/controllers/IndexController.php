@@ -39,12 +39,12 @@ class IndexController extends Controller{
 		$aCurrentPaiju = [];
 		$currentPaijuLianmengId = 0;
 		$aLastPaijuList = $mUser->getLastPaijuList(1, 6, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], ['`t1`.`status`' => SORT_ASC, '`t1`.`id`' => SORT_DESC]);
-		if(!$paijuId && $aLastPaijuList){
+		/*if(!$paijuId && $aLastPaijuList){
 			$aCurrentPaiju = $aLastPaijuList[0];
 			$paijuId = $aCurrentPaiju['id'];
 			$mPaiju = Paiju::toModel($aCurrentPaiju);
 			$currentPaijuLianmengId = $aCurrentPaiju['lianmeng_id'];
-		}
+		}*/
 		
 		$aPaijuDataList = [];
 		if($paijuId){

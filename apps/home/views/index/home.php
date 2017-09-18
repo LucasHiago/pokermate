@@ -16,9 +16,9 @@ $this->setTitle('结账台');
 					<a class="l-edit" style="background:none;cursor:default;"></a>
 					<?php } ?>
 					<?php if(!$aPaiju['status']){ ?>
-					<a href="<?php echo Url::to('home', 'index/index'); ?>?paijuId=<?php echo $aPaiju['id']; ?>" class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"></a>
+					<a href="<?php echo Url::to('home', 'index/index'); ?>?paijuId=<?php echo $aPaiju['id']; ?>" class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"><?php echo $aCurrentPaiju && $aCurrentPaiju['id'] == $aPaiju['id'] ? '<span style="position: relative; top: 26px; left: 4px; float: left; height: 4px; width: 43px; display: block; background: #ff0000;"></span>' : ''; ?></a>
 					<?php }else{ ?>
-					<a class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"></a>
+					<a class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"><?php echo  $aCurrentPaiju && $aCurrentPaiju['id'] == $aPaiju['id'] ? '<span style="position: relative; top: 26px; left: 4px; float: left; height: 4px; width: 43px; display: block; background: #ff0000;"></span>' : ''; ?></a>
 					<?php } ?>
 				</div>
 			</div>
