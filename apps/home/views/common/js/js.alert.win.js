@@ -307,7 +307,7 @@
 							if(aResult.data.length != 0){
 								appendLianmengClubItemHtml(aResult.data.list);
 								oHtml.find('.J-lianmeng-name').text(aResult.data.aLianmeng.name);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+								//oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
