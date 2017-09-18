@@ -426,7 +426,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 */
 	public function getUnJiaoBanPaijuChouShuiList(){
 		$aResult = $this->_getUnJiaoBanPaijuChouShuiDataListWithLianmengInfo();
-		$aReturnList = [];Yii::inof('sql:'.json_encode(Yii::$app->db->getLastSqls(5)));
+		$aReturnList = [];Yii::info('sql:'.json_encode(Yii::$app->db->getLastSqls(5)));
 		foreach($aResult as $value){
 			if(!isset($aReturnList[$value['paiju_id']])){
 				$aReturnList[$value['paiju_id']] = [
