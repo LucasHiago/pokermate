@@ -79,7 +79,7 @@
 						playerListHtml += '<div class="play-select-list"><div class="p-s-wrap">';
 						for(var j in aData[i].player_list){
 							playerListHtml += '<div class="h10"></div>';
-							playerListHtml += '<div class="play-select-list-item" data-id="' + aData[i].player_list[j].id + '">' + aData[i].player_list[j].player_name + '</div>';
+							playerListHtml += '<div class="play-select-list-item" data-type="player_id" data-record-id="' + aData[i].id + '" data-id="' + aData[i].player_list[j].id + '">' + aData[i].player_list[j].player_name + '</div>';
 						}
 						playerListHtml += '</div></div>';
 					}
@@ -120,6 +120,7 @@
 		
 		function _bindHtmlEvent(oHtml){
 			oHtml.find('.J-select-play').click(function(){
+				$('.J-alert-win-wrap').find('.play-select-list').hide();
 				$(this).find('.play-select-list').show();
 			});
 			oHtml.find('.play-select-list').each(function(){
@@ -137,6 +138,9 @@
 				setTimeout(function(){
 					oList.hide();
 				}, 100);
+				if($(this).attr('data-type') == 'player_id'){
+					_updateRecordPlayerIdValue($(this).attr('data-record-id'), $(this).attr('data-id'));
+				}
 				if($(this).attr('data-type') == 'agent_id'){
 					_updateRecordAgentIdValue($(this).attr('data-record-id'), $(this).attr('data-id'));
 				}
@@ -213,6 +217,25 @@
 				},
 				success : function(aResult){
 					UBox.show(aResult.msg, aResult.status);
+				}
+			});
+		}
+			
+		function _updateRecordPlayerIdValue(id, playerId){
+			ajax({
+				url : Tools.url('home', 'index/update-keren-player-id'),
+				data : {
+					id : id,
+					playerId : playerId
+				},
+				beforeSend : function(){
+					//$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					//$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					
 				}
 			});
 		}

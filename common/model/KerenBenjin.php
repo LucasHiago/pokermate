@@ -102,11 +102,26 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 			$aList[$key]['agent_info'] = [];
 			$aList[$key]['ying_chou'] =floatval($value['ying_chou']);
 			$aList[$key]['shu_fan'] = floatval($value['shu_fan']);
+			//将当前玩家放在数组第一个start
+			$aCurrentPlayer = [];
 			foreach($aPlayerList as $aPlayer){
 				if($value['keren_bianhao'] == $aPlayer['keren_bianhao']){
-					array_push($aList[$key]['player_list'], $aPlayer);
+					if($aPlayer['id']){
+						$aCurrentPlayer = $aPlayer;
+					}else{
+						array_push($aList[$key]['player_list'], $aPlayer);
+					}
 				}
 			}
+			ArrayHelper::multisort($aList[$key]['player_list'], ['id'], [SORT_DESC]);
+			if($aCurrentPlayer){
+				$aTempPlayerList = [$aCurrentPlayer];
+				foreach($aList[$key]['player_list'] as $vv){
+					array_push($aTempPlayerList, $vv);
+				}
+				$aList[$key]['player_list'] = $aTempPlayerList;
+			}
+			//将当前玩家放在数组第一个end
 			foreach($aAgentList as $aAgent){
 				if($value['agent_id'] == $aAgent['id']){
 					$aList[$key]['agent_info'] = $aAgent;

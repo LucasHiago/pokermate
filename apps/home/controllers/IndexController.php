@@ -14,6 +14,7 @@ use common\model\KerenBenjin;
 use common\model\MoneyType;
 use common\model\Agent;
 use common\model\Player;
+use common\model\ImportData;
 
 class IndexController extends Controller{
 	
@@ -267,6 +268,24 @@ class IndexController extends Controller{
 		
 		
 		return new Response('更新成功', 1, $mKerenBenjin->$type);
+	}
+		
+	public function actionUpdateKerenPlayerId(){
+		$id = (int)Yii::$app->request->post('id');
+		$playerId = (int)Yii::$app->request->post('playerId');
+		
+		$mKerenBenjin = KerenBenjin::findOne($id);
+		if(!$mKerenBenjin){
+			return new Response('客人不存在', -1);
+		}
+		$mPlayer = Player::findOne($playerId);
+		if(!$mPlayer){
+			return new Response('玩家不存在', -1);
+		}
+		$mKerenBenjin->set('current_player_id', $playerId);
+		$mKerenBenjin->save();
+		
+		return new Response('更新成功', 1);
 	}
 		
 	public function actionUpdateKerenAgentId(){

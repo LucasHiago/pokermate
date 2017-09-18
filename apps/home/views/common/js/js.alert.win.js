@@ -1388,7 +1388,7 @@
 					//html += '<input type="text" class="add-player"/>';
 				html += '</div>';
 				html += '<div class="p-l-title"></div>';
-				html += '<div class="p-l-body">';
+				html += '<div class="p-l-body" style="background:none;">';
 					html += '<div class="p-l-item-wrap">';
 						html += '<div class="p-l-item" style="background:none;margin-top: 15px;">';
 							html += '<div style="width:58px;" class="c-td"></div>';

@@ -127,7 +127,7 @@ if($mUser){
 			ajust();
 			var tt = setInterval(function(){
 				ajust();
-			}, 500);
+			}, 100);
 			$(window).resize(function(){
 				ajust();
 			});

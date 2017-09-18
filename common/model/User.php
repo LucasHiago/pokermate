@@ -361,7 +361,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	}
 	
 	/**
-	 *	统计未交班的牌局总抽水、总保险、上桌人数
+	 *	统计未交班的牌局总抽水、总保险、上桌人数,实际抽水
 	 */
 	private function _getUnJiaoBanPaijuTotalStatistic(){
 		$aClubId = [];
@@ -381,12 +381,27 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$zhongBaoXian = ImportData::getUserUnJiaoBanPaijuZhongBaoXian($this->id, $aClubId) + $this->baoxian_ajust_value;
 		//上桌人数
 		$shangZhuoRenShu = ImportData::getUserUnJiaoBanPaijuShangZhuoRenShu($this->id, $aClubId);
+		//实际抽水
+		$shijiChouShui = $this->getShijiChouShui();
 		
 		return [
 			'zhongChouShui' => $zhongChouShui,
 			'zhongBaoXian' => $zhongBaoXian,
 			'shangZhuoRenShu' => $shangZhuoRenShu,
+			'shijiChouShui' => $shijiChouShui,
 		];
+	}
+	
+	/**
+	 *	统计实际抽水
+	 */
+	public function getShijiChouShui(){
+		$shijiChouShui = $this->choushui_ajust_value;
+		$aChouShuiList = $this->getUnJiaoBanPaijuChouShuiList();
+		foreach($aChouShuiList as $aChouShui){
+			$shijiChouShui += $aChouShui['shiji_choushui_value'];
+		}
+		return $shijiChouShui;
 	}
 	
 	private function _getUnJiaoBanPaijuChouShuiDataListWithLianmengInfo(){

@@ -26,6 +26,7 @@ return [
 		'update-benjin.json'													=> 'index/update-benjin',
 		'keren-list.json'														=> 'index/get-keren-list',
 		'update-keren-info.json'												=> 'index/update-keren-info',
+		'update-keren-player-id.json'											=> 'index/update-keren-player-id',
 		'update-keren-agent-id.json'											=> 'index/update-keren-agent-id',
 		'delete-keren.json'														=> 'index/delete-keren',
 		'add-keren.json'														=> 'index/add-keren',

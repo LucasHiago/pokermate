@@ -75,7 +75,7 @@ $this->setTitle('结账台');
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
-				<div class="J-h-zcs h-zcs" onclick="AlertWin.showChouShuiList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['zhongChouShui']; ?></div>
+				<div class="J-h-zcs h-zcs" onclick="AlertWin.showChouShuiList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['shijiChouShui']; ?></div>
 				<div class="J-h-zbx h-zbx" onclick="AlertWin.showZhongBaoXianList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian']; ?></div>
 				<div class="J-h-szrs h-szrs" onclick="AlertWin.showShanZhuoRenShuList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['shangZhuoRenShu']; ?></div>
 			</div>
@@ -430,7 +430,7 @@ $this->setTitle('结账台');
 			success : function(aResult){
 				if(aResult.status == 1){
 					$(o).addClass('clean');
-					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongChouShui);
+					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
 					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
 					$('.J-imbalance-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
