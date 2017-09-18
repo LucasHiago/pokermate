@@ -81,6 +81,19 @@ $minColumn = 9;
 			<?php } ?>
 			</div>
 			<?php } ?>
+		<?php }else{ ?>
+			<div class="row-item">
+				<div class="col-item thh">新帐</div>
+			</div>
+			<div class="row-item">
+				<div class="col-item thh">旧帐</div>
+			</div>
+			<div class="row-item">
+				<div class="col-item thh">汇总</div>
+			</div>
+			<div class="row-item">
+				<div class="col-item thh">桌子</div>
+			</div>
 		<?php } ?>
 		</div>
 	</div>
@@ -160,6 +173,10 @@ $minColumn = 9;
 		var h = parseInt($('.body-list-wrap .row-item').length) * 44 + 20;
 		var w = parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) * 134;
 		$('.body-list-wrap').width(w);
+		$('.body-list-wrap').css('min-width', '134px');
+		if(w == 0){
+			$('.body-list-wrap').css('overflow', 'hidden');
+		}
 		$('.body-list-wrap').height(h);
 		$('.body-list-wrap').css('min-height', '655px');
 		/*$('#pageWraper').height(h);
