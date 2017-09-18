@@ -1836,10 +1836,11 @@ input, select{border:none;outline:none;background:none;}
 	cursor:pointer;
 }
 .lmzj-content-wrap{
+	float:left;
 	margin-left:30px;
 	width:1270px;
-	height:660px;
-	background: url(./../images/666.png) no-repeat;
+	min-height:660px;
+	/*background: url(./../images/666.png) no-repeat;*/
 }
 .lmzj-wrap .h-left, .lmzj-wrap .h-right{
 	display:inline-block;
@@ -1874,10 +1875,14 @@ input, select{border:none;outline:none;background:none;}
 	text-align:center;
 }
 .lmzj-wrap .lmzj-content-wrap .body-list-wrap{
+	float:left;
 	margin-left:20px;
-	height:1635px;
+	min-height:698px;
 	max-width: 1230px;
-	overflow-y:hidden;
+	min-width: 1230px;
+	background: #231b2d;
+    border-radius: 20px;
+	/*overflow-y:hidden;*/
 	overflow-x:scroll;
 }
 .lmzj-wrap .body-list-wrap .row-item{
@@ -1885,6 +1890,7 @@ input, select{border:none;outline:none;background:none;}
 	display:block;
 	float:left;
 	margin:2px 0px;
+	min-width: 1230px;
 }
 .lmzj-wrap .body-list-wrap .col-item{
 	float:left;
@@ -1908,6 +1914,7 @@ input, select{border:none;outline:none;background:none;}
 .lmzj-wrap .body-list-wrap .col-item .ci-txt{
 	float:left;
 	width:100%;
+	height:100%;
 	text-align:center;
 }
 .lmzj-wrap .body-list-wrap .col-item .ci-edit{
@@ -1959,5 +1966,18 @@ input, select{border:none;outline:none;background:none;}
 	border-radius:5px;
 	text-align:center;
 	cursor:pointer;
+}
+.J-go-scroll-left, .J-go-scroll-right{
+	position:fixed;
+	bottom:0px;
+	width:50px;
+	height:100px;
+	cursor:pointer;
+	background: url(./../images/sprite.png) no-repeat;
+    background-position: -1963px -40px;
+}
+.J-go-scroll-left{
+	transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
 }
 /*background:rgba(0,0,0,0.2);*/

@@ -4,7 +4,8 @@ $this->setTitle('联盟主机对账');
 
 $minColumn = 9;
 ?>
-
+<div class="J-go-scroll-left"></div>
+<div class="J-go-scroll-right"></div>
 <div class="c-body-wrap lmzj-wrap">
 	<div class="h50">
 		<div class="h-left">
@@ -24,7 +25,7 @@ $minColumn = 9;
 	</div>
 	<div class="lmzj-content-wrap">
 		<div class="h20"></div>
-		<div class="body-list-wrap" style="float:left;position: absolute;">
+		<div class="body-list-wrap" style="/*float:left;position: absolute;*/">
 			<?php if($aLianmengHostDuizhang && $aLianmengHostDuizhang['aClubZhangDanList']){ ?>
 			<div class="row-item">
 				<div class="col-item thh">新帐</div>
@@ -98,7 +99,8 @@ $minColumn = 9;
 		</div>
 	</div>
 </div>
-
+<div class="J-go-scroll-left"></div>
+<div class="J-go-scroll-right"></div>
 <script type="text/javascript">	
 	
 	$(function(){
@@ -166,10 +168,21 @@ $minColumn = 9;
 				});
 			}
 		});
+		
+		$('.J-go-scroll-left').css({left : $('.lmzj-wrap').offset().left});
+		$('.J-go-scroll-right').css({left : $('.lmzj-wrap').offset().left + 1320 - 40});
+		$('.J-go-scroll-left').click(function(){
+			$('.body-list-wrap')[0].scrollLeft = $('.body-list-wrap')[0].scrollLeft - 40;
+		});
+		$('.J-go-scroll-right').click(function(){
+			$('.body-list-wrap')[0].scrollLeft = $('.body-list-wrap')[0].scrollLeft + 40;
+		});
+		
+		
 		//$('.lmzj-wrap').height($('.body-list-wrap').height());
 		//$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});
 		//$('.body-list-wrap').find('.J-tinyscrollbar-scrollbar').css("right", "-8px");
-		console.log(parseInt($('.body-list-wrap .row-item').length));
+		/*
 		var h = parseInt($('.body-list-wrap .row-item').length) * 44 + 20;
 		var w = parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) * 134;
 		$('.body-list-wrap').width(w);
@@ -179,6 +192,7 @@ $minColumn = 9;
 		}
 		$('.body-list-wrap').height(h);
 		$('.body-list-wrap').css('min-height', '655px');
+		*/
 		/*$('#pageWraper').height(h);
 		$('.lmzj-wrap').height(h);
 		$('.lmzj-content-wrap').height(h);
