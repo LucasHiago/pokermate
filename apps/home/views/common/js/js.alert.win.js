@@ -1377,7 +1377,7 @@
 				html += '<div class="p-l-title"></div>';
 				html += '<div class="p-l-body">';
 					html += '<div class="p-l-item-wrap">';
-						html += '<div class="p-l-item" style="background:none;">';
+						html += '<div class="p-l-item" style="background:none;margin-top: 15px;">';
 							html += '<div style="width:58px;" class="c-td"></div>';
 							html += '<div style="width:108px;" class="c-td"><input type="text" data-type="keren_bianhao" /></div>';
 							html += '<div style="width:33px;" class="c-td"></div>';
@@ -1474,16 +1474,19 @@
 		showPlayerList : function(){
 			var html = '';
 			html += '<div class="J-player-list-win">';
-				html += '<div class="p-l-head">';
-					html += '<input type="text" class="search-krbh" />';
-					html += '<input type="text" class="add-player" onclick="AlertWin.showAddPlayer();"  />';
+				html += '<div class="p-l-head-wrap">';
+					html += '<div class="p-l-head">';
+						html += '<input type="text" class="search-krbh" />';
+						html += '<input type="text" class="add-player" onclick="AlertWin.showAddPlayer();"  />';
+					html += '</div>';
+					html += '<div class="p-l-title"><div class="krbh-sort"></div><div class="bj-sort"></div></div>';
 				html += '</div>';
-				html += '<div class="p-l-title"><div class="krbh-sort"></div><div class="bj-sort"></div></div>';
-				html += '<div class="p-l-body">';
+				html += '<div class="p-l-body" style="float:left;min-height: 580px;">';
 					html += '<div class="p-l-item-wrap">';
 						
 					html += '</div>';
 				html += '</div>';
+				html += '<div class="p-l-footer"></div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
@@ -1491,11 +1494,15 @@
 			showAlertWin(oHtml, function(){
 				oKerenListObject = new KerenList({oWrapDom : oHtml.find('.p-l-body .p-l-item-wrap')});
 				oKerenListObject.show(1);
-				oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+				$('.J-alert-win-wrap').scroll(function(){
+					var page = oKerenListObject.oWrapDom.attr('data-page');
+					oKerenListObject.show(parseInt(page) + 1);
+				});
+				/*oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				oKerenListObject.oScrollBar.scrollEndEventFunc = function(){
 					var page = oKerenListObject.oWrapDom.attr('data-page');
 					oKerenListObject.show(parseInt(page) + 1);
-				}
+				}*/
 				oHtml.find('.search-krbh').keyup('input propertychange', function(){
 					if($(this).val() == ''){
 						oKerenListObject.aExtentParam.kerenBianhao = 0;
