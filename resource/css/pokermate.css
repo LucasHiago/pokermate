@@ -1718,7 +1718,7 @@ input, select{border:none;outline:none;background:none;}
 .J-lianmeng-setting-win{
 	width:650px;
 	height:423px;
-    background: url(./../images/401.png) no-repeat;
+    /*background: url(./../images/401.png) no-repeat;*/
 }
 .J-lianmeng-setting-win .ls-th{
 	margin-left: 15px;
@@ -1735,12 +1735,21 @@ input, select{border:none;outline:none;background:none;}
 	font-weight:bold;
 }
 .J-lianmeng-setting-win .ls-list-wrap{
+	float:left;
 	width:650px;
-	height:200px;
+	min-height:200px;
+	background: url(./../images/501-c.png) repeat-y;
+}
+.J-lianmeng-setting-win .d-l-footer{
+	float:left;
+	width:100%;
+	height:26px;
+	background: url(./../images/501-b.png) no-repeat;
 }
 .J-lianmeng-setting-win .ls-add-wrap{
 	width:618px;
-	height:30px;
+	height:30px;	
+	background: url(./../images/501-c.png) repeat-y;
 }
 .J-lianmeng-setting-win .ls-add-wrap td, .J-lianmeng-setting-win .ls-list-wrap td{
 	height:30px;
@@ -1803,8 +1812,14 @@ input, select{border:none;outline:none;background:none;}
 	text-align:left;
 	cursor:pointer;
 }
+.J-data-list-win .d-l-h, .J-lianmeng-zhongzhang-win .d-l-h, .J-lianmeng-setting-win .d-l-h{
+	float:left;
+	width:100%;
+	height:150px;
+	background: url(./../images/501-h.png) no-repeat;
+}
 .J-data-list-win, .J-lianmeng-zhongzhang-win{
-	background: url(./../images/501.png) no-repeat;
+	/*background: url(./../images/501.png) no-repeat;*/
 }
 .J-lianmeng-zhongzhang-win .ls-th td{
 	font-weight:normal;

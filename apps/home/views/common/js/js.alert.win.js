@@ -467,23 +467,25 @@
 		showShanZhuoRenShuList : function(){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
-				html += '<div class="h100">';
-					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">上桌人数</div>';
-					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;"></div>';
-						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">上桌人数: <font class="J-total-shan-zhuo-ren-shu" style="color:#f4e2a9;">0</font> </div></div>';
+				html += '<div class="d-l-h">';
+					html += '<div class="h100">';
+						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">上桌人数</div>';
+						html += '<div class="h30">';
+							html += '<div style="float:left;width:300px;height:100%;"></div>';
+							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">上桌人数: <font class="J-total-shan-zhuo-ren-shu" style="color:#f4e2a9;">0</font> </div></div>';
+						html += '</div>';
+					html += '</div>';
+					html += '<div class="h50">';
+						html += '<table class="ls-th">';
+							html += '<tr>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">上桌人数</td>';
+							html += '</tr>';
+						html += '</table>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="h50">';
-					html += '<table class="ls-th">';
-						html += '<tr>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">上桌人数</td>';
-						html += '</tr>';
-					html += '</table>';
-				html += '</div>';
-				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
-				
+				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
+				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -521,7 +523,7 @@
 							if(aResult.data.length != 0){
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-shan-zhuo-ren-shu').text(aResult.data.totalShangZhuoRenShu);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+								//oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -536,28 +538,30 @@
 		showZhongBaoXianList : function(){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
-				html += '<div class="h100">';
-					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">总保险</div>';
-					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;">';
-							html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">保险微调：</div>';
-							html += '<input type="text" class="J-baoxian-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+				html += '<div class="d-l-h">';
+					html += '<div class="h100">';
+						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">总保险</div>';
+						html += '<div class="h30">';
+							html += '<div style="float:left;width:300px;height:100%;">';
+								html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">保险微调：</div>';
+								html += '<input type="text" class="J-baoxian-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+							html += '</div>';
+							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总保险: <font class="J-total-baoxian" style="color:#f4e2a9;">0</font> 元</div></div>';
 						html += '</div>';
-						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总保险: <font class="J-total-baoxian" style="color:#f4e2a9;">0</font> 元</div></div>';
+					html += '</div>';
+					html += '<div class="h50">';
+						html += '<table class="ls-th">';
+							html += '<tr>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">牌桌保险</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">实际保险</td>';
+							html += '</tr>';
+						html += '</table>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="h50">';
-					html += '<table class="ls-th">';
-						html += '<tr>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">牌桌保险</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">实际保险</td>';
-						html += '</tr>';
-					html += '</table>';
-				html += '</div>';
-				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
-				
+				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
+				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -598,7 +602,7 @@
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-baoxian').text(aResult.data.totalBaoXian);
 								oHtml.find('.J-baoxian-ajust-value').val(aResult.data.baoxianAjustValue);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+								//oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -646,30 +650,32 @@
 		showChouShuiList : function(){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
-				html += '<div class="h100">';
-					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">抽水列表</div>';
-					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;">';
-							html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">抽水微调：</div>';
-							html += '<input type="text" class="J-choushui-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+				html += '<div class="d-l-h">';
+					html += '<div class="h100">';
+						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">抽水列表</div>';
+						html += '<div class="h30">';
+							html += '<div style="float:left;width:300px;height:100%;">';
+								html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">抽水微调：</div>';
+								html += '<input type="text" class="J-choushui-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+							html += '</div>';
+							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总抽水: <font class="J-total-choushui" style="color:#f4e2a9;">0</font> 元</div><div class="s-lms-txt">牌局总数: <font class="J-total-paiju" style="color:#f4e2a9;">0</font> </div></div>';
 						html += '</div>';
-						html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总抽水: <font class="J-total-choushui" style="color:#f4e2a9;">0</font> 元</div><div class="s-lms-txt">牌局总数: <font class="J-total-paiju" style="color:#f4e2a9;">0</font> </div></div>';
+					html += '</div>';
+					html += '<div class="h50">';
+						html += '<table class="ls-th">';
+							html += '<tr>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">抽水</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">联盟补贴</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">实际抽水</td>';
+							html += '</tr>';
+						html += '</table>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="h50">';
-					html += '<table class="ls-th">';
-						html += '<tr>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">抽水</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">联盟补贴</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">实际抽水</td>';
-						html += '</tr>';
-					html += '</table>';
-				html += '</div>';
-				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
-				
+				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
+				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -718,7 +724,7 @@
 								oHtml.find('.J-total-choushui').text(aResult.data.totalChouShui);
 								oHtml.find('.J-total-paiju').text(aResult.data.count);
 								oHtml.find('.J-choushui-ajust-value').val(aResult.data.choushuiAjustValue);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+								//oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -761,28 +767,30 @@
 		showLianmengZhangDanDetail : function(lianmengId){
 			var html = '';
 			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
-				html += '<div class="h100">';
-					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟账单详情</div>';
-					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select lml-select" style="color:#ff6a6a;width:100%;height:100%;"></select></div></div>';
-						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn" style="top:-2px;">联盟设置</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
+				html += '<div class="d-l-h">';
+					html += '<div class="h100">';
+						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟账单详情</div>';
+						html += '<div class="h30">';
+							html += '<div style="float:left;width:300px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select lml-select" style="color:#ff6a6a;width:100%;height:100%;"></select></div></div>';
+							html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn" style="top:-2px;">联盟设置</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
+						html += '</div>';
+					html += '</div>';
+					html += '<div class="h50">';
+						html += '<table class="ls-th">';
+							html += '<tr>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">保险</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">当局账单</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">更改联盟</td>';
+							html += '</tr>';
+						html += '</table>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="h50">';
-					html += '<table class="ls-th">';
-						html += '<tr>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">保险</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">当局账单</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">更改联盟</td>';
-						html += '</tr>';
-					html += '</table>';
-				html += '</div>';
-				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
-				
+				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
+				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -893,31 +901,33 @@
 		showLianmengZhongZhang : function(){
 			var html = '';
 			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
-				html += '<div class="h100">';
-					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟总账</div>';
-					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;">';
-							html += '<div style="float:left;margin-left:20px;width:100px;height:30px;line-height:30px;color:#ffffff;">联盟总账微调：</div>';
-							html += '<input type="text" class="J-lianmeng-zhongzhang-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+				html += '<div class="d-l-h">';
+					html += '<div class="h100">';
+						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟总账</div>';
+						html += '<div class="h30">';
+							html += '<div style="float:left;width:300px;height:100%;">';
+								html += '<div style="float:left;margin-left:20px;width:100px;height:30px;line-height:30px;color:#ffffff;">联盟总账微调：</div>';
+								html += '<input type="text" class="J-lianmeng-zhongzhang-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+							html += '</div>';
+							html += '<div style="float:right;width:300px;height:100%;"><div style="line-height:30px;color:#ffffff;padding-left:30px;">所有联盟总账：<font class="J-total-zhong-zhang" style="color:#f4e2a9;">0</font></div><div class="s-lms-btn">联盟设置</div></div>';
 						html += '</div>';
-						html += '<div style="float:right;width:300px;height:100%;"><div style="line-height:30px;color:#ffffff;padding-left:30px;">所有联盟总账：<font class="J-total-zhong-zhang" style="color:#f4e2a9;">0</font></div><div class="s-lms-btn">联盟设置</div></div>';
+					html += '</div>';
+					html += '<div class="h50">';
+						html += '<table class="ls-th">';
+							html += '<tr>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">联盟名称</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">联盟总账单</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">上桌人数</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">联盟旧账</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">新账单累计</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">操作</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">清账</td>';
+							html += '</tr>';
+						html += '</table>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="h50">';
-					html += '<table class="ls-th">';
-						html += '<tr>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">联盟名称</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">联盟总账单</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">上桌人数</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">联盟旧账</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">新账单累计</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">操作</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">清账</td>';
-						html += '</tr>';
-					html += '</table>';
-				html += '</div>';
-				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
-				
+				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
+				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -1024,7 +1034,7 @@
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-zhong-zhang').text(aResult.data.totalZhongZhang);
 								oHtml.find('.J-lianmeng-zhongzhang-ajust-value').val(aResult.data.lianmengZhongzhangAjustValue);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+								//oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
@@ -1076,22 +1086,24 @@
 		showLianmengSetting : function(){
 			var html = '';
 			html += '<div class="J-lianmeng-setting-win">';
-				html += '<div class="h100"></div>';
-				html += '<div class="h50">';
-					html += '<table class="ls-th">';
-						html += '<tr>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">联盟名称</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">联盟欠账</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">对账方法</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">上缴桌费/桌</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽成</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">操作</td>';
-						html += '</tr>';
-					html += '</table>';
+				html += '<div class="d-l-h">';
+					html += '<div class="h100"><div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟设置</div></div>';
+					html += '<div class="h50">';
+						html += '<table class="ls-th">';
+							html += '<tr>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">联盟名称</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">联盟欠账</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">对账方法</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">上缴桌费/桌</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽成</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">操作</td>';
+							html += '</tr>';
+						html += '</table>';
+					html += '</div>';
 				html += '</div>';
 				html += '<div class="ls-list-wrap"></div>';
 				html += '<div class="h10"></div>';
-				html += '<div class="ls-add-wrap">';
+				html += '<div class="ls-add-wrap" style="float:left;width: 649px;">';
 					html += '<table class="ls-th">';
 						html += '<tr>';
 							html += '<td><input type="text" data-type="name" /></td>';
@@ -1104,6 +1116,7 @@
 						html += '</tr>';
 					html += '</table>';
 				html += '</div>';
+				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -1211,7 +1224,7 @@
 							oHtml.find('.ls-list-wrap').html('');
 							if(aResult.data.length != 0){
 								appendLianmengItemHtml(aResult.data);
-								oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+								//oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
 						}
 					}
