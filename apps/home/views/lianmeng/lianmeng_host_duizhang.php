@@ -69,9 +69,9 @@ $minColumn = 9;
 			<?php 
 				foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ 
 					$num = 0;
-					foreach($aClubZhangDan['club_zhang_dan_list'] as $aClubPaiju){
-						if($aClubPaiju['paiju_id'] == $aPaijuZhangDan['paiju_id']){
-							$num += $aClubPaiju['zhang_dan'];
+					foreach($aClubZhangDan['club_zhang_dan_list'] as $pjid => $aClubPaiju){
+						if($pjid == $aPaijuZhangDan['paiju_id']){
+							$num = $aClubPaiju['zhang_dan'];
 						}
 					}
 			?>
