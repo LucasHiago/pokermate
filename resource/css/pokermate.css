@@ -1200,13 +1200,25 @@ input, select{border:none;outline:none;background:none;}
 .J-bill-list-win{
 	width:1200px;
 	height:849px;
-	background: url(./../images/bill-list-bg1.png) no-repeat;
+	/*background: url(./../images/bill-list-bg1.png) no-repeat;*/
+}
+.J-bill-list-win .b-header{
+	float:left;
+	width:100%;
+	height:140px;
+	background: url(./../images/bill-list-bg1-h.png) no-repeat;
+}
+.J-bill-list-win .b-footer{
+	float:left;
+	width:100%;
+	height:118px;
+	background: url(./../images/bill-list-bg1-b.png) no-repeat;
 }
 .J-bill-list-win .content-body{
+	float:left;
 	width:100%;
-	height: 595px;
-    margin-top: 153px;
-    float: left;
+	min-height: 595px;
+	background: url(./../images/bill-list-bg1-c.png) repeat-y;
 }
 .J-bill-list-win .content-body .item-wrap{
 	width:1134px;

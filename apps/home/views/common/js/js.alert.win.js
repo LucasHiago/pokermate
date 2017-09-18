@@ -1960,6 +1960,7 @@
 			var html = '';
 			
 			html += '<div class="J-bill-list-win">';
+				html += '<div class="b-header"></div>';
 				html += '<div class="content-body">';
 					html += '<div class="item-wrap">';
 					
@@ -1970,6 +1971,7 @@
 					html += '<div class="c-txt">1/10</div>';
 					html += '<div class="r-btn"></div>';
 				html += '</div>';
+				html += '<div class="b-footer"></div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
@@ -1979,11 +1981,15 @@
 					oPaijuListObject.aExtentParam.isHistory = 1;
 				}
 				oPaijuListObject.show(1);
-				oPaijuListObject.oScrollBar = oHtml.find('.content-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+				$('.J-alert-win-wrap').scroll(function(){
+					var page = oPaijuListObject.oWrapDom.attr('data-page');
+					oPaijuListObject.show(parseInt(page) + 1);
+				});
+				/*oPaijuListObject.oScrollBar = oHtml.find('.content-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				oPaijuListObject.oScrollBar.scrollEndEventFunc = function(){
 					var page = oPaijuListObject.oWrapDom.attr('data-page');
 					oPaijuListObject.show(parseInt(page) + 1);
-				}
+				}*/
 			});
 		}
 				

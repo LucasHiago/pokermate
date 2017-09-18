@@ -88,7 +88,7 @@
 			}
 			var oHtml = $(html);
 			oList.oWrapDom.append(oHtml);
-			oList.oScrollBar.update('relative');
+			//oList.oScrollBar.update('relative');
 			_bindHtmlEvent(oHtml);
 		}
 		
