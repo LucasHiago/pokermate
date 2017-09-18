@@ -813,7 +813,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aPaijuZhangDanList[$value['paiju_id']]['zhang_dan'] -= Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $paijuFee, $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
 			}
 		}
-		$aClubZhangDanList = [];debug($aResult);
+		$aClubZhangDanList = [];debug($aPaijuZhangDanList);
 		foreach($aResult as $value){
 			if(!isset($aClubZhangDanList[$value['club_id']])){
 				$baoxianChoucheng = 0;
