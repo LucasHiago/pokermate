@@ -177,7 +177,10 @@ $minColumn = 9;
 		$('.J-go-scroll-right').click(function(){
 			$('.body-list-wrap')[0].scrollLeft = $('.body-list-wrap')[0].scrollLeft + 40;
 		});
-		
+		if(parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) < 10){
+			$('.J-go-scroll-left').hide();
+			$('.J-go-scroll-right').hide();
+		}
 		
 		//$('.lmzj-wrap').height($('.body-list-wrap').height());
 		//$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});
