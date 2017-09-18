@@ -826,7 +826,7 @@ input, select{border:none;outline:none;background:none;}
 
 .c-body-wrap .ag-bg{
 	width: 1274px;
-    height: 675px;
+    min-height: 675px;
 	margin-top: 25px;
     margin-left: 28px;
 	background:url('./../images/18.png') no-repeat;
@@ -874,7 +874,10 @@ input, select{border:none;outline:none;background:none;}
 }
 .c-body-wrap .ag-bg .ag-left .ag-l-list{
 	width:100%;
-	height:510px;
+	min-height: 600px;
+    background: #231b2d;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 	margin-top: 18px;
 }
 .ag-l-list .ag-l-list-item{
@@ -918,8 +921,11 @@ input, select{border:none;outline:none;background:none;}
 }
 .c-body-wrap .ag-bg .ag-center .ag-c-list{
 	width: 100%;
-	height: 425px;
 	margin-top: 122px;
+	min-height: 620px;
+    background: #231b2d;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 .c-body-wrap .ag-bg .ag-center .ag-c-list .ag-c-list-item{
 	width: 297px;
@@ -1018,6 +1024,8 @@ input, select{border:none;outline:none;background:none;}
 .c-body-wrap .ag-bg .ag-center .ag-c-bottom{
 	width: 100%;
     height: 111px;
+	background: url(./../images/18181.jpg) no-repeat;
+	background-position: 8px 26px;
 }
 .c-body-wrap .ag-bg .ag-center .ag-c-bottom .ag-c-bottom-tx1{
 	display: inline-block;
@@ -1135,7 +1143,10 @@ input, select{border:none;outline:none;background:none;}
 }
 .c-body-wrap .ag-bg .ag-right .ag-r-list{
 	width: 631px;
-	height:486px;
+	min-height: 580px;
+    background: #231b2d;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 	margin-top:10px;
 }
 .c-body-wrap .ag-bg .ag-right .ag-r-list .ag-r-list-item{

@@ -34,12 +34,12 @@ if($aCurrentAgent){
 					<a class="ebt2"></a>
 				</div>
 			<?php } ?>
-			</div>
-			<div class="ag-c-bottom">
-				<div class="ag-c-bottom-tx1"><input type="text" value="0.00%" /></div>
-				<div class="ag-c-bottom-btn1"></div>
-				<div class="ag-c-bottom-tx2"><input type="text" value="0.00%" /></div>
-				<div class="ag-c-bottom-btn2"></div>
+				<div class="ag-c-bottom">
+					<div class="ag-c-bottom-tx1"><input type="text" value="0.00%" /></div>
+					<div class="ag-c-bottom-btn1"></div>
+					<div class="ag-c-bottom-tx2"><input type="text" value="0.00%" /></div>
+					<div class="ag-c-bottom-btn2"></div>
+				</div>
 			</div>
 		</div>
 		<div class="ag-right">
@@ -98,7 +98,7 @@ if($aCurrentAgent){
 	}
 	
 	function initAgentList(){
-		$('.ag-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+		//$('.ag-l-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		$('.ag-left .r1-select-all').on('click', function(){
 			if($(this).hasClass('active')){
 				$(this).removeClass('active');
@@ -120,7 +120,7 @@ if($aCurrentAgent){
 		});
 	}
 	function initAgentSetting(){
-		$('.J-ag-c-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+		//$('.J-ag-c-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		function delPercent(o){
 			var oTxt = $(o).prev().find('input');
 			var txt = oTxt.val();
@@ -221,7 +221,7 @@ if($aCurrentAgent){
 	}
 	
 	function initAgentFenCheng(){
-		$('.ag-r-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+		//$('.ag-r-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		$('.ag-right .ag-r-select-all').on('click', function(){
 			if($(this).hasClass('active')){
 				$(this).removeClass('active');
