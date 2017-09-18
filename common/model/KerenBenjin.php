@@ -31,13 +31,13 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 	private static function _parseWhereCondition1($aCondition){
 		$where = '';
 		if(isset($aCondition['`k1`.`user_id`'])){
-			$where = ' AND `k1`.`user_id`=' . $aCondition['`k1`.`user_id`'];
+			$where .= ' AND `k1`.`user_id`=' . $aCondition['`k1`.`user_id`'];
 		}
 		if(isset($aCondition['`k1`.`keren_bianhao`'])){
-			$where = ' AND `k1`.`keren_bianhao`=' . $aCondition['`k1`.`keren_bianhao`'];
+			$where .= ' AND `k1`.`keren_bianhao`=' . $aCondition['`k1`.`keren_bianhao`'];
 		}
 		if(isset($aCondition['`k1`.`is_delete`'])){
-			$where = ' AND `k1`.`is_delete`=' . $aCondition['`k1`.`is_delete`'];
+			$where .= ' AND `k1`.`is_delete`=' . $aCondition['`k1`.`is_delete`'];
 		}
 		return $where;
 	}
