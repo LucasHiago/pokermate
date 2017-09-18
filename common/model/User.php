@@ -426,7 +426,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 */
 	public function getUnJiaoBanPaijuChouShuiList(){
 		$aResult = $this->_getUnJiaoBanPaijuChouShuiDataListWithLianmengInfo();
-		$aReturnList = [];
+		$aReturnList = [];Yii::info('$aResult:'.json_encode($aResult));
 		foreach($aResult as $value){
 			if(!isset($aReturnList[$value['paiju_id']])){
 				$aReturnList[$value['paiju_id']] = [
@@ -903,10 +903,13 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	
 	public function checkAddNewPlayer($paijuId){
 		if(!$paijuId){
-			return;
+			return false;
 		}
 		$aPlayerList = [];
 		$aPaijuDataList = $this->getPaijuDataList($paijuId);
+		if(!$aPaijuDataList){
+			return false;
+		}
 		foreach($aPaijuDataList as $aPaijuData){
 			if(!$aPaijuData['status']){
 				array_push($aPlayerList, [
@@ -918,6 +921,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if($aPlayerList){
 			Player::checkAddNewPlayer($this->id, $aPlayerList);
 		}
+		return true;
 	}
 	
 }
