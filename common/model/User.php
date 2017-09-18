@@ -812,7 +812,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				//账单值与自己俱乐部联盟账单值相反
 				$aPaijuZhangDanList[$value['paiju_id']]['zhang_dan'] -= Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $paijuFee, $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
 			}
-		}
+		}debug($aPaijuZhangDanList);
 		$aClubZhangDanList = [];
 		foreach($aResult as $value){
 			if(!isset($aClubZhangDanList[$value['club_id']])){
