@@ -15,7 +15,7 @@ class Player extends \common\lib\DbOrmModel{
 		$id = static::insert($aData);
 		$mPlayer = parent::findOne($id);
 		if(!$mPlayer->keren_bianhao){
-			$mPlayer->set('keren_bianhao', $id);
+			$mPlayer->set('keren_bianhao', $id + 10000);
 			$mPlayer->save();
 		}
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao]);

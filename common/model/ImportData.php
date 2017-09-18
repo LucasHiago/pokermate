@@ -124,7 +124,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			}
 		}
 		if($aInserDataList){
-			Player::checkAddNewPlayer($mUser->id, $aPlayerList);
+			//Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 			static::bathInsertData($aInserDataList);
 		}
 		return true;

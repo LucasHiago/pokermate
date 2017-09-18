@@ -172,10 +172,10 @@ $minColumn = 9;
 		$('.J-go-scroll-left').css({left : $('.lmzj-wrap').offset().left});
 		$('.J-go-scroll-right').css({left : $('.lmzj-wrap').offset().left + 1320 - 40});
 		$('.J-go-scroll-left').click(function(){
-			$('.body-list-wrap')[0].scrollLeft = $('.body-list-wrap')[0].scrollLeft - 40;
+			$('.body-list-wrap')[0].scrollLeft = $('.body-list-wrap')[0].scrollLeft - 1024;
 		});
 		$('.J-go-scroll-right').click(function(){
-			$('.body-list-wrap')[0].scrollLeft = $('.body-list-wrap')[0].scrollLeft + 40;
+			$('.body-list-wrap')[0].scrollLeft = $('.body-list-wrap')[0].scrollLeft + 1024;
 		});
 		if(parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) < 10){
 			$('.J-go-scroll-left').hide();

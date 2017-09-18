@@ -22,6 +22,10 @@ class IndexController extends Controller{
 		$paijuId = (int)Yii::$app->request->get('paijuId');
 		
 		$mUser = Yii::$app->user->getIdentity();
+		/********************这里非常重要*********************/
+		//先检查客人是否存在，不存在则创建
+		$mUser->checkAddNewPlayer($paijuId);
+		/********************这里非常重要*********************/
 		$aAgentList = $mUser->getAgentList();
 		$aLianmengList = $mUser->getLianmengList();
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
