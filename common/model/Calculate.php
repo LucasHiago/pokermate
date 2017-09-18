@@ -75,6 +75,9 @@ class Calculate extends \yii\base\Object{
 	 *	$paijuFee		桌子费
 	 */
 	public static function calculateShijiChouShuiValue($choushuiValue, $lianmengButie, $paijuFee){
+		if($choushuiValue <= 0){
+			return 0;
+		}
 		$shijiChouShuiValue = $choushuiValue - $lianmengButie - $paijuFee;
 		
 		return (int)$shijiChouShuiValue;
