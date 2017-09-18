@@ -95,27 +95,29 @@
 		showClubZhangDanDetail : function(lianmengId, aData, clubName){
 			var html = '';
 			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
-				html += '<div class="h100">';
-					html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">' + (clubName ? clubName : '俱乐部') + '账单详情</div>';
-					html += '<div class="h30">';
-						html += '<div style="float:left;width:300px;height:100%;"></div>';
-						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn">联盟设置</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
+				html += '<div class="d-l-h">';
+					html += '<div class="h100">';
+						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">' + (clubName ? clubName : '俱乐部') + '账单详情</div>';
+						html += '<div class="h30">';
+							html += '<div style="float:left;width:300px;height:100%;"></div>';
+							html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn">联盟设置</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
+						html += '</div>';
+					html += '</div>';
+					html += '<div class="h50">';
+						html += '<table class="ls-th">';
+							html += '<tr>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">保险</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
+								html += '<td style="font-weight:bold;color: #fccdaa;">当局账单</td>';
+							html += '</tr>';
+						html += '</table>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="h50">';
-					html += '<table class="ls-th">';
-						html += '<tr>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">保险</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
-							html += '<td style="font-weight:bold;color: #fccdaa;">当局账单</td>';
-						html += '</tr>';
-					html += '</table>';
-				html += '</div>';
-				html += '<div class="ls-list-wrap" style="height:260px;"></div>';
-				
+				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
+				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -155,7 +157,7 @@
 					$(document).click();
 					AlertWin.showLianmengClubSetting(lianmengId);
 				});
-				oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+				//oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 			});	
 		},
 		
