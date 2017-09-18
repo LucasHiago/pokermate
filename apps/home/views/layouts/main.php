@@ -180,6 +180,7 @@ if($mUser){
 				</div>
 			</div>
 			<?php echo $content; ?>
+			<div class="c-footer-wrap"></div>
 		</div>	
 	</div>
 	<?php $this->endBody(); ?>

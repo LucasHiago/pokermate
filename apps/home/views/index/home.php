@@ -29,6 +29,18 @@ $this->setTitle('结账台');
 	<div class="c-b-content">
 		<div class="c-b-c-left">
 			<div class="c-b-c-left-wrap">
+				<div class="cbb-lm-wrap">
+					<?php if($aCurrentPaiju){ ?>
+					<a><?php echo $aCurrentPaiju['paiju_name']; ?>当前联盟：-选择联盟</a>
+					<a>
+						<select class="J-jieshuan-lianmeng-select" data-paiju-id="<?php echo $aCurrentPaiju['id']; ?>" style="border: 1px solid;height:25px;border-radius:5px;">
+							<?php foreach($aLianmengList as $aLianmeng){ ?>
+								<option value="<?php echo $aLianmeng['id']; ?>"><?php echo $aLianmeng['name']; ?></option>
+							<?php } ?>
+						</select>
+					</a>
+					<?php } ?>
+				</div>
 				<div class="c-b-c-l-tab">
 					<a href="javascript:;" class="cbcl-tab-btn b1"></a>
 					<a href="javascript:;" class="cbcl-tab-btn b2"></a>
@@ -50,18 +62,6 @@ $this->setTitle('结账台');
 					</div>
 				<?php } ?>
 				</div>
-			</div>
-			<div class="cbb-lm-wrap">
-				<?php if($aCurrentPaiju){ ?>
-				<a><?php echo $aCurrentPaiju['paiju_name']; ?>当前联盟：-选择联盟</a>
-				<a>
-					<select class="J-jieshuan-lianmeng-select" data-paiju-id="<?php echo $aCurrentPaiju['id']; ?>" style="border: 1px solid;height:25px;border-radius:5px;">
-						<?php foreach($aLianmengList as $aLianmeng){ ?>
-							<option value="<?php echo $aLianmeng['id']; ?>"><?php echo $aLianmeng['name']; ?></option>
-						<?php } ?>
-					</select>
-				</a>
-				<?php } ?>
 			</div>
 		</div>
 		<div class="c-b-c-center">
@@ -88,12 +88,21 @@ $this->setTitle('结账台');
 			</div>
 			<div class="c-b-c-r-bottom">
 				<div class="txt-wrap">
-					<a class="momey1"><?php echo $moneyTypeTotalMoney; ?></a>
-					<a class="momey2"><?php echo $moneyOutPutTypeTotalMoney; ?></a>
+					<div class="txt-head-wrap">
+						<a class="head-txt">资金</a>
+						<a class="momey1"><?php echo $moneyTypeTotalMoney; ?></a>
+					</div>
+					<div class="txt-head-wrap" style="margin-left:58px;">
+						<a class="head-txt">支出</a>
+						<a class="momey1"><?php echo $moneyOutPutTypeTotalMoney; ?></a>
+					</div>
+					<div class="txt-head-wrap" style="margin-left:45px;">
+						<a class="head-txt">俱乐部信息</a>
+					</div>
 				</div>
 				<div class="c-b-c-r-bottom-body">
 					<div class="b-b-item-left">
-						<div class="h30"></div>
+						<div class="h40"></div>
 						<div class="b-b-item-left-list">
 						<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
 							<div class="b-b-i-l-i">
@@ -102,11 +111,14 @@ $this->setTitle('结账台');
 								<div class="edit-btn"></div>
 							</div>
 						<?php } ?>
+							<div class="b-b-i-l-i" style="background:none;">
+								<div class="op-btn" onclick='AlertWin.showMoneyTypeList(<?php echo json_encode($aMoneyTypeList); ?>);'>新增/删除</div>
+							</div>
+							<div class="b-b-i-l-i" style="background:none;"></div>
 						</div>
-						<div class="op-btn" onclick='AlertWin.showMoneyTypeList(<?php echo json_encode($aMoneyTypeList); ?>);'>新增/删除</div>
 					</div>
 					<div class="b-b-item-center">
-						<div class="h30"></div>
+						<div class="h40"></div>
 						<div class="b-b-item-center-list">
 							<?php foreach($aMoneyOutPutTypeList as $aMoneyOutPutType){ ?>
 							<div class="b-b-i-l-i">
@@ -115,11 +127,14 @@ $this->setTitle('结账台');
 								<div class="edit-btn"></div>
 							</div>
 						<?php } ?>
+							<div class="b-b-i-l-i" style="background:none;">
+								<div class="op-btn" onclick='AlertWin.showMoneyOutPutTypeList(<?php echo json_encode($aMoneyOutPutTypeList); ?>);'>新增/删除</div>
+							</div>
+							<div class="b-b-i-l-i" style="background:none;"></div>
 						</div>
-						<div class="op-btn" onclick='AlertWin.showMoneyOutPutTypeList(<?php echo json_encode($aMoneyOutPutTypeList); ?>);'>新增/删除</div>
 					</div>
 					<div class="b-b-item-right">
-						<div class="h30"></div>
+						<div class="h40"></div>
 						<div class="b-r-stat-w">
 							<div class="J-krzbj stat-txt krzbj"><?php echo $aUnJiaoBanPaijuTotalStatistic['kerenTotalBenjinMoney']; ?></div>
 							<div class="J-krqk stat-txt krqk"><?php echo $aUnJiaoBanPaijuTotalStatistic['kerenTotalQianKuanMoney']; ?></div>
@@ -138,7 +153,7 @@ $this->setTitle('结账台');
 	<?php echo $this->render(Yii::getAlias('@r.js.paiju.list')); ?>
 	<?php echo $this->render(Yii::getAlias('@r.js.keren.list')); ?>
 	function initMoneyOutPutType(){
-		$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+		//$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		
 		function commitMoneyTypeChange(o){
 			ajax({
@@ -259,7 +274,7 @@ $this->setTitle('结账台');
 			setInputInterval(this);
 		}); */
 		initJsfs();
-		initMoneyTypeListScroll();
+		//initMoneyTypeListScroll();
 		initMoneyTypeListEvent();
 	}
 
@@ -378,7 +393,7 @@ $this->setTitle('结账台');
 		<?php if($currentPaijuLianmengId){ ?>
 			$('.J-jieshuan-lianmeng-select').val(<?php echo $currentPaijuLianmengId; ?>);
 		<?php } ?>
-		$('.c-b-c-l-tab-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+		//$('.c-b-c-l-tab-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		$('.J-jieshuan-lianmeng-select').on('change', function(){
 			var o = this;
 			ajax({
