@@ -1909,7 +1909,10 @@ input, select{border:none;outline:none;background:none;}
 	background: url(./../images/913.png) no-repeat center;
 }
 .lmzj-wrap .body-list-wrap .row-item.lbb{
-	background: url(./../images/item-bg.png) repeat-x center;
+	/*background: url(./../images/item-bg.png) repeat-x center;*/
+}
+.lmzj-wrap .body-list-wrap .row-item.lbb .col-item{
+	background: url(./../images/912a.png) no-repeat center;
 }
 .lmzj-wrap .body-list-wrap .col-item .ci-txt{
 	float:left;
