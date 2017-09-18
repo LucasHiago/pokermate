@@ -107,6 +107,7 @@ if($mUser){
 				$(document).on('click', function(e){
 					if(!$(e.target).parents().hasClass('J-alert-win-wrap') && !$(e.target).hasClass('wrapUBox') && !$(e.target).parents().hasClass('wrapUBox')){
 						if(isCanCloseWin){
+							clearInterval(tt);
 							oHtml.remove();
 							document.documentElement.style.overflow = '';
 						}
@@ -121,8 +122,12 @@ if($mUser){
 				}else{
 					oDom.css({margin : "0 auto"});
 				}
+				document.documentElement.style.overflow = 'hidden';
 			}
 			ajust();
+			var tt = setInterval(function(){
+				ajust();
+			}, 500);
 			$(window).resize(function(){
 				ajust();
 			});
