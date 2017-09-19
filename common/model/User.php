@@ -879,7 +879,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				//把所有牌局都检查一下，确保有俱乐部的记录
 				foreach($aPaijuZhangDanList as $mm){
 					$isFind = false;
-					foreach($aClubPaijuDataZhangDanList[$aClub['club_id'] as $nn){
+					foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $nn){
 						if($mm['paiju_id'] == $nn['paiju_id']){
 							$isFind = true;
 							break;
