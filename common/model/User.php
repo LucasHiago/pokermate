@@ -872,8 +872,35 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 						'baoxian_beichou' => 0,
 						'club_is_clean' => $mm['club_is_clean'],
 					];
-					$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;debug($aTempData);
+					$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
 					array_push($aPaijuDataZhangDanList, $aTempData);
+				}
+			}else{
+				//把所有牌局都检查一下，确保有俱乐部的记录
+				foreach($aPaijuZhangDanList as $mm){
+					$isFind = false;
+					foreach($aClubPaijuDataZhangDanList[$aClub['club_id'] as $nn){
+						if($mm['paiju_id'] == $nn['paiju_id']){
+							$isFind = true;
+							break;
+						}
+					}
+					if(!$isFind){
+						$aTempData = [
+							'paiju_id' => $mm['paiju_id'],
+							'paiju_name' => $mm['paiju_name'],
+							'club_id' => $aClub['club_id'],
+							'paiju_fee' => $aClub['paiju_fee'],
+							'duizhangfangfa' => $aClub['duizhangfangfa'],
+							'zhang_dan' => 0,
+							'zhanji' => 0,
+							'baoxian_heji' => 0,
+							'baoxian_beichou' => 0,
+							'club_is_clean' => $mm['club_is_clean'],
+						];
+						$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
+						array_push($aPaijuDataZhangDanList, $aTempData);
+					}
 				}
 			}
 		}
