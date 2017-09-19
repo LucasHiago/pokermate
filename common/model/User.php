@@ -832,6 +832,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'paiju_name' => $value['paiju_name'],
 				'club_id' => $value['club_id'],
 				'paiju_fee' => $paijuFee,
+				'duizhangfangfa' => $duizhangfangfa,
 				'zhang_dan' => 0,
 				'zhanji' => $value['zhanji'],
 				'baoxian_heji' => $value['baoxian_heji'],
@@ -860,7 +861,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'club_id' => $aClub['club_id'],
 				'club_name' => $aClub['club_name'],
 				'qianzhang' => $aClub['qianzhang'],
+				'duizhangfangfa' => $aClub['duizhangfangfa'],
+				'paiju_fee' => $aClub['paiju_fee'],
 				'zhang_dan' => 0,
+				'zhanji' => 0,
+				'baoxian_heji' => 0,
+				'baoxian_beichou' => 0,
 				'hui_zhong' => 0,
 				'club_zhang_dan_list' => [],
 			];
@@ -882,9 +888,14 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'] += $v['zhanji'];
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'] += $v['baoxian_heji'];
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
+					$aClubZhangDanList[$aClub['club_id']]['zhanji'] += $v['zhanji'];
+					$aClubZhangDanList[$aClub['club_id']]['baoxian_heji'] += $v['baoxian_heji'];
+					$aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
 					$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $v['zhang_dan'];
 				}
 			}
+			//账单值与自己俱乐部联盟账单值相反
+			$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa);
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 		}
 		
