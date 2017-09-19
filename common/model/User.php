@@ -842,24 +842,26 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'hui_zhong' => 0,
 				'club_zhang_dan_list' => [],
 			];
-			foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $v){
-				if(!isset($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']])){
-					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']] = [
-						'paiju_id' => $v['paiju_id'],
-						'paiju_name' => $v['paiju_name'],
-						'club_id' => $v['club_id'],
-						'paiju_fee' => $v['paiju_fee'],
-						'zhang_dan' => 0,
-						'zhanji' => 0,
-						'baoxian_heji' => 0,
-						'baoxian_beichou' => 0,
-					];
+			if(isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
+				foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $v){
+					if(!isset($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']])){
+						$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']] = [
+							'paiju_id' => $v['paiju_id'],
+							'paiju_name' => $v['paiju_name'],
+							'club_id' => $v['club_id'],
+							'paiju_fee' => $v['paiju_fee'],
+							'zhang_dan' => 0,
+							'zhanji' => 0,
+							'baoxian_heji' => 0,
+							'baoxian_beichou' => 0,
+						];
+					}
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhang_dan'] += $v['zhang_dan'];
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'] += $v['zhanji'];
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'] += $v['baoxian_heji'];
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
+					$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $v['zhang_dan'];
 				}
-				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhang_dan'] += $v['zhang_dan'];
-				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'] += $v['zhanji'];
-				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'] += $v['baoxian_heji'];
-				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
-				$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $v['zhang_dan'];
 			}
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 		}
