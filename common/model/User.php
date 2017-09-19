@@ -857,7 +857,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aClubPaijuDataZhangDanList[$value['club_id']][] = $value;
 		}
 		//俱乐部没有牌局记录，则制造假记录
-		/*foreach($aClubList as $aClub){
+		foreach($aClubList as $aClub){
 			if(!isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
 				foreach($aPaijuZhangDanList as $mm){
 					$aTempData = [
@@ -876,7 +876,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					array_push($aPaijuDataZhangDanList, $aTempData);
 				}
 			}
-		}*/
+		}
 		$aClubZhangDanList = [];
 		foreach($aClubList as $aClub){
 			$aClubZhangDanList[$aClub['club_id']] = [
