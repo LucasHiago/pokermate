@@ -855,6 +855,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//俱乐部没有牌局记录，则制造假记录，即使俱乐部没有牌局数据也要算上桌子费
 		foreach($aClubList as $aClub){
 			if(!isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
+				$aClubPaijuDataZhangDanList[$aClub['club_id']] = [];
 				//确保有俱乐部的记录,因为要计桌子费用，不然联盟 吃什么
 				foreach($aPaijuZhangDanList as $mm){
 					$aTempData = [
