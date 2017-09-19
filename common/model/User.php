@@ -842,11 +842,6 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			];
 			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $baoxianChoucheng, $this->choushui_shuanfa);
 			$aTemp['baoxian_beichou'] = $baoxianBeichou;
-			/*if(!$value['club_is_clean']){
-				//账单值与自己俱乐部联盟账单值相反
-				$aTemp['zhang_dan'] -= Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $paijuFee, $baoxianBeichou, $duizhangfangfa, $this->choushui_shuanfa);
-				$totalZhanDan += $aTemp['zhang_dan'];
-			}*/
 			$aPaijuDataZhangDanList[] = $aTemp;
 		}
 		$aClubPaijuDataZhangDanList = [];
@@ -856,6 +851,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			}
 			$aClubPaijuDataZhangDanList[$value['club_id']][] = $value;
 		}
+		///////////////////////////////////////这里好操蛋/////////////////////////////////////////////
 		//俱乐部没有牌局记录，则制造假记录，即使俱乐部没有牌局数据也要算上桌子费
 		foreach($aClubList as $aClub){
 			if(!isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
@@ -905,6 +901,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				}
 			}
 		}
+		///////////////////////////////////////这里好操蛋/////////////////////////////////////////////
 		$aClubZhangDanList = [];
 		foreach($aClubList as $aClub){
 			$aClubZhangDanList[$aClub['club_id']] = [
