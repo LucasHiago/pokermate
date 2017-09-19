@@ -68,15 +68,12 @@ $minColumn = 9;
 				<div class="col-item" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaijuZhangDan['paiju_id']; ?>, true);"><?php echo $aPaijuZhangDan['paiju_name']; ?></div>
 			<?php 
 				foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ 
-					$num = $aClubZhangDan['zhang_dan'];
-					/*
 					$num = 0;
 					foreach($aClubZhangDan['club_zhang_dan_list'] as $pjid => $aClubPaiju){
 						if($pjid == $aPaijuZhangDan['paiju_id']){
 							$num = $aClubPaiju['zhang_dan'];
 						}
 					}
-					*/
 			?>
 				<div class="col-item"><?php echo $num; ?></div>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
