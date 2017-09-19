@@ -855,12 +855,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aClubPaijuDataZhangDanList[$value['club_id']] = [];
 			}
 			$aClubPaijuDataZhangDanList[$value['club_id']][] = $value;
-		}
+		}//debug($aClubPaijuDataZhangDanList);
 		//俱乐部没有牌局记录，则制造假记录
 		foreach($aClubList as $aClub){
 			if(!isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
 				foreach($aPaijuZhangDanList as $mm){
-					array_push($aPaijuDataZhangDanList, [
+					$aTempData = [
 						'paiju_id' => $mm['paiju_id'],
 						'paiju_name' => $mm['paiju_name'],
 						'club_id' => $aClub['club_id'],
@@ -871,10 +871,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 						'baoxian_heji' => 0,
 						'baoxian_beichou' => 0,
 						'club_is_clean' => $mm['club_is_clean'],
-					]);
+					];
+					$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
+					array_push($aPaijuDataZhangDanList, $aTempData);
 				}
 			}
-		}
+		}//debug($aClubPaijuDataZhangDanList);
 		$aClubZhangDanList = [];
 		foreach($aClubList as $aClub){
 			$aClubZhangDanList[$aClub['club_id']] = [
@@ -922,9 +924,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				
 			}
 			//账单值与自己俱乐部联盟账单值相反
-			//if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
+			if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
 				$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa);
-			//}
+			}
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
 		}
