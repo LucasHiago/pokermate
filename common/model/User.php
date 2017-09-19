@@ -427,7 +427,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	public function getUnJiaoBanPaijuChouShuiList(){
 		$aResult = $this->_getUnJiaoBanPaijuChouShuiDataListWithLianmengInfo();
 		$aReturnList = [];
-		foreach($aResult as $value){
+		/*foreach($aResult as $value){
 			if(!isset($aReturnList[$value['paiju_id']])){
 				$aReturnList[$value['paiju_id']] = [
 					'paiju_name' => $value['paiju_name'],
@@ -444,6 +444,32 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$value['paiju_id']]['lianmeng_butie'] += $lianmengButie;
 			$aReturnList[$value['paiju_id']]['shiji_choushui_value'] += Calculate::calculateShijiChouShuiValue($value['choushui_value'], $lianmengButie, $value['paiju_fee']);
 			$aReturnList[$value['paiju_id']]['paiju_fee'] += $value['paiju_fee'];
+		}*/
+		foreach($aResult as $value){
+			if(!isset($aReturnList[$value['paiju_id']])){
+				$aReturnList[$value['paiju_id']] = [
+					'paiju_name' => $value['paiju_name'],
+					'zhanji' => 0,
+					'choushui_value' => 0,
+					'lianmeng_butie' => 0,
+					'shiji_choushui_value' => 0,
+					'baoxian_heji' => 0,
+					'paiju_fee' => $value['paiju_fee'],
+					'duizhangfangfa' => $value['duizhangfangfa'],
+				];
+			}
+			$aReturnList[$value['paiju_id']]['zhanji'] += $value['zhanji'];
+			$aReturnList[$value['paiju_id']]['baoxian_heji'] += $value['baoxian_heji'];
+			$aReturnList[$value['paiju_id']]['choushui_value'] += $value['choushui_value'];
+			$lianmengButie = Calculate::calculateLianmengButie($value['zhanji'], $value['baoxian_heji'], $value['duizhangfangfa'], $this->choushui_shuanfa);
+			$aReturnList[$value['paiju_id']]['lianmeng_butie'] += $lianmengButie;
+			$aReturnList[$value['paiju_id']]['shiji_choushui_value'] += Calculate::calculateShijiChouShuiValue($value['choushui_value'], $lianmengButie, $value['paiju_fee']);
+			//$aReturnList[$value['paiju_id']]['paiju_fee'] += $value['paiju_fee'];
+		}
+		foreach($aReturnList as $paijuId => $v){
+			$lianmengButie = Calculate::calculateLianmengButie($v['zhanji'], $v['baoxian_heji'], $v['duizhangfangfa'], $this->choushui_shuanfa);
+			$aReturnList[$paijuId]['lianmeng_butie'] = $lianmengButie;
+			$aReturnList[$paijuId]['shiji_choushui_value'] = Calculate::calculateShijiChouShuiValue($v['choushui_value'], $lianmengButie, $v['paiju_fee']);
 		}
 		
 		return $aReturnList;
