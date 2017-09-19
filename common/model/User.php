@@ -647,11 +647,13 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$totalOutPutTypeMoney = $this->getMoneyOutPutTypeTotalMoney();
 		$totalKerenBenjin = $this->getTotalKerenBenjiMoney();
 		$aUnJiaoBanPaijuTotalStatistic = $this->_getUnJiaoBanPaijuTotalStatistic();
+		$shijiChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
 		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
 		$totalBaoXian = $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian'];
 		$totalLianmengZhongZhang = $this->getLianmengZhongZhang();
 		
-		return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $totalChouShui, $totalBaoXian, $totalLianmengZhongZhang);
+		return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $shijiChouShui, $totalBaoXian, $totalLianmengZhongZhang);
+		//return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $totalChouShui, $totalBaoXian, $totalLianmengZhongZhang);
 	}
 	
 	/**
@@ -674,8 +676,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aUnJiaoBanPaijuTotalStatistic = $this->_getUnJiaoBanPaijuTotalStatistic();
 		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
 		$totalBaoXian = $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian'];
+		$shijiChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
 				
-		return Calculate::calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney, $totalChouShui, $totalBaoXian);
+		return Calculate::calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney, $shijiChouShui, $totalBaoXian);
+		//return Calculate::calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney, $totalChouShui, $totalBaoXian);
 	}
 
 	/**
