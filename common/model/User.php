@@ -461,9 +461,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$value['paiju_id']]['zhanji'] += $value['zhanji'];
 			$aReturnList[$value['paiju_id']]['baoxian_heji'] += $value['baoxian_heji'];
 			$aReturnList[$value['paiju_id']]['choushui_value'] += $value['choushui_value'];
-			$lianmengButie = Calculate::calculateLianmengButie($value['zhanji'], $value['baoxian_heji'], $value['duizhangfangfa'], $this->choushui_shuanfa);
-			$aReturnList[$value['paiju_id']]['lianmeng_butie'] += $lianmengButie;
-			$aReturnList[$value['paiju_id']]['shiji_choushui_value'] += Calculate::calculateShijiChouShuiValue($value['choushui_value'], $lianmengButie, $value['paiju_fee']);
+			//$lianmengButie = Calculate::calculateLianmengButie($value['zhanji'], $value['baoxian_heji'], $value['duizhangfangfa'], $this->choushui_shuanfa);
+			//$aReturnList[$value['paiju_id']]['lianmeng_butie'] += $lianmengButie;
+			//$aReturnList[$value['paiju_id']]['shiji_choushui_value'] += Calculate::calculateShijiChouShuiValue($value['choushui_value'], $lianmengButie, $value['paiju_fee']);
 			//$aReturnList[$value['paiju_id']]['paiju_fee'] += $value['paiju_fee'];
 		}
 		foreach($aReturnList as $paijuId => $v){
