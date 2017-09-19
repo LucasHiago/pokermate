@@ -955,11 +955,14 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
 				//debug($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]);
 				foreach($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'] as $kk => $vv){
-					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['zhang_dan'] = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
+					$zhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['zhang_dan'] = $zhandan;
+					$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $zhandan;
 				}
 				//$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhang_dan'] = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['duizhangfangfa'], $this->choushui_shuanfa);
 				//debug($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhang_dan']);
-				$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa);
+				//$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa);
+				
 			}
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
