@@ -903,6 +903,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 							'club_id' => $v['club_id'],
 							'paiju_fee' => $v['paiju_fee'],
 							'club_is_clean' => $v['club_is_clean'],
+							'duizhangfangfa' => $aClub['duizhangfangfa'],
 							'zhang_dan' => 0,
 							'zhanji' => 0,
 							'baoxian_heji' => 0,
