@@ -924,9 +924,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				
 			}
 			//账单值与自己俱乐部联盟账单值相反
-			//if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
+			if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){debug($aClubZhangDanList[$aClub['club_id']]);
 				$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa);
-			//}
+				debug($aClubZhangDanList[$aClub['club_id']]['zhang_dan']);
+			}
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
 		}
