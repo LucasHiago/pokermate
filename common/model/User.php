@@ -856,9 +856,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			}
 			$aClubPaijuDataZhangDanList[$value['club_id']][] = $value;
 		}
-		//俱乐部没有牌局记录，则制造假记录
+		//俱乐部没有牌局记录，则制造假记录，即使俱乐部没有牌局数据也要算上桌子费
 		foreach($aClubList as $aClub){
 			if(!isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
+				//确保有俱乐部的记录,因为要计桌子费用，不然联盟 吃什么
 				foreach($aPaijuZhangDanList as $mm){
 					$aTempData = [
 						'paiju_id' => $mm['paiju_id'],
@@ -876,7 +877,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					array_push($aPaijuDataZhangDanList, $aTempData);
 				}
 			}else{
-				//把所有牌局都检查一下，确保有俱乐部的记录
+				//把所有牌局都检查一下，确保有俱乐部的记录,因为要计桌子费用，不然联盟 吃什么
 				foreach($aPaijuZhangDanList as $mm){
 					$isFind = false;
 					foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $nn){
@@ -921,48 +922,36 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'hui_zhong' => 0,
 				'club_zhang_dan_list' => [],
 			];
-			if(isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
-				foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $v){
-					if(!isset($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']])){
-						$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']] = [
-							'paiju_id' => $v['paiju_id'],
-							'paiju_name' => $v['paiju_name'],
-							'club_id' => $v['club_id'],
-							'paiju_fee' => $v['paiju_fee'],
-							'club_is_clean' => $v['club_is_clean'],
-							'duizhangfangfa' => $aClub['duizhangfangfa'],
-							'zhang_dan' => 0,
-							'zhanji' => 0,
-							'baoxian_heji' => 0,
-							'baoxian_beichou' => 0,
-						];
-					}
-					//$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhang_dan'] += $v['zhang_dan'];
-					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'] += $v['zhanji'];
-					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'] += $v['baoxian_heji'];
-					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
-					$aClubZhangDanList[$aClub['club_id']]['club_is_clean'] = $v['club_is_clean'];
-					$aClubZhangDanList[$aClub['club_id']]['zhanji'] += $v['zhanji'];
-					$aClubZhangDanList[$aClub['club_id']]['baoxian_heji'] += $v['baoxian_heji'];
-					$aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
-					//$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $v['zhang_dan'];
+			foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $v){
+				if(!isset($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']])){
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']] = [
+						'paiju_id' => $v['paiju_id'],
+						'paiju_name' => $v['paiju_name'],
+						'club_id' => $v['club_id'],
+						'paiju_fee' => $v['paiju_fee'],
+						'club_is_clean' => $v['club_is_clean'],
+						'duizhangfangfa' => $aClub['duizhangfangfa'],
+						'zhang_dan' => 0,
+						'zhanji' => 0,
+						'baoxian_heji' => 0,
+						'baoxian_beichou' => 0,
+					];
 				}
-			}else{
-				//即使俱乐部没有牌局数据也要算上桌子费
-				
+				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'] += $v['zhanji'];
+				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'] += $v['baoxian_heji'];
+				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
+				$aClubZhangDanList[$aClub['club_id']]['club_is_clean'] = $v['club_is_clean'];
+				$aClubZhangDanList[$aClub['club_id']]['zhanji'] += $v['zhanji'];
+				$aClubZhangDanList[$aClub['club_id']]['baoxian_heji'] += $v['baoxian_heji'];
+				$aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
 			}
 			//账单值与自己俱乐部联盟账单值相反
 			if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
-				//debug($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]);
 				foreach($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'] as $kk => $vv){
 					$zhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['zhang_dan'] = $zhandan;
 					$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $zhandan;
 				}
-				//$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhang_dan'] = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['duizhangfangfa'], $this->choushui_shuanfa);
-				//debug($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhang_dan']);
-				//$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa);
-				
 			}
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
