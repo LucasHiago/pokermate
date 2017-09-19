@@ -929,7 +929,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			}
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
-		}debug($aClubZhangDanList,11)
+		}debug($aClubZhangDanList,11);
 		
 		//如果没有新账单就不显示牌局记录列表了
 		if(!$totalZhanDan){
