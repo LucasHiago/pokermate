@@ -884,7 +884,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'qianzhang' => $aClub['qianzhang'],
 				'duizhangfangfa' => $aClub['duizhangfangfa'],
 				'paiju_fee' => $aClub['paiju_fee'],
-				'club_is_clean' => 1,
+				'club_is_clean' => 0,
 				'zhang_dan' => 0,
 				'zhanji' => 0,
 				'baoxian_heji' => 0,
