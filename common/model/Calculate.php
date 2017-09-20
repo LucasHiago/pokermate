@@ -60,6 +60,9 @@ class Calculate extends \yii\base\Object{
 	 */
 	public static function calculateLianmengButie($zhanji = 0, $baoxianHeji = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0){
 		$lianmengButie = ($zhanji + $baoxianHeji) * (1 - Lianmeng::getDuizhangfangfaValue($duizhangfangfa));
+		if($lianmengButie < 0){
+			return -ceil(abs($lianmengButie));
+		}
 		return ceil($lianmengButie);
 		/*if($choushuiShuanfa){
 			return static::getIntValueByChoushuiShuanfa($lianmengButie, $choushuiShuanfa);
