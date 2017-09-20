@@ -373,6 +373,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'zhongChouShui' => 0,
 				'zhongBaoXian' => 0,
 				'shangZhuoRenShu' => 0,
+				'shijiChouShui' => 0,
 			];
 		}
 		//获取总抽水
