@@ -69,9 +69,11 @@ class ImportData extends \common\lib\DbOrmModel{
 			}
 			$i++;
 		}
+		unset($aInsertList);
 		if($aPageList){
 			static::_bathInsertData($aPageList);
 		}
+		unset($aPageList);
 	}
 	
 	public static function importFromExcelDataList($mUser, $aDataList){
@@ -86,6 +88,8 @@ class ImportData extends \common\lib\DbOrmModel{
 		$aPaijuName = ArrayHelper::getColumn($aDataList, 1);
 		$aEndTimeFormat = ArrayHelper::getColumn($aDataList, 19);
 		$aAlreadyImportDataList = ImportData::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName, 'end_time_format' => $aEndTimeFormat]);
+		unset($aPaijuName);
+		unset($aEndTimeFormat);
 		$aImportDataList = [];
 		foreach($aDataList as $value){
 			$isFind = false;
@@ -99,10 +103,11 @@ class ImportData extends \common\lib\DbOrmModel{
 				array_push($aImportDataList, $value);
 			}
 		}
-		
+		unset($aDataList);
+		unset($aAlreadyImportDataList);
 		$aInserDataList = [];
 		$aUniquePaijuList = [];
-		$aPlayerList = [];
+		//$aPlayerList = [];
 		foreach($aImportDataList as $aData){
 			 $aData[1] = trim($aData[1]);
 			//结束时间转为时间戳
@@ -112,10 +117,10 @@ class ImportData extends \common\lib\DbOrmModel{
 			array_push($aData, $aData[18]);
 			//总手数为0为无效牌局（不计算桌子费）
 			if($aData[6]){
-				array_push($aPlayerList, [
+				/*array_push($aPlayerList, [
 					'player_id' => (int)$aData[7],
 					'player_name' => $aData[8],
-				]);
+				]);*/
 				$aUniquePaijuInfo = static::_getUniquePaijuInfo($mUser->id, $aUniquePaijuList, $aData[1], $endTime, $lianmengId);
 				$aUniquePaijuList = $aUniquePaijuInfo['list'];
 				array_push($aData, $aUniquePaijuInfo['id']);
@@ -123,9 +128,12 @@ class ImportData extends \common\lib\DbOrmModel{
 				array_push($aInserDataList, $aData);
 			}
 		}
+		unset($aUniquePaijuList);
+		unset($aImportDataList);
 		if($aInserDataList){
 			//Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 			static::bathInsertData($aInserDataList);
+			unset($aInserDataList);
 		}
 		return true;
 	}
@@ -175,6 +183,7 @@ class ImportData extends \common\lib\DbOrmModel{
 					$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
 					if($aDataList){
 						ImportData::importFromExcelDataList($mUser, $aDataList);
+						unset($aDataList);
 						$mExcelFile->set('import_time', NOW_TIME);
 						$mExcelFile->save();
 					}
@@ -183,6 +192,7 @@ class ImportData extends \common\lib\DbOrmModel{
 				}
 			}
 		}
+		unset($aExcelFileList);
 		return true;
 	}
 	

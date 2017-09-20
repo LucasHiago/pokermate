@@ -308,6 +308,22 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		$aControll = ['with_keren_benjin_info' => true];
 		$aList = ImportData::getList($aCondition, $aControll);
+		/********************这里非常重要*********************/
+		//先检查客人是否存在，不存在则创建
+		$aPlayerList = [];
+		foreach($aList as $aPaijuData){
+			if(!$aPaijuData['status']){
+				array_push($aPlayerList, [
+					'player_id' => $aPaijuData['player_id'],
+					'player_name' => $aPaijuData['player_name'],
+				]);
+			}
+		}
+		if($aPlayerList){
+			Player::checkAddNewPlayer($this->id, $aPlayerList);
+		}
+		/********************这里非常重要*********************/
+		$aList = ImportData::getList($aCondition, $aControll);
 		//过滤掉删除的客人记录
 		$aReturnList = [];
 		foreach($aList as $key => $value){

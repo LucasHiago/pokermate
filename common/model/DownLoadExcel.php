@@ -95,6 +95,7 @@ class DownLoadExcel extends \yii\base\Object{
 			if(!$isSuccess){
 				return false;
 			}
+			unset($isSuccess);
 			if(!$mClub->last_import_date || $startTime == $mClub->last_import_date){
 				$mClub->set('last_import_date', $endTime);
 				$mClub->save();
@@ -132,6 +133,7 @@ class DownLoadExcel extends \yii\base\Object{
 				break;
 			}
 			$aRoomIdList = array_unique(array_merge($aRoomIdList, $aRoomId));
+			unset($aRoomId);
 			$page = $page + 1;
 		}
 		if($aRoomIdList){
@@ -154,11 +156,14 @@ class DownLoadExcel extends \yii\base\Object{
 					]);
 				}
 			}
+			unset($aExcelFileList);
 		}
+		unset($aRoomIdList);
 		//找出已保存未下载的记录
 		$aUnDownloadExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'club_id' => $mClub->club_id]);
 		//下载Excel文件
 		$isSuccess = $this->_downLoadExcelFile($mClub->club_id, $aUnDownloadExcelFileList);
+		unset($aUnDownloadExcelFileList);
 		if(is_array($isSuccess) && $isSuccess){
 			//重新下载一次出错的文件
 			$this->_downLoadExcelFile($mClub->club_id, $isSuccess);
@@ -186,6 +191,7 @@ class DownLoadExcel extends \yii\base\Object{
 			//检查文件是否下载正常
 			try{
 				$aDataList = Yii::$app->excel->getSheetDataInArray($saveName);
+				unset($aDataList);
 			}catch(\Exception $e){
 				array_push($aDownUnSuccessExcelFile, $aUnDownloadExcelFile);
 				continue;
@@ -195,6 +201,7 @@ class DownLoadExcel extends \yii\base\Object{
 			$mExcelFile->set('download_time', NOW_TIME);
 			$mExcelFile->save();
 		}
+		unset($aUnDownloadExcelFileList);
 		if($aDownUnSuccessExcelFile){
 			return $aDownUnSuccessExcelFile;
 		}
