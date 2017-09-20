@@ -324,12 +324,16 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		/********************这里非常重要*********************/
 		$aList = ImportData::getList($aCondition, $aControll);
-		//过滤掉删除的客人记录
 		$aReturnList = [];
-		foreach($aList as $key => $value){
-			if(isset($value['keren_benjin_info']) && $value['keren_benjin_info'] && isset($value['keren_benjin_info']['is_delete']) && !$value['keren_benjin_info']['is_delete']){
-				array_push($aReturnList, $value);
+		if(!$isAllRecordData){
+			//过滤掉删除的客人记录
+			foreach($aList as $key => $value){
+				if(isset($value['keren_benjin_info']) && $value['keren_benjin_info'] && isset($value['keren_benjin_info']['is_delete']) && !$value['keren_benjin_info']['is_delete']){
+					array_push($aReturnList, $value);
+				}
 			}
+		}else{
+			$aReturnList = $aList;
 		}
 		return $aReturnList;
 	}
