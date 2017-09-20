@@ -485,6 +485,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		foreach($aReturnList as $paijuId => $v){
 			$lianmengButie = Calculate::calculateLianmengButie($v['zhanji'], $v['baoxian_heji'], $v['duizhangfangfa'], $this->choushui_shuanfa);
+			Yii::info('lianmengButie:'.$lianmengButie.':'.$v['zhanji'].':'.$v['baoxian_heji']);
 			$aReturnList[$paijuId]['lianmeng_butie'] = $lianmengButie;
 			$aReturnList[$paijuId]['shiji_choushui_value'] = Calculate::calculateShijiChouShuiValue($v['choushui_value'], $lianmengButie, $v['paiju_fee']);
 		}
