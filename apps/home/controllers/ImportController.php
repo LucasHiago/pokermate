@@ -54,7 +54,7 @@ class ImportController extends Controller{
 		
 		$mUser = Yii::$app->user->getIdentity();
 		try{
-			$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
+			$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);debug($aDataList,11);
 			if($aDataList){
 				foreach($aDataList as $aData){
 					$playerName = (string)$aData[0];
