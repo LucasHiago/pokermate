@@ -345,6 +345,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			return 0;
 		}
 		$sql = 'SELECT COUNT(`t1`.`id`) AS `player_num` FROM ' . static::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0' . $clubIdWhere;
+		Yii::info('ren:'.$sql);
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 		return (int)$aResult[0]['player_num'];
 	}
