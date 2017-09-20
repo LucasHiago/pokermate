@@ -56,6 +56,7 @@ class ImportController extends Controller{
 		try{
 			$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
 			if($aDataList){
+				unset($aDataList[0]);
 				foreach($aDataList as $aData){
 					$playerName = (string)$aData[0];
 					$kerenBianhao = (int)$aData[1];
@@ -82,6 +83,7 @@ class ImportController extends Controller{
 					if(!$mPlayer){
 						Player::addRecord([
 							'user_id' => $mUser->id,
+							'keren_bianhao' => $kerenBianhao,
 							'player_id' => $playerId,
 							'player_name' => $aData[0],
 							'create_time' => NOW_TIME,

@@ -25,7 +25,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 	}
 	
 	public function getPlayerList(){
-		return $aPlayerList = Player::findAll(['keren_bianhao' => $this->keren_bianhao]);
+		return $aPlayerList = Player::findAll(['user_ids' => $this->user_id, 'keren_bianhao' => $this->keren_bianhao]);
 	}
 	
 	private static function _parseWhereCondition1($aCondition){
@@ -64,10 +64,10 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 	 */
 	public static function getList1($aCondition = [], $aControl = []){
 		$where = static::_parseWhereCondition1($aCondition);
-		$select = '`k1`.*';
+		/*$select = '`k1`.*';
 		if(isset($aControl['select'])){
 			$select = $aControl['select'];
-		}
+		}*/
 		$order = '';
 		if(isset($aControl['order_by'])){
 			$order = 'ORDER BY ' . $aControl['order_by'];
@@ -78,7 +78,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 			$limit = ' LIMIT ' . $offset . ',' . $aControl['page_size'];
 		}
 		
-		$sql = 'SELECT ' . $select . ' FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT DISTINCT(`player_id`) FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ')) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`)) AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where . ' ' . $order . ' ' . $limit;
+		$sql = 'SELECT DISTINCT(`k1`.`id`),`k1`.`user_id`,`k1`.`keren_bianhao`,`k1`.`benjin`,`k1`.`ying_chou`,`k1`.`shu_fan`,`k1`.`agent_id`,`k1`.`remark`,`k1`.`current_player_id`,`k1`.`is_delete`,`k1`.`create_time` FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT DISTINCT(`player_id`) FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ')) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`)) AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where . ' ' . $order . ' ' . $limit;
 		
 		$aList = Yii::$app->db->createCommand($sql)->queryAll();
 		if(!$aList){
@@ -106,7 +106,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 			$aCurrentPlayer = [];
 			foreach($aPlayerList as $aPlayer){
 				if($value['keren_bianhao'] == $aPlayer['keren_bianhao']){
-					if($aPlayer['id']){
+					if($aPlayer['id'] == $value['current_player_id']){
 						$aCurrentPlayer = $aPlayer;
 					}else{
 						array_push($aList[$key]['player_list'], $aPlayer);
@@ -134,7 +134,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 	
 	public static function getCount1($aCondition = []){
 		$where = static::_parseWhereCondition1($aCondition);
-		$sql = 'SELECT COUNT(*) AS `num` FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT DISTINCT(`player_id`) FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ')) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`)) AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where;
+		$sql = 'SELECT COUNT(DISTINCT(`k1`.`id`)) AS `num` FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT DISTINCT(`player_id`) FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ')) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`)) AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where;
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 		return (int)$aResult[0]['num'];
 	}

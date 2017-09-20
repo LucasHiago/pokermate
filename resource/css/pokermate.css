@@ -1554,6 +1554,7 @@ input, select{border:none;outline:none;background:none;}
 	background: url(./../images/110c.png) repeat-y;
 }
 .J-player-list-win .p-l-footer{
+	float:left;
 	width:1320px;
 	height:44px;
 	background: url(./../images/110b.png) no-repeat;

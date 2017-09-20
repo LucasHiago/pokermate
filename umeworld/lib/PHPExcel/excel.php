@@ -15,6 +15,7 @@ class Excel extends \yii\base\Object{
 		require_once Yii::getAlias('@umeworld/lib/PHPExcel/') . 'PHPExcel.php';
 		require_once Yii::getAlias('@umeworld/lib/PHPExcel/') . 'PHPExcel/IOFactory.php';
 		require_once Yii::getAlias('@umeworld/lib/PHPExcel/') . 'PHPExcel/Reader/Excel5.php';
+		require_once Yii::getAlias('@umeworld/lib/PHPExcel/') . 'PHPExcel/Reader/Excel2007.php';
         parent::__construct();
     }
 	

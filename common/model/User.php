@@ -198,7 +198,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	public function getMoneyTypeTotalMoney(){
 		$sql = 'SELECT SUM(`money`) as `total_money` FROM ' . MoneyType::tableName() . ' WHERE `user_id`=' . $this->id . ' AND `is_delete`=0';
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
-		return $aResult[0]['total_money'];
+		return (int)$aResult[0]['total_money'];
 	}
 	
 	public function getMoneyOutPutTypeTotalMoney(){
@@ -308,12 +308,32 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		$aControll = ['with_keren_benjin_info' => true];
 		$aList = ImportData::getList($aCondition, $aControll);
-		//过滤掉删除的客人记录
-		$aReturnList = [];
-		foreach($aList as $key => $value){
-			if(isset($value['keren_benjin_info']) && $value['keren_benjin_info'] && isset($value['keren_benjin_info']['is_delete']) && !$value['keren_benjin_info']['is_delete']){
-				array_push($aReturnList, $value);
+		/********************这里非常重要*********************/
+		//先检查客人是否存在，不存在则创建
+		$aPlayerList = [];
+		foreach($aList as $aPaijuData){
+			if(!$aPaijuData['status']){
+				array_push($aPlayerList, [
+					'player_id' => $aPaijuData['player_id'],
+					'player_name' => $aPaijuData['player_name'],
+				]);
 			}
+		}
+		if($aPlayerList){
+			Player::checkAddNewPlayer($this->id, $aPlayerList);
+		}
+		/********************这里非常重要*********************/
+		$aList = ImportData::getList($aCondition, $aControll);
+		$aReturnList = [];
+		if(!$isAllRecordData){
+			//过滤掉删除的客人记录
+			foreach($aList as $key => $value){
+				if(isset($value['keren_benjin_info']) && $value['keren_benjin_info'] && isset($value['keren_benjin_info']['is_delete']) && !$value['keren_benjin_info']['is_delete']){
+					array_push($aReturnList, $value);
+				}
+			}
+		}else{
+			$aReturnList = $aList;
 		}
 		return $aReturnList;
 	}
@@ -373,6 +393,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'zhongChouShui' => 0,
 				'zhongBaoXian' => 0,
 				'shangZhuoRenShu' => 0,
+				'shijiChouShui' => 0,
 			];
 		}
 		//获取总抽水
