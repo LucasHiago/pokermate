@@ -75,7 +75,7 @@
 					html += '<div style="width:33px;" class="c-td"></div>';
 					html += '<div style="width:174px;" class="c-td"><input type="text" data-type="benjin" data-record-id="' + aData[i].id + '" value="' + aData[i].benjin + '" /></div>';
 					var playerListHtml = '';
-					if(aData[i].player_list.length != 0){
+					//if(aData[i].player_list.length != 0){
 						/*playerListHtml += '<div class="play-select-list"><div class="p-s-wrap">';
 						for(var j in aData[i].player_list){
 							playerListHtml += '<div class="h10"></div>';
@@ -87,7 +87,7 @@
 							playerListHtml += '<option value="' + aData[i].player_list[j].id + '">' + aData[i].player_list[j].player_name + '</option>';
 						}
 						playerListHtml += '</select>';
-					}
+					//}
 					//html += '<div style="width:170px;cursor:pointer;" class="J-select-play c-td" data-id="' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].id : 0) + '"><div style="width:120px;text-align:right;">' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].player_name : '') + '</div>' + playerListHtml + '</div>';
 					html += '<div style="width:170px;cursor:pointer;" class="J-select-play c-td" data-id="' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].id : 0) + '">' + playerListHtml + '</div>';
 					html += '<div style="width:156px;" class="c-td">';
@@ -101,8 +101,8 @@
 						html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
 					html += '</div>';
 					var agentListHtml = '';
-					var agentName = '请选择';
-					if(aAgentList.length != 0){
+					//var agentName = '请选择';
+					//if(aAgentList.length != 0){
 						/*agentListHtml += '<div class="play-select-list"><div class="p-s-wrap">';
 						for(var k in aAgentList){
 							if(aAgentList[k].id == aData[i].agent_id){
@@ -118,7 +118,7 @@
 							agentListHtml += '<option value="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</option>';
 						}
 						agentListHtml += '</select>';
-					}
+					//}
 					html += '<div style="width:154px;cursor:pointer;" class="J-select-play c-td" data-id="' + aData[i].agent_id + '">' + agentListHtml + '</div>';
 					html += '<div style="width:157px;" class="c-td"><input type="text" data-type="remark" data-record-id="' + aData[i].id + '" value="' + aData[i].remark + '" /></div>';
 					html += '<div style="width:116px;" class="c-td"><a class="del-btn" data-record-id="' + aData[i].id + '" style="position: relative;left: 16px;top: 8px;display: block;width: 78px;height: 33px;cursor:pointer;"></a></div>';
