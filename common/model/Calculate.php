@@ -60,15 +60,33 @@ class Calculate extends \yii\base\Object{
 	 */
 	public static function calculateLianmengButie($zhanji = 0, $baoxianHeji = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0){
 		$lianmengButie = ($zhanji + $baoxianHeji) * (1 - Lianmeng::getDuizhangfangfaValue($duizhangfangfa));
-		if($lianmengButie < 0){
-			return -ceil(abs($lianmengButie));
-		}
-		return ceil($lianmengButie);
+		
+		return static::_jinyi($lianmengButie);
+		//return ceil($lianmengButie);
 		/*if($choushuiShuanfa){
 			return static::getIntValueByChoushuiShuanfa($lianmengButie, $choushuiShuanfa);
 		}else{
 			return static::getIntValueByChoushuiShuanfa($lianmengButie);
 		}*/
+	}
+	
+	/**
+	 *	有小数进一，负向后进一
+	 */
+	private static function _jinyi($number){
+		if($number < 0){
+			if($number == intval($number)){
+				return (int)$number;
+			}else{
+				return (int)($number - 1);
+			}
+		}else{
+			if($number == intval($number)){
+				return (int)$number;
+			}else{
+				return (int)($number + 1);
+			}
+		}
 	}
 	
 	/**
