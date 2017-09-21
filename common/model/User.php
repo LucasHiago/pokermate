@@ -613,7 +613,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$key]['baoxian_beichou'] = $baoxianBeichou;
 			if(!$value['is_clean']){
 				$aReturnList[$key]['zhang_dan'] = Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
-				Yii::info('zd:'.$aReturnList[$key]['zhang_dan'].';'.$value['zhanji'].';'.$value['baoxian_heji'].';'.$value['paiju_fee'].';'.';'.$value['baoxianBeichou'].';');
+				Yii::info('zd:'.$aReturnList[$key]['zhang_dan'].';'.$value['zhanji'].';'.$value['baoxian_heji'].';'.$value['paiju_fee'].';'.';'.$baoxianBeichou.';');
 			}
 		}
 		return $aReturnList;
