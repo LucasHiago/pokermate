@@ -74,14 +74,15 @@ class Calculate extends \yii\base\Object{
 	 *	有小数进一，负向后进一
 	 */
 	public static function _jinyi($number){
+		$number = (string)$number;
 		if($number < 0){
-			if($number - (double)$number < 0){
+			if($number - (int)$number < 0){
 				return (int)($number - 1);
 			}else{
 				return (int)$number;
 			}
 		}else{
-			if($number - (double)$number > 0){
+			if($number - (int)$number > 0){
 				return (int)($number + 1);
 			}else{
 				return (int)$number;
