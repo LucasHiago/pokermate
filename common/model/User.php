@@ -651,11 +651,11 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		
 		foreach($aReturnList as $lianmengId => $aValue){
-			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aValue['lianmeng_qian_zhang'] + $aValue['lianmeng_zhang_dan'];
 			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
 			if(!$value['is_clean']){
 				$aReturnList[$lianmengId]['lianmeng_zhang_dan'] += Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
 			}
+			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aValue['lianmeng_qian_zhang'] + $aValue['lianmeng_zhang_dan'];
 		}
 		
 		return $aReturnList;
