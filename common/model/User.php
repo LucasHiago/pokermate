@@ -648,7 +648,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		
 		foreach($aReturnList as $lianmengId => $aValue){
-			$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($value['lianmeng_id']);
+			$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($lianmengId);
 			foreach($aLianmengZhangDanDetailList as $aLianmengZhangDanDetail){
 				$aReturnList[$lianmengId]['lianmeng_zhang_dan'] += $aLianmengZhangDanDetail['zhang_dan'];
 			}
