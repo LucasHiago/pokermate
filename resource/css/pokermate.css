@@ -1633,7 +1633,7 @@ input, select{border:none;outline:none;background:none;}
 .J-paiju-data-list-win{
 	width:1200px;
 	height:851px;
-    background: url(./../images/300.png) no-repeat;
+    /*background: url(./../images/300.png) no-repeat;*/
 }
 .J-paiju-data-list-win  .top-title{
 	width:1200px;
@@ -1689,10 +1689,24 @@ input, select{border:none;outline:none;background:none;}
 	color:#ffffff;
 	font-weight:bold;
 }
+.J-paiju-data-list-win  .pj-dl-head{
+	float:left;
+	height:227px;
+	width:100%;
+	background: url(./../images/300-h.png) no-repeat center;
+}
+.J-paiju-data-list-win  .pj-dl-footer{
+	float:left;
+	height:60px;
+	width:100%;
+	background: url(./../images/300-b.png) no-repeat;
+}
 .J-paiju-data-list-win  .body-list{
-	margin-top:16px;
+	float:left;
+	/*margin-top:16px;*/
 	width:1200px;
-	height:563px;
+	min-height:563px;
+	background: url(./../images/300-c.png) repeat-y;
 }
 .J-paiju-data-list-win  .body-list table{
 	margin-left:15px;
