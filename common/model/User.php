@@ -226,7 +226,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}else{
 			return 0;
 		}
-		$sql = 'SELECT SUM(`zhanji`) as `total_zhanji` FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $this->id . ' AND `club_id` IN(' . implode(',', $aClubId) . ')';
+		//$sql = 'SELECT SUM(`zhanji`) as `total_zhanji` FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $this->id . ' AND `club_id` IN(' . implode(',', $aClubId) . ')';
+		$sql = 'SELECT SUM(t1.`zhanji`) AS `total_zhanji` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`status`=1 AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `club_id` IN(' . implode(',', $aClubId) . ')';
+		//debug($sql);
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 		return (int)$aResult[0]['total_zhanji'];
 	}
