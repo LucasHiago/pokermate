@@ -73,7 +73,8 @@ class Calculate extends \yii\base\Object{
 	/**
 	 *	有小数进一，负向后进一
 	 */
-	private static function _jinyi($number){
+	public static function _jinyi($number){
+		$number=(string)$number;
 		if($number < 0){
 			if($number == intval($number)){
 				return (int)$number;
