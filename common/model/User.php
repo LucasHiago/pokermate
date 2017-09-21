@@ -631,30 +631,23 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					'lianmeng_shang_zhuo_ren_shu' => 0,
 					'lianmeng_qian_zhang' => $aLianmeng['qianzhang'],
 					'lianmeng_zhang_dan' => 0,
-					'paiju_fee' => $aLianmeng['paiju_fee'],
-					'baoxian_choucheng' => $aLianmeng['baoxian_choucheng'],
-					'duizhangfangfa' => $aLianmeng['duizhangfangfa'],
-					'zhanji' => 0,
-					'baoxian_heji' => 0,
 				];
 			}
 		}
 		foreach($aResult as $value){
 			//$aReturnList[$value['lianmeng_id']]['lianmeng_zhong_zhang'] += 1;
 			$aReturnList[$value['lianmeng_id']]['lianmeng_shang_zhuo_ren_shu'] += 1;
-			$aReturnList[$value['lianmeng_id']]['zhanji'] += $value['zhanji'];
-			$aReturnList[$value['lianmeng_id']]['baoxian_heji'] += $value['baoxian_heji'];
-			/*$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
+			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
 			if(!$value['is_clean']){
-				$aReturnList[$value['lianmeng_id']]['lianmeng_zhang_dan'] += Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
-			}*/
+				$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($value['lianmeng_id']);
+				foreach($aLianmengZhangDanDetailList as $aValue){
+					$aReturnList[$value['lianmeng_id']]['lianmeng_zhang_dan'] += $aValue['zhang_dan'];
+				}
+				//$aReturnList[$value['lianmeng_id']]['lianmeng_zhang_dan'] += Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
+			}
 		}
 		
 		foreach($aReturnList as $lianmengId => $aValue){
-			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
-			if(!$value['is_clean']){
-				$aReturnList[$lianmengId]['lianmeng_zhang_dan'] += Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
-			}
 			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aValue['lianmeng_qian_zhang'] + $aValue['lianmeng_zhang_dan'];
 		}
 		
