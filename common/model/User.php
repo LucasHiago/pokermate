@@ -590,19 +590,29 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					'paiju_name' => $value['paiju_name'],
 					'zhanji' => 0,
 					'baoxian_heji' => 0,
-					'paiju_fee' => 0,
+					'paiju_fee' => $value['paiju_fee'],
+					'baoxian_choucheng' => $value['baoxian_choucheng'],
+					'duizhangfangfa' => $value['duizhangfangfa'],
 					'baoxian_beichou' => 0,
 					'zhang_dan' => 0,
+					'is_clean' => $value['is_clean'],
 					'lianmeng_id' => $value['lianmeng_id'],
 				];
 			}
 			$aReturnList[$value['paiju_id']]['zhanji'] += $value['zhanji'];
 			$aReturnList[$value['paiju_id']]['baoxian_heji'] += $value['baoxian_heji'];
-			$aReturnList[$value['paiju_id']]['paiju_fee'] += $value['paiju_fee'];
-			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
+			//$aReturnList[$value['paiju_id']]['paiju_fee'] += $value['paiju_fee'];
+			/*$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
 			$aReturnList[$value['paiju_id']]['baoxian_beichou'] += $baoxianBeichou;
 			if(!$value['is_clean']){
 				$aReturnList[$value['paiju_id']]['zhang_dan'] += Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
+			}*/
+		}
+		foreach($aReturnList as $key => $value){
+			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
+			$aReturnList[$key]['baoxian_beichou'] = $baoxianBeichou;
+			if(!$value['is_clean']){
+				$aReturnList[$key]['zhang_dan'] = Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
 			}
 		}
 		return $aReturnList;
