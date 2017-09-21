@@ -638,16 +638,20 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			//$aReturnList[$value['lianmeng_id']]['lianmeng_zhong_zhang'] += 1;
 			$aReturnList[$value['lianmeng_id']]['lianmeng_shang_zhuo_ren_shu'] += 1;
 			//$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
-			if(!$value['is_clean']){
+			/*if(!$value['is_clean']){
 				$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($value['lianmeng_id']);
 				foreach($aLianmengZhangDanDetailList as $aValue){
 					$aReturnList[$value['lianmeng_id']]['lianmeng_zhang_dan'] += $aValue['zhang_dan'];
 				}
 				//$aReturnList[$value['lianmeng_id']]['lianmeng_zhang_dan'] += Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
-			}
+			}*/
 		}
 		
 		foreach($aReturnList as $lianmengId => $aValue){
+			$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($value['lianmeng_id']);
+			foreach($aLianmengZhangDanDetailList as $aValue){
+				$aReturnList[$value['lianmeng_id']]['lianmeng_zhang_dan'] += $aValue['zhang_dan'];
+			}
 			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aValue['lianmeng_qian_zhang'] + $aValue['lianmeng_zhang_dan'];
 		}
 		
