@@ -698,9 +698,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 */
 	public function getLianmengZhongZhang(){
 		$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
-		$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($value['lianmeng_id']);
-		foreach($aLianmengZhangDanDetailList as $aValue){
-			$totalLianmengZhongZhang += $aValue['zhang_dan'];
+		$aLianmengList = $this->getLianmengList();
+		foreach($aLianmengList as $aLianmeng){
+			$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($aLianmeng['id']);
+			foreach($aLianmengZhangDanDetailList as $aValue){
+				$totalLianmengZhongZhang += $aValue['zhang_dan'];
+			}
 		}
 		/*$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
 		$aLianmengZhongZhangList = $this->getLianmengZhongZhangList();
