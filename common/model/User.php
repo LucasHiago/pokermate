@@ -634,6 +634,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					'paiju_fee' => $aLianmeng['paiju_fee'],
 					'baoxian_choucheng' => $aLianmeng['baoxian_choucheng'],
 					'duizhangfangfa' => $aLianmeng['duizhangfangfa'],
+					'zhanji' => 0,
+					'baoxian_heji' => 0,
 				];
 			}
 		}
