@@ -3,7 +3,9 @@ use umeworld\lib\Url;
 $this->setTitle('联盟主机对账');
 
 $minColumn = 9;
+$pageCount = 8;
 ?>
+
 <div class="J-go-scroll-left"></div>
 <div class="J-go-scroll-right"></div>
 <div class="c-body-wrap lmzj-wrap">
@@ -29,36 +31,36 @@ $minColumn = 9;
 			<?php if($aLianmengHostDuizhang && $aLianmengHostDuizhang['aClubZhangDanList']){ ?>
 			<div class="row-item">
 				<div class="col-item thh">新帐</div>
-				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
-				<div class="col-item"><?php echo $aClubZhangDan['zhang_dan']; ?></div>
-				<?php } ?>
+				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><?php echo $aClubZhangDan['zhang_dan']; ?></div>
+				<?php if($index % $pageCount == 0){$itemPage += 1;}$index++;} ?>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<div class="col-item" style="background:none;"></div>
 				<?php } ?>
 			</div>
 			<div class="row-item">
 				<div class="col-item thh">旧帐</div>
-				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
-				<div class="col-item"><input type="text" class="J-change-input-selector ci-txt" data-id="<?php echo $aClubZhangDan['lianmeng_club_id']; ?>" value="<?php echo $aClubZhangDan['qianzhang']; ?>" /><i class="ci-edit"></i></div>
-				<?php } ?>
+				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><input type="text" class="J-change-input-selector ci-txt" data-id="<?php echo $aClubZhangDan['lianmeng_club_id']; ?>" value="<?php echo $aClubZhangDan['qianzhang']; ?>" /><i class="ci-edit"></i></div>
+				<?php if($index % $pageCount == 0){$itemPage += 1;}$index++;} ?>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<div class="col-item" style="background:none;"></div>
 				<?php } ?>
 			</div>
 			<div class="row-item">
 				<div class="col-item thh">汇总</div>
-				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
-				<div class="col-item"><?php echo $aClubZhangDan['hui_zhong']; ?></div>
-				<?php } ?>
+				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><?php echo $aClubZhangDan['hui_zhong']; ?></div>
+				<?php if($index % $pageCount == 0){$itemPage += 1;}$index++;} ?>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<div class="col-item" style="background:none;"></div>
 				<?php } ?>
 			</div>
 			<div class="row-item">
 				<div class="col-item thh">桌子</div>
-				<?php foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
-				<div class="col-item" style="cursor:pointer;" onclick='AlertWin.showClubZhangDanDetail(<?php echo $lianmengId; ?>, <?php echo json_encode($aClubZhangDan['club_zhang_dan_list']); ?>, "<?php echo $aClubZhangDan['club_name']; ?>");'><?php echo $aClubZhangDan['club_name']; ?></div>
-				<?php } ?>
+				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>" style="cursor:pointer;" onclick='AlertWin.showClubZhangDanDetail(<?php echo $lianmengId; ?>, <?php echo json_encode($aClubZhangDan['club_zhang_dan_list']); ?>, "<?php echo $aClubZhangDan['club_name']; ?>");'><?php echo $aClubZhangDan['club_name']; ?></div>
+				<?php if($index % $pageCount == 0){$itemPage += 1;}$index++;} ?>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<div class="col-item" style="background:none;"></div>
 				<?php } ?>
@@ -67,7 +69,8 @@ $minColumn = 9;
 			<div class="row-item lbb">
 				<div class="col-item" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaijuZhangDan['paiju_id']; ?>, true);"><?php echo $aPaijuZhangDan['paiju_name']; ?></div>
 			<?php 
-				foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ 
+				$itemPage = 1;$index = 1; 
+				foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){
 					$num = 0;
 					foreach($aClubZhangDan['club_zhang_dan_list'] as $pjid => $aClubPaiju){
 						if($pjid == $aPaijuZhangDan['paiju_id']){
@@ -75,11 +78,11 @@ $minColumn = 9;
 						}
 					}
 			?>
-				<div class="col-item"><?php echo $num; ?></div>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><?php echo $num; ?></div>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<!--<div class="col-item" style="background:#231b2d;width:132px;margin:0px;"></div>-->
 				<?php } ?>
-			<?php } ?>
+			<?php if($index % $pageCount == 0){$itemPage += 1;}$index++;} ?>
 			</div>
 			<?php } ?>
 		<?php }else{ ?>
@@ -99,12 +102,42 @@ $minColumn = 9;
 		</div>
 	</div>
 </div>
-<div class="J-go-scroll-left"></div>
-<div class="J-go-scroll-right"></div>
+<div class="J-go-scroll-left" onclick="showItemPrevPage(this);"></div>
+<div class="J-go-scroll-right" onclick="showItemNextPage(this);"></div>
 <script type="text/javascript">	
-	
+	var currentItemPage = 1;
+	function _showItemPage(){
+		$('.J-item-page').hide();
+		$('.J-item-page.item-page-' + currentItemPage).show();
+	}
+	function showItemNextPage(o){
+		var page = currentItemPage + 1;
+		if($('.J-item-page.item-page-' + page).length == 0){
+			return;
+		}
+		currentItemPage = page;
+		_showItemPage();
+	}
+	function showItemPrevPage(o){
+		var page = currentItemPage - 1;
+		if($('.J-item-page.item-page-' + page).length == 0){
+			return;
+		}
+		currentItemPage = page;
+		_showItemPage();
+	}
+	function initItemPage(){
+		_showItemPage();
+		$('.J-go-scroll-left').css({left : $('.lmzj-wrap').offset().left});
+		$('.J-go-scroll-right').css({left : $('.lmzj-wrap').offset().left + 1320 - 40});
+		if(parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) < 10){
+			$('.J-go-scroll-left').hide();
+			$('.J-go-scroll-right').hide();
+		}
+	}
 	$(function(){
 		$('.c-h-t-menu.m3').addClass('active');
+		initItemPage();
 		$('.J-lianmeng-selector').val(<?php echo $lianmengId; ?>);
 		$('.J-lianmeng-selector').on('change', function(){
 			location.href = Tools.url('home', 'lianmeng/lianmeng-host-duizhang') + '?id=' + $(this).val();
@@ -169,7 +202,7 @@ $minColumn = 9;
 			}
 		});
 		
-		$('.J-go-scroll-left').css({left : $('.lmzj-wrap').offset().left});
+		/*$('.J-go-scroll-left').css({left : $('.lmzj-wrap').offset().left});
 		$('.J-go-scroll-right').css({left : $('.lmzj-wrap').offset().left + 1320 - 40});
 		$('.J-go-scroll-left').click(function(){
 			$('.body-list-wrap')[0].scrollLeft = $('.body-list-wrap')[0].scrollLeft - 1024;
@@ -180,7 +213,7 @@ $minColumn = 9;
 		if(parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) < 10){
 			$('.J-go-scroll-left').hide();
 			$('.J-go-scroll-right').hide();
-		}
+		}*/
 		
 		//$('.lmzj-wrap').height($('.body-list-wrap').height());
 		//$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});

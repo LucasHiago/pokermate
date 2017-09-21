@@ -1936,7 +1936,7 @@ input, select{border:none;outline:none;background:none;}
 	background: #231b2d;
     border-radius: 20px;
 	/*overflow-y:hidden;*/
-	overflow-x:scroll;
+	overflow-x:hidden;
 }
 .lmzj-wrap .body-list-wrap .row-item{
 	height:40px;
@@ -2025,7 +2025,7 @@ input, select{border:none;outline:none;background:none;}
 }
 .J-go-scroll-left, .J-go-scroll-right{
 	position:fixed;
-	bottom:0px;
+	top:310px;
 	width:50px;
 	height:100px;
 	cursor:pointer;
