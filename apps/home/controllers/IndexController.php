@@ -227,12 +227,16 @@ class IndexController extends Controller{
 		}
 		if($type == 'keren_bianhao'){
 			$value = (int)$value;
+			if(!KerenBenjin::checkKerenbianhao($value)){
+				return new Response('客人编号范围有误', -1);
+			}
 			$isMerge = (int)Yii::$app->request->post('isMerge');
 			if($mKerenBenjin->keren_bianhao != $value){
-				$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $value, 'is_delete' => 0]);
+				$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $value]);
 				if($mTempKerenBenjin){	
 					if($isMerge){
 						$mTempKerenBenjin->set('benjin', ['add', $mKerenBenjin->benjin]);
+						$mTempKerenBenjin->set('is_delete', 0);
 						$mTempKerenBenjin->save();
 						
 						$mKerenBenjin->set('is_delete', 1);
@@ -342,6 +346,9 @@ class IndexController extends Controller{
 		if(!$kerenBianhao){
 			return new Response('请输入客人编号', -1);
 		}
+		if(!KerenBenjin::checkKerenbianhao($kerenBianhao)){
+			return new Response('客人编号范围有误', -1);
+		}
 		if(!$playerId){
 			return new Response('请输入玩家ID', -1);
 		}
@@ -367,9 +374,10 @@ class IndexController extends Controller{
 		if(!$mKerenBenjin){
 			return new Response('出错啦', 0);
 		}
-		if(!$mKerenBenjin->benjin){
-			$mKerenBenjin->set('benjin', $benjin);
+		if($benjin){
+			$mKerenBenjin->set('benjin', ['add', $benjin]);
 		}
+		
 		$mKerenBenjin->set('ying_chou', $yingChou);
 		$mKerenBenjin->set('shu_fan', $shuFan);
 		if($agentId){

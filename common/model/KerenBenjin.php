@@ -13,6 +13,19 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		return Yii::$app->db->parseTable('_@keren_benjin');
 	}
 	
+	public static function getNextKerenbianhao($userId){
+		$sql = 'SELECT MAX(`keren_bianhao`) AS `num` FROM ' . static::tableName() . ' WHERE `user_id`=' . $userId;
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return (int)($aResult[0]['num'] + 1);
+	}
+	
+	public static function checkKerenbianhao($kerenbianhao){
+		if($kerenbianhao > 0 && $kerenbianhao < 9999999999){
+			return true;
+		}
+		return false;
+	}
+	
 	public static function addRecord($aData){
 		if(!isset($aData['ying_chou'])){
 			$aData['ying_chou'] = static::YING_CHOU_DEFAULT;

@@ -1418,7 +1418,7 @@
 								html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
 							html += '</div>';
 							var agentListHtml = '';
-							var agentName = '请选择';
+							/*var agentName = '请选择';
 							if(aAgentList.length != 0){
 								agentListHtml += '<div class="play-select-list"><div class="p-s-wrap">';
 								for(var k in aAgentList){
@@ -1426,8 +1426,14 @@
 									agentListHtml += '<div class="play-select-list-item" data-id="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</div>';
 								}
 								agentListHtml += '</div></div>';
+							}*/
+							agentListHtml += '<select class="J-agent-select-change" style="padding: 2px; color: #ffffff; background: #221a3c; height: 35px; width: 70%; text-align: center; margin-left: 32px;">';
+							agentListHtml += '<option value="0">请选择</option>';
+							for(var k in aAgentList){
+								agentListHtml += '<option value="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</option>';
 							}
-							html += '<div style="width:154px;cursor:pointer;" class="J-agent-id J-select-play c-td" data-id="0"><div style="width:90px;text-align:right;">' + agentName + '</div>' + agentListHtml + '</div>';
+							agentListHtml += '</select>';
+							html += '<div style="width:154px;cursor:pointer;" class="J-agent-id J-select-play c-td" data-id="0">' + agentListHtml + '</div>';
 							html += '<div style="width:157px;" class="c-td"><input type="text" data-type="play_id" /></div>';
 							html += '<div style="width:116px;" class="c-td"><a class="add-btn" style="position: relative;left: 25px;top: 8px;display: block;width: 78px;height: 33px;cursor:pointer;"></a></div>';
 						html += '</div>';
@@ -1438,7 +1444,7 @@
 			var oHtml = $(html);
 			
 			showAlertWin(oHtml, function(){
-				oHtml.find('.J-select-play').click(function(){
+				/*oHtml.find('.J-select-play').click(function(){
 					$(this).find('.play-select-list').show();
 				});
 				oHtml.find('.play-select-list').each(function(){
@@ -1462,7 +1468,7 @@
 					$(this).parent().show();
 					$(this).tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 					$(this).parent().hide();
-				});
+				});*/
 				oHtml.find('.add-btn').click(function(){
 					var o = this;
 					ajax({
@@ -1473,7 +1479,7 @@
 							playerName : $(o).parent().parent().find('input[data-type=player_name]').val(),
 							yingChou : $(o).parent().parent().find('input[data-type=ying_chou]').val(),
 							shuFan : $(o).parent().parent().find('input[data-type=shu_fan]').val(),
-							agentId : $(o).parent().parent().find('.J-agent-id').attr('data-id'),
+							agentId : $(o).parent().parent().find('.J-agent-select-change').val(),
 							playerId : $(o).parent().parent().find('input[data-type=play_id]').val()
 						},
 						beforeSend : function(){
@@ -1485,8 +1491,12 @@
 						success : function(aResult){
 							if(aResult.status == 1){
 								$(o).parent().parent().parent().parent().parent().parent().remove();
+								UBox.show(aResult.msg, aResult.status, function(){
+									location.reload();
+								}, 3);
+							}else{
+								UBox.show(aResult.msg, aResult.status);
 							}
-							UBox.show(aResult.msg, aResult.status);
 						}
 					});
 				});

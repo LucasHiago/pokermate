@@ -148,7 +148,7 @@ class UserController extends Controller{
 	}
 	
 	public function actionDoJiaoBanZhuanChu(){
-		$moneyTypeId = Yii::$app->request->post('moneyTypeId');
+		$moneyTypeId = (int)Yii::$app->request->post('moneyTypeId');
 		
 		$mUser = Yii::$app->user->getIdentity();
 		

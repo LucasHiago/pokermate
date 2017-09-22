@@ -15,12 +15,18 @@ class Player extends \common\lib\DbOrmModel{
 		$id = static::insert($aData);
 		$mPlayer = parent::findOne($id);
 		if(!$mPlayer->keren_bianhao){
-			$mPlayer->set('keren_bianhao', $id);
+			$kerenBianhao = KerenBenjin::getNextKerenbianhao($mPlayer->user_id);
+			$mPlayer->set('keren_bianhao', $kerenBianhao);
 			$mPlayer->save();
 		}
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao]);
 		if(!$mKerenBenjin){
 			KerenBenjin::addRecord(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao, 'create_time' => NOW_TIME]);
+		}else{
+			if($mKerenBenjin->is_delete){
+				$mKerenBenjin->set('is_delete', 0);
+				$mKerenBenjin->save();
+			}
 		}
 		return $id;
 	}

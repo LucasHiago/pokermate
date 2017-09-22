@@ -62,13 +62,17 @@ class KerenBenjinManageController extends Controller{
 		if(!$mKerenBenjin){
 			return new Response('会员不存在', -1);
 		}
+		if(!KerenBenjin::checkKerenbianhao($kerenBianhao)){
+			return new Response('客人编号范围有误', -1);
+		}
 		if($kerenBianhao){
 			$isMerge = (int)Yii::$app->request->post('isMerge');
 			if($mKerenBenjin->keren_bianhao != $kerenBianhao){
-				$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao, 'is_delete' => 0]);
+				$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 				if($mTempKerenBenjin){	
 					if($isMerge){
 						$mTempKerenBenjin->set('benjin', ['add', $mKerenBenjin->benjin]);
+						$mTempKerenBenjin->set('is_delete', 0);
 						$mTempKerenBenjin->save();
 						
 						$mKerenBenjin->set('is_delete', 1);
@@ -78,7 +82,8 @@ class KerenBenjinManageController extends Controller{
 						return new Response('改编号已有客人使用，是否合并共用？', 2);
 					}
 				}else{
-					return new Response('该编号不存在', -1);
+					//return new Response('该编号不存在', -1);
+					$mKerenBenjin->modifyKerenBianhao($value);
 				}
 			}
 		}
