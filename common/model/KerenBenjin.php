@@ -267,5 +267,12 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		$sql = 'UPDATE ' . Player::tableName() . ' SET `is_delete`=1 WHERE `user_id`=' . $this->user_id . ' AND `keren_bianhao`=' . $this->keren_bianhao;
 		Yii::$app->db->createCommand($sql)->execute();
 	}
+		
+	public function modifyKerenBianhao($kerenBianhao){
+		$sql = 'UPDATE ' . Player::tableName() . ' SET `keren_bianhao`=' . $kerenBianhao . ' WHERE `user_id`=' . $this->user_id . ' AND `keren_bianhao`=' . $this->keren_bianhao;
+		Yii::$app->db->createCommand($sql)->execute();
+		$this->set('keren_bianhao', $kerenBianhao);
+		$this->save();
+	}
 	
 }

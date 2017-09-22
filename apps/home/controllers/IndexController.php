@@ -251,7 +251,8 @@ class IndexController extends Controller{
 						'remark' => $mKerenBenjin->remark, 
 						'create_time' => NOW_TIME
 					]);*/
-					return new Response('该编号不存在', -1);
+					//return new Response('该编号不存在', -1);
+					$mKerenBenjin->modifyKerenBianhao($value);
 				}
 			}
 		}elseif($type == 'benjin'){
