@@ -235,7 +235,7 @@ class LianmengController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		
 		$aLianmengZhongZhangList = $mUser->getLianmengZhongZhangList();
-		$totalZhongZhang = $mUser->getLianmengZhongZhang();
+		$totalZhongZhang = $mUser->getLianmengTotalZhongZhang();
 		$aReturn = [
 			'list' => $aLianmengZhongZhangList,
 			'totalZhongZhang' => $totalZhongZhang,

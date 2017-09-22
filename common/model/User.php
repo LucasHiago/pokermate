@@ -691,14 +691,15 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$shijiChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
 		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
 		$totalBaoXian = $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian'];
-		$totalLianmengZhongZhang = $this->getLianmengZhongZhang();
+		//$totalLianmengZhongZhang = $this->getLianmengZhongZhang();
+		$totalLianmengZhongZhang = $this->getLianmengTotalZhongZhang();
 		
 		return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $shijiChouShui, $totalBaoXian, $totalLianmengZhongZhang);
 		//return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $totalChouShui, $totalBaoXian, $totalLianmengZhongZhang);
 	}
 	
 	/**
-	 *	获取联盟总账
+	 *	获取联盟总账新账单
 	 */
 	public function getLianmengZhongZhang(){
 		$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
@@ -707,6 +708,26 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($aLianmeng['id']);
 			foreach($aLianmengZhangDanDetailList as $aValue){
 				$totalLianmengZhongZhang += $aValue['zhang_dan'];
+			}
+		}
+		/*$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
+		$aLianmengZhongZhangList = $this->getLianmengZhongZhangList();
+		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
+			$totalLianmengZhongZhang += $aLianmengZhongZhang['lianmeng_zhong_zhang'];
+		}*/
+		return $totalLianmengZhongZhang;
+	}
+
+	/**
+	 *	获取联盟总账
+	 */
+	public function getLianmengTotalZhongZhang(){
+		$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
+		$aLianmengList = $this->getLianmengList();
+		foreach($aLianmengList as $aLianmeng){
+			$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($aLianmeng['id']);
+			foreach($aLianmengZhangDanDetailList as $aValue){
+				$totalLianmengZhongZhang += $aValue['lianmeng_zhong_zhang'];
 			}
 		}
 		/*$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
