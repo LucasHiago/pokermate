@@ -147,18 +147,25 @@ class ImportController extends Controller{
 		if($mImportData->user_id != Yii::$app->user->id){
 			return new Response('出错啦', 0);
 		}
-		/*if($mImportData->status){
+		if($mImportData->status){
 			return new Response('不能重复结算', 0);
-		}*/
+		}
 		if(!$mImportData->doJieShuan()){
 			return new Response('结算失败', 0);
 		}
 		
 		$mUser = Yii::$app->user->getIdentity();
 		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		$mPaiju = $mImportData->getMPaiju();
+		$isReloadPage = 0;
+		if($mPaiju->status == Paiju::STATUS_DONE){
+			$isReloadPage = 1;
+		}
+		
 		
 		return new Response('结算成功', 1, [
 			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+			'isReloadPage' => $isReloadPage,
 		]);
 	}
 	

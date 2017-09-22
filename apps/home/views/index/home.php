@@ -429,6 +429,7 @@ $this->setTitle('结账台');
 			},
 			success : function(aResult){
 				if(aResult.status == 1){
+					$(o).removeAttr('onclick');
 					$(o).addClass('clean');
 					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
@@ -438,6 +439,9 @@ $this->setTitle('结账台');
 					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
 					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
 					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
+					if(aResult.data.isReloadPage == 1){
+						location.reload();
+					}
 				}
 				UBox.show(aResult.msg, aResult.status);
 			}
