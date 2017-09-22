@@ -652,7 +652,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			foreach($aLianmengZhangDanDetailList as $aLianmengZhangDanDetail){
 				$aReturnList[$lianmengId]['lianmeng_zhang_dan'] += $aLianmengZhangDanDetail['zhang_dan'];
 			}
-			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aValue['lianmeng_qian_zhang'] + $aValue['lianmeng_zhang_dan'];
+			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aReturnList[$lianmengId]['lianmeng_qian_zhang'] + $aReturnList[$lianmengId]['lianmeng_zhang_dan'];
 		}
 		
 		return $aReturnList;
