@@ -907,6 +907,7 @@
 		},
 		
 		showLianmengZhongZhang : function(){
+			isCloseWinRefresh = true;
 			var html = '';
 			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
 				html += '<div class="d-l-h">';
