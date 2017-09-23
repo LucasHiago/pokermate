@@ -28,7 +28,7 @@
 						if(aResult.status == 1){
 							$(document).click();
 							UBox.show(aResult.msg, aResult.status, function(){
-								//location.reload();
+								location.reload();
 							}, 3);
 						}else if(aResult.status == 2){
 							if(confirm(aResult.msg)){
