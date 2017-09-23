@@ -969,6 +969,7 @@
 					$(this).prev().focus();
 				});
 				oHtml.find('.detail-btn').click(function(){
+					isCloseWinRefresh = false;
 					$(document).click();
 					AlertWin.showLianmengZhangDanDetail($(this).attr('data-id'));
 				});
