@@ -22,6 +22,7 @@ class ImportController extends Controller{
 	}
 	
 	public function actionUploadExcel(){
+		set_time_limit(0);
 		$oUploadedFile = UploadedFile::getInstanceByName('filecontent');
 		$fileName = Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.import') . '/' . md5(microtime()) . '.' . $oUploadedFile->getExtension();
 		if(!$oUploadedFile->saveAs($fileName)){
@@ -46,6 +47,7 @@ class ImportController extends Controller{
 	}
 	
 	public function actionUploadPlayerExcel(){
+		set_time_limit(0);
 		$oUploadedFile = UploadedFile::getInstanceByName('filecontent');
 		$fileName = Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.import') . '/' . md5(microtime()) . '.' . $oUploadedFile->getExtension();
 		if(!$oUploadedFile->saveAs($fileName)){

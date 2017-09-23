@@ -36,7 +36,8 @@ class Player extends \common\lib\DbOrmModel{
 		$aList = static::findAll(['user_id' => $userId, 'player_id' => $aPlayerId]);
 		$aExistPlayerId = ArrayHelper::getColumn($aList, 'player_id');
 		foreach($aPlayerList as $aPlayer){
-			if(!in_array($aPlayer['player_id'], $aExistPlayerId)){
+			$mPlayer = static::findOne(['user_id' => $userId, 'player_id' => $aPlayer['player_id']]);
+			if(!$mPlayer){
 				static::addRecord([
 					'user_id' => $userId,
 					'player_id' => $aPlayer['player_id'],
@@ -44,6 +45,14 @@ class Player extends \common\lib\DbOrmModel{
 					'create_time' => NOW_TIME,
 				]);
 			}
+			/*if(!in_array($aPlayer['player_id'], $aExistPlayerId)){
+				static::addRecord([
+					'user_id' => $userId,
+					'player_id' => $aPlayer['player_id'],
+					'player_name' => $aPlayer['player_name'],
+					'create_time' => NOW_TIME,
+				]);
+			}*/
 		}
 	}
 	
