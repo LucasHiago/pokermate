@@ -85,7 +85,14 @@ class Paiju extends \common\lib\DbOrmModel{
 	 */
 	public static function getCount($aCondition = []){
 		$aWhere = static::_parseWhereCondition($aCondition);
-		return (new Query())->from(static::tableName())->where($aWhere)->count();
+		$oQuery = new Query();
+		$oQuery->select('t1.*')->from(static::tableName() . ' AS `t1`');
+		if(isset($aCondition['club_id']) && $aCondition['club_id']){
+			$oQuery->leftJoin(ImportData::tableName() . ' AS `t2` ON `t1`.`id`=`t2`.`paiju_id`');
+			$oQuery->groupBy('`t1`.`id`');
+		}
+		return $oQuery->where($aWhere)->count();
+		//return (new Query())->from(static::tableName())->where($aWhere)->count();
 	}
 	
 	private static function _parseWhereCondition($aCondition = []){

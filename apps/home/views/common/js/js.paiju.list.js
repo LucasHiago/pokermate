@@ -51,7 +51,8 @@
 							oThis.oWrapDom.html('');
 						}
 						if(aResult.data.length != 0){
-							_appendList(aResult.data);
+							_appendList(aResult.data.list);
+							$('.J-paiju-count').text(aResult.data.count);
 						}
 					}else{
 						UBox.show(aResult.msg, aResult.status);

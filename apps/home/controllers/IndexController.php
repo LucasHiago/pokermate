@@ -99,15 +99,22 @@ class IndexController extends Controller{
 		
 		$mUser = Yii::$app->user->getIdentity();
 		$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`id`' => SORT_DESC];
+		$aList = [];
+		$count = [];
 		if($isHistory){
 			$aOrder = ['`t1`.`id`' => SORT_DESC];
 			$aList = $mUser->getLastPaijuList($page, $pageSize, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE, Paiju::STATUS_FINISH]], $aOrder);
+			$count = $mUser->getLastPaijuListCount(['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE, Paiju::STATUS_FINISH]], $aOrder);
 		}else{
 			$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`id`' => SORT_DESC];
 			$aList = $mUser->getLastPaijuList($page, $pageSize, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);
+			$count = $mUser->getLastPaijuList(['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);
 		}
 		
-		return new Response('', 1, $aList);
+		return new Response('', 1, [
+			'list' => $aList,
+			'count' => $count,
+		]);
 	}
 	
 	public function actionGetKerenBenjin(){

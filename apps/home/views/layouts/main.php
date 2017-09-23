@@ -110,10 +110,11 @@ if($mUser){
 						if(isCanCloseWin){
 							clearInterval(tt);
 							oHtml.remove();
-							document.documentElement.style.overflow = '';
+							document.documentElement.style.overflow = '';console.log(isCloseWinRefresh);
 							if(isCloseWinRefresh){
 								location.reload();
 							}
+							isCloseWinRefresh = false;
 						}
 					}
 				});

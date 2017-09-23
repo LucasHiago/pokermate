@@ -291,6 +291,24 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return Paiju::getList($aCondition, $aControll);
 	}
 	
+	public function getLastPaijuListCount($aParam = ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder = ['`t1`.`end_time`' => SORT_DESC]){
+		$aCondition = [
+			'user_id' => $this->id,
+			'status' => $aParam['status'],
+		];
+		$aClubList = $this->getUserClubList();
+		if($aClubList){
+			$aCondition['club_id'] = ArrayHelper::getColumn($aClubList, 'club_id');
+		}else{
+			return [];
+		}
+		$aControll = [
+			'select' => '`t1`.*',
+			'order_by' => $aOrder,
+		];
+		return Paiju::getCount($aCondition, $aControll);
+	}
+	
 	public function getPaijuDataList($paijuId, $isAllRecordData = false){
 		$mPaiju = Paiju::findOne(['id' => $paijuId, 'user_id' => $this->id]);
 		if(!$mPaiju){

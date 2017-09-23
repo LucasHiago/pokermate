@@ -2038,4 +2038,13 @@ input, select{border:none;outline:none;background:none;}
 	transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
 }
+.J-paiju-count-wrap{
+	width:150px;
+	height:30px;
+	float:left;
+	position:relative;
+	top:80px;
+	left:35px;
+	color:#ffffff;	
+}
 /*background:rgba(0,0,0,0.2);*/

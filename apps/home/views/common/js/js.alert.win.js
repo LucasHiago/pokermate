@@ -907,7 +907,6 @@
 		},
 		
 		showLianmengZhongZhang : function(){
-			isCloseWinRefresh = true;
 			var html = '';
 			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
 				html += '<div class="d-l-h">';
@@ -1037,6 +1036,7 @@
 						//$(o).attr('disabled', false);
 					},
 					success : function(aResult){
+						isCloseWinRefresh = true;
 						if(aResult.status == 1){
 							oHtml.find('.ls-list-wrap').html('');
 							if(aResult.data.length != 0){
@@ -1057,6 +1057,7 @@
 			
 			showAlertWin(oHtml, function(){
 				oHtml.find('.s-lms-btn').click(function(){
+					isCloseWinRefresh = false;
 					$(document).click();
 					AlertWin.showLianmengSetting();
 				});
@@ -1993,7 +1994,7 @@
 			var html = '';
 			
 			html += '<div class="J-bill-list-win">';
-				html += '<div class="b-header"></div>';
+				html += '<div class="b-header"><div class="J-paiju-count-wrap">牌局总数：<font class="J-paiju-count" style="color: #f4e2a9;">0</font></div></div>';
 				html += '<div class="content-body">';
 					html += '<div class="item-wrap">';
 					
