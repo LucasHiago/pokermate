@@ -1841,6 +1841,7 @@ input, select{border:none;outline:none;background:none;}
 .J-lianmeng-zhongzhang-win .ls-th td{
 	font-weight:normal;
 	max-width:90px;
+	white-space: nowrap;
 }
 .J-lianmeng-zhongzhang-win .ls-th .op-btn{
 	background: url(./../images/sprite.png) no-repeat;
