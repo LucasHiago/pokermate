@@ -377,10 +377,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	public function checkIsJieShuanAllPaijuRecord($paijuId){
 		$flag = true;
 		$aPaijuDataList = $this->getPaijuDataList($paijuId);
-		foreach($aPaijuDataList as $aPaijuData){
-			if(!$aPaijuData['status']){
-				$flag = false;
-				break;
+		if($aPaijuDataList){
+			foreach($aPaijuDataList as $aPaijuData){
+				if(!$aPaijuData['status']){
+					$flag = false;
+					break;
+				}
 			}
 		}
 		return $flag;
