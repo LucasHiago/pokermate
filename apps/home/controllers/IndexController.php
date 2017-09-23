@@ -108,7 +108,7 @@ class IndexController extends Controller{
 		}else{
 			$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`id`' => SORT_DESC];
 			$aList = $mUser->getLastPaijuList($page, $pageSize, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);
-			$count = $mUser->getLastPaijuList(['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);
+			$count = $mUser->getLastPaijuListCount(['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);
 		}
 		
 		return new Response('', 1, [
