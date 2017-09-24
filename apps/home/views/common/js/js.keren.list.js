@@ -69,11 +69,17 @@
 		function _appendList(aData){
 			var html = '';
 			for(var i in aData){
+				var hasAgent = false;
+				var fontColorGreen = '';
+				if(aData[i].agent_id != 0){
+					hasAgent = true;
+					fontColorGreen = ' color:#00ff00; ';
+				}
 				html += '<div class="p-l-item">';
 					html += '<div style="width:58px;" class="c-td"></div>';
-					html += '<div style="width:108px;" class="c-td"><input type="text" data-type="keren_bianhao" data-record-id="' + aData[i].id + '" value="' + aData[i].keren_bianhao + '" /></div>';
+					html += '<div style="width:108px;" class="c-td"><input type="text" data-type="keren_bianhao" data-record-id="' + aData[i].id + '" value="' + aData[i].keren_bianhao + '" style="' + fontColorGreen + '" /></div>';
 					html += '<div style="width:33px;" class="c-td"></div>';
-					html += '<div style="width:174px;" class="c-td"><input type="text" data-type="benjin" data-record-id="' + aData[i].id + '" value="' + aData[i].benjin + '" /></div>';
+					html += '<div style="width:174px;" class="c-td"><input type="text" data-type="benjin" data-record-id="' + aData[i].id + '" value="' + aData[i].benjin + '" style="' + fontColorGreen + '" /></div>';
 					var playerListHtml = '';
 					//if(aData[i].player_list.length != 0){
 						/*playerListHtml += '<div class="play-select-list"><div class="p-s-wrap">';
@@ -82,7 +88,7 @@
 							playerListHtml += '<div class="play-select-list-item" data-type="player_id" data-record-id="' + aData[i].id + '" data-id="' + aData[i].player_list[j].id + '">' + aData[i].player_list[j].player_name + '</div>';
 						}
 						playerListHtml += '</div></div>';*/
-						playerListHtml += '<select class="J-player-select-change" data-record-id="' + aData[i].id + '" style="padding: 2px; color: #ffffff; background: #221a3c; height: 35px; width: 70%; text-align: center; margin-left: 32px;">';
+						playerListHtml += '<select class="J-player-select-change" data-record-id="' + aData[i].id + '" style="padding: 2px; color: #ffffff; background: #221a3c; height: 35px; width: 70%; text-align: center; margin-left: 32px;' + fontColorGreen + '">';
 						for(var j in aData[i].player_list){
 							playerListHtml += '<option value="' + aData[i].player_list[j].id + '">' + aData[i].player_list[j].player_name + '</option>';
 						}
@@ -91,13 +97,13 @@
 					//html += '<div style="width:170px;cursor:pointer;" class="J-select-play c-td" data-id="' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].id : 0) + '"><div style="width:120px;text-align:right;">' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].player_name : '') + '</div>' + playerListHtml + '</div>';
 					html += '<div style="width:170px;cursor:pointer;" class="J-select-play c-td" data-id="' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].id : 0) + '">' + playerListHtml + '</div>';
 					html += '<div style="width:156px;" class="c-td">';
-						html += '<input type="text" style="float:left;display:block;width:94px;height:100%;text-align: right;" data-record-id="' + aData[i].id + '" data-type="ying_chou" value="' + aData[i].ying_chou + '" />';
+						html += '<input type="text" style="float:left;display:block;width:94px;height:100%;text-align: right;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_chou" value="' + aData[i].ying_chou + '" />';
 						html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
 						html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
 					html += '</div>';
 					html += '<div style="width:157px;" class="c-td">';
-						html += '<input type="text" style="float:left;display:block;width:102px;height:100%;text-align: right;" data-record-id="' + aData[i].id + '" data-type="shu_fan" value="' + aData[i].shu_fan + '" />';
-						html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
+						html += '<input type="text" style="float:left;display:block;width:102px;height:100%;text-align: right;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="shu_fan" value="' + aData[i].shu_fan + '" />';
+						html += '<span style="float:left;display:block;width:10px;height:100%;' + fontColorGreen + '">%</span>';
 						html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
 					html += '</div>';
 					var agentListHtml = '';
@@ -112,7 +118,7 @@
 							agentListHtml += '<div class="play-select-list-item" data-type="agent_id" data-record-id="' + aData[i].id + '" data-id="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</div>';
 						}
 						agentListHtml += '</div></div>';*/
-						agentListHtml += '<select class="J-agent-select-change" data-init-id="' + aData[i].agent_id + '" data-record-id="' + aData[i].id + '" style="padding: 2px; color: #ffffff; background: #221a3c; height: 35px; width: 70%; text-align: center; margin-left: 32px;">';
+						agentListHtml += '<select class="J-agent-select-change" data-init-id="' + aData[i].agent_id + '" data-record-id="' + aData[i].id + '" style="padding: 2px; color: #ffffff; background: #221a3c; height: 35px; width: 70%; text-align: center; margin-left: 32px;' + fontColorGreen + '">';
 						agentListHtml += '<option value="0">请选择</option>';
 						for(var k in aAgentList){
 							agentListHtml += '<option value="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</option>';
@@ -120,7 +126,7 @@
 						agentListHtml += '</select>';
 					//}
 					html += '<div style="width:154px;cursor:pointer;" class="J-select-play c-td" data-id="' + aData[i].agent_id + '">' + agentListHtml + '</div>';
-					html += '<div style="width:157px;" class="c-td"><input type="text" data-type="remark" data-record-id="' + aData[i].id + '" value="' + aData[i].remark + '" /></div>';
+					html += '<div style="width:157px;" class="c-td"><input type="text" data-type="remark" data-record-id="' + aData[i].id + '" value="' + aData[i].remark + '" style="' + fontColorGreen + '" /></div>';
 					html += '<div style="width:116px;" class="c-td"><a class="del-btn" data-record-id="' + aData[i].id + '" style="position: relative;left: 16px;top: 8px;display: block;width: 78px;height: 33px;cursor:pointer;"></a></div>';
 				html += '</div>';
 			}
