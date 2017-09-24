@@ -83,9 +83,9 @@ class DownLoadExcel extends \yii\base\Object{
 		$type = 1;
 		//$startTime = '2017-09-14';
 		$startTime = $startDay;
-		if($mClub->last_import_date){
+		/*if($mClub->last_import_date){
 			$startTime = $mClub->last_import_date;
-		}
+		}*/
 		while(true){
 			if($startTime == $endDay){
 				break;
