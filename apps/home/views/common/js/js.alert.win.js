@@ -81,7 +81,7 @@
 						if(aResult.status == 1){
 							aData = aResult.data;
 							oHtml.find('img').attr('src', App.url.resource + aResult.data.path + '?r=' + Math.random());
-							oHtml.find('.st').val(aResult.data.start_time);
+							oHtml.find('.st').val(aResult.data.end_time);
 							oHtml.find('.et').val(aResult.data.end_time);
 							oHtml.find('.save-code').focus();
 						}else{
