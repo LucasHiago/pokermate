@@ -1107,7 +1107,40 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	}
 	
 	public function getAllPlayerInfoList(){
-		$sql = 'SELECT `t1`.*,`t2`.`benjin`,`t2`.`ying_chou`,`t2`.`shu_fan`,`t2`.`agent_id`,`t2`.`remark` FROM ' . Player::tableName() . ' AS `t1` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t2` ON `t1`.`keren_bianhao`=`t2`.`keren_bianhao` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`is_delete`=0 ORDER BY `t1`.`keren_bianhao` ASC';
-		return Yii::$app->db->createCommand($sql)->queryAll();
+		/*$sql = 'SELECT `t1`.*,`t2`.`benjin`,`t2`.`ying_chou`,`t2`.`shu_fan`,`t2`.`agent_id`,`t2`.`remark` FROM ' . Player::tableName() . ' AS `t1` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t2` ON `t1`.`keren_bianhao`=`t2`.`keren_bianhao` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`is_delete`=0 ORDER BY `t1`.`keren_bianhao` ASC';
+		return Yii::$app->db->createCommand($sql)->queryAll();*/
+		
+		$aClubList = $this->getUserClubList();
+		$aClubId = [];
+		if($aClubList){
+			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}
+		array_push($aClubId, 0);
+		$aCondition = [
+			'`k1`.`user_id`' => $this->id,
+			'`k1`.`is_delete`' => 0,
+			'club_id' => $aClubId,
+		];
+		$aControl = [
+			'page' => 1,
+			'page_size' => 9999999999,
+			'order_by' => '`k1`.keren_bianhao ASC',
+			'with_player_list' => true,
+		];
+		
+		$aList = KerenBenjin::getList1($aCondition, $aControl);
+		$aReturn = [];
+		foreach($aList as $value){
+			foreach($value['player_list'] as $aPlayer){
+				$aTemp = $aPlayer;
+				$aTemp['benjin'] = $value['benjin'];
+				$aTemp['ying_chou'] = $value['ying_chou'];
+				$aTemp['shu_fan'] = $value['shu_fan'];
+				$aTemp['agent_id'] = $value['agent_id'];
+				$aTemp['remark'] = $value['remark'];
+				$aReturn[] = $aTemp;
+			}
+		}
+		return $aReturn;
 	}
 }
