@@ -38,7 +38,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 	}
 	
 	public function getPlayerList(){
-		return $aPlayerList = Player::findAll(['user_ids' => $this->user_id, 'keren_bianhao' => $this->keren_bianhao]);
+		return $aPlayerList = Player::findAll(['user_id' => $this->user_id, 'keren_bianhao' => $this->keren_bianhao]);
 	}
 	
 	private static function _parseWhereCondition1($aCondition){

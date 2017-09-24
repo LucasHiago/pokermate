@@ -8,6 +8,7 @@ use umeworld\lib\Url;
 use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\form\KerenBenjinListForm;
+use common\model\form\PlayerListForm;
 use common\model\KerenBenjin;
 use common\model\Player;
 
@@ -26,6 +27,19 @@ class KerenBenjinManageController extends Controller{
 		return $this->render('index', [
 			'aList' => $aList,
 			'oPage' => $oPage,
+		]);
+	}
+		
+	public function actionPlayerList(){
+		$oListForm = new PlayerListForm();
+		$aParams = Yii::$app->request->get();
+		if($aParams && (!$oListForm->load($aParams, '') || !$oListForm->validate())){
+			return new Response(current($oListForm->getErrors())[0]);
+		}
+		$aList = $oListForm->getList();
+		
+		return $this->render('player_list', [
+			'aList' => $aList,
 		]);
 	}
 	
@@ -126,10 +140,17 @@ class KerenBenjinManageController extends Controller{
 		$aDataList = [
 			['客人编号', '本金', '游戏ID', '游戏名字', '赢抽点数', '输返点数', '代理人', '备注'],
 		];
+		$aKerenBenjin = [];
 		foreach($aList as $value){
+			$benjin = $value['benjin'];
+			if(!isset($aKerenBenjin[$value['keren_bianhao']])){
+				$aKerenBenjin[$value['keren_bianhao']] = $value['benjin'];
+			}else{
+				$benjin = 0;
+			}
 			array_push($aDataList, [
 				$value['keren_bianhao'],
-				$value['benjin'],
+				$benjin,
 				$value['player_id'],
 				$value['player_name'],
 				$value['ying_chou'],
@@ -142,6 +163,18 @@ class KerenBenjinManageController extends Controller{
 		$fileName = '客人数据列表.xlsx';
 		
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
+	}
+	
+	public function actionDeletePlayer(){
+		$id = Yii::$app->request->post('id');
+		
+		$mPlayer = Player::findOne($id);
+		if($mPlayer->user_id != Yii::$app->user->id){
+			return new Response('出错了', 0);
+		}
+		$mPlayer->set('is_delete', 1);
+		$mPlayer->save();
+		return new Response('删除成功', 1);
 	}
 	
 }

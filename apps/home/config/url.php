@@ -107,11 +107,13 @@ return [
 		'club-manage/edit.json'													=> 'club-manage/edit',
 		
 		'keren-benjin-manage/index.html'										=> 'keren-benjin-manage/index',
+		'keren-benjin-manage/player-list.html'									=> 'keren-benjin-manage/player-list',
 		'keren-benjin-manage/set-delete.json'									=> 'keren-benjin-manage/set-delete',
 		'keren-benjin-manage/edit/<id:.*>.html'									=> 'keren-benjin-manage/show-edit',
 		'keren-benjin-manage/edit.json'											=> 'keren-benjin-manage/edit',
 		'keren-benjin-manage/export-list.html'									=> 'keren-benjin-manage/export-list',
 		'keren-benjin-manage/export-player-list.html'							=> 'keren-benjin-manage/export-player-list',
+		'keren-benjin-manage/delete-player.json'								=> 'keren-benjin-manage/delete-player',
 		
 		
 		''																		=> 'site/index',

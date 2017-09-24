@@ -20,7 +20,7 @@ return [
 		[
 			'title' => '会员管理',
 			'en_title' => 'vip_manage',
-			'url' => ['keren-benjin-manage/index'],
+			'url' => ['keren-benjin-manage/player-list'],
 			'permission' => ['user', 'manager'],
 			'icon_class' => 'money',	
 			'child' => [],
