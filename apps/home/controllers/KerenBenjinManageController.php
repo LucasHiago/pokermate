@@ -115,7 +115,7 @@ class KerenBenjinManageController extends Controller{
 			]);
 		}
 		
-		$fileName = '客人列表.xls';
+		$fileName = '客人列表.xlsx';
 		
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
 	}
