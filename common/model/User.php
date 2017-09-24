@@ -1106,4 +1106,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return true;
 	}
 	
+	public function getAllPlayerInfoList(){
+		$sql = 'SELECT `t1`.*,`t2`.`benjin`,`t2`.`ying_chou`,`t2`.`shu_fan`,`t2`.`agent_id`,`t2`.`remark` FROM ' . Player::tableName() . ' AS `t1` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t2` ON `t1`.`keren_bianhao`=`t2`.`keren_bianhao` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id;
+		return Yii::$app->db->createCommand($sql)->queryAll();
+	}
 }

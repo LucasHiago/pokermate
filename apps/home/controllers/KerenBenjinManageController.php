@@ -119,4 +119,29 @@ class KerenBenjinManageController extends Controller{
 		
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
 	}
+	
+	public function actionExportPlayerList(){
+		$mUser = Yii::$app->user->getIdentity();
+		$aList = $mUser->getAllPlayerInfoList();
+		$aDataList = [
+			['客人编号', '本金', '游戏ID', '游戏名字', '赢抽点数', '输返点数', '代理人', '备注'],
+		];
+		foreach($aList as $value){
+			array_push($aDataList, [
+				$value['keren_bianhao'],
+				$value['benjin'],
+				$value['player_id'],
+				$value['player_name'],
+				$value['ying_chou'],
+				$value['shu_fan'],
+				$value['agent_id'],
+				$value['remark'],
+			]);
+		}
+		
+		$fileName = '客人数据列表.xlsx';
+		
+		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
+	}
+	
 }

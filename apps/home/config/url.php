@@ -111,6 +111,7 @@ return [
 		'keren-benjin-manage/edit/<id:.*>.html'									=> 'keren-benjin-manage/show-edit',
 		'keren-benjin-manage/edit.json'											=> 'keren-benjin-manage/edit',
 		'keren-benjin-manage/export-list.html'									=> 'keren-benjin-manage/export-list',
+		'keren-benjin-manage/export-player-list.html'							=> 'keren-benjin-manage/export-player-list',
 		
 		
 		''																		=> 'site/index',
