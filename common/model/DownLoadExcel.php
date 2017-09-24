@@ -86,9 +86,10 @@ class DownLoadExcel extends \yii\base\Object{
 		/*if($mClub->last_import_date){
 			$startTime = $mClub->last_import_date;
 		}*/
+		$isComplete = false;
 		while(true){
 			if($startTime == $endDay){
-				break;
+				$isComplete = true;
 			}
 			$endTime = date('Y-m-d', strtotime($startTime . ' +1 day'));
 			$isSuccess = $this->_checkAndDownloadExcel($mClub, $type, $startTime, $endTime);
@@ -101,6 +102,9 @@ class DownLoadExcel extends \yii\base\Object{
 				$mClub->save();
 			}
 			$startTime = $endTime;
+			if($isComplete){
+				break;
+			}
 		}
 		
 		return true;
