@@ -9,6 +9,7 @@ use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\form\KerenBenjinListForm;
 use common\model\KerenBenjin;
+use common\model\Player;
 
 class KerenBenjinManageController extends Controller{
 	public $layout = 'manage';
@@ -101,4 +102,21 @@ class KerenBenjinManageController extends Controller{
 		return new Response('保存成功', 1);
 	}
 	
+	public function actionExportList(){
+		$aList = Player::findAll(['user_id' => Yii::$app->user->id]);
+		$aDataList = [
+			['游戏名字', '钱包ID', '游戏ID'],
+		];
+		foreach($aList as $value){
+			array_push($aDataList, [
+				$value['player_name'],
+				$value['keren_bianhao'],
+				$value['player_id'],
+			]);
+		}
+		
+		$fileName = '客人列表.xls';
+		
+		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
+	}
 }

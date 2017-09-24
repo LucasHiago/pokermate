@@ -7,6 +7,7 @@ $this->setTitle('会员管理');
 
 <div class="row">
 	<a href="<?php echo Url::to('home', 'keren-benjin-manage/show-edit', ['id' => 0]); ?>" type="button" class="btn btn-primary">新增会员</a>
+	<a href="<?php echo Url::to('home', 'keren-benjin-manage/export-list'); ?>" type="button" class="btn btn-primary" onclick="exportExcel(this);">导出列表</a>
 </div>
 
 <br />

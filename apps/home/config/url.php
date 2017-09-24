@@ -110,6 +110,7 @@ return [
 		'keren-benjin-manage/set-delete.json'									=> 'keren-benjin-manage/set-delete',
 		'keren-benjin-manage/edit/<id:.*>.html'									=> 'keren-benjin-manage/show-edit',
 		'keren-benjin-manage/edit.json'											=> 'keren-benjin-manage/edit',
+		'keren-benjin-manage/export-list.html'									=> 'keren-benjin-manage/export-list',
 		
 		
 		''																		=> 'site/index',
