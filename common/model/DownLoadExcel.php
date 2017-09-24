@@ -111,10 +111,10 @@ class DownLoadExcel extends \yii\base\Object{
 	}
 	
 	private function _checkAndDownloadExcel($mClub, $type, $startTime, $endTime){
-		$aRoomIdList = [];
 		$page = 1;
 		$totalPage = 999999999;
 		while(true){
+			$aRoomIdList = [];
 			//战绩导出页面请求
 			$aParam = [
 				'startTime' => $startTime,
@@ -137,32 +137,32 @@ class DownLoadExcel extends \yii\base\Object{
 				break;
 			}
 			$aRoomIdList = array_unique(array_merge($aRoomIdList, $aRoomId));
+			if($aRoomIdList){
+				//先把分析出来的房间保存起来先
+				$aExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'type' => $type, 'club_id' => $mClub->club_id, 'room_id' => $aRoomIdList]);
+				foreach($aRoomIdList as $roomId){
+					$isFind = false;
+					foreach($aExcelFileList as $aExcelFile){
+						if($aExcelFile['room_id'] == $roomId){
+							$isFind = true;
+							break;
+						}
+					}
+					if(!$isFind){
+						ExcelFile::addRecord([
+							'user_id' => $mClub->user_id,
+							'club_id' => $mClub->club_id,
+							'room_id' => $roomId,
+							'type' => $type,
+						]);
+					}
+				}
+				unset($aExcelFileList);
+			}
+			unset($aRoomIdList);
 			unset($aRoomId);
 			$page = $page + 1;
 		}
-		if($aRoomIdList){
-			//先把分析出来的房间保存起来先
-			$aExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'type' => $type, 'club_id' => $mClub->club_id, 'room_id' => $aRoomIdList]);
-			foreach($aRoomIdList as $roomId){
-				$isFind = false;
-				foreach($aExcelFileList as $aExcelFile){
-					if($aExcelFile['room_id'] == $roomId){
-						$isFind = true;
-						break;
-					}
-				}
-				if(!$isFind){
-					ExcelFile::addRecord([
-						'user_id' => $mClub->user_id,
-						'club_id' => $mClub->club_id,
-						'room_id' => $roomId,
-						'type' => $type,
-					]);
-				}
-			}
-			unset($aExcelFileList);
-		}
-		unset($aRoomIdList);
 		//找出已保存未下载的记录
 		$aUnDownloadExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'club_id' => $mClub->club_id]);
 		//下载Excel文件
