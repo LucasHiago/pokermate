@@ -91,7 +91,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 			$limit = ' LIMIT ' . $offset . ',' . $aControl['page_size'];
 		}
 		
-		$sql = 'SELECT DISTINCT(`k1`.`id`),`k1`.`user_id`,`k1`.`keren_bianhao`,`k1`.`benjin`,`k1`.`ying_chou`,`k1`.`shu_fan`,`k1`.`agent_id`,`k1`.`remark`,`k1`.`current_player_id`,`k1`.`is_delete`,`k1`.`create_time` FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT DISTINCT(`player_id`) FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ')) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`)) AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where . ' ' . $order . ' ' . $limit;
+		$sql = 'SELECT DISTINCT(`k1`.`id`),`k1`.`user_id`,`k1`.`keren_bianhao`,`k1`.`benjin`,`k1`.`ying_chou`,`k1`.`shu_fan`,`k1`.`agent_id`,`k1`.`remark`,`k1`.`current_player_id`,`k1`.`is_delete`,`k1`.`create_time` FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT `player_id` FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ') GROUP BY `player_id`) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`) WHERE `k3`.`user_id`=' . $aCondition['`k1`.`user_id`'] . ') AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where . ' ' . $order . ' ' . $limit;
 		
 		$aList = Yii::$app->db->createCommand($sql)->queryAll();
 		if(!$aList){
