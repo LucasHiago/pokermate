@@ -98,7 +98,7 @@
 					html += '<div style="width:170px;cursor:pointer;" class="J-select-play c-td" data-id="' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].id : 0) + '">' + playerListHtml + '</div>';
 					html += '<div style="width:156px;" class="c-td">';
 						html += '<input type="text" style="float:left;display:block;width:94px;height:100%;text-align: right;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_chou" value="' + aData[i].ying_chou + '" />';
-						html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
+						html += '<span style="float:left;display:block;width:10px;height:100%;' + fontColorGreen + '">%</span>';
 						html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
 					html += '</div>';
 					html += '<div style="width:157px;" class="c-td">';
