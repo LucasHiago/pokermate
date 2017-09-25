@@ -49,6 +49,18 @@ $this->setTitle('结账台');
 					<a href="javascript:;" class="cbcl-tab-btn b5"></a>
 				</div>
 				<div class="c-b-c-l-tab-list">
+				<?php if(!$aPaijuDataList && $aCurrentPaiju){ ?>
+					<div class="c-b-c-l-tab-list-item">
+						<div class="c-b-c-l-tab-list-item-left">
+							<div class="i-text"></div>
+							<div class="i-text"></div>
+							<div class="i-text">空账单</div>
+							<div class="i-text"></div>
+							<div class="i-text"></div>
+						</div>
+						<div class="c-b-c-l-tab-list-item-right" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);"></div>
+					</div>
+				<?php } ?>
 				<?php foreach($aPaijuDataList as $aPaijuData){ ?>
 					<div class="c-b-c-l-tab-list-item">
 						<div class="c-b-c-l-tab-list-item-left">
@@ -440,7 +452,40 @@ $this->setTitle('结账台');
 					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
 					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
 					if(aResult.data.isReloadPage == 1){
-						location.reload();
+						location.href = Tools.url('home', 'index/index');
+					}
+				}
+				UBox.show(aResult.msg, aResult.status);
+			}
+		});
+	}
+	
+	function doJieShuanEmptyPaijuRecord(o, id){
+		ajax({
+			url : Tools.url('home', 'import/do-jie-shuan-empty-paiju'),
+			data : {
+				id : id
+			},
+			beforeSend : function(){
+				$(o).attr('disabled', 'disabled');
+			},
+			complete : function(){
+				$(o).attr('disabled', false);
+			},
+			success : function(aResult){
+				if(aResult.status == 1){
+					$(o).removeAttr('onclick');
+					$(o).addClass('clean');
+					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
+					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
+					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
+					$('.J-imbalance-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
+					$('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
+					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
+					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
+					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
+					if(aResult.data.isReloadPage == 1){
+						location.href = Tools.url('home', 'index/index');
 					}
 				}
 				UBox.show(aResult.msg, aResult.status);

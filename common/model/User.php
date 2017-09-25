@@ -339,7 +339,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				]);
 			}
 		}
-		if($aPlayerList){
+		if(!$isAllRecordData && $aPlayerList){
 			Player::checkAddNewPlayer($this->id, $aPlayerList);
 		}
 		/********************这里非常重要*********************/
@@ -421,7 +421,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//获取总抽水
 		$zhongChouShui = ImportData::getUserUnJiaoBanPaijuZhongChouShui($this->id, $aClubId) + $this->choushui_ajust_value;
 		//获取总保险
-		$zhongBaoXian = ImportData::getUserUnJiaoBanPaijuZhongBaoXian($this->id, $aClubId) + $this->baoxian_ajust_value;
+		$zhongBaoXian = -ImportData::getUserUnJiaoBanPaijuZhongBaoXian($this->id, $aClubId) + $this->baoxian_ajust_value;
 		//上桌人数
 		$shangZhuoRenShu = ImportData::getUserUnJiaoBanPaijuShangZhuoRenShu($this->id, $aClubId);
 		//实际抽水
@@ -551,7 +551,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$value['paiju_id']]['baoxian_beichou'] += $baoxianBeichou;
 			$aReturnList[$value['paiju_id']]['shiji_baoxian'] += Calculate::calculateShijiBaoXian($value['baoxian_heji'], $baoxianBeichou);
 		}
-		
+		foreach($aReturnList as $key => $value){
+			$aReturnList[$key]['baoxian_heji'] = -$aReturnList[$key]['baoxian_heji'];
+		}
 		return $aReturnList;
 	}
 
@@ -820,6 +822,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//4.交班转出金额转到转出渠道
 		$mMoneyType->set('money', ['sub', $jiaoBanZhuanChuMoney]);
 		$mMoneyType->save();
+		//5.清空微调值
+		$this->set('choushui_ajust_value', 0);
+		$this->set('baoxian_ajust_value', 0);
+		$this->save();
 		
 		return true;
 	}
