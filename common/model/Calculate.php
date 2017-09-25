@@ -59,7 +59,7 @@ class Calculate extends \yii\base\Object{
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
 	 */
 	public static function calculateLianmengButie($zhanji = 0, $baoxianHeji = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0){
-		$lianmengButie = ($zhanji + $baoxianHeji) * (1 - Lianmeng::getDuizhangfangfaValue($duizhangfangfa));
+		$lianmengButie = ($zhanji + (-$baoxianHeji)) * (1 - Lianmeng::getDuizhangfangfaValue($duizhangfangfa));
 		
 		return static::_jinyi($lianmengButie);
 		//return ceil($lianmengButie);
@@ -112,7 +112,7 @@ class Calculate extends \yii\base\Object{
 		if($baoxianHeji <= 0){
 			return 0;
 		}
-		$baoxianBeichou = $baoxianHeji * ($baoxianChoucheng / 100);
+		$baoxianBeichou = -$baoxianHeji * ($baoxianChoucheng / 100);
 		
 		if($choushuiShuanfa){
 			return static::getIntValueByChoushuiShuanfa($baoxianBeichou, $choushuiShuanfa);
@@ -127,7 +127,7 @@ class Calculate extends \yii\base\Object{
 	 *	$baoxianBeichou		保险被抽
 	 */
 	public static function calculateShijiBaoXian($baoxianHeji = 0, $baoxianBeichou = 0){
-		return (int)$baoxianHeji - $baoxianBeichou;
+		return (int)-$baoxianHeji - $baoxianBeichou;
 	}
 	
 	/**
@@ -140,7 +140,7 @@ class Calculate extends \yii\base\Object{
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
 	 */
 	public static function calculateZhangDan($zhanji = 0, $baoxianHeji = 0, $paijuFee = 0, $baoxianBeichou = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0){
-		$zhangDan = (($zhanji + $baoxianHeji) * Lianmeng::getDuizhangfangfaValue($duizhangfangfa)) - $paijuFee - $baoxianBeichou;
+		$zhangDan = (($zhanji + (-$baoxianHeji)) * Lianmeng::getDuizhangfangfaValue($duizhangfangfa)) - $paijuFee - $baoxianBeichou;
 		
 		if($choushuiShuanfa){
 			return static::getIntValueByChoushuiShuanfa($zhangDan, $choushuiShuanfa);
