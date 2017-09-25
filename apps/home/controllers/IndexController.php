@@ -38,7 +38,18 @@ class IndexController extends Controller{
 		
 		$aCurrentPaiju = [];
 		$currentPaijuLianmengId = 0;
-		$aLastPaijuList = $mUser->getLastPaijuList(1, 6, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], ['`t1`.`status`' => SORT_ASC, '`t1`.`end_time`' => SORT_DESC]);
+		$aCondition = [
+			'user_id' => $mUser->id,
+			'status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE],
+		];
+		$aControl = [
+			'page' => 1,
+			'page_size' => 6,
+			'order_by' => ['status' => SORT_ASC, 'end_time' => SORT_DESC],
+			'width_hedui_shuzi' => true,
+		];
+		$aLastPaijuList = Paiju::getPaijuList($aCondition, $aControl);
+		//$aLastPaijuList = $mUser->getLastPaijuList(1, 6, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], ['`t1`.`status`' => SORT_ASC, '`t1`.`end_time`' => SORT_DESC]);
 		/*if(!$paijuId && $aLastPaijuList){
 			$aCurrentPaiju = $aLastPaijuList[0];
 			$paijuId = $aCurrentPaiju['id'];
@@ -98,7 +109,7 @@ class IndexController extends Controller{
 		}
 		
 		$mUser = Yii::$app->user->getIdentity();
-		$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`end_time`' => SORT_DESC];
+		//$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`end_time`' => SORT_DESC];
 		$aList = [];
 		$count = [];
 		if($isHistory){
