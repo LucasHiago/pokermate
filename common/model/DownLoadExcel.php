@@ -92,6 +92,9 @@ class DownLoadExcel extends \yii\base\Object{
 				$isComplete = true;
 			}
 			$endTime = date('Y-m-d', strtotime($startTime . ' +1 day'));
+			if($isComplete){
+				$endTime = $endDay;
+			}
 			$isSuccess = $this->_checkAndDownloadExcel($mClub, $type, $startTime, $endTime);
 			if(!$isSuccess){
 				return false;
@@ -137,9 +140,13 @@ class DownLoadExcel extends \yii\base\Object{
 				break;
 			}
 			$aRoomIdList = array_unique(array_merge($aRoomIdList, $aRoomId));
+			$whenHasSameBreak = false;
 			if($aRoomIdList){
 				//先把分析出来的房间保存起来先
 				$aExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'type' => $type, 'club_id' => $mClub->club_id, 'room_id' => $aRoomIdList]);
+				if($aExcelFileList){
+					$whenHasSameBreak = true;
+				}
 				foreach($aRoomIdList as $roomId){
 					$isFind = false;
 					foreach($aExcelFileList as $aExcelFile){
@@ -162,9 +169,12 @@ class DownLoadExcel extends \yii\base\Object{
 			unset($aRoomIdList);
 			unset($aRoomId);
 			$page = $page + 1;
+			if($startTime == $endTime && $whenHasSameBreak){
+				break;
+			}
 		}
 		//找出已保存未下载的记录
-		$aUnDownloadExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'club_id' => $mClub->club_id]);
+		$aUnDownloadExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'club_id' => $mClub->club_id, 'download_time' => 0]);
 		//下载Excel文件
 		$isSuccess = $this->_downLoadExcelFile($mClub->club_id, $aUnDownloadExcelFileList);
 		unset($aUnDownloadExcelFileList);
