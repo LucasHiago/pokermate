@@ -11,6 +11,7 @@ class DownLoadExcel extends \yii\base\Object{
 	public $selectClubUrl;
 	public $historyExportUrl;
 	public $exportRoomUrl;
+	public $exportUrl;
 	
 	private $_cookieFile = '';
 	private $_message = '';
@@ -81,161 +82,34 @@ class DownLoadExcel extends \yii\base\Object{
 		}
 		//////////////////////////////楼上的代码都不干正事的2333////////////////////////////////////////////
 		$type = 1;
-		//$startTime = '2017-09-14';
-		$startTime = $startDay;
-		/*if($mClub->last_import_date){
-			$startTime = $mClub->last_import_date;
-		}*/
-		$isComplete = false;
-		while(true){
-			if($startTime == $endDay){
-				$isComplete = true;
-			}
-			$endTime = date('Y-m-d', strtotime($startTime . ' +1 day'));
-			if($isComplete){
-				$endTime = $endDay;
-			}
-			$isSuccess = $this->_checkAndDownloadExcel($mClub, $type, $startTime, $endTime);
-			if(!$isSuccess){
+		//http://cms.pokermanager.club/cms/club/export?startTime=2017-09-25&endTime=2017-09-25&paramVo.type=1&sort=-4
+		$exportUrl = $this->exportUrl . '?startTime=' . $startDay . '&endTime=' . $endDay . '&paramVo.type=' . $type . '&sort=-4';
+		$returnString = $this->_doHttpResponsePost($exportUrl);
+		if(!$returnString){
+			return false;
+		}
+		$dir = Yii::getAlias('@p.import') . '/' . date('Ymd');
+		if(!is_dir(Yii::getAlias('@p.resource') . '/' . $dir)){
+			mkdir(Yii::getAlias('@p.resource') . '/' . $dir);
+		}
+		$fileName = $dir . '/' . $clubId . '.xls';
+		$saveName = Yii::getAlias('@p.resource') . '/' . $fileName;
+		file_put_contents($saveName, $returnString);
+		//检查文件是否下载正常
+		try{
+			$aDataList = Yii::$app->excel->getSheetDataInArray($saveName);
+			$mUser = User::findOne($mClub->user_id);
+			$isSuccess = ImportData::importFromExcelDataList($mUser, $aDataList);
+			unset($aDataList);
+			if($isSuccess){
+				return true;
+			}else{
 				return false;
 			}
-			unset($isSuccess);
-			if(!$mClub->last_import_date || $startTime == $mClub->last_import_date){
-				$mClub->set('last_import_date', $endTime);
-				$mClub->save();
-			}
-			$startTime = $endTime;
-			if($isComplete){
-				break;
-			}
-		}
-		
-		return true;
-	}
-	
-	private function _checkAndDownloadExcel($mClub, $type, $startTime, $endTime){
-		$page = 1;
-		$totalPage = 999999999;
-		while(true){
-			$aRoomIdList = [];
-			//战绩导出页面请求
-			$aParam = [
-				'startTime' => $startTime,
-				'endTime' => $endTime,
-				'paramVo.type' => $type,
-				'sort' => -4,
-				'paramVo.pageNumber' => $page,
-			];
-			$historyExportUrl = $this->historyExportUrl . '?startTime=' . $startTime . '&endTime=' . $endTime . '&paramVo.type=' . $type . '&sort=-4&paramVo.pageNumber=' . $page;
-			$returnString = $this->_doHttpResponsePost($historyExportUrl);
-			if(!$returnString){
-				return false;
-			}
-			//file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/history_export_' . $clubId . '.html', $responseText);
-			//分析出所有房间号
-			$aRoomId = $this->_getRoomIdFromHtml($returnString);
-			Yii::info('request success:' . $historyExportUrl);
-			Yii::info('$aRoomIdList:' . json_encode($aRoomId));
-			if(!$aRoomId){
-				break;
-			}
-			$aRoomIdList = array_unique(array_merge($aRoomIdList, $aRoomId));
-			$whenHasSameBreak = false;
-			if($aRoomIdList){
-				//先把分析出来的房间保存起来先
-				$aExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'type' => $type, 'club_id' => $mClub->club_id, 'room_id' => $aRoomIdList]);
-				if($aExcelFileList){
-					$whenHasSameBreak = true;
-				}
-				foreach($aRoomIdList as $roomId){
-					$isFind = false;
-					foreach($aExcelFileList as $aExcelFile){
-						if($aExcelFile['room_id'] == $roomId){
-							$isFind = true;
-							break;
-						}
-					}
-					if(!$isFind){
-						ExcelFile::addRecord([
-							'user_id' => $mClub->user_id,
-							'club_id' => $mClub->club_id,
-							'room_id' => $roomId,
-							'type' => $type,
-						]);
-					}
-				}
-				unset($aExcelFileList);
-			}
-			unset($aRoomIdList);
-			unset($aRoomId);
-			$page = $page + 1;
-			if($startTime == $endTime && $whenHasSameBreak){
-				break;
-			}
-		}
-		//找出已保存未下载的记录
-		$aUnDownloadExcelFileList = ExcelFile::findAll(['user_id' => $mClub->user_id, 'club_id' => $mClub->club_id, 'download_time' => 0]);
-		//下载Excel文件
-		$isSuccess = $this->_downLoadExcelFile($mClub->club_id, $aUnDownloadExcelFileList);
-		unset($aUnDownloadExcelFileList);
-		if(is_array($isSuccess) && $isSuccess){
-			//重新下载一次出错的文件
-			$this->_downLoadExcelFile($mClub->club_id, $isSuccess);
-		}
-		return $isSuccess ? true : false;
-	}
-	
-	private function _downLoadExcelFile($clubId, $aUnDownloadExcelFileList){
-		$aDownUnSuccessExcelFile = [];
-		foreach($aUnDownloadExcelFileList as $aUnDownloadExcelFile){
-			$mExcelFile = ExcelFile::toModel($aUnDownloadExcelFile);
-			$roomId = $mExcelFile->room_id;
-			$exportRoomUrl = $this->exportRoomUrl . '?paramVo.type=' . $mExcelFile->type . '&roomId=' . $roomId;
-			$returnString = $this->_doHttpResponsePost($exportRoomUrl);
-			if(!$returnString){
-				return false;
-			}
-			$dir = Yii::getAlias('@p.import') . '/' . date('Ymd');
-			if(!is_dir(Yii::getAlias('@p.resource') . '/' . $dir)){
-				mkdir(Yii::getAlias('@p.resource') . '/' . $dir);
-			}
-			$fileName = $dir . '/' . $clubId . '_' . $roomId . '.xls';
-			$saveName = Yii::getAlias('@p.resource') . '/' . $fileName;
-			file_put_contents($saveName, $returnString);
-			//检查文件是否下载正常
-			try{
-				$aDataList = Yii::$app->excel->getSheetDataInArray($saveName);
-				unset($aDataList);
-			}catch(\Exception $e){
-				array_push($aDownUnSuccessExcelFile, $aUnDownloadExcelFile);
-				continue;
-			}
-			//$mExcelFile->set('type', $type);
-			$mExcelFile->set('path', $fileName);
-			$mExcelFile->set('download_time', NOW_TIME);
-			$mExcelFile->save();
-		}
-		unset($aUnDownloadExcelFileList);
-		if($aDownUnSuccessExcelFile){
-			return $aDownUnSuccessExcelFile;
+		}catch(\Exception $e){
+			return false;
 		}
 		return true;
 	}
 	
-	private function _getRoomIdFromHtml($html){
-		preg_match_all('/exportExcel\(\d+\)/', $html, $aMatchList);
-		$aRoomId = [];
-		foreach($aMatchList[0] as $match){
-			$roomId = '';
-			if(strpos($match, 'exportExcel(') === false){
-				continue;
-			}
-			$roomId = ltrim($match, 'exportExcel(');
-			$roomId = (int)rtrim($roomId, ')');
-			if($roomId){
-				array_push($aRoomId, $roomId);
-			}
-		}
-		return array_unique($aRoomId);
-	}
 }

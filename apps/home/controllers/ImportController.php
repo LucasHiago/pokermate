@@ -171,6 +171,31 @@ class ImportController extends Controller{
 		]);
 	}
 	
+	public function actionDoJieShuanEmptyPaiju(){
+		$id = (int)Yii::$app->request->post('id');
+		
+		if(!$id){
+			return new Response('缺少ID', 0);
+		}
+		$mPaiju =Paiju::findOne($id);
+		if(!$mPaiju){
+			return new Response('记录不存在', 0);
+		}
+		$mPaiju->set('status', Paiju::STATUS_DONE);
+		$mPaiju->save();
+		
+		$mUser = Yii::$app->user->getIdentity();
+		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		
+		$isReloadPage = 1;
+		
+		
+		return new Response('结算成功', 1, [
+			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+			'isReloadPage' => $isReloadPage,
+		]);
+	}
+	
 	public function actionGetDownloadSaveCode(){
 		$clubId = (int)Yii::$app->request->post('clubId');
 		

@@ -8,7 +8,7 @@
 				html += '<input type="text" class="save-code" style="text-align: center; border-radius: 5px;float: left; position: relative; top: 63px; left: 160px;background:#181326; width: 120px; height: 48px; line-height: 48px; color: #ffffff; font-size: 20px;" />';
 				html += '<a class="commit-save-code"></a>';
 				html += '<div class="J-select-time"><input type="text" class="st" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /><span style="float: left; width: 28px; text-align: center;">至</span><input type="text" class="et" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /></div>';
-				html += '<div class="J-wait-tip" style="background: #1f1f2f; float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: 125px;color:#f4e2a9;display:none;">正在获取牌局，请稍等...(获取一天牌局大概12分钟左右^ω^)</div>';
+				html += '<div class="J-wait-tip" style="background: #1f1f2f; float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: 125px;color:#f4e2a9;display:none;">正在获取牌局，请稍等...(获取一天牌局大概1分钟左右^ω^)</div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
