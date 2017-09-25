@@ -31,7 +31,8 @@ $this->setTitle('结账台');
 			<div class="c-b-c-left-wrap">
 				<div class="cbb-lm-wrap">
 					<?php if($aCurrentPaiju){ ?>
-					<a><?php echo $aCurrentPaiju['paiju_name']; ?>当前联盟：-选择联盟</a>
+					<a>结束时间：<?php echo date('Y-m-d H:i:s', $aCurrentPaiju['end_time']); ?>&nbsp;</a>
+					<a><?php echo $aCurrentPaiju['paiju_name']; ?>：选择联盟</a>
 					<a>
 						<select class="J-jieshuan-lianmeng-select" data-paiju-id="<?php echo $aCurrentPaiju['id']; ?>" style="border: 1px solid;height:25px;border-radius:5px;">
 							<?php foreach($aLianmengList as $aLianmeng){ ?>

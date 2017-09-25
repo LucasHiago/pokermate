@@ -13,9 +13,10 @@ class Calculate extends \yii\base\Object{
 	 *	$yingChou	赢抽点数
 	 *	$shuFan	输返点数
 	 *	$qibuChoushui	起步抽水
-	 *	$$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function paijuPlayerJiesuanValue($zhanji = 0, $yingChou = 0, $shuFan = 0, $qibuChoushui = 0, $choushuiShuanfa = 0){
+	public static function paijuPlayerJiesuanValue($zhanji = 0, $yingChou = 0, $shuFan = 0, $qibuChoushui = 0, $choushuiShuanfa = 0, $returnInt = true){
 		$jiesuanValue = 0;
 		if(!$zhanji){
 			return 0;
@@ -28,6 +29,9 @@ class Calculate extends \yii\base\Object{
 			}
 		}else{
 			$jiesuanValue = $zhanji * (1 - ($shuFan / 100));
+		}
+		if(!$returnInt){
+			return $jiesuanValue;
 		}
 		if($choushuiShuanfa){
 			return static::getIntValueByChoushuiShuanfa($jiesuanValue, $choushuiShuanfa);
@@ -57,10 +61,13 @@ class Calculate extends \yii\base\Object{
 	 *	$baoxianHeji	保险合计
 	 *	$duizhangfangfa	对账方法（1：0.975 2：无水账单）
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateLianmengButie($zhanji = 0, $baoxianHeji = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0){
+	public static function calculateLianmengButie($zhanji = 0, $baoxianHeji = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0, $returnInt = true){
 		$lianmengButie = ($zhanji + (-$baoxianHeji)) * (1 - Lianmeng::getDuizhangfangfaValue($duizhangfangfa));
-		
+		if(!$returnInt){
+			return $lianmengButie;
+		}
 		return static::_jinyi($lianmengButie);
 		//return ceil($lianmengButie);
 		/*if($choushuiShuanfa){
@@ -95,10 +102,14 @@ class Calculate extends \yii\base\Object{
 	 *	$choushuiValue	抽水数
 	 *	$lianmengButie	联盟补贴
 	 *	$paijuFee		桌子费
+	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateShijiChouShuiValue($choushuiValue, $lianmengButie, $paijuFee){
+	public static function calculateShijiChouShuiValue($choushuiValue, $lianmengButie, $paijuFee, $choushuiShuanfa = 0, $returnInt = true){
 		$shijiChouShuiValue = $choushuiValue - $lianmengButie - $paijuFee;
-		
+		if(!$returnInt){
+			return $shijiChouShuiValue;
+		}
 		return (int)$shijiChouShuiValue;
 	}
 	
@@ -107,13 +118,16 @@ class Calculate extends \yii\base\Object{
 	 *	$baoxianHeji		保险合计
 	 *	$baoxianChoucheng	保险抽成
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateBaoxianBeichou($baoxianHeji = 0, $baoxianChoucheng = 0, $choushuiShuanfa = 0){
+	public static function calculateBaoxianBeichou($baoxianHeji = 0, $baoxianChoucheng = 0, $choushuiShuanfa = 0, $returnInt = true){
 		if($baoxianHeji <= 0){
 			return 0;
 		}
 		$baoxianBeichou = -$baoxianHeji * ($baoxianChoucheng / 100);
-		
+		if(!$returnInt){
+			return $baoxianBeichou;
+		}
 		if($choushuiShuanfa){
 			return static::getIntValueByChoushuiShuanfa($baoxianBeichou, $choushuiShuanfa);
 		}else{
@@ -125,9 +139,19 @@ class Calculate extends \yii\base\Object{
 	 *	计算牌局记录实际保险 	公式：实际保险=牌局保险-保险被抽
 	 *	$baoxianHeji		保险合计
 	 *	$baoxianBeichou		保险被抽
+	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateShijiBaoXian($baoxianHeji = 0, $baoxianBeichou = 0){
-		return (int)-$baoxianHeji - $baoxianBeichou;
+	public static function calculateShijiBaoXian($baoxianHeji = 0, $baoxianBeichou = 0, $choushuiShuanfa = 0, $returnInt = true){
+		$shijiBaoxian = -$baoxianHeji - $baoxianBeichou;
+		if(!$returnInt){
+			return $shijiBaoxian;
+		}
+		if($choushuiShuanfa){
+			return static::getIntValueByChoushuiShuanfa($shijiBaoxian, $choushuiShuanfa);
+		}else{
+			return static::getIntValueByChoushuiShuanfa($shijiBaoxian);
+		}
 	}
 	
 	/**
@@ -138,10 +162,13 @@ class Calculate extends \yii\base\Object{
 	 *	$baoxianBeichou		保险被抽
 	 *	$duizhangfangfa	对账方法（1：0.975 2：无水账单）
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateZhangDan($zhanji = 0, $baoxianHeji = 0, $paijuFee = 0, $baoxianBeichou = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0){
+	public static function calculateZhangDan($zhanji = 0, $baoxianHeji = 0, $paijuFee = 0, $baoxianBeichou = 0, $duizhangfangfa = 0, $choushuiShuanfa = 0, $returnInt = true){
 		$zhangDan = (($zhanji + (-$baoxianHeji)) * Lianmeng::getDuizhangfangfaValue($duizhangfangfa)) - $paijuFee - $baoxianBeichou;
-		
+		if(!$returnInt){
+			return $zhangDan;
+		}
 		if($choushuiShuanfa){
 			return static::getIntValueByChoushuiShuanfa($zhangDan, $choushuiShuanfa);
 		}else{
@@ -157,9 +184,19 @@ class Calculate extends \yii\base\Object{
 	 *	$totalChouShui				总抽水
 	 *	$totalBaoXian				总保险
 	 *	$totalLianmengZhongZhang	所有联盟总帐
+	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateImbalanceMoney($totalMoneyTypeMoney = 0, $totalOutPutTypeMoney = 0, $totalKerenBenjin = 0, $totalChouShui = 0, $totalBaoXian = 0, $totalLianmengZhongZhang = 0){
-		return ($totalMoneyTypeMoney - ($totalKerenBenjin + $totalChouShui + $totalBaoXian + $totalOutPutTypeMoney)) + $totalLianmengZhongZhang;
+	public static function calculateImbalanceMoney($totalMoneyTypeMoney = 0, $totalOutPutTypeMoney = 0, $totalKerenBenjin = 0, $totalChouShui = 0, $totalBaoXian = 0, $totalLianmengZhongZhang = 0, $choushuiShuanfa = 0, $returnInt = true){
+		$imbalanceMoney = ($totalMoneyTypeMoney - ($totalKerenBenjin + $totalChouShui + $totalBaoXian + $totalOutPutTypeMoney)) + $totalLianmengZhongZhang;
+		if(!$returnInt){
+			return $imbalanceMoney;
+		}
+		if($choushuiShuanfa){
+			return static::getIntValueByChoushuiShuanfa($imbalanceMoney, $choushuiShuanfa);
+		}else{
+			return static::getIntValueByChoushuiShuanfa($imbalanceMoney);
+		}
 	}
 	
 	/**
@@ -167,9 +204,19 @@ class Calculate extends \yii\base\Object{
 	 *	$totalOutPutTypeMoney		所有支出
 	 *	$totalChouShui				总抽水
 	 *	$totalBaoXian				总保险
+	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney = 0, $totalChouShui = 0, $totalBaoXian = 0){
-		return ($totalChouShui + $totalBaoXian) - $totalOutPutTypeMoney;
+	public static function calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney = 0, $totalChouShui = 0, $totalBaoXian = 0, $choushuiShuanfa = 0, $returnInt = true){
+		$jiaoban = ($totalChouShui + $totalBaoXian) - $totalOutPutTypeMoney;
+		if(!$returnInt){
+			return $jiaoban;
+		}
+		if($choushuiShuanfa){
+			return static::getIntValueByChoushuiShuanfa($jiaoban, $choushuiShuanfa);
+		}else{
+			return static::getIntValueByChoushuiShuanfa($jiaoban);
+		}
 	}
 	
 	/**
@@ -178,8 +225,9 @@ class Calculate extends \yii\base\Object{
 	 *	$yinFan				赢返
 	 *	$shuFan				输返
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateFenchengMoney($zhanji = 0, $yinFan = 0, $shuFan = 0, $choushuiShuanfa = 0){
+	public static function calculateFenchengMoney($zhanji = 0, $yinFan = 0, $shuFan = 0, $choushuiShuanfa = 0, $returnInt = true){
 		$fencheng = 0;
 		if(!$zhanji){
 			return 0;
@@ -189,6 +237,9 @@ class Calculate extends \yii\base\Object{
 			$fencheng = $zhanji * ($yinFan / 100);
 		}else{
 			$fencheng = $zhanji * ($shuFan / 100);
+		}
+		if(!$returnInt){
+			return $fencheng;
 		}
 		if($choushuiShuanfa){
 			return static::getIntValueByChoushuiShuanfa($fencheng, $choushuiShuanfa);

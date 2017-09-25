@@ -87,7 +87,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		//过滤已导入过的牌局
 		$aPaijuName = ArrayHelper::getColumn($aDataList, 1);
 		$aEndTimeFormat = ArrayHelper::getColumn($aDataList, 19);
-		$aAlreadyImportDataList = ImportData::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName, 'end_time_format' => $aEndTimeFormat]);
+		$aAlreadyImportDataList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName, 'end_time_format' => $aEndTimeFormat]);
 		unset($aPaijuName);
 		unset($aEndTimeFormat);
 		$aImportDataList = [];
@@ -105,7 +105,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		}
 		unset($aDataList);
 		unset($aAlreadyImportDataList);
-		$aInserDataList = [];
+		//$aInserDataList = [];
 		$aUniquePaijuList = [];
 		//$aPlayerList = [];
 		foreach($aImportDataList as $aData){
@@ -125,16 +125,25 @@ class ImportData extends \common\lib\DbOrmModel{
 				$aUniquePaijuList = $aUniquePaijuInfo['list'];
 				array_push($aData, $aUniquePaijuInfo['id']);
 				array_push($aData, $mUser->id);
-				array_push($aInserDataList, $aData);
+				$mImportData = static::findOne([
+					'user_id' => $mUser->id, 
+					'paiju_name' => $aData[1], 
+					'player_id' => $aData[7], 
+					'end_time_format' => $aData[19],
+				]);
+				if(!$mImportData){
+					static::bathInsertData([$aData]);
+				}
+				//array_push($aInserDataList, $aData);
 			}
 		}
 		unset($aUniquePaijuList);
 		unset($aImportDataList);
-		if($aInserDataList){
+		/*if($aInserDataList){
 			//Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 			static::bathInsertData($aInserDataList);
 			unset($aInserDataList);
-		}
+		}*/
 		return true;
 	}
 		
@@ -257,6 +266,7 @@ class ImportData extends \common\lib\DbOrmModel{
 				if($value['player_id'] == $aKerenBenjin['player_id']){
 					$aList[$key]['keren_benjin_info'] = $aKerenBenjin;
 					$aList[$key]['jiesuan_value'] = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $aKerenBenjin['ying_chou'], $aKerenBenjin['shu_fan'], $qibuChoushui, $choushuiShuanfa);
+					$aList[$key]['float_jiesuan_value'] = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $aKerenBenjin['ying_chou'], $aKerenBenjin['shu_fan'], $qibuChoushui, $choushuiShuanfa, false);
 					if($value['status']){
 						//如果该记录已结算，显示最新本金
 						$aList[$key]['new_benjin'] = $aKerenBenjin['benjin'];

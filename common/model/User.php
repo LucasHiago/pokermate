@@ -79,8 +79,50 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	public static function register($aData){
 		$id = static::insert($aData);
 		$aData['id'] = $id;
+		$mUser = static::toModel($aData);
+		static::_initUserData($mUser);
 		
-		return static::toModel($aData);
+		return $mUser;
+	}
+	
+	private static function _initUserData($mUser){
+		MoneyType::addRecord([
+			'user_id' => $mUser->id,
+			'pay_type' => '微信',
+			'money' => 0,
+			'create_time' => NOW_TIME,
+		]);
+		MoneyType::addRecord([
+			'user_id' => $mUser->id,
+			'pay_type' => '支付宝',
+			'money' => 0,
+			'create_time' => NOW_TIME,
+		]);
+		MoneyType::addRecord([
+			'user_id' => $mUser->id,
+			'pay_type' => '银行卡',
+			'money' => 0,
+			'create_time' => NOW_TIME,
+		]);
+		
+		MoneyOutPutType::addRecord([
+			'user_id' => $mUser->id,
+			'out_put_type' => '奖励',
+			'money' => 0,
+			'create_time' => NOW_TIME,
+		]);
+		MoneyOutPutType::addRecord([
+			'user_id' => $mUser->id,
+			'out_put_type' => '伙食',
+			'money' => 0,
+			'create_time' => NOW_TIME,
+		]);
+		MoneyOutPutType::addRecord([
+			'user_id' => $mUser->id,
+			'out_put_type' => '杂费',
+			'money' => 0,
+			'create_time' => NOW_TIME,
+		]);
 	}
 	
 	/**
@@ -425,7 +467,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//上桌人数
 		$shangZhuoRenShu = ImportData::getUserUnJiaoBanPaijuShangZhuoRenShu($this->id, $aClubId);
 		//实际抽水
-		$shijiChouShui = $this->getShijiChouShui();
+		//$shijiChouShui = $this->getShijiChouShui();
+		$shijiChouShui = $this->getShijiChouShuiByType();
 		
 		return [
 			'zhongChouShui' => $zhongChouShui,
@@ -445,6 +488,21 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$shijiChouShui += $aChouShui['shiji_choushui_value'];
 		}
 		return $shijiChouShui;
+	}
+	
+	/**
+	 *	统计实际抽水，浮点数计算后取整
+	 */
+	public function getShijiChouShuiByType($returnInt = true){
+		$shijiChouShui = $this->choushui_ajust_value;
+		$aChouShuiList = $this->getUnJiaoBanPaijuChouShuiList();
+		foreach($aChouShuiList as $aChouShui){
+			$shijiChouShui += $aChouShui['float_shiji_choushui_value'];
+		}
+		if(!$returnInt){
+			return $shijiChouShui;
+		}
+		return Calculate::getIntValueByChoushuiShuanfa($shijiChouShui, $this->choushui_shuanfa);
 	}
 	
 	private function _getUnJiaoBanPaijuChouShuiDataListWithLianmengInfo(){
@@ -495,7 +553,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					'zhanji' => 0,
 					'choushui_value' => 0,
 					'lianmeng_butie' => 0,
+					'float_lianmeng_butie' => 0,
 					'shiji_choushui_value' => 0,
+					'float_shiji_choushui_value' => 0,
+					'float_choushui_value' => 0,
 					'baoxian_heji' => 0,
 					'paiju_fee' => $value['paiju_fee'],
 					'duizhangfangfa' => $value['duizhangfangfa'],
@@ -504,11 +565,18 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$value['paiju_id']]['zhanji'] += $value['zhanji'];
 			$aReturnList[$value['paiju_id']]['baoxian_heji'] += $value['baoxian_heji'];
 			$aReturnList[$value['paiju_id']]['choushui_value'] += $value['choushui_value'];
+			$mImportData = ImportData::findOne($value['id']);
+			$mKerenBenjin = $mImportData->getMPlayer()->getMKerenBenjin();
+			$floatJiesuanValue = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $this->qibu_choushui, $this->choushui_shuanfa, false);
+			$aReturnList[$value['paiju_id']]['float_choushui_value'] += $value['zhanji'] - $floatJiesuanValue;
 		}
 		foreach($aReturnList as $paijuId => $v){
 			$lianmengButie = Calculate::calculateLianmengButie($v['zhanji'], $v['baoxian_heji'], $v['duizhangfangfa'], $this->choushui_shuanfa);
+			$floatLianmengButie = Calculate::calculateLianmengButie($v['zhanji'], $v['baoxian_heji'], $v['duizhangfangfa'], $this->choushui_shuanfa, false);
 			$aReturnList[$paijuId]['lianmeng_butie'] = $lianmengButie;
-			$aReturnList[$paijuId]['shiji_choushui_value'] = Calculate::calculateShijiChouShuiValue($v['choushui_value'], $lianmengButie, $v['paiju_fee']);
+			$aReturnList[$paijuId]['float_lianmeng_butie'] = $floatLianmengButie;
+			$aReturnList[$paijuId]['shiji_choushui_value'] = Calculate::calculateShijiChouShuiValue($v['choushui_value'], $lianmengButie, $v['paiju_fee'], $this->choushui_shuanfa);
+			$aReturnList[$paijuId]['float_shiji_choushui_value'] = Calculate::calculateShijiChouShuiValue($v['float_choushui_value'], $floatLianmengButie, $v['paiju_fee'], $this->choushui_shuanfa, false);
 		}
 		
 		return $aReturnList;
@@ -543,13 +611,18 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					'paiju_name' => $value['paiju_name'],
 					'baoxian_heji' => 0,
 					'baoxian_beichou' => 0,
+					'float_baoxian_beichou' => 0,
 					'shiji_baoxian' => 0,
+					'float_shiji_baoxian' => 0,
 				];
 			}
 			$aReturnList[$value['paiju_id']]['baoxian_heji'] += $value['baoxian_heji'];
 			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
+			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa, false);
 			$aReturnList[$value['paiju_id']]['baoxian_beichou'] += $baoxianBeichou;
-			$aReturnList[$value['paiju_id']]['shiji_baoxian'] += Calculate::calculateShijiBaoXian($value['baoxian_heji'], $baoxianBeichou);
+			$aReturnList[$value['paiju_id']]['float_baoxian_beichou'] += $floatBaoxianBeichou;
+			$aReturnList[$value['paiju_id']]['shiji_baoxian'] += Calculate::calculateShijiBaoXian($value['baoxian_heji'], $baoxianBeichou, $this->choushui_shuanfa);
+			$aReturnList[$value['paiju_id']]['float_shiji_baoxian'] += Calculate::calculateShijiBaoXian($value['baoxian_heji'], $floatBaoxianBeichou, $this->choushui_shuanfa, false);
 		}
 		foreach($aReturnList as $key => $value){
 			$aReturnList[$key]['baoxian_heji'] = -$aReturnList[$key]['baoxian_heji'];
@@ -616,7 +689,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					'baoxian_choucheng' => $value['baoxian_choucheng'],
 					'duizhangfangfa' => $value['duizhangfangfa'],
 					'baoxian_beichou' => 0,
+					'float_baoxian_beichou' => 0,
 					'zhang_dan' => 0,
+					'float_zhang_dan' => 0,
 					'is_clean' => $value['is_clean'],
 					'lianmeng_id' => $value['lianmeng_id'],
 				];
@@ -632,9 +707,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		foreach($aReturnList as $key => $value){
 			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa);
+			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $value['baoxian_choucheng'], $this->choushui_shuanfa, true);
 			$aReturnList[$key]['baoxian_beichou'] = $baoxianBeichou;
+			$aReturnList[$key]['float_baoxian_beichou'] = $floatBaoxianBeichou;
 			if(!$value['is_clean']){
 				$aReturnList[$key]['zhang_dan'] = Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $baoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa);
+				$aReturnList[$key]['float_zhang_dan'] = Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $floatBaoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa, false);
 			}
 		}
 		return $aReturnList;
@@ -650,9 +728,11 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					'lianmeng_id' => $aLianmeng['id'],
 					'lianmeng_name' => $aLianmeng['name'],
 					'lianmeng_zhong_zhang' => 0,
+					'float_lianmeng_zhong_zhang' => 0,
 					'lianmeng_shang_zhuo_ren_shu' => 0,
 					'lianmeng_qian_zhang' => $aLianmeng['qianzhang'],
 					'lianmeng_zhang_dan' => 0,
+					'float_lianmeng_zhang_dan' => 0,
 				];
 			}
 		}
@@ -673,8 +753,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($lianmengId);
 			foreach($aLianmengZhangDanDetailList as $aLianmengZhangDanDetail){
 				$aReturnList[$lianmengId]['lianmeng_zhang_dan'] += $aLianmengZhangDanDetail['zhang_dan'];
+				$aReturnList[$lianmengId]['float_lianmeng_zhang_dan'] += $aLianmengZhangDanDetail['float_zhang_dan'];
 			}
 			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aReturnList[$lianmengId]['lianmeng_qian_zhang'] + $aReturnList[$lianmengId]['lianmeng_zhang_dan'];
+			$aReturnList[$lianmengId]['float_lianmeng_zhong_zhang'] = $aReturnList[$lianmengId]['lianmeng_qian_zhang'] + $aReturnList[$lianmengId]['float_lianmeng_zhang_dan'];
 		}
 		
 		return $aReturnList;
@@ -710,13 +792,15 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$totalOutPutTypeMoney = $this->getMoneyOutPutTypeTotalMoney();
 		$totalKerenBenjin = $this->getTotalKerenBenjiMoney();
 		$aUnJiaoBanPaijuTotalStatistic = $this->_getUnJiaoBanPaijuTotalStatistic();
-		$shijiChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
-		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
+		//$shijiChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
+		$shijiChouShui = $this->getShijiChouShuiByType(false);
+		//$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
 		$totalBaoXian = $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian'];
 		//$totalLianmengZhongZhang = $this->getLianmengZhongZhang();
-		$totalLianmengZhongZhang = $this->getLianmengTotalZhongZhang();
+		//$totalLianmengZhongZhang = $this->getLianmengTotalZhongZhang();
+		$totalLianmengZhongZhang = $this->getLianmengTotalZhongZhangByType(false);
 		
-		return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $shijiChouShui, $totalBaoXian, $totalLianmengZhongZhang);
+		return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $shijiChouShui, $totalBaoXian, $totalLianmengZhongZhang, $this->choushui_shuanfa);
 		//return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $totalChouShui, $totalBaoXian, $totalLianmengZhongZhang);
 	}
 	
@@ -729,7 +813,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		foreach($aLianmengList as $aLianmeng){
 			$aLianmengZhangDanDetailList = $this->getLianmengZhangDanDetailList($aLianmeng['id']);
 			foreach($aLianmengZhangDanDetailList as $aValue){
-				$totalLianmengZhongZhang += $aValue['zhang_dan'];
+				$totalLianmengZhongZhang += $aValue['float_zhang_dan'];
 			}
 		}
 		/*$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
@@ -737,7 +821,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
 			$totalLianmengZhongZhang += $aLianmengZhongZhang['lianmeng_zhong_zhang'];
 		}*/
-		return $totalLianmengZhongZhang;
+		//return $totalLianmengZhongZhang;
+		return Calculate::getIntValueByChoushuiShuanfa($totalLianmengZhongZhang, $this->choushui_shuanfa);
 	}
 
 	/**
@@ -747,14 +832,30 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
 		$aLianmengList = $this->getLianmengZhongZhangList();
 		foreach($aLianmengList as $aLianmeng){
-			$totalLianmengZhongZhang += $aLianmeng['lianmeng_zhong_zhang'];
+			$totalLianmengZhongZhang += $aLianmeng['float_lianmeng_zhong_zhang'];
 		}
 		/*$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
 		$aLianmengZhongZhangList = $this->getLianmengZhongZhangList();
 		foreach($aLianmengZhongZhangList as $aLianmengZhongZhang){
 			$totalLianmengZhongZhang += $aLianmengZhongZhang['lianmeng_zhong_zhang'];
 		}*/
-		return $totalLianmengZhongZhang;
+		//return $totalLianmengZhongZhang;
+		return Calculate::getIntValueByChoushuiShuanfa($totalLianmengZhongZhang, $this->choushui_shuanfa);
+	}
+
+	/**
+	 *	获取联盟总账，有小数
+	 */
+	public function getLianmengTotalZhongZhangByType($returnInt = true){
+		$totalLianmengZhongZhang = $this->lianmeng_zhongzhang_ajust_value;
+		$aLianmengList = $this->getLianmengZhongZhangList();
+		foreach($aLianmengList as $aLianmeng){
+			$totalLianmengZhongZhang += $aLianmeng['float_lianmeng_zhong_zhang'];
+		}
+		if(!$returnInt){
+			return $totalLianmengZhongZhang;
+		}
+		return Calculate::getIntValueByChoushuiShuanfa($totalLianmengZhongZhang, $this->choushui_shuanfa);
 	}
 
 	/**
@@ -763,11 +864,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	public function getJiaoBanZhuanChuMoney(){
 		$totalOutPutTypeMoney = $this->getMoneyOutPutTypeTotalMoney();
 		$aUnJiaoBanPaijuTotalStatistic = $this->_getUnJiaoBanPaijuTotalStatistic();
-		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
+		//$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['zhongChouShui'];
 		$totalBaoXian = $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian'];
-		$shijiChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
+		//$shijiChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
+		$shijiChouShui = $this->getShijiChouShuiByType(false);
 				
-		return Calculate::calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney, $shijiChouShui, $totalBaoXian);
+		return Calculate::calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney, $shijiChouShui, $totalBaoXian, $this->choushui_shuanfa);
 		//return Calculate::calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney, $totalChouShui, $totalBaoXian);
 	}
 
@@ -935,10 +1037,13 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'zhanji' => $value['zhanji'],
 				'baoxian_heji' => $value['baoxian_heji'],
 				'baoxian_beichou' => 0,
+				'float_baoxian_beichou' => 0,
 				'club_is_clean' => $value['club_is_clean'],
 			];
 			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $baoxianChoucheng, $this->choushui_shuanfa);
+			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $baoxianChoucheng, $this->choushui_shuanfa, false);
 			$aTemp['baoxian_beichou'] = $baoxianBeichou;
+			$aTemp['float_baoxian_beichou'] = $floatBaoxianBeichou;
 			$aPaijuDataZhangDanList[] = $aTemp;
 		}
 		$aClubPaijuDataZhangDanList = [];
@@ -965,6 +1070,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 						'zhanji' => 0,
 						'baoxian_heji' => 0,
 						'baoxian_beichou' => 0,
+						'float_baoxian_beichou' => 0,
 						'club_is_clean' => $mm['club_is_clean'],
 					];
 					$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
@@ -991,6 +1097,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 							'zhanji' => 0,
 							'baoxian_heji' => 0,
 							'baoxian_beichou' => 0,
+							'float_baoxian_beichou' => 0,
 							'club_is_clean' => $mm['club_is_clean'],
 						];
 						$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
@@ -1011,9 +1118,11 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'paiju_fee' => $aClub['paiju_fee'],
 				'club_is_clean' => 0,
 				'zhang_dan' => 0,
+				'float_zhang_dan' => 0,
 				'zhanji' => 0,
 				'baoxian_heji' => 0,
 				'baoxian_beichou' => 0,
+				'float_baoxian_beichou' => 0,
 				'hui_zhong' => 0,
 				'club_zhang_dan_list' => [],
 			];
@@ -1027,6 +1136,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 						'club_is_clean' => $v['club_is_clean'],
 						'duizhangfangfa' => $aClub['duizhangfangfa'],
 						'zhang_dan' => 0,
+						'float_zhang_dan' => 0,
 						'zhanji' => 0,
 						'baoxian_heji' => 0,
 						'baoxian_beichou' => 0,
@@ -1039,13 +1149,17 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aClubZhangDanList[$aClub['club_id']]['zhanji'] += $v['zhanji'];
 				$aClubZhangDanList[$aClub['club_id']]['baoxian_heji'] += $v['baoxian_heji'];
 				$aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
+				$aClubZhangDanList[$aClub['club_id']]['float_baoxian_beichou'] += $v['float_baoxian_beichou'];
 			}
 			if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
 				foreach($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'] as $kk => $vv){
 					//账单值与自己俱乐部联盟账单值相反
 					$zhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
+					$floatZhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa, false);
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['zhang_dan'] = $zhandan;
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['float_zhang_dan'] = $floatZhandan;
 					$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $zhandan;
+					$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] += $floatZhandan;
 				}
 			}
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
