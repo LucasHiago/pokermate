@@ -86,10 +86,12 @@ class UserController extends Controller{
 		
 		$aChouShuiList = $mUser->getUnJiaoBanPaijuChouShuiList();
 		
-		$totalChouShui = $mUser->choushui_ajust_value;
+		/*$totalChouShui = $mUser->choushui_ajust_value;
 		foreach($aChouShuiList as $aChouShui){
-			$totalChouShui += $aChouShui['shiji_choushui_value'];
-		}
+			$totalChouShui += $aChouShui['float_shiji_choushui_value'];
+		}*/
+		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
 		$aData = [
 			'list' => $aChouShuiList,
 			'count' => count($aChouShuiList),

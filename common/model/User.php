@@ -578,6 +578,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$paijuId]['shiji_choushui_value'] = Calculate::calculateShijiChouShuiValue($v['choushui_value'], $lianmengButie, $v['paiju_fee'], $this->choushui_shuanfa);
 			$aReturnList[$paijuId]['float_shiji_choushui_value'] = Calculate::calculateShijiChouShuiValue($v['float_choushui_value'], $floatLianmengButie, $v['paiju_fee'], $this->choushui_shuanfa, false);
 		}
+		foreach($aReturnList as $paijuId => $v){
+			$aReturnList[$paijuId]['int_float_shiji_choushui_value'] = Calculate::getIntValueByChoushuiShuanfa($aReturnList[$paijuId]['float_shiji_choushui_value'], $this->choushui_shuanfa);
+		}
 		
 		return $aReturnList;
 	}
