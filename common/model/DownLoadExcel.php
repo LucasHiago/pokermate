@@ -133,7 +133,7 @@ class DownLoadExcel extends \yii\base\Object{
 			$aDataList = Yii::$app->excel->getSheetDataInArray($saveName);
 			$mUser = User::findOne($mClub->user_id);
 			$isSuccess = ImportData::importFromExcelDataList($mUser, $aDataList);
-			unset($aDataList);
+			$aDataList = null;
 			if($isSuccess){
 				if(strtotime($startDay) < NOW_TIME){
 					ExcelFile::addRecord([

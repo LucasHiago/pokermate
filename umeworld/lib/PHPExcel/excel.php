@@ -67,11 +67,11 @@ class Excel extends \yii\base\Object{
 			}else{
 				array_push($aReturn, $aRow);
 			}
-			unset($aRow);
+			$aRow = null;
 		}
-		unset($objReader);
-		unset($objPHPExcel);
-		unset($sheet);
+		$objReader = null;
+		$objPHPExcel = null;
+		$sheet = null;
 		return $aReturn;
 	}
 	

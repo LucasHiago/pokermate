@@ -69,11 +69,11 @@ class ImportData extends \common\lib\DbOrmModel{
 			}
 			$i++;
 		}
-		unset($aInsertList);
+		$aInsertList = null;
 		if($aPageList){
 			static::_bathInsertData($aPageList);
 		}
-		unset($aPageList);
+		$aPageList = null;
 	}
 	
 	public static function importFromExcelDataList($mUser, $aDataList){
@@ -88,8 +88,8 @@ class ImportData extends \common\lib\DbOrmModel{
 		$aPaijuName = ArrayHelper::getColumn($aDataList, 1);
 		$aEndTimeFormat = ArrayHelper::getColumn($aDataList, 19);
 		$aAlreadyImportDataList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName, 'end_time_format' => $aEndTimeFormat]);
-		unset($aPaijuName);
-		unset($aEndTimeFormat);
+		$aPaijuName = null;
+		$aEndTimeFormat = null;
 		$aImportDataList = [];
 		foreach($aDataList as $value){
 			$isFind = false;
@@ -103,8 +103,8 @@ class ImportData extends \common\lib\DbOrmModel{
 				array_push($aImportDataList, $value);
 			}
 		}
-		unset($aDataList);
-		unset($aAlreadyImportDataList);
+		$aDataList = null;
+		$aAlreadyImportDataList = null;
 		//$aInserDataList = [];
 		$aUniquePaijuList = [];
 		//$aPlayerList = [];
@@ -137,8 +137,8 @@ class ImportData extends \common\lib\DbOrmModel{
 				//array_push($aInserDataList, $aData);
 			}
 		}
-		unset($aUniquePaijuList);
-		unset($aImportDataList);
+		$aUniquePaijuList = null;
+		$aImportDataList = null;
 		/*if($aInserDataList){
 			//Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 			static::bathInsertData($aInserDataList);
@@ -192,7 +192,7 @@ class ImportData extends \common\lib\DbOrmModel{
 					$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
 					if($aDataList){
 						ImportData::importFromExcelDataList($mUser, $aDataList);
-						unset($aDataList);
+						$aDataList = null;
 						$mExcelFile->set('import_time', NOW_TIME);
 						$mExcelFile->save();
 					}
@@ -201,7 +201,7 @@ class ImportData extends \common\lib\DbOrmModel{
 				}
 			}
 		}
-		unset($aExcelFileList);
+		$aExcelFileList = null;
 		return true;
 	}
 	
