@@ -26,6 +26,7 @@ class Application extends \yii\web\Application{
 	 */
 	public function __construct($aConfig = [])
     {
+		ini_set('date.timezone', 'Asia/Shanghai');
 		parent::__construct($aConfig);
 		$urlManagerName = $this->urlManagerName;
 		$this->urlManager = $this->$urlManagerName;
