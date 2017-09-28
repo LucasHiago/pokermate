@@ -102,7 +102,8 @@ class Excel extends \yii\base\Object{
 			}
 			$row++;
 		}
-		
+		$aData = null;
+		$objPHPExcel = null;
 		if($isOutPutDirectory){
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			header('Content-Disposition: attachment;filename="' . $outputPath . '"');
@@ -110,6 +111,7 @@ class Excel extends \yii\base\Object{
 			$objWriter->save('php://output');
 		}else{
 			$objWriter->save($outputPath);
+			$objWriter = null;
 			return true;
 		}
 	}

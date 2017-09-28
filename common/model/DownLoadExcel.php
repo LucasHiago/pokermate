@@ -77,6 +77,7 @@ class DownLoadExcel extends \yii\base\Object{
 	
 	public function goLoginAndDownloadExcel($mClub, $skey, $safecode, $retry, $startDay, $endDay){
 		set_time_limit(0);
+		ini_set("memory_limit", "1024M");
 		$clubId = $mClub->club_id;
 		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie_' . $clubId . '.tmp';
 		$aParam = ['key' => $skey, 'safecode' => $safecode];
