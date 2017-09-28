@@ -85,11 +85,32 @@ class ImportData extends \common\lib\DbOrmModel{
 		//去掉表头
 		unset($aDataList[0]);
 		//过滤已导入过的牌局
-		$aPaijuName = ArrayHelper::getColumn($aDataList, 1);
-		$aEndTimeFormat = ArrayHelper::getColumn($aDataList, 19);
-		$aAlreadyImportDataList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName, 'end_time_format' => $aEndTimeFormat]);
+		$aPaijuName = array_unique(ArrayHelper::getColumn($aDataList, 1));
+		//$aEndTimeFormat = array_unique(ArrayHelper::getColumn($aDataList, 19));
+		
+		//$aAlreadyImportDataList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName, 'end_time_format' => $aEndTimeFormat]);
+		/*$aAlreadyImportDataList = [];
+		$i = 0;
+		$aPaijuNameList = [];
+		foreach($aPaijuName as $paijuName){
+			array_push($aPaijuNameList, $paijuName);
+			if($i % 20 == 0 || $i == count($aPaijuName) - 1){
+				if($aPaijuNameList){
+					$aTempList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuNameList]);
+					$aPaijuNameList = [];
+					if($aTempList){
+						$aAlreadyImportDataList = array_merge($aAlreadyImportDataList, $aTempList);
+					}
+					$aTempList = null;
+				}
+			}
+			$i++;
+		}
+		$aPaijuNameList = null;*/
+		$aAlreadyImportDataList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName], ['paiju_name', 'end_time_format']);
+		
 		$aPaijuName = null;
-		$aEndTimeFormat = null;
+		//$aEndTimeFormat = null;
 		$aImportDataList = [];
 		foreach($aDataList as $value){
 			$isFind = false;
