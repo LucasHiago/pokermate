@@ -96,11 +96,15 @@ class DownLoadExcel extends \yii\base\Object{
 			file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/select_club_' . $clubId . '.html', $returnString);
 		}
 		//////////////////////////////楼上的代码都不干正事的2333////////////////////////////////////////////
-		for($i = strtotime($startDay); $i <= strtotime($endDay); $i += 86400){
+		/*for($i = strtotime($startDay); $i <= strtotime($endDay); $i += 86400){
 			$isSuccess = $this->_getDownLoadAndExecuteOneExcel($mClub, date('Y-m-d', $i), date('Y-m-d', $i));
 			if(!$isSuccess){
 				return false;
 			}
+		}*/
+		$isSuccess = $this->_getDownLoadAndExecuteOneExcel($mClub, $startDay, $endDay);
+		if(!$isSuccess){
+			return false;
 		}
 		return true;
 	}

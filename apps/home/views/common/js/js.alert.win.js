@@ -43,6 +43,10 @@
 							$(document).click();
 							$(oo).click();
 							UBox.show(aResult.msg, aResult.status);
+						}else if(aResult.status == 100){
+							aData.retry = 1;
+							aData.startTime = aResult.data;
+							_doImportPaiju(o, aData);
 						}else{
 							oHtml.find('.J-wait-tip').hide();
 							UBox.show(aResult.msg, aResult.status);

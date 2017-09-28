@@ -258,12 +258,16 @@ class ImportController extends Controller{
 		}else{
 			return new Response('请选择时间范围', 0);
 		}
-		$isSuccess = Yii::$app->downLoadExcel->goLoginAndDownloadExcel($mClub, $skey, $safecode, $retry, date('Y-m-d', $startTime), date('Y-m-d', $endTime));
+		//$isSuccess = Yii::$app->downLoadExcel->goLoginAndDownloadExcel($mClub, $skey, $safecode, $retry, date('Y-m-d', $startTime), date('Y-m-d', $endTime));
+		$isSuccess = Yii::$app->downLoadExcel->goLoginAndDownloadExcel($mClub, $skey, $safecode, $retry, date('Y-m-d', $startTime), date('Y-m-d', $startTime));
 		if(!$isSuccess){
 			if(Yii::$app->downLoadExcel->getMessage() == 'login_fail'){
 				return new Response('验证码或账号不正确', 3);
 			}
 			return new Response('服务器连接中断，是否继续请求完成？', 2);
+		}
+		if($startTime != $endTime){
+			return new Response('继续下一天', 100, date('Y-m-d', $startTime + 86400));
 		}
 		//导入下载的Excel文件
 		/*$isSuccess = $this->_importDownloadExcelFiles($mUser, $mClub->club_id);
