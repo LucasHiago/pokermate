@@ -163,7 +163,24 @@ class ImportData extends \common\lib\DbOrmModel{
 		if($aInserDataList){
 			//Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 			static::bathInsertData($aInserDataList);
-			unset($aInserDataList);
+			//快速插入的后果可能有重复数据，要检查删了start
+			$aPaijuName = array_unique(ArrayHelper::getColumn($aInserDataList, 1));
+			$aInserDataList = null;
+			$aAlreadyImportDataList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName], ['id', 'user_id', 'paiju_name', 'player_id', 'end_time_format']);
+			$aPaijuName = null;
+			$aRecordList = [];
+			foreach($aAlreadyImportDataList as $v){
+				$keyStr = $v['user_id'] . '_' . $v['paiju_name'] . '_' . $v['player_id'] . '_' . $v['end_time_format'];
+				if(!isset($aRecordList[$keyStr])){
+					$aRecordList[$keyStr] = 1;
+				}else{
+					$mImportData = static::toModel($v);
+					$mImportData->delete();
+				}
+			}
+			$aAlreadyImportDataList = null;
+			$aRecordList = null;
+			//快速插入的后果可能有重复数据，要检查删了end
 		}
 		return true;
 	}
