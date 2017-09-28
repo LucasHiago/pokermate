@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 
 class DownLoadExcel extends \yii\base\Object{
 	public $savecodeUrl;
+	public $loginPageUrl;
 	public $loginUrl;
 	public $selectClubUrl;
 	public $historyExportUrl;
@@ -47,6 +48,19 @@ class DownLoadExcel extends \yii\base\Object{
 		curl_close($curl);
 
 		return $responseText;
+	}
+	
+	public function getModulusAndExponentValueValue(){
+		$returnString = $this->_doHttpResponsePost($this->loginPageUrl);
+		if(!$returnString){
+			return false;
+		}
+		$modulusValue = $this->_getModulusValueFromHtml($returnString);
+		$exponentValue = $this->_getExponentValueFromHtml($returnString);
+		return [
+			'modulusValue' => $modulusValue,
+			'exponentValue' => $exponentValue,
+		];
 	}
 	
 	public function downSaveCode($clubId){
@@ -110,6 +124,28 @@ class DownLoadExcel extends \yii\base\Object{
 			return false;
 		}
 		return true;
+	}
+	
+	private function _getModulusValueFromHtml($html){
+		preg_match_all('/ng-init=\"modulus=\'\w+\'\"/', $html, $aMatchList);
+		if(isset($aMatchList[0][0])){
+			$aData = explode("'", $aMatchList[0][0]);
+			if(isset($aData[1])){
+				return $aData[1];
+			}
+		}
+		return false;
+	}
+	
+	private function _getExponentValueFromHtml($html){
+		preg_match_all('/ng-init=\"exponent=\'\w+\'\"/', $html, $aMatchList);
+		if(isset($aMatchList[0][0])){
+			$aData = explode("'", $aMatchList[0][0]);
+			if(isset($aData[1])){
+				return $aData[1];
+			}
+		}
+		return false;
 	}
 	
 }

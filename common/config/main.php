@@ -233,6 +233,7 @@ return [
 		'downLoadExcel' => [
 			'class' => 'common\model\DownLoadExcel',	
 			'savecodeUrl' => 'http://cms.pokermanager.club/cms/servlet/safecode',//验证码
+			'loginPageUrl' => 'http://cms.pokermanager.club/cms/',//用户登录页面
 			'loginUrl' => 'http://cms.pokermanager.club/cms/user/login',//用户登录
 			'selectClubUrl' => 'http://cms.pokermanager.club/cms/club/clubInfo?clubId=',//选择俱乐部	
 			'historyExportUrl' => 'http://cms.pokermanager.club/cms/club/historyExport',//导出战绩列表页面
