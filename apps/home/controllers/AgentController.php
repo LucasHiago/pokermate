@@ -10,6 +10,7 @@ use umeworld\lib\Response;
 use common\model\Agent;
 use common\model\FenchengSetting;
 use common\model\ImportData;
+use common\model\Calculate;
 
 class AgentController extends Controller{
 	
@@ -33,8 +34,10 @@ class AgentController extends Controller{
 			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($aCurrentAgent['id']);
 		}
 		$totalFenCheng = $mUser->agent_fencheng_ajust_value;
+		$floatTotalFenCheng = $mUser->agent_fencheng_ajust_value;
 		foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
 			$totalFenCheng += $aAgentUnCleanFenCheng['fencheng'];
+			$floatTotalFenCheng += $aAgentUnCleanFenCheng['float_fencheng'];
 		}
 		
 		return $this->render('agent', [
@@ -43,6 +46,7 @@ class AgentController extends Controller{
 			'aAgentUnCleanFenChengList' => $aAgentUnCleanFenChengList,
 			'agentFenchengAjustValue' => $mUser->agent_fencheng_ajust_value,
 			'totalFenCheng' => $totalFenCheng,
+			'floatTotalFenCheng' => Calculate::getIntValueByChoushuiShuanfa($floatTotalFenCheng, $mUser->choushui_shuanfa),
 		]);
 	}
 	

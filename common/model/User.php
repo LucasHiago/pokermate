@@ -963,6 +963,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$shuFan = (float)$aFenchengSetting[$value['mangzhu']]['shufan'];
 			}
 			$aResult[$key]['fencheng'] = Calculate::calculateFenchengMoney($value['zhanji'], $yinFan, $shuFan, $this->choushui_shuanfa);
+			$aResult[$key]['float_fencheng'] = Calculate::calculateFenchengMoney($value['zhanji'], $yinFan, $shuFan, $this->choushui_shuanfa, false);
 		}
 		
 		return $aResult;
@@ -1037,6 +1038,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'paiju_fee' => $paijuFee,
 				'duizhangfangfa' => $duizhangfangfa,
 				'zhang_dan' => 0,
+				'float_zhang_dan' => 0,
 				'zhanji' => $value['zhanji'],
 				'baoxian_heji' => $value['baoxian_heji'],
 				'baoxian_beichou' => 0,
@@ -1070,6 +1072,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 						'paiju_fee' => $aClub['paiju_fee'],
 						'duizhangfangfa' => $aClub['duizhangfangfa'],
 						'zhang_dan' => 0,
+						'float_zhang_dan' => 0,
 						'zhanji' => 0,
 						'baoxian_heji' => 0,
 						'baoxian_beichou' => 0,
@@ -1097,6 +1100,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 							'paiju_fee' => $aClub['paiju_fee'],
 							'duizhangfangfa' => $aClub['duizhangfangfa'],
 							'zhang_dan' => 0,
+							'float_zhang_dan' => 0,
 							'zhanji' => 0,
 							'baoxian_heji' => 0,
 							'baoxian_beichou' => 0,
