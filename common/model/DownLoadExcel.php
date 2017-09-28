@@ -95,6 +95,25 @@ class DownLoadExcel extends \yii\base\Object{
 			file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/select_club_' . $clubId . '.html', $returnString);
 		}
 		//////////////////////////////楼上的代码都不干正事的2333////////////////////////////////////////////
+		for($i = strtotime($startDay); $i <= strtotime($endDay); $i += 86400){
+			$isSuccess = $this->_getDownLoadAndExecuteOneExcel($mClub, date('Y-m-d', $i), date('Y-m-d', $i));
+			if(!$isSuccess){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private function _getDownLoadAndExecuteOneExcel($mClub, $startDay, $endDay){
+		$mExcelFile = ExcelFile::findOne([
+			'user_id' => $mClub->user_id,
+			'club_id' => $mClub->club_id,
+			'path' => $startDay,
+		]);
+		if($mExcelFile){
+			return true;
+		}
+		$clubId = $mClub->club_id;
 		$type = 1;
 		//http://cms.pokermanager.club/cms/club/export?startTime=2017-09-25&endTime=2017-09-25&paramVo.type=1&sort=-4
 		$exportUrl = $this->exportUrl . '?startTime=' . $startDay . '&endTime=' . $endDay . '&paramVo.type=' . $type . '&sort=-4';
@@ -106,7 +125,7 @@ class DownLoadExcel extends \yii\base\Object{
 		if(!is_dir(Yii::getAlias('@p.resource') . '/' . $dir)){
 			mkdir(Yii::getAlias('@p.resource') . '/' . $dir);
 		}
-		$fileName = $dir . '/' . $clubId . '.xls';
+		$fileName = $dir . '/' . $clubId . '_' . $startDay . '.xls';
 		$saveName = Yii::getAlias('@p.resource') . '/' . $fileName;
 		file_put_contents($saveName, $returnString);
 		//检查文件是否下载正常
@@ -116,6 +135,15 @@ class DownLoadExcel extends \yii\base\Object{
 			$isSuccess = ImportData::importFromExcelDataList($mUser, $aDataList);
 			unset($aDataList);
 			if($isSuccess){
+				if(strtotime($startDay) < NOW_TIME){
+					ExcelFile::addRecord([
+						'user_id' => $mClub->user_id,
+						'club_id' => $mClub->club_id,
+						'path' => $startDay,
+						'download_time' => NOW_TIME,
+						'import_time' => NOW_TIME,
+					]);
+				}
 				return true;
 			}else{
 				return false;

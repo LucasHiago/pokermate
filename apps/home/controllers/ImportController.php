@@ -252,13 +252,12 @@ class ImportController extends Controller{
 			if($endTime > NOW_TIME + 86400){
 				return new Response('结束时间不能大于今天', 0);
 			}
-			if(intval(($endTime - $startTime) / 86400) > 4){
+			/*if(intval(($endTime - $startTime) / 86400) > 4){
 				return new Response('时间范围不能超过5天', 0);
-			}
+			}*/
 		}else{
 			return new Response('请选择时间范围', 0);
 		}
-		
 		$isSuccess = Yii::$app->downLoadExcel->goLoginAndDownloadExcel($mClub, $skey, $safecode, $retry, date('Y-m-d', $startTime), date('Y-m-d', $endTime));
 		if(!$isSuccess){
 			if(Yii::$app->downLoadExcel->getMessage() == 'login_fail'){
