@@ -63,7 +63,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		$aPageList = [];
 		foreach($aInsertList as $aData){
 			array_push($aPageList, $aData);
-			if($i % 10 == 0){
+			if($i % 50 == 0){
 				static::_bathInsertData($aPageList);
 				$aPageList = [];
 			}
@@ -107,7 +107,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			$i++;
 		}
 		$aPaijuNameList = null;*/
-		$aAlreadyImportDataList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName], ['paiju_name', 'end_time_format']);
+		$aAlreadyImportDataList = static::findAll(['user_id' => $mUser->id, 'paiju_name' => $aPaijuName], ['paiju_name', 'player_id', 'end_time_format']);
 		
 		$aPaijuName = null;
 		//$aEndTimeFormat = null;
@@ -115,7 +115,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		foreach($aDataList as $value){
 			$isFind = false;
 			foreach($aAlreadyImportDataList as $v){
-				if($v['paiju_name'] == $value[1] && $v['end_time_format'] == $value[19]){
+				if($v['paiju_name'] == $value[1] && $v['player_id'] == $value[7] && $v['end_time_format'] == $value[19]){
 					$isFind = true;
 					break;
 				}
@@ -126,7 +126,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		}
 		$aDataList = null;
 		$aAlreadyImportDataList = null;
-		//$aInserDataList = [];
+		$aInserDataList = [];
 		$aUniquePaijuList = [];
 		//$aPlayerList = [];
 		foreach($aImportDataList as $aData){
@@ -146,7 +146,7 @@ class ImportData extends \common\lib\DbOrmModel{
 				$aUniquePaijuList = $aUniquePaijuInfo['list'];
 				array_push($aData, $aUniquePaijuInfo['id']);
 				array_push($aData, $mUser->id);
-				$mImportData = static::findOne([
+				/*$mImportData = static::findOne([
 					'user_id' => $mUser->id, 
 					'paiju_name' => $aData[1], 
 					'player_id' => $aData[7], 
@@ -154,17 +154,17 @@ class ImportData extends \common\lib\DbOrmModel{
 				]);
 				if(!$mImportData){
 					static::bathInsertData([$aData]);
-				}
-				//array_push($aInserDataList, $aData);
+				}*/
+				array_push($aInserDataList, $aData);
 			}
 		}
 		$aUniquePaijuList = null;
 		$aImportDataList = null;
-		/*if($aInserDataList){
+		if($aInserDataList){
 			//Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 			static::bathInsertData($aInserDataList);
 			unset($aInserDataList);
-		}*/
+		}
 		return true;
 	}
 		
