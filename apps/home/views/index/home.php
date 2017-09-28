@@ -361,9 +361,11 @@ $this->setTitle('结账台');
 		$('.J-search-keren-bianhao, .J-search-benjin, .J-search-jsjer').bind('input propertychange', function() {  
 			setInputInterval(this);
 		}); 
+		var tt = '';
 		$('.J-search-keren-bianhao').bind('input propertychange', function(){
 			var o = this;
-			setTimeout(function(){
+			clearTimeout(tt);
+			tt = setTimeout(function(){
 				getKerenBenjin(o, $(o).val());
 			}, 500);
 		}); 
