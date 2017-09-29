@@ -110,14 +110,14 @@ class DownLoadExcel extends \yii\base\Object{
 	}
 	
 	private function _getDownLoadAndExecuteOneExcel($mClub, $startDay, $endDay){
-		$mExcelFile = ExcelFile::findOne([
+		/*$mExcelFile = ExcelFile::findOne([
 			'user_id' => $mClub->user_id,
 			'club_id' => $mClub->club_id,
 			'path' => $startDay,
 		]);
 		if($mExcelFile){
 			return true;
-		}
+		}*/
 		$clubId = $mClub->club_id;
 		$type = 1;
 		//http://cms.pokermanager.club/cms/club/export?startTime=2017-09-25&endTime=2017-09-25&paramVo.type=1&sort=-4

@@ -34,3 +34,11 @@ http://cms.pokermanager.club/cms/
 1.抽水、保险、账单保留小数
 2.空账单结算
 3.交班清微调
+
+
+update agent set user_id=11 where user_id=9
+update fencheng_setting set user_id=11 where user_id=9
+update keren_benjin set user_id=11 where user_id=9
+update money_out_put_type set user_id=11 where user_id=9
+update money_type set user_id=11 where user_id=9
+update player set user_id=11 where user_id=9
