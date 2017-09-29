@@ -98,7 +98,7 @@ class KerenBenjinManageController extends Controller{
 				$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 				if($mTempKerenBenjin){	
 					if($isMerge){
-						$mTempKerenBenjin->set('benjin', ['add', $mKerenBenjin->benjin]);
+						$mTempKerenBenjin->set('benjin', $mKerenBenjin->benjin);
 						$mTempKerenBenjin->set('is_delete', 0);
 						$mTempKerenBenjin->save();
 						
