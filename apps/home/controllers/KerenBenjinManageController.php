@@ -31,7 +31,7 @@ class KerenBenjinManageController extends Controller{
 	}
 		
 	public function actionPlayerList(){
-		$this->_fixedMarkPlayer();
+		//$this->_fixedMarkPlayer();
 		$oListForm = new PlayerListForm();
 		$aParams = Yii::$app->request->get();
 		if($aParams && (!$oListForm->load($aParams, '') || !$oListForm->validate())){
@@ -45,6 +45,7 @@ class KerenBenjinManageController extends Controller{
 	}
 	
 	private function _fixedMarkPlayer(){
+		set_time_limit(0);
 		$aList = Player::findAll(['user_id' => Yii::$app->user->id], ['player_id', 'player_name']);
 		foreach($aList as $value){
 			$mImportData = \common\model\ImportData::findOne(['user_id' => Yii::$app->user->id, 'player_id' => $value['player_id']]);
