@@ -820,7 +820,8 @@
 						listHtml += '<tr>';
 							listHtml += '<td>' + aData.paiju_name + '</td>';
 							listHtml += '<td>' + aData.zhanji + '</td>';
-							listHtml += '<td>' + aData.baoxian_heji + '</td>';
+							//listHtml += '<td>' + aData.baoxian_heji + '</td>';
+							listHtml += '<td>' + aData.fu_baoxian_heji + '</td>';
 							listHtml += '<td>' + aData.paiju_fee + '</td>';
 							listHtml += '<td>' + aData.baoxian_beichou + '</td>';
 							listHtml += '<td>' + aData.zhang_dan + '</td>';
