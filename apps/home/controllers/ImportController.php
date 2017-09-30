@@ -101,6 +101,75 @@ class ImportController extends Controller{
 		return new Response('导入Excel文件成功', 1);
 	}
 	
+	public function actionShowImportAllPlayer(){
+		return $this->render('import_all_player');
+	}
+	
+	public function actionUploadAllPlayerExcel(){
+		set_time_limit(0);
+		$oUploadedFile = UploadedFile::getInstanceByName('filecontent');
+		$fileName = Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.import') . '/' . md5(microtime()) . '.' . $oUploadedFile->getExtension();
+		if(!$oUploadedFile->saveAs($fileName)){
+			return new Response('上传Excel文件失败', 0);
+		}
+		
+		$mUser = Yii::$app->user->getIdentity();
+		try{
+			$aDataList = Yii::$app->excel->getSheetDataInArray($fileName);
+			if($aDataList){
+				unset($aDataList[0]);
+				foreach($aDataList as $aData){
+					$playerName = (string)$aData[3];
+					$kerenBianhao = (int)$aData[0];
+					$playerId = (int)$aData[2];
+					$benjin = (int)$aData[1];
+					$yingChou = $aData[4];
+					$shuFan = $aData[5];
+					$agentId = (int)$aData[6];
+					$remark = $aData[7];
+					ImportData::addEmptyDataRecord($mUser->id, $playerId, $playerName);
+					$mKerenBenjin = KerenBenjin::findOne([
+						'user_id' => $mUser->id,
+						'keren_bianhao' => $kerenBianhao,
+						'is_delete' => 0,
+					]);
+					if(!$mKerenBenjin){
+						KerenBenjin::addRecord([
+							'user_id' => $mUser->id, 
+							'keren_bianhao' => $kerenBianhao, 
+							'benjin' => $benjin, 
+							'ying_chou' => $yingChou, 
+							'shu_fan' => $shuFan, 
+							'agent_id' => $agentId, 
+							'remark' => $remark, 
+							'create_time' => NOW_TIME
+						]);
+					}
+					$mPlayer = Player::findOne([
+						'user_id' => $mUser->id,
+						'keren_bianhao' => $kerenBianhao,
+						'player_id' => $playerId,
+						'is_delete' => 0,
+					]);
+					if(!$mPlayer){
+						Player::addRecord([
+							'user_id' => $mUser->id,
+							'keren_bianhao' => $kerenBianhao,
+							'player_id' => $playerId,
+							'player_name' => $playerName,
+							'create_time' => NOW_TIME,
+						]);
+					}
+				}
+				return new Response('导入Excel文件成功', 1);
+			}
+		}catch(\Exception $e){
+			return new Response('Excel文件格式有错误', 0);
+		}
+		
+		return new Response('导入Excel文件成功', 1);
+	}
+	
 	public function actionGetPaijuDataList(){
 		$paijuId = (int)Yii::$app->request->post('paijuId');
 		$isAllRecordData = (int)Yii::$app->request->post('isAllRecordData');

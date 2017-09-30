@@ -92,6 +92,8 @@ return [
 		'import/do-import-paiju.json'											=> 'import/do-import-paiju',
 		'import/import-player.html'												=> 'import/show-import-player',
 		'import/upload-player-excel.json'										=> 'import/upload-player-excel',
+		'import/import-all-player.html'											=> 'import/show-import-all-player',
+		'import/upload-all-player-excel.json'									=> 'import/upload-all-player-excel',
 		
 		
 		
