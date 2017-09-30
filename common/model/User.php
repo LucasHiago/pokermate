@@ -803,7 +803,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//$totalLianmengZhongZhang = $this->getLianmengZhongZhang();
 		//$totalLianmengZhongZhang = $this->getLianmengTotalZhongZhang();
 		$totalLianmengZhongZhang = $this->getLianmengTotalZhongZhangByType(false);
-		
+		Yii::info('totalMoneyTypeMoney:'.$totalMoneyTypeMoney.';'.'totalOutPutTypeMoney:'.$totalOutPutTypeMoney.';'.'totalKerenBenjin:'.$totalKerenBenjin.';'.'shijiChouShui:'.$shijiChouShui.';'.'totalBaoXian:'.$totalBaoXian.';'.'totalLianmengZhongZhang:'.$totalLianmengZhongZhang.';');
 		return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $shijiChouShui, $totalBaoXian, $totalLianmengZhongZhang, $this->choushui_shuanfa);
 		//return Calculate::calculateImbalanceMoney($totalMoneyTypeMoney, $totalOutPutTypeMoney, $totalKerenBenjin, $totalChouShui, $totalBaoXian, $totalLianmengZhongZhang);
 	}
