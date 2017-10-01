@@ -47,6 +47,9 @@ if($aCurrentAgent){
 				<a class="zfc-txt"><?php echo $floatTotalFenCheng; ?></a>
 				<a class="qz-btn" onclick="cleanAgentFencheng(this);"></a>
 				<a style="float: left;position: relative;display: inline-block;width: 150px;height: 30px;top: 60px;left: -126px;"><span style="float:left;display: inline-block;line-height: 30px;width: 70px;color: #ffffff;">分成微调：</span><input type="text" class="J-agent-fencheng-ajust-value" style="margin-top: 4px;float:left;display: inline-block;width: 70px;text-align:center;color: #f4e2a9;background:#1c1924;border-radius: 5px;" value="<?php echo $agentFenchengAjustValue; ?>" /></a>
+				<?php if($aCurrentAgent){ ?>
+				<a href="<?php echo Url::to('home', 'agent/export'); ?>?agentId=<?php echo $aCurrentAgent['id']; ?>" style="float: left;position: relative;display: inline-block;width: 90px;height: 30px;line-height: 30px;top: 60px;left: -126px;text-align:center;">导出代理数据</a>
+				<?php } ?>
 			</div>
 			<div class="ag-r-title">
 				<div class="ag-r-select-all"></div>

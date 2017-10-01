@@ -145,4 +145,30 @@ class AgentController extends Controller{
 		return new Response('清账成功', 1);
 	}
 	
+	public function actionExport(){
+		$agentId = (int)Yii::$app->request->get('agentId');
+		
+		$mUser = Yii::$app->user->getIdentity();
+		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId);
+		$aDataList = [
+			['牌局名', '桌子级别', '玩家名', '战绩', '分成'],
+		];
+		if(!$aAgentUnCleanFenChengList){
+			return new Response('暂无代理数据', 0);
+		}
+		foreach($aAgentUnCleanFenChengList as $value){
+			array_push($aDataList, [
+				$value['paiju_name'],
+				$value['mangzhu'],
+				$value['player_name'],
+				$value['zhanji'],
+				$value['fencheng'],
+			]);
+		}
+		
+		$fileName = '代理数据.xlsx';
+		
+		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
+	}
+	
 }

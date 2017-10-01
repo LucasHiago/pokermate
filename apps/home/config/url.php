@@ -80,6 +80,7 @@ return [
 		'agent/save-setting.json'												=> 'agent/save-setting',
 		'agent/one-key-save-setting.json'										=> 'agent/one-key-save-setting',
 		'agent/clean.json'														=> 'agent/clean',
+		'agent/export.html'														=> 'agent/export',
 		
 		
 		'import/index.html'														=> 'import/index',
