@@ -17,7 +17,7 @@ if($aCurrentAgent){
 			<div class="ag-l-list">
 			<?php foreach($aAgentList as $aAgent){ ?>
 				<div class="ag-l-list-item <?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'active' : '' ?>">
-					<a href="javascript:;" class="agi-chk <?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'active' : '' ?>" data-id="<?php echo $aAgent['id']; ?>"></a>
+					<a href="javascript:;" class="agi-chk" data-id="<?php echo $aAgent['id']; ?>"></a>
 					<a href="<?php echo Url::to('home', 'agent/index'); ?>?agentId=<?php echo $aAgent['id']; ?>" class="agi-txt"><?php echo $aAgent['agent_name']; ?></a>
 				</div>
 			<?php } ?>
