@@ -241,7 +241,8 @@ class Excel extends \yii\base\Object{
 		}
 		$html = '<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name></x:Name><x:WorksheetOptions><x:Selected/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>';
 		$html .= $htmlTable;
-		$html .= '</html>';$this->setSheetDataFromHtmlTable($outputPath, $html, true);exit;
+		$html .= '</html>';
+		//$this->setSheetDataFromHtmlTable($outputPath, $html, true);exit;
 		header("Content-type: application/vnd.ms-excel; charset=utf8");
 		header('Content-Disposition: attachment;filename="' . $outputPath . '"');
 		echo $html . "\t";
