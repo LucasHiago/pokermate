@@ -171,4 +171,20 @@ class AgentController extends Controller{
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
 	}
 	
+	private function _htmlToExcel($aData){
+		$table = '<table border="1" bordercolor="#c0c0c0">';
+		foreach($aData as $v){
+			$table .= '<tr>';
+				$table .= '<td>' . $v[0] . '</td>';
+				$table .= '<td>' . $v[1] . '</td>';
+				$table .= '<td>' . $v[2] . '</td>';
+				$table .= '<td>' . $v[3] . '</td>';
+				$table .= '<td>' . $v[4] . '</td>';
+			$table .= '</tr>';
+		}
+		$table .= '</table>';
+		$fileName = '代理数据.xls';
+		Yii::$app->excel->htmlTableToExcel($fileName, $table);
+		
+	}
 }
