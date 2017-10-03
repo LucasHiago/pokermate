@@ -167,7 +167,7 @@ class AgentController extends Controller{
 		}
 		
 		$fileName = '代理数据.xlsx';
-		
+		//$this->_htmlToExcel($aDataList);exit;
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
 	}
 	
@@ -183,7 +183,7 @@ class AgentController extends Controller{
 			$table .= '</tr>';
 		}
 		$table .= '</table>';
-		$fileName = '代理数据.xls';
+		$fileName = '代理数据.xlsx';
 		Yii::$app->excel->htmlTableToExcel($fileName, $table);
 		
 	}
