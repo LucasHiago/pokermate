@@ -200,7 +200,7 @@ class Calculate extends \yii\base\Object{
 	}
 	
 	/**
-	 *	计算交班转出 	公式：（总抽水+总保险）-总支出
+	 *	计算交班转出 	公式：（总抽水+总保险）+总支出
 	 *	$totalOutPutTypeMoney		所有支出
 	 *	$totalChouShui				总抽水
 	 *	$totalBaoXian				总保险
@@ -208,7 +208,7 @@ class Calculate extends \yii\base\Object{
 	 *	$returnInt	是否取整返回
 	 */
 	public static function calculateJiaoBanZhuanChuMoney($totalOutPutTypeMoney = 0, $totalChouShui = 0, $totalBaoXian = 0, $choushuiShuanfa = 0, $returnInt = true){
-		$jiaoban = ($totalChouShui + $totalBaoXian) - $totalOutPutTypeMoney;
+		$jiaoban = ($totalChouShui + $totalBaoXian) + $totalOutPutTypeMoney;
 		if(!$returnInt){
 			return $jiaoban;
 		}
