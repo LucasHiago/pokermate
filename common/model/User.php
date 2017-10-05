@@ -886,7 +886,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aUnJiaoBanPaijuTotalStatistic = $this->_getUnJiaoBanPaijuTotalStatistic();
 		$totalOutPutTypeMoney = $this->getMoneyOutPutTypeTotalMoney();
 		$jiaoBanZhuanChuMoney = $this->getJiaoBanZhuanChuMoney();
-		$shijiChouShui = $this->getShijiChouShuiByType(false);
+		$shijiChouShui = $this->getShijiChouShuiByType();
 		/*$jiaojieMoney = $totalMoneyTypeMoney - $jiaoBanZhuanChuMoney;*/
 		if(!$jiaoBanZhuanChuMoney){
 			return false;
