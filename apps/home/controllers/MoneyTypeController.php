@@ -39,17 +39,24 @@ class MoneyTypeController extends Controller{
 				'user_id' => $mUser->id,
 				'pay_type' => $payType,
 			]);
-			if($mMoneyType){
+			if($mMoneyType && !$mMoneyType->is_delete){
 				return new Response('支付方式已存在', 0);
 			}
-			$isSuccess = MoneyType::addRecord([
-				'user_id' => $mUser->id,
-				'pay_type' => $payType,
-				'money' => $money,
-				'create_time' => NOW_TIME,
-			]);
-			if(!$isSuccess){
-				return new Response('保存失败', 0);
+			if($mMoneyType && $mMoneyType->is_delete){
+				$mMoneyType->set('is_delete', 0);
+				$mMoneyType->set('money', $money);
+				$mMoneyType->save();
+			}
+			if(!$mMoneyType){
+				$isSuccess = MoneyType::addRecord([
+					'user_id' => $mUser->id,
+					'pay_type' => $payType,
+					'money' => $money,
+					'create_time' => NOW_TIME,
+				]);
+				if(!$isSuccess){
+					return new Response('保存失败', 0);
+				}
 			}
 		}
 		

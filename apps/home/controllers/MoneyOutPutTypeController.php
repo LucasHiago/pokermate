@@ -39,17 +39,24 @@ class MoneyOutPutTypeController extends Controller{
 				'user_id' => $mUser->id,
 				'out_put_type' => $outPutType,
 			]);
-			if($mMoneyOutPutType){
+			if($mMoneyOutPutType && !$mMoneyOutPutType->is_delete){
 				return new Response('支付方式已存在', 0);
 			}
-			$isSuccess = MoneyOutPutType::addRecord([
-				'user_id' => $mUser->id,
-				'out_put_type' => $outPutType,
-				'money' => $money,
-				'create_time' => NOW_TIME,
-			]);
-			if(!$isSuccess){
-				return new Response('保存失败', 0);
+			if($mMoneyOutPutType && $mMoneyOutPutType->is_delete){
+				$mMoneyOutPutType->set('is_delete', 0);
+				$mMoneyOutPutType->set('money', $money);
+				$mMoneyOutPutType->save();
+			}
+			if(!$mMoneyOutPutType){
+				$isSuccess = MoneyOutPutType::addRecord([
+					'user_id' => $mUser->id,
+					'out_put_type' => $outPutType,
+					'money' => $money,
+					'create_time' => NOW_TIME,
+				]);
+				if(!$isSuccess){
+					return new Response('保存失败', 0);
+				}
 			}
 		}
 		
