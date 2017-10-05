@@ -16,7 +16,11 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 	public static function getNextKerenbianhao($userId){
 		$sql = 'SELECT MAX(`keren_bianhao`) AS `num` FROM ' . static::tableName() . ' WHERE `user_id`=' . $userId;
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
-		return (int)($aResult[0]['num'] + 1);
+		$number = (int)($aResult[0]['num'] + 1);
+		if($number < 10000){
+			$number = 10000;
+		}
+		return $number;
 	}
 	
 	public static function checkKerenbianhao($kerenbianhao){
