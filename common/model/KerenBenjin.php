@@ -105,7 +105,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		$aPlayerList = [];
 		if(isset($aControl['with_player_list']) && $aControl['with_player_list']){
 			$aKerenBianhao = ArrayHelper::getColumn($aList, 'keren_bianhao');
-			$aPlayerList = Player::findAll(['user_id' => $aCondition['`k1`.`user_id`'], 'keren_bianhao' => $aKerenBianhao]);
+			$aPlayerList = Player::findAll(['user_id' => $aCondition['`k1`.`user_id`'], 'keren_bianhao' => $aKerenBianhao, 'is_delete' => 0]);
 		}
 		
 		$aAgentList = [];

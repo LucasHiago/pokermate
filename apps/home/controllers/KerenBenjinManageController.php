@@ -104,6 +104,13 @@ class KerenBenjinManageController extends Controller{
 						
 						$mKerenBenjin->set('is_delete', 1);
 						$mKerenBenjin->save();
+						if($aPlayerList){
+							foreach($aPlayerList as $aPlayer){
+								$mPlayer = Player::toModel($aPlayer);
+								$mPlayer->set('keren_bianhao', $mTempKerenBenjin->keren_bianhao);
+								$mPlayer->save();
+							}
+						}
 						return new Response('合并成功', 1, 'reload');
 					}else{
 						return new Response('改编号已有客人使用，是否合并共用？', 2);
