@@ -1257,6 +1257,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			'page_size' => 9999999999,
 			'order_by' => '`k1`.keren_bianhao ASC',
 			'with_player_list' => true,
+			'with_agent_info' => true,
 		];
 		
 		$aList = KerenBenjin::getList1($aCondition, $aControl);
@@ -1269,6 +1270,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aTemp['shu_fan'] = $value['shu_fan'];
 				$aTemp['agent_id'] = $value['agent_id'];
 				$aTemp['remark'] = $value['remark'];
+				$aTemp['agent_info'] = $value['agent_info'];
 				$aReturn[] = $aTemp;
 			}
 		}

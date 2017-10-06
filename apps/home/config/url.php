@@ -116,6 +116,7 @@ return [
 		'keren-benjin-manage/set-delete.json'									=> 'keren-benjin-manage/set-delete',
 		'keren-benjin-manage/edit/<id:.*>.html'									=> 'keren-benjin-manage/show-edit',
 		'keren-benjin-manage/edit.json'											=> 'keren-benjin-manage/edit',
+		'keren-benjin-manage/edit-player.json'									=> 'keren-benjin-manage/edit-player',
 		'keren-benjin-manage/export-list.html'									=> 'keren-benjin-manage/export-list',
 		'keren-benjin-manage/export-player-list.html'							=> 'keren-benjin-manage/export-player-list',
 		'keren-benjin-manage/delete-player.json'								=> 'keren-benjin-manage/delete-player',

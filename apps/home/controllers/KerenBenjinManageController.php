@@ -11,6 +11,7 @@ use common\model\form\KerenBenjinListForm;
 use common\model\form\PlayerListForm;
 use common\model\KerenBenjin;
 use common\model\Player;
+use common\model\Agent;
 
 class KerenBenjinManageController extends Controller{
 	public $layout = 'manage';
@@ -38,9 +39,12 @@ class KerenBenjinManageController extends Controller{
 			return new Response(current($oListForm->getErrors())[0]);
 		}
 		$aList = $oListForm->getList();
+		$mUser = Yii::$app->user->getIdentity();
+		$aAgentList = $mUser->getAgentList();
 		
 		return $this->render('player_list', [
 			'aList' => $aList,
+			'aAgentList' => $aAgentList,
 		]);
 	}
 	
@@ -104,6 +108,7 @@ class KerenBenjinManageController extends Controller{
 						
 						$mKerenBenjin->set('is_delete', 1);
 						$mKerenBenjin->save();
+						$aPlayerList = $mKerenBenjin->getPlayerList();
 						if($aPlayerList){
 							foreach($aPlayerList as $aPlayer){
 								$mPlayer = Player::toModel($aPlayer);
@@ -127,10 +132,93 @@ class KerenBenjinManageController extends Controller{
 		}
 		$mKerenBenjin->set('benjin', $benjin);
 		$mKerenBenjin->set('ying_chou', $yingChou);
-		$mKerenBenjin->set('shu_fan', $shu_fan);
+		$mKerenBenjin->set('shu_fan', $shuFan);
 		$mKerenBenjin->set('agent_id', $agentId);
 		$mKerenBenjin->set('remark', $remark);
 		$mKerenBenjin->save();
+		
+		return new Response('保存成功', 1);
+	}
+	
+	public function actionEditPlayer(){
+		$id = (int)Yii::$app->request->post('id');
+		$kerenBianhao = (int)Yii::$app->request->post('kerenBianhao');
+		$benjin = (int)Yii::$app->request->post('benjin');
+		$yingChou = (int)Yii::$app->request->post('yingChou');
+		$shuFan = (int)Yii::$app->request->post('shuFan');
+		$agentId = (int)Yii::$app->request->post('agentId');
+		$remark = (int)Yii::$app->request->post('remark');
+		
+		if(!$id){
+			return new Response('玩家不存在', -1);
+		}
+		$mPlayer = Player::findOne($id);
+		if(!$mPlayer){
+			return new Response('玩家不存在', -1);
+		}
+		
+		if($kerenBianhao){
+			if(!KerenBenjin::checkKerenbianhao($kerenBianhao)){
+				return new Response('客人编号范围有误', -1);
+			}
+			$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
+			if(!$mTempKerenBenjin){
+				return new Response('客人不存在', -1);
+			}
+			$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $mPlayer->keren_bianhao]);
+			if(!$mKerenBenjin){
+				return new Response('客人不存在', -1);
+			}
+			
+			if($agentId){
+				$mAgent = Agent::findOne($agentId);
+				if(!$mAgent){
+					return new Response('代理不存在', -1);
+				}
+			}
+			$isMerge = (int)Yii::$app->request->post('isMerge');
+			if($mTempKerenBenjin->keren_bianhao != $mKerenBenjin->keren_bianhao){
+				//$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
+				if($mTempKerenBenjin){	
+					if($isMerge){
+						if($mTempKerenBenjin->is_delete){
+							$mTempKerenBenjin->set('is_delete', 0);
+							$mTempKerenBenjin->set('benjin', $benjin);
+						}else{
+							$mTempKerenBenjin->set('benjin', ['add', $benjin]);
+						}
+						$mTempKerenBenjin->set('ying_chou', $yingChou);
+						$mTempKerenBenjin->set('shu_fan', $shuFan);
+						$mTempKerenBenjin->set('agent_id', $agentId);
+						$mTempKerenBenjin->set('remark', $remark);
+						$mTempKerenBenjin->save();
+						
+						$mKerenBenjin->set('is_delete', 1);
+						$mKerenBenjin->save();
+						$aPlayerList = $mKerenBenjin->getPlayerList();
+						if($aPlayerList){
+							foreach($aPlayerList as $aPlayer){
+								$mPlayer = Player::toModel($aPlayer);
+								$mPlayer->set('keren_bianhao', $mTempKerenBenjin->keren_bianhao);
+								$mPlayer->save();
+							}
+						}
+						return new Response('合并成功', 1, 'reload');
+					}else{
+						return new Response('改编号已有客人使用，是否合并共用？', 2);
+					}
+				}else{
+					//return new Response('该编号不存在', -1);
+					$mKerenBenjin->modifyKerenBianhao($value);
+				}
+			}
+			$mKerenBenjin->set('benjin', $benjin);
+			$mKerenBenjin->set('ying_chou', $yingChou);
+			$mKerenBenjin->set('shu_fan', $shuFan);
+			$mKerenBenjin->set('agent_id', $agentId);
+			$mKerenBenjin->set('remark', $remark);
+			$mKerenBenjin->save();
+		}
 		
 		return new Response('保存成功', 1);
 	}
