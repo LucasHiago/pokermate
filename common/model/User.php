@@ -565,14 +565,14 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$value['paiju_id']]['zhanji'] += $value['zhanji'];
 			$aReturnList[$value['paiju_id']]['baoxian_heji'] += $value['baoxian_heji'];
 			$aReturnList[$value['paiju_id']]['choushui_value'] += $value['choushui_value'];
-			//$aReturnList[$value['paiju_id']]['float_choushui_value'] += $value['float_choushui_value'];
-			$mImportData = ImportData::findOne($value['id']);
+			$aReturnList[$value['paiju_id']]['float_choushui_value'] += $value['float_choushui_value'];
+			/*$mImportData = ImportData::findOne($value['id']);
 			$mKerenBenjin = $mImportData->getMPlayer()->getMKerenBenjin();
 			$floatJiesuanValue = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $this->qibu_choushui, $this->choushui_shuanfa, false);
 			$floatChoushuiValue = $value['zhanji'] - $floatJiesuanValue;
 			$mImportData->set('float_choushui_value', $floatChoushuiValue);
 			$mImportData->save();
-			$aReturnList[$value['paiju_id']]['float_choushui_value'] += $floatChoushuiValue;
+			$aReturnList[$value['paiju_id']]['float_choushui_value'] += $floatChoushuiValue;*/
 		}
 		foreach($aReturnList as $paijuId => $v){
 			$lianmengButie = Calculate::calculateLianmengButie($v['zhanji'], $v['baoxian_heji'], $v['duizhangfangfa'], $this->choushui_shuanfa);
