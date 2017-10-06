@@ -538,6 +538,33 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		
 	}
 	
+	private function _getUnJiaoBanPaijuList(){
+		$aLianmengList = $this->getLianmengList();
+		$aLianmengId = [];
+		if($aLianmengList){
+			$aLianmengId = ArrayHelper::getColumn($aLianmengList, 'id');
+		}else{
+			return [];
+		}
+		$aCondition = [
+			'user_id' => $this->id,
+			'status' => Paiju::STATUS_DONE,
+		];
+		if($aLianmengId){
+			$aCondition['lianmeng_id'] = $aLianmengId;
+		}
+		$aPaijuList = Paiju::findAll($aCondition);
+		foreach($aPaijuList as $key => $value){
+			foreach($aLianmengList as $aLianmeng){
+				if($aLianmeng['id'] == $value['lianmeng_id']){
+					$aPaijuList[$key]['lianmeng_info'] = $aLianmeng;
+					break;
+				}
+			}
+		}
+		return $aPaijuList;
+	}
+	
 	/**
 	 *	获取抽水列表
 	 */
@@ -565,6 +592,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$value['paiju_id']]['shiji_choushui_value'] += Calculate::calculateShijiChouShuiValue($value['choushui_value'], $lianmengButie, $value['paiju_fee']);
 			$aReturnList[$value['paiju_id']]['paiju_fee'] += $value['paiju_fee'];
 		}*/
+		
 		foreach($aResult as $value){
 			if(!isset($aReturnList[$value['paiju_id']])){
 				$aReturnList[$value['paiju_id']] = [
@@ -605,6 +633,26 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		foreach($aReturnList as $paijuId => $v){
 			$aReturnList[$paijuId]['int_float_shiji_choushui_value'] = Calculate::getIntValueByChoushuiShuanfa($aReturnList[$paijuId]['float_shiji_choushui_value'], $this->choushui_shuanfa);
 		}
+		$aUnJiaoBanPaijuIdList = $this->_getUnJiaoBanPaijuList();
+		foreach($aUnJiaoBanPaijuIdList as $k => $v){
+			if(!isset($aReturnList[$v['id']])){
+				$aReturnList[$v['id']] = [
+					'paiju_name' => $v['paiju_name'],
+					'zhanji' => 0,
+					'choushui_value' => 0,
+					'lianmeng_butie' => 0,
+					'float_lianmeng_butie' => 0,
+					'shiji_choushui_value' => -$v['lianmeng_info']['paiju_fee'],
+					'float_shiji_choushui_value' => -$v['lianmeng_info']['paiju_fee'],
+					'float_choushui_value' => 0,
+					'baoxian_heji' => 0,
+					'paiju_fee' =>  $v['lianmeng_info']['paiju_fee'],
+					'duizhangfangfa' =>  $v['lianmeng_info']['duizhangfangfa'],
+					'int_float_shiji_choushui_value' => -$v['lianmeng_info']['paiju_fee'],
+				];
+			}
+		}
+		
 		$this->_aUnJiaoBanPaijuChouShuiList = $aReturnList;
 		return $aReturnList;
 	}
@@ -653,6 +701,19 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		foreach($aReturnList as $key => $value){
 			$aReturnList[$key]['baoxian_heji'] = -$aReturnList[$key]['baoxian_heji'];
+		}
+		$aUnJiaoBanPaijuIdList = $this->_getUnJiaoBanPaijuList();
+		foreach($aUnJiaoBanPaijuIdList as $k => $v){
+			if(!isset($aReturnList[$v['id']])){
+				$aReturnList[$v['id']] = [
+					'paiju_name' => $v['paiju_name'],
+					'baoxian_beichou' => 0,
+					'baoxian_heji' => 0,
+					'float_baoxian_beichou' => 0,
+					'float_shiji_baoxian' => 0,
+					'shiji_baoxian' => 0,
+				];
+			}
 		}
 		return $aReturnList;
 	}
