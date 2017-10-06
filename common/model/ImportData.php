@@ -421,10 +421,12 @@ class ImportData extends \common\lib\DbOrmModel{
 		$mKerenBenjin = $this->getMPlayer()->getMKerenBenjin();
 		//1.计算结算值
 		$jiesuanValue = Calculate::paijuPlayerJiesuanValue($this->zhanji, $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $mUser->qibu_choushui, $mUser->choushui_shuanfa);
+		$floatJiesuanValue = Calculate::paijuPlayerJiesuanValue($this->zhanji, $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $mUser->qibu_choushui, $mUser->choushui_shuanfa, false);
 		//2.设置结算状态、结算值、抽水值
 		$this->set('status', 1);
 		$this->set('jiesuan_value', $jiesuanValue);
 		$this->set('choushui_value', $this->zhanji - $jiesuanValue);
+		$this->set('float_choushui_value', $this->zhanji - $floatJiesuanValue);
 		$this->save();
 		//3.判断是否已结算完当前牌局记录，是则更新牌局状态
 		if($mUser->checkIsJieShuanAllPaijuRecord($this->paiju_id)){
