@@ -633,6 +633,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		foreach($aReturnList as $paijuId => $v){
 			$aReturnList[$paijuId]['int_float_shiji_choushui_value'] = Calculate::getIntValueByChoushuiShuanfa($aReturnList[$paijuId]['float_shiji_choushui_value'], $this->choushui_shuanfa);
 		}
+		//组装上空账单
 		$aUnJiaoBanPaijuIdList = $this->_getUnJiaoBanPaijuList();
 		foreach($aUnJiaoBanPaijuIdList as $k => $v){
 			if(!isset($aReturnList[$v['id']])){
@@ -702,6 +703,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		foreach($aReturnList as $key => $value){
 			$aReturnList[$key]['baoxian_heji'] = -$aReturnList[$key]['baoxian_heji'];
 		}
+		//组装上空账单
 		$aUnJiaoBanPaijuIdList = $this->_getUnJiaoBanPaijuList();
 		foreach($aUnJiaoBanPaijuIdList as $k => $v){
 			if(!isset($aReturnList[$v['id']])){
