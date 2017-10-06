@@ -23,6 +23,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	const CHOUSHUI_SHUANFA_SISHIWURU = 1;
 	const CHOUSHUI_SHUANFA_YUSHUMOLIN = 2;
 	
+	private $_aUnJiaoBanPaijuChouShuiList = false;
+	private $_aUnJiaoBanPaijuTotalStatistic = false;
+	private $_aUnJiaoBanPaijuTotalStatistic1 = false;
+	
 	public static function tableName(){
 		return Yii::$app->db->parseTable('_@user');
 	}
@@ -434,6 +438,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 *	统计未交班的牌局总抽水、总保险、上桌人数、差额、交班转出、客人总本金
 	 */
 	public function getUnJiaoBanPaijuTotalStatistic(){
+		if($this->_aUnJiaoBanPaijuTotalStatistic !== false){
+			return $this->_aUnJiaoBanPaijuTotalStatistic;
+		}
 		$aUnJiaoBanPaijuTotalStatistic = $this->_getUnJiaoBanPaijuTotalStatistic();
 		$aUnJiaoBanPaijuTotalStatistic['imbalanceMoney'] = $this->getImbalanceMoney();
 		$aUnJiaoBanPaijuTotalStatistic['jiaoBanZhuanChuMoney'] = $this->getJiaoBanZhuanChuMoney();
@@ -441,6 +448,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aUnJiaoBanPaijuTotalStatistic['kerenTotalQianKuanMoney'] = $this->getTotalQianKuanMoney();
 		$aUnJiaoBanPaijuTotalStatistic['kerenTotalShuYin'] = $this->getTotalShuYin();
 		
+		$this->_aUnJiaoBanPaijuTotalStatistic = $aUnJiaoBanPaijuTotalStatistic;
 		return $aUnJiaoBanPaijuTotalStatistic;
 	}
 	
@@ -448,6 +456,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 *	统计未交班的牌局总抽水、总保险、上桌人数,实际抽水
 	 */
 	private function _getUnJiaoBanPaijuTotalStatistic(){
+		if($this->_aUnJiaoBanPaijuTotalStatistic1 !== false){
+			return $this->_aUnJiaoBanPaijuTotalStatistic1;
+		}
 		$aClubId = [];
 		$aClubList = $this->getUserClubList();
 		if($aClubList){
@@ -469,7 +480,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//实际抽水
 		//$shijiChouShui = $this->getShijiChouShui();
 		$shijiChouShui = $this->getShijiChouShuiByType();
-		
+		$this->_aUnJiaoBanPaijuTotalStatistic1 = [
+			'zhongChouShui' => $zhongChouShui,
+			'zhongBaoXian' => $zhongBaoXian,
+			'shangZhuoRenShu' => $shangZhuoRenShu,
+			'shijiChouShui' => $shijiChouShui,
+		];
 		return [
 			'zhongChouShui' => $zhongChouShui,
 			'zhongBaoXian' => $zhongBaoXian,
@@ -526,6 +542,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 *	获取抽水列表
 	 */
 	public function getUnJiaoBanPaijuChouShuiList(){
+		if($this->_aUnJiaoBanPaijuChouShuiList !== false){
+			return $this->_aUnJiaoBanPaijuChouShuiList;
+		}
 		$aResult = $this->_getUnJiaoBanPaijuChouShuiDataListWithLianmengInfo();
 		$aReturnList = [];
 		/*foreach($aResult as $value){
@@ -586,7 +605,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		foreach($aReturnList as $paijuId => $v){
 			$aReturnList[$paijuId]['int_float_shiji_choushui_value'] = Calculate::getIntValueByChoushuiShuanfa($aReturnList[$paijuId]['float_shiji_choushui_value'], $this->choushui_shuanfa);
 		}
-		
+		$this->_aUnJiaoBanPaijuChouShuiList = $aReturnList;
 		return $aReturnList;
 	}
 	
