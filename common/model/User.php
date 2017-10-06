@@ -517,7 +517,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if($aClubId){
 			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
 		}
-		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t2`.`lianmeng_id`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t3`.`user_id`=' . $this->id . ' AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t3`.`is_delete`=0' . $clubIdWhere;
+		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`float_choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t2`.`lianmeng_id`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t3`.`user_id`=' . $this->id . ' AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t3`.`is_delete`=0' . $clubIdWhere;
 		return Yii::$app->db->createCommand($sql)->queryAll();
 		
 	}
@@ -565,10 +565,14 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aReturnList[$value['paiju_id']]['zhanji'] += $value['zhanji'];
 			$aReturnList[$value['paiju_id']]['baoxian_heji'] += $value['baoxian_heji'];
 			$aReturnList[$value['paiju_id']]['choushui_value'] += $value['choushui_value'];
+			//$aReturnList[$value['paiju_id']]['float_choushui_value'] += $value['float_choushui_value'];
 			$mImportData = ImportData::findOne($value['id']);
 			$mKerenBenjin = $mImportData->getMPlayer()->getMKerenBenjin();
 			$floatJiesuanValue = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $this->qibu_choushui, $this->choushui_shuanfa, false);
-			$aReturnList[$value['paiju_id']]['float_choushui_value'] += $value['zhanji'] - $floatJiesuanValue;
+			$floatChoushuiValue = $value['zhanji'] - $floatJiesuanValue;
+			$mImportData->set('float_choushui_value', $floatChoushuiValue);
+			$mImportData->save();
+			$aReturnList[$value['paiju_id']]['float_choushui_value'] += $floatChoushuiValue;
 		}
 		foreach($aReturnList as $paijuId => $v){
 			$lianmengButie = Calculate::calculateLianmengButie($v['zhanji'], $v['baoxian_heji'], $v['duizhangfangfa'], $this->choushui_shuanfa);

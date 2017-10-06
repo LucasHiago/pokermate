@@ -18,7 +18,7 @@ use common\model\ImportData;
 
 class IndexController extends Controller{
 	
-	public function actionIndex(){
+	public function actionIndex(){set_time_limit(0);
 		$paijuId = (int)Yii::$app->request->get('paijuId');
 		
 		$mUser = Yii::$app->user->getIdentity();
