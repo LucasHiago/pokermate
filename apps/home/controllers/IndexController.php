@@ -277,7 +277,11 @@ class IndexController extends Controller{
 				$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $value]);
 				if($mTempKerenBenjin){	
 					if($isMerge){
-						$mTempKerenBenjin->set('benjin', $mKerenBenjin->benjin);
+						if($mTempKerenBenjin->is_delete){
+							$mTempKerenBenjin->set('benjin', $mKerenBenjin->benjin);
+						}else{
+							$mTempKerenBenjin->set('benjin', ['add', $mKerenBenjin->benjin]);
+						}
 						$mTempKerenBenjin->set('is_delete', 0);
 						$mTempKerenBenjin->save();
 						
