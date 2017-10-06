@@ -170,4 +170,12 @@ class UserController extends Controller{
 		return new Response('交班转出成功', 1);
 	}
 	
+	public function actionGetUnJiaoBanPaijuTotalStatistic(){
+		$mUser = Yii::$app->user->getIdentity();
+		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		
+		return new Response('', 1, [
+			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+		]);
+	}
 }

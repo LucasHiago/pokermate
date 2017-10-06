@@ -39,6 +39,7 @@ return [
 		'user/shang-zhuo-ren-shu-list.json'										=> 'user/get-shang-zhuo-ren-shu-list',
 		'user/jiao-ban-zhuan-chu-detail.json'									=> 'user/get-jiao-ban-zhuan-chu-detail',
 		'user/do-jiao-ban-zhuan-chu.json'										=> 'user/do-jiao-ban-zhuan-chu',
+		'user/un-jiao-ban-paiju-total-statistic.json'							=> 'user/get-un-jiao-ban-paiju-total-statistic',
 		
 		
 		'club/save.json'														=> 'club/save',

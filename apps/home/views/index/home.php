@@ -446,16 +446,19 @@ $this->setTitle('结账台');
 				if(aResult.status == 1){
 					$(o).removeAttr('onclick');
 					$(o).addClass('clean');
-					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
+					/*$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
 					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
 					$('.J-imbalance-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
 					$('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
 					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
 					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
-					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
+					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);*/
+					
 					if(aResult.data.isReloadPage == 1){
 						location.href = Tools.url('home', 'index/index');
+					}else{
+						refreshUnJiaoBanPaijuTotalStatistic();
 					}
 				}
 				UBox.show(aResult.msg, aResult.status);
@@ -479,6 +482,38 @@ $this->setTitle('结账台');
 				if(aResult.status == 1){
 					$(o).removeAttr('onclick');
 					$(o).addClass('clean');
+					/*$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
+					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
+					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
+					$('.J-imbalance-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
+					$('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
+					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
+					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
+					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);*/
+					
+					if(aResult.data.isReloadPage == 1){
+						location.href = Tools.url('home', 'index/index');
+					}else{
+						refreshUnJiaoBanPaijuTotalStatistic();
+					}
+				}
+				UBox.show(aResult.msg, aResult.status);
+			}
+		});
+	}
+	
+	function refreshUnJiaoBanPaijuTotalStatistic(){
+		ajax({
+			url : Tools.url('home', 'user/get-un-jiao-ban-paiju-total-statistic'),
+			data : {},
+			beforeSend : function(){
+				//$(o).attr('disabled', 'disabled');
+			},
+			complete : function(){
+				//$(o).attr('disabled', false);
+			},
+			success : function(aResult){
+				if(aResult.status == 1){
 					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
 					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
@@ -487,11 +522,7 @@ $this->setTitle('结账台');
 					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
 					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
 					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
-					if(aResult.data.isReloadPage == 1){
-						location.href = Tools.url('home', 'index/index');
-					}
 				}
-				UBox.show(aResult.msg, aResult.status);
 			}
 		});
 	}

@@ -225,8 +225,8 @@ class ImportController extends Controller{
 			return new Response('结算失败', 0);
 		}
 		
-		$mUser = Yii::$app->user->getIdentity();
-		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		/*$mUser = Yii::$app->user->getIdentity();
+		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();*/
 		$mPaiju = $mImportData->getMPaiju();
 		$isReloadPage = 0;
 		if($mPaiju->status == Paiju::STATUS_DONE){
@@ -235,7 +235,7 @@ class ImportController extends Controller{
 		
 		
 		return new Response('结算成功', 1, [
-			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+			//'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'isReloadPage' => $isReloadPage,
 		]);
 	}
@@ -253,14 +253,14 @@ class ImportController extends Controller{
 		$mPaiju->set('status', Paiju::STATUS_DONE);
 		$mPaiju->save();
 		
-		$mUser = Yii::$app->user->getIdentity();
-		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		/*$mUser = Yii::$app->user->getIdentity();
+		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();*/
 		
 		$isReloadPage = 1;
 		
 		
 		return new Response('结算成功', 1, [
-			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+			//'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'isReloadPage' => $isReloadPage,
 		]);
 	}
