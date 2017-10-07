@@ -1,5 +1,223 @@
 (function(container, $){
 	container.AlertWin = {
+		showUserActive : function(o){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">启用设置</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h20"></div>';
+						html += '<div class="J-ls-list-wrap" style="min-height:260px;padding: 0 10px;">';
+							html += '<div class="panel panel-default">';
+								html += '<div class="panel-heading">';
+									html += '<h3 class="panel-title">俱乐部设置</h3>';
+								html += '</div>';
+								html += '<div class="panel-body">';
+									html += '<div class="table-responsive">';
+										html += '<table class="J-club-list-table table">';
+										html += '<tr><th>俱乐部名称</th><th>俱乐部ID</th><th>官网后台账号</th><th>官网后台密码</th><th>操作</th></tr>';
+										html += '</table>';
+									html += '</div>';
+									html += '<div class="h30"><button type="button" class="J-add-club-item btn btn-sm btn-primary" style="float:right;margin-right: 8px;">增加</button></div>';
+								html += '</div>';
+							html += '</div>';
+							html += '<div class="panel panel-default">';
+								html += '<div class="panel-heading">';
+									html += '<h3 class="panel-title">联盟设置</h3>';
+								html += '</div>';
+								html += '<div class="panel-body">';
+									html += '<div class="table-responsive">';
+										html += '<table class="J-lianmeng-list-table table">';
+										html += '<tr><th>联盟名称</th><th>联盟欠账</th><th style="min-width:100px;">对账方法</th><th>桌子费</th><th>保险被抽成</th><th>操作</th></tr>';
+										html += '</table>';
+									html += '</div>';
+									html += '<div class="h30"><button type="button" class="J-add-lianmeng-item btn btn-sm btn-primary" style="float:right;margin-right: 8px;">增加</button></div>';
+								html += '</div>';
+							html += '</div>';
+						html += '</div>';
+						html += '<div class="h30" style="text-align:center;"><button type="button" class="J-set-active btn btn-sm btn-primary">开始启用</button></div>';
+						html += '<div class="h20"></div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function _appendClubList(aData){
+				var trHtml = '';
+				for(var i in aData){
+					trHtml += '<tr>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].club_name + '" data-type="club_name" placeholder="输入名称" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].club_id + '" data-type="club_id" placeholder="输入ID" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].club_login_name + '" data-type="club_login_name" placeholder="输入账号" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].club_login_password + '" data-type="club_login_password" placeholder="输入密码" /></td>';
+						trHtml += '<td><button type="button" class="J-save-club-item btn btn-sm btn-primary" style="float:right;" data-id="' + aData[i].id + '">保存</button></td>';
+					trHtml += '</tr>';
+				}
+				var oTrHtml = $(trHtml);
+				oTrHtml.find('.J-save-club-item').click(function(){
+					_saveClubItem(this);
+				});
+				oHtml.find('.J-club-list-table').append(oTrHtml);
+			}
+			
+			function _saveClubItem(o){
+				ajax({
+					url : Tools.url('home', 'club/save'),
+					data : {
+						id : $(o).attr('data-id'),
+						clubName : $(o).parent().parent().find('input[data-type=club_name]').val(),
+						clubId : $(o).parent().parent().find('input[data-type=club_id]').val(),
+						clubLoginName : $(o).parent().parent().find('input[data-type=club_login_name]').val(),
+						clubLoginPassword : $(o).parent().parent().find('input[data-type=club_login_password]').val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							if($(o).attr('data-id') == 0){
+								$(o).attr('data-id', aResult.data);
+							}
+						}
+						UBox.show(aResult.msg, aResult.status);
+					}
+				});
+			}
+			
+			function _appendLianmengList(aData){
+				var trHtml = '';
+				for(var i in aData){
+					trHtml += '<tr>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].name + '" data-type="name" placeholder="输入名称" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].qianzhang + '" data-type="qianzhang" placeholder="输入欠账" /></td>';
+						if(aData[i].duizhangfangfa == 1){
+							trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option></select></td>';
+						}else{
+							trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="2">无水账单</option><option value="1">0.975</option></select></td>';
+						}
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].paiju_fee + '" data-type="paiju_fee" placeholder="输入桌子费" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].baoxian_choucheng + '" data-type="baoxian_choucheng" placeholder="输入保险被抽成" /></td>';
+						trHtml += '<td><button type="button" class="J-save-lianmeng-item btn btn-sm btn-primary" style="float:right;" data-id="' + aData[i].id + '">保存</button></td>';
+					trHtml += '</tr>';
+				}
+				var oTrHtml = $(trHtml);
+				oTrHtml.find('.J-save-lianmeng-item').click(function(){
+					_saveLianmengItem(this);
+				});
+				oHtml.find('.J-lianmeng-list-table').append(oTrHtml);
+			}
+			
+			function _saveLianmengItem(o){
+				ajax({
+					url : Tools.url('home', 'lianmeng/save-lianmeng'),
+					data : {
+						id : $(o).attr('data-id'),
+						name : $(o).parent().parent().find('input[data-type=name]').val(),
+						qianzhang : $(o).parent().parent().find('input[data-type=qianzhang]').val(),
+						duizhangfangfa : $(o).parent().parent().find('select[data-type=duizhangfangfa]').val(),
+						paijuFee : $(o).parent().parent().find('input[data-type=paiju_fee]').val(),
+						baoxianChoucheng : $(o).parent().parent().find('input[data-type=baoxian_choucheng]').val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							if($(o).attr('data-id') == 0){
+								$(o).attr('data-id', aResult.data);
+							}
+						}
+						UBox.show(aResult.msg, aResult.status);
+					}
+				});
+			}
+			
+			function _loadList(){
+				ajax({
+					url : Tools.url('home', 'user/get-club-and-lianmeng-list'),
+					data : {},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							_appendClubList(aResult.data.aClubList);
+							_appendLianmengList(aResult.data.aLianmengList);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			}
+			
+			showAlertWin(oHtml, function(){
+				_loadList();
+				oHtml.find('.J-add-club-item').click(function(){
+					var trHtml = '<tr>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" data-type="club_name" placeholder="输入名称" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" data-type="club_id" placeholder="输入ID" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" data-type="club_login_name" placeholder="输入账号" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" data-type="club_login_password" placeholder="输入密码" /></td>';
+						trHtml += '<td><button type="button" class="J-save-club-item btn btn-sm btn-primary" style="float:right;" data-id="0">保存</button></td>';
+					trHtml += '</tr>';
+					var oTrHtml = $(trHtml);
+					oTrHtml.find('.J-save-club-item').click(function(){
+						_saveClubItem(this);
+					});
+					oHtml.find('.J-club-list-table').append(oTrHtml);
+				});
+				
+				oHtml.find('.J-add-lianmeng-item').click(function(){
+					var trHtml = '<tr>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="" data-type="name" placeholder="输入名称" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="0" data-type="qianzhang" placeholder="输入欠账" /></td>';
+						trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option></select></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="0" data-type="paiju_fee" placeholder="输入桌子费" /></td>';
+						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="0" data-type="baoxian_choucheng" placeholder="输入保险被抽成" /></td>';
+						trHtml += '<td><button type="button" class="J-save-lianmeng-item btn btn-sm btn-primary" style="float:right;" data-id="0">保存</button></td>';
+					trHtml += '</tr>';
+					var oTrHtml = $(trHtml);
+					oTrHtml.find('.J-save-lianmeng-item').click(function(){
+						_saveLianmengItem(this);
+					});
+					oHtml.find('.J-lianmeng-list-table').append(oTrHtml);
+				});
+				
+				oHtml.find('.J-set-active').click(function(){
+					ajax({
+						url : Tools.url('home', 'user/set-active'),
+						data : {},
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								UBox.show(aResult.msg, aResult.status, function(){
+									location.reload();
+								}, 3);
+							}else{
+								UBox.show(aResult.msg, aResult.status);
+							}
+						}
+					});
+				});
+			});	
+		},
+		
 		showFillSavecode : function(oo, clubId){
 			var aData = {};
 			var exponent = '';

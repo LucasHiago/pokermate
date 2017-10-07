@@ -158,23 +158,34 @@ if($mUser){
 			<div class="c-head-wrap">
 				<div class="c-h-left">
 					<a href="javascript:;" class="heitao-icon" title="<?php echo $mUser->name; ?>"></a>
-					<?php if($mUser->isVip()){ ?>
-					<a class="vipinfo">VIP<?php echo $mUser->vip_level; ?>&nbsp;还有<?php echo $mUser->vipDaysRemaining(); ?>天到期</a>
+					<?php if(!$mUser->is_active){ ?>
+						<a class="vipinfo">未启用</a>
 					<?php }else{ ?>
-					<a class="vipinfo">VIP已到期</a>
+						<?php if($mUser->isVip()){ ?>
+						<a class="vipinfo">VIP<?php echo $mUser->vip_level; ?>&nbsp;还有<?php echo $mUser->vipDaysRemaining(); ?>天到期</a>
+						<?php }else{ ?>
+						<a class="vipinfo">VIP已到期</a>
+						<?php } ?>
 					<?php } ?>
 				</div>
 				<div class="c-h-center">
 					<div class="c-h-center-w">
-					<?php foreach($aClubList as $aClub){ ?>
+					<?php if(!$mUser->is_active){ ?>
 						<div class="c-h-item">
-							<a href="javascript:;" class="c-h-i-up" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></a>
-							<a href="javascript:;" class="c-h-i-down" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);"></a>
+							<a href="javascript:;" class="c-h-i-up" onclick='AlertWin.showUserActive(this);'>启用设置</a>
+							<a href="javascript:;" class="c-h-i-down"></a>
 						</div>
-					<?php } ?>
-						<div class="c-h-item" style="width:43px;margin-left: 15px;">
+					<?php }else{ ?>
+						<?php foreach($aClubList as $aClub){ ?>
+							<div class="c-h-item">
+								<a href="javascript:;" class="c-h-i-up" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></a>
+								<a href="javascript:;" class="c-h-i-down" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);"></a>
+							</div>
+						<?php } ?>
+						<!--<div class="c-h-item" style="width:43px;margin-left: 15px;">
 							<a href="javascript:;" class="add-icon" onclick="AlertWin.showAddClub();"></a>
-						</div>
+						</div>-->
+					<?php } ?>
 					</div>
 				</div>
 				<div class="c-h-right">

@@ -178,4 +178,35 @@ class UserController extends Controller{
 			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 		]);
 	}
+	
+	public function actionGetClubAndLianmengList(){
+		$mUser = Yii::$app->user->getIdentity();
+		$aClubList = $mUser->getUserClubList();
+		$aLianmengList = $mUser->getLianmengList();
+		
+		return new Response('', 1, [
+			'aClubList' => $aClubList,
+			'aLianmengList' => $aLianmengList,
+		]);
+	}
+		
+	public function actionSetActive(){
+		$mUser = Yii::$app->user->getIdentity();
+		$aClubList = $mUser->getUserClubList();
+		$aLianmengList = $mUser->getLianmengList();
+		
+		if(!$aClubList){
+			return new Response('请设置俱乐部', -1);
+		}
+		if(!$aLianmengList){
+			return new Response('请设置联盟', -1);
+		}
+		
+		$mUser->set('is_active', 1);
+		$mUser->set('active_time', NOW_TIME);
+		$mUser->save();
+		
+		return new Response('启用成功', 1);
+	}
+	
 }

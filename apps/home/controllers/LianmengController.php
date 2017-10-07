@@ -74,6 +74,67 @@ class LianmengController extends Controller{
 		return new Response('添加成功', 1);
 	}
 	
+	public function actionSaveLianmeng(){
+		$id = (int)Yii::$app->request->post('id');
+		$name = (string)Yii::$app->request->post('name');
+		$qianzhang = (int)Yii::$app->request->post('qianzhang');
+		$duizhangfangfa = (int)Yii::$app->request->post('duizhangfangfa');
+		$paijuFee = (int)Yii::$app->request->post('paijuFee');
+		$baoxianChoucheng = (int)Yii::$app->request->post('baoxianChoucheng');
+		
+		if(!$name){
+			return new Response('请输入联盟名称', -1);
+		}
+		if(!in_array($duizhangfangfa, [Lianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, Lianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG])){
+			return new Response('对账方法有误', -1);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		if(!$id){
+			$mLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'name' => $name]);
+			if($mLianmeng && $mLianmeng->is_delete){
+				$mLianmeng->set('name', $name);
+				$mLianmeng->set('qianzhang', $qianzhang);
+				$mLianmeng->set('duizhangfangfa', $duizhangfangfa);
+				$mLianmeng->set('paiju_fee', $paijuFee);
+				$mLianmeng->set('baoxian_choucheng', $baoxianChoucheng);
+				$mLianmeng->set('is_delete', 0);
+				$mLianmeng->save();
+				return new Response('保存成功', 1, $mLianmeng->id);
+			}
+			if($mLianmeng && $mLianmeng->id != $id){
+				return new Response('联盟名字已存在', -1);
+			}
+			$isSuccess = Lianmeng::addRecord([
+				'user_id' => $mUser->id,
+				'name' => $name,
+				'qianzhang' => $qianzhang,
+				'duizhangfangfa' => $duizhangfangfa,
+				'paiju_fee' => $paijuFee,
+				'baoxian_choucheng' => $baoxianChoucheng,
+				'create_time' => NOW_TIME,
+			]);
+			if(!$isSuccess){
+				return new Response('保存失败', 0);
+			}
+			$id = $isSuccess;
+		}else{
+			$mLianmeng = Lianmeng::findOne($id);
+			if(!$mLianmeng){
+				return new Response('联盟不存在', -1);
+			}
+			if($mLianmeng->user_id != $mUser->id){
+				return new Response('出错了', 0);
+			}
+			$mLianmeng->set('name', $name);
+			$mLianmeng->set('qianzhang', $qianzhang);
+			$mLianmeng->set('duizhangfangfa', $duizhangfangfa);
+			$mLianmeng->set('paiju_fee', $paijuFee);
+			$mLianmeng->set('baoxian_choucheng', $baoxianChoucheng);
+			$mLianmeng->save();
+		}
+		return new Response('保存成功', 1, $id);
+	}
+	
 	public function actionGetList(){
 		$mUser = Yii::$app->user->getIdentity();
 		

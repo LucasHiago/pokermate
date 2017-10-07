@@ -315,8 +315,8 @@ class ImportController extends Controller{
 			if($startTime > $endTime){
 				return new Response('开始时间不能大于结束时间', 0);
 			}
-			if($startTime < strtotime('2017-08-15')){
-				return new Response('开始时间不能小于2017-08-15', 0);
+			if($startTime < $mUser->active_time){
+				return new Response('开始时间不能小于启用时间' . date('Y-m-d', $mUser->active_time), 0);
 			}
 			if($endTime > NOW_TIME){
 				return new Response('结束时间不能大于今天', 0);

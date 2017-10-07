@@ -42,3 +42,7 @@ update keren_benjin set user_id=11 where user_id=9
 update money_out_put_type set user_id=11 where user_id=9
 update money_type set user_id=11 where user_id=9
 update player set user_id=11 where user_id=9
+
+
+ALTER TABLE `user` ADD `active_time` INT(11) NOT NULL COMMENT '启用时间' AFTER `is_forbidden`;
+ALTER TABLE `user` ADD `is_active` tinyint(4) NOT NULL COMMENT '是否启用' AFTER `is_forbidden`;

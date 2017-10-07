@@ -40,6 +40,8 @@ return [
 		'user/jiao-ban-zhuan-chu-detail.json'									=> 'user/get-jiao-ban-zhuan-chu-detail',
 		'user/do-jiao-ban-zhuan-chu.json'										=> 'user/do-jiao-ban-zhuan-chu',
 		'user/un-jiao-ban-paiju-total-statistic.json'							=> 'user/get-un-jiao-ban-paiju-total-statistic',
+		'user/club-and-lianmeng-list.json'										=> 'user/get-club-and-lianmeng-list',
+		'user/set-active.json'													=> 'user/set-active',
 		
 		
 		'club/save.json'														=> 'club/save',
@@ -56,6 +58,7 @@ return [
 		
 		
 		'lianmeng/add-lianmeng.json'											=> 'lianmeng/add-lianmeng',
+		'lianmeng/save-lianmeng.json'											=> 'lianmeng/save-lianmeng',
 		'lianmeng/list.json'													=> 'lianmeng/get-list',
 		'lianmeng/update-lianmeng-info.json'									=> 'lianmeng/update-lianmeng-info',
 		'lianmeng/delete.json'													=> 'lianmeng/delete',

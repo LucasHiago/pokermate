@@ -63,9 +63,10 @@ class ClubController extends Controller{
 			if(!$isSuccess){
 				return new Response('保存失败', 0);
 			}
+			$id = $isSuccess;
 		}
 		
-		return new Response('保存成功', 1);
+		return new Response('保存成功', 1, $id);
 	}
 	
 	public function actionDelete(){
