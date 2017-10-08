@@ -144,34 +144,34 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	}
 	
 	public function clearUserData(){
-		$sql = 'DELETE * FROM ' . Agent::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . Club::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . ExcelFile::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . FenchengSetting::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . KerenBenjin::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . Lianmeng::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . LianmengClub::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . MoneyOutPutType::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . MoneyType::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . Paiju::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . Player::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . OperateLog::tableName() . ' WHERE `user_id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
-		$sql = 'DELETE * FROM ' . User::tableName() . ' WHERE `id`=' . $this->id;
-		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . Agent::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . Club::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . ExcelFile::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . FenchengSetting::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . KerenBenjin::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . Lianmeng::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . LianmengClub::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . MoneyOutPutType::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . MoneyType::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . Paiju::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . Player::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . OperateLog::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . User::tableName() . ' WHERE `id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
 	}
 	
 	/**
