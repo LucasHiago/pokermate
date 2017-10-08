@@ -20,6 +20,20 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 本金：' . $aData['data_json']['aOldRecord']['benjin'] . '  【修改后】本金：' . $aData['data_json']['aNewRecord']['benjin'];
 							}elseif($aData['type'] == 2){
 								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 本金：' . $aData['data_json']['aOldRecord']['benjin'] . '   【交收后】本金：' . $aData['data_json']['aNewRecord']['benjin'] . '   交收方式：' . $aData['data_json']['aNewMoneyTypeRecord']['pay_type'];
+							}elseif($aData['type'] == 3){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 赢抽点数：' . $aData['data_json']['aOldRecord']['ying_chou'] . '   【修改后】赢抽点数：' . $aData['data_json']['aNewRecord']['ying_chou'];
+							}elseif($aData['type'] == 4){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 输返点数：' . $aData['data_json']['aOldRecord']['shu_fan'] . '   【修改后】输返点数：' . $aData['data_json']['aNewRecord']['shu_fan'];
+							}elseif($aData['type'] == 5){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aOldRecord']['keren_bianhao'] . '   【修改后】客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'];
+							}elseif($aData['type'] == 6){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aOldRecord']['keren_bianhao'] . '   本金：' . $aData['data_json']['aOldRecord']['benjin'] . '  与编号：' . $aData['data_json']['aMergeRecord']['keren_bianhao'] . '  本金：' . $aData['data_json']['aMergeRecord']['benjin'] . ' 【合并后】客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ', 本金 ' . $aData['data_json']['aNewRecord']['benjin'];
+							}elseif($aData['type'] == 7){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aKerenBenjin']['keren_bianhao'] . '   【添加玩家】玩家ID：' . $aData['data_json']['aPlayer']['player_id'] . '  玩家名称：' . $aData['data_json']['aPlayer']['player_name'];
+							}elseif($aData['type'] == 8){
+								$log = date('Y.m.d', $aData['create_time']) . '   【删除客人】客人编号：' . $aData['data_json']['aKerenBenjin']['keren_bianhao'];
+							}elseif($aData['type'] == 9){
+								$log = date('Y.m.d', $aData['create_time']) . '   【删除玩家】客人编号：' . $aData['data_json']['aPlayer']['keren_bianhao'] . '  玩家ID：' . $aData['data_json']['aPlayer']['player_id'] . '  玩家名称：' . $aData['data_json']['aPlayer']['player_name'];
 							}
 							return $log;
 						}

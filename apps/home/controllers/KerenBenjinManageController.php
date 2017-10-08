@@ -142,6 +142,12 @@ class KerenBenjinManageController extends Controller{
 		if($aOldRecord['benjin'] != $aNewRecord['benjin']){
 			$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		}
+		if($aOldRecord['ying_chou'] != $aNewRecord['ying_chou']){
+			$mUser->operateLog(3, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
+			$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
 		
 		return new Response('保存成功', 1);
 	}
@@ -175,7 +181,7 @@ class KerenBenjinManageController extends Controller{
 			if(!$mKerenBenjin){
 				return new Response('客人不存在', -1);
 			}
-			
+			$aOldRecord = $mKerenBenjin->toArray();
 			if($agentId){
 				$mAgent = Agent::findOne($agentId);
 				if(!$mAgent){
@@ -187,6 +193,7 @@ class KerenBenjinManageController extends Controller{
 				//$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 				if($mTempKerenBenjin){	
 					if($isMerge){
+						$aMergeRecord = $mTempKerenBenjin->toArray();
 						if($mTempKerenBenjin->is_delete){
 							$mTempKerenBenjin->set('is_delete', 0);
 							$mTempKerenBenjin->set('benjin', $benjin);
@@ -209,6 +216,9 @@ class KerenBenjinManageController extends Controller{
 								$mPlayer->save();
 							}
 						}
+						$aNewRecord = $mTempKerenBenjin->toArray();
+						$mUser = Yii::$app->user->getIdentity();
+						$mUser->operateLog(6, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'aMergeRecord' => $aMergeRecord]);
 						return new Response('合并成功', 1, 'reload');
 					}else{
 						return new Response('改编号已有客人使用，是否合并共用？', 2);
@@ -216,6 +226,9 @@ class KerenBenjinManageController extends Controller{
 				}else{
 					//return new Response('该编号不存在', -1);
 					$mKerenBenjin->modifyKerenBianhao($value);
+					$aNewRecord = $mKerenBenjin->toArray();
+					$mUser = Yii::$app->user->getIdentity();
+					$mUser->operateLog(5, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 				}
 			}
 			
@@ -230,6 +243,12 @@ class KerenBenjinManageController extends Controller{
 			$mUser = Yii::$app->user->getIdentity();
 			if($aOldRecord['benjin'] != $aNewRecord['benjin']){
 				$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['ying_chou'] != $aNewRecord['ying_chou']){
+				$mUser->operateLog(3, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
+				$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 			}
 		}
 		
@@ -292,8 +311,12 @@ class KerenBenjinManageController extends Controller{
 		if($mPlayer->user_id != Yii::$app->user->id){
 			return new Response('出错了', 0);
 		}
+		$aPlayer = $mPlayer->toArray();
 		$mPlayer->set('is_delete', 1);
 		$mPlayer->save();
+		$mUser = Yii::$app->user->getIdentity();
+		$mUser->operateLog(9, ['aPlayer' => $aPlayer]);
+		
 		return new Response('删除成功', 1);
 	}
 	

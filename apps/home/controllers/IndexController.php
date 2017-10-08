@@ -276,6 +276,7 @@ class IndexController extends Controller{
 		if(!$mKerenBenjin){
 			return new Response('客人不存在', -1);
 		}
+		$aOldRecord = $mKerenBenjin->toArray();
 		if($type == 'keren_bianhao'){
 			$value = (int)$value;
 			if(!KerenBenjin::checkKerenbianhao($value)){
@@ -286,6 +287,7 @@ class IndexController extends Controller{
 				$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $value]);
 				if($mTempKerenBenjin){	
 					if($isMerge){
+						$aMergeRecord = $mTempKerenBenjin->toArray();
 						if($mTempKerenBenjin->is_delete){
 							$mTempKerenBenjin->set('benjin', $mKerenBenjin->benjin);
 						}else{
@@ -304,6 +306,9 @@ class IndexController extends Controller{
 								$mPlayer->save();
 							}
 						}
+						$aNewRecord = $mTempKerenBenjin->toArray();
+						$mUser = Yii::$app->user->getIdentity();
+						$mUser->operateLog(6, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'aMergeRecord' => $aMergeRecord]);
 						return new Response('合并成功', 1, 'reload');
 					}else{
 						return new Response('改编号已有客人使用，是否合并共用？', 2);
@@ -320,6 +325,9 @@ class IndexController extends Controller{
 					]);*/
 					//return new Response('该编号不存在', -1);
 					$mKerenBenjin->modifyKerenBianhao($value);
+					$aNewRecord = $mKerenBenjin->toArray();
+					$mUser = Yii::$app->user->getIdentity();
+					$mUser->operateLog(5, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 				}
 			}
 		}elseif($type == 'benjin'){
@@ -330,11 +338,23 @@ class IndexController extends Controller{
 			$mUser = Yii::$app->user->getIdentity();
 			$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		}elseif($type == 'ying_chou'){
+			$aOldRecord = $mKerenBenjin->toArray();
 			$mKerenBenjin->set('ying_chou', (float)$value);
 			$mKerenBenjin->save();
+			$aNewRecord = $mKerenBenjin->toArray();
+			$mUser = Yii::$app->user->getIdentity();
+			if($aOldRecord['ying_chou'] != $aNewRecord['ying_chou']){
+				$mUser->operateLog(3, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
 		}elseif($type == 'shu_fan'){
+			$aOldRecord = $mKerenBenjin->toArray();
 			$mKerenBenjin->set('shu_fan', (float)$value);
 			$mKerenBenjin->save();
+			$aNewRecord = $mKerenBenjin->toArray();
+			$mUser = Yii::$app->user->getIdentity();
+			if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
+				$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
 		}elseif($type == 'remark'){
 			$mKerenBenjin->set('remark', $value);
 			$mKerenBenjin->save();
@@ -396,6 +416,9 @@ class IndexController extends Controller{
 			return new Response('客人尚有牌局数据未处理，不能删除', -1);
 		}
 		$mKerenBenjin->delete();
+		$mUser = Yii::$app->user->getIdentity();
+		$aKerenBenjin = $mKerenBenjin->toArray();
+		$mUser->operateLog(8, ['aKerenBenjin' => $aKerenBenjin]);
 		
 		return new Response('删除成功', 1);
 	}
@@ -437,10 +460,12 @@ class IndexController extends Controller{
 			'create_time' => NOW_TIME,
 		]);
 		ImportData::addEmptyDataRecord(Yii::$app->user->id, $playerId, $playerName);
+		
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 		if(!$mKerenBenjin){
 			return new Response('出错啦', 0);
 		}
+		$aOldRecord = $mKerenBenjin->toArray();
 		$mKerenBenjin->set('benjin', $benjin);
 		$mKerenBenjin->set('ying_chou', $yingChou);
 		$mKerenBenjin->set('shu_fan', $shuFan);
@@ -449,6 +474,20 @@ class IndexController extends Controller{
 		}
 		$mKerenBenjin->set('remark', $remark);
 		$mKerenBenjin->save();
+		$aNewRecord = $mKerenBenjin->toArray();
+		$mUser = Yii::$app->user->getIdentity();
+		if($aOldRecord['benjin'] != $aNewRecord['benjin']){
+			$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($aOldRecord['ying_chou'] != $aNewRecord['ying_chou']){
+			$mUser->operateLog(3, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
+			$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		$mPlayer = Player::findOne($isSuccess);
+		$aPlayer = $mPlayer->toArray();
+		$mUser->operateLog(7, ['aPlayer' => $aPlayer, 'aKerenBenjin' => $aNewRecord]);
 		
 		return new Response('添加成功', 1);
 	}
