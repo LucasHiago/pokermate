@@ -31,9 +31,14 @@ class MoneyOutPutTypeController extends Controller{
 			if(!$mMoneyOutPutType){
 				return new Response('支付方式不存在', -1);
 			}
+			$aOldRecord = $mMoneyOutPutType->toArray();
 			//$mMoneyOutPutType->set('out_put_type', $outPutType);
 			$mMoneyOutPutType->set('money', $money);
 			$mMoneyOutPutType->save();
+			$aNewRecord = $mMoneyOutPutType->toArray();
+			if($aOldRecord['money'] != $aNewRecord['money']){
+				$mUser->operateLog(14, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
 		}else{
 			$mMoneyOutPutType = MoneyOutPutType::findOne([
 				'user_id' => $mUser->id,
@@ -43,9 +48,14 @@ class MoneyOutPutTypeController extends Controller{
 				return new Response('支付方式已存在', 0);
 			}
 			if($mMoneyOutPutType && $mMoneyOutPutType->is_delete){
+				$aOldRecord = $mMoneyOutPutType->toArray();
 				$mMoneyOutPutType->set('is_delete', 0);
 				$mMoneyOutPutType->set('money', $money);
 				$mMoneyOutPutType->save();
+				$aNewRecord = $mMoneyOutPutType->toArray();
+				if($aOldRecord['money'] != $aNewRecord['money']){
+					$mUser->operateLog(14, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+				}
 			}
 			if(!$mMoneyOutPutType){
 				$isSuccess = MoneyOutPutType::addRecord([
@@ -57,6 +67,9 @@ class MoneyOutPutTypeController extends Controller{
 				if(!$isSuccess){
 					return new Response('保存失败', 0);
 				}
+				$mMoneyOutPutType = MoneyOutPutType::findOne($isSuccess);
+				$aMoneyOutPutType = $mMoneyOutPutType->toArray();
+				$mUser->operateLog(13, ['aMoneyOutPutType' => $aMoneyOutPutType]);
 			}
 		}
 		
@@ -66,6 +79,7 @@ class MoneyOutPutTypeController extends Controller{
 	public function actionDelete(){
 		$aId = (array)Yii::$app->request->post('aId');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		if(!$aId){
 			return new Response('请选择要删除的项', -1);
 		}
@@ -79,6 +93,8 @@ class MoneyOutPutTypeController extends Controller{
 			}
 			$mMoneyOutPutType->set('is_delete', 1);
 			$mMoneyOutPutType->save();
+			$aMoneyOutPutType = $mMoneyOutPutType->toArray();
+			$mUser->operateLog(15, ['aMoneyOutPutType' => $aMoneyOutPutType]);
 		}
 		return new Response('删除成功', 1);
 	}

@@ -34,6 +34,18 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   【删除客人】客人编号：' . $aData['data_json']['aKerenBenjin']['keren_bianhao'];
 							}elseif($aData['type'] == 9){
 								$log = date('Y.m.d', $aData['create_time']) . '   【删除玩家】客人编号：' . $aData['data_json']['aPlayer']['keren_bianhao'] . '  玩家ID：' . $aData['data_json']['aPlayer']['player_id'] . '  玩家名称：' . $aData['data_json']['aPlayer']['player_name'];
+							}elseif($aData['type'] == 10){
+								$log = date('Y.m.d', $aData['create_time']) . '   【添加资金项】资金项：' . $aData['data_json']['aMoneyType']['pay_type'];
+							}elseif($aData['type'] == 11){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改资金】资金项：' . $aData['data_json']['aOldRecord']['pay_type'] . '   资金：' . $aData['data_json']['aOldRecord']['money'] . '  修改后资金：' . $aData['data_json']['aNewRecord']['money'];
+							}elseif($aData['type'] == 12){
+								$log = date('Y.m.d', $aData['create_time']) . '   【删除资金项】资金项：' . $aData['data_json']['aMoneyType']['pay_type'];
+							}elseif($aData['type'] == 13){
+								$log = date('Y.m.d', $aData['create_time']) . '   【添加支出项】支出项：' . $aData['data_json']['aMoneyOutPutType']['out_put_type'];
+							}elseif($aData['type'] == 14){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改支出】支出项：' . $aData['data_json']['aOldRecord']['out_put_type'] . '   支出：' . $aData['data_json']['aOldRecord']['money'] . '  修改后支出：' . $aData['data_json']['aNewRecord']['money'];
+							}elseif($aData['type'] == 15){
+								$log = date('Y.m.d', $aData['create_time']) . '   【删除支出项】支出项：' . $aData['data_json']['aMoneyOutPutType']['out_put_type'];
 							}
 							return $log;
 						}

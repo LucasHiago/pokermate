@@ -31,9 +31,14 @@ class MoneyTypeController extends Controller{
 			if(!$mMoneyType){
 				return new Response('支付方式不存在', -1);
 			}
+			$aOldRecord = $mMoneyType->toArray();
 			//$mMoneyType->set('pay_type', $payType);
 			$mMoneyType->set('money', $money);
 			$mMoneyType->save();
+			$aNewRecord = $mMoneyType->toArray();
+			if($aOldRecord['money'] != $aNewRecord['money']){
+				$mUser->operateLog(11, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
 		}else{
 			$mMoneyType = MoneyType::findOne([
 				'user_id' => $mUser->id,
@@ -43,9 +48,14 @@ class MoneyTypeController extends Controller{
 				return new Response('支付方式已存在', 0);
 			}
 			if($mMoneyType && $mMoneyType->is_delete){
+				$aOldRecord = $mMoneyType->toArray();
 				$mMoneyType->set('is_delete', 0);
 				$mMoneyType->set('money', $money);
 				$mMoneyType->save();
+				$aNewRecord = $mMoneyType->toArray();
+				if($aOldRecord['money'] != $aNewRecord['money']){
+					$mUser->operateLog(11, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+				}
 			}
 			if(!$mMoneyType){
 				$isSuccess = MoneyType::addRecord([
@@ -57,6 +67,9 @@ class MoneyTypeController extends Controller{
 				if(!$isSuccess){
 					return new Response('保存失败', 0);
 				}
+				$mMoneyType = MoneyType::findOne($isSuccess);
+				$aMoneyType = $mMoneyType->toArray();
+				$mUser->operateLog(10, ['aMoneyType' => $aMoneyType]);
 			}
 		}
 		
@@ -66,6 +79,7 @@ class MoneyTypeController extends Controller{
 	public function actionDelete(){
 		$aId = (array)Yii::$app->request->post('aId');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		if(!$aId){
 			return new Response('请选择要删除的项', -1);
 		}
@@ -79,6 +93,8 @@ class MoneyTypeController extends Controller{
 			}
 			$mMoneyType->set('is_delete', 1);
 			$mMoneyType->save();
+			$aMoneyType = $mMoneyType->toArray();
+			$mUser->operateLog(12, ['aMoneyType' => $aMoneyType]);
 		}
 		return new Response('删除成功', 1);
 	}
