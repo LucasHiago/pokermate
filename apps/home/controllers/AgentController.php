@@ -181,7 +181,7 @@ class AgentController extends Controller{
 				$value['mangzhu'],
 				$value['player_name'],
 				$value['zhanji'],
-				$value['float_fencheng'],
+				(int)$value['float_fencheng'],
 			]);
 		}
 		
