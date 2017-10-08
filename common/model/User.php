@@ -1341,6 +1341,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if(!$aZhangDan){
 			return false;
 		}
+		$zhandan = 0;
 		foreach($aZhangDan as $value){
 			//更新俱乐部账单牌局已清账状态
 			$sql = 'UPDATE ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . LianmengClub::tableName() . ' AS `t2` ON `t1`.`club_id`=`t2`.`club_id` SET `t1`.`club_is_clean`=1 WHERE `t1`.`user_id`=' . $this->id . ' AND `t1`.`club_id`=' . $value['club_id'] . ' AND `t1`.`club_is_clean`=0 AND `t2`.`lianmeng_id`=' . $mLianmeng->id . ' AND `t2`.`is_delete`=0';
@@ -1351,11 +1352,13 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				return false;
 			}
 			if($value['zhang_dan']){
+				$zhandan += $value['zhang_dan'];
 				$mLianmengClub->set('qianzhang', ['add', $value['zhang_dan']]);
 				$mLianmengClub->save();
 			}
 		}
-	
+		$this->operateLog(38, ['aLianmeng' => $mLianmeng->toArray(), 'zhandan' => $zhandan, 'aZhangDan' => $aZhangDan]);
+		
 		return true;
 	}
 	

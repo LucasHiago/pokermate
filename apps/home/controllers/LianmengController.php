@@ -286,6 +286,10 @@ class LianmengController extends Controller{
 		if(!$isSuccess){
 			return new Response('添加失败', 0);
 		}
+		$mLianmengClub = LianmengClub::findOne($isSuccess);
+		$aLianmengClub = $mLianmengClub->toArray();
+		$mUser->operateLog(30, ['aLianmengClub' => $aLianmengClub]);
+		
 		return new Response('添加成功', 1);
 	}
 	
@@ -311,6 +315,7 @@ class LianmengController extends Controller{
 		$type = (string)Yii::$app->request->post('type');
 		$value = Yii::$app->request->post('value');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		if(!in_array($type, ['club_id', 'club_name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng'])){
 			return new Response('出错啦', 0);
 		}
@@ -332,8 +337,28 @@ class LianmengController extends Controller{
 		if($mLianmengClub->user_id != Yii::$app->user->id){
 			return new Response('出错啦', 0);
 		}
+		$aOldRecord = $mLianmengClub->toArray();
 		$mLianmengClub->set($type, $value);
 		$mLianmengClub->save();
+		$aNewRecord = $mLianmengClub->toArray();
+		if($type == 'club_id' && $aOldRecord['club_id'] != $aNewRecord['club_id']){
+			$mUser->operateLog(32, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'club_name' && $aOldRecord['club_name'] != $aNewRecord['club_name']){
+			$mUser->operateLog(33, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'qianzhang' && $aOldRecord['qianzhang'] != $aNewRecord['qianzhang']){
+			$mUser->operateLog(34, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'duizhangfangfa' && $aOldRecord['duizhangfangfa'] != $aNewRecord['duizhangfangfa']){
+			$mUser->operateLog(35, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'paiju_fee' && $aOldRecord['paiju_fee'] != $aNewRecord['paiju_fee']){
+			$mUser->operateLog(36, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'baoxian_choucheng' && $aOldRecord['baoxian_choucheng'] != $aNewRecord['baoxian_choucheng']){
+			$mUser->operateLog(37, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
 		
 		return new Response('更新成功', 1);
 	}
@@ -341,6 +366,7 @@ class LianmengController extends Controller{
 	public function actionDeleteClub(){
 		$id = (int)Yii::$app->request->post('id');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		$mLianmengClub = LianmengClub::findOne(['id' => $id]);
 		if(!$mLianmengClub){
 			return new Response('俱乐部不存在', 0);
@@ -350,6 +376,8 @@ class LianmengController extends Controller{
 		}
 		$mLianmengClub->set('is_delete', 1);
 		$mLianmengClub->save();
+		$aLianmengClub = $mLianmengClub->toArray();
+		$mUser->operateLog(31, ['aLianmengClub' => $aLianmengClub]);
 		
 		return new Response('删除成功', 1);
 	}

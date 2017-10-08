@@ -74,6 +74,24 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   【删除代理】代理名称：' . $aData['data_json']['aAgent']['agent_name'];
 							}elseif($aData['type'] == 29){
 								$log = date('Y.m.d', $aData['create_time']) . '   【代理清账】代理名称：' . $aData['data_json']['aAgent']['agent_name'] . '  总分成：' . $aData['data_json']['totalFenCheng'];
+							}elseif($aData['type'] == 30){
+								$log = date('Y.m.d', $aData['create_time']) . '   【添加联盟俱乐部】俱乐部名称：' . $aData['data_json']['aLianmengClub']['club_name'];
+							}elseif($aData['type'] == 31){
+								$log = date('Y.m.d', $aData['create_time']) . '   【删除联盟俱乐部】俱乐部名称：' . $aData['data_json']['aLianmengClub']['club_name'];
+							}elseif($aData['type'] == 32){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟俱乐部ID】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . '  俱乐部ID：' . $aData['data_json']['aOldRecord']['club_id'] . '  修改后俱乐部ID：' . $aData['data_json']['aNewRecord']['club_id'];
+							}elseif($aData['type'] == 33){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟俱乐部】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . '  修改后俱乐部名称：' . $aData['data_json']['aNewRecord']['club_name'];
+							}elseif($aData['type'] == 34){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟俱乐部欠账】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 欠账：' . $aData['data_json']['aOldRecord']['qianzhang'] . '  修改后欠账：' . $aData['data_json']['aNewRecord']['qianzhang'];
+							}elseif($aData['type'] == 35){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟俱乐部对账方法】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 对账方法：' . ($aData['data_json']['aOldRecord']['duizhangfangfa'] == 1 ? '0.975' : '无水账单') . '  修改后对账方法：' . ($aData['data_json']['aNewRecord']['duizhangfangfa'] == 1 ? '0.975' : '无水账单');
+							}elseif($aData['type'] == 36){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟俱乐部上缴桌费】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 上缴桌费：' . $aData['data_json']['aOldRecord']['paiju_fee'] . '  修改后上缴桌费：' . $aData['data_json']['aNewRecord']['paiju_fee'];
+							}elseif($aData['type'] == 37){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟俱乐部保险抽成】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 保险抽成：' . $aData['data_json']['aOldRecord']['baoxian_choucheng'] . '  修改后保险抽成：' . $aData['data_json']['aNewRecord']['baoxian_choucheng'];
+							}elseif($aData['type'] == 38){
+								$log = date('Y.m.d', $aData['create_time']) . '   【联盟俱乐部清账】联盟名称：' . $aData['data_json']['aLianmeng']['name'] . ' 新帐：' . $aData['data_json']['zhandan'];
 							}
 							return $log;
 						}
