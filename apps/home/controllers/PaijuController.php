@@ -5,6 +5,7 @@ use Yii;
 //use umeworld\lib\Controller;
 use umeworld\lib\StringHelper;
 use umeworld\lib\Url;
+use umeworld\lib\Cookie;
 use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\Paiju;
@@ -27,6 +28,8 @@ class PaijuController extends Controller{
 			return new Response('联盟不存在', 0);
 		}
 		$mPaiju->setLianmeng($lianmengId);
+		
+		Cookie::set('last_lianmeng_id_' . $mUser->id, $lianmengId);
 		
 		return new Response('更新牌局联盟成功', 1);
 	}

@@ -6,6 +6,7 @@ use Yii;
 use umeworld\lib\StringHelper;
 use yii\helpers\ArrayHelper;
 use umeworld\lib\Url;
+use umeworld\lib\Cookie;
 use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\User;
@@ -15,6 +16,7 @@ use common\model\MoneyType;
 use common\model\Agent;
 use common\model\Player;
 use common\model\ImportData;
+use common\model\Lianmeng;
 
 class IndexController extends Controller{
 	
@@ -73,9 +75,22 @@ class IndexController extends Controller{
 		if($aCurrentPaiju){
 			$mPaiju = Paiju::toModel($aCurrentPaiju);
 			if(!$aCurrentPaiju['status']){
-				$currentPaijuLianmengId = $mUser->getDefaultLianmengId();
-				$mPaiju->set('lianmeng_id', $currentPaijuLianmengId);
-				$mPaiju->save();
+				$lastLianmengId = Cookie::get('last_lianmeng_id_' . $mUser->id);
+				if($lastLianmengId){
+					$mLianmeng = Lianmeng::findOne($lastLianmengId);
+					if($mLianmeng && !$mLianmeng->is_delete){
+						$currentPaijuLianmengId = $lastLianmengId;
+					}
+				}else{
+					$mLianmeng = Lianmeng::findOne($mPaiju->lianmeng_id);
+					if(!$mLianmeng || $mLianmeng->is_delete){
+						$currentPaijuLianmengId = $mUser->getDefaultLianmengId();
+					}
+				}
+				if($currentPaijuLianmengId != $mPaiju->lianmeng_id){
+					$mPaiju->set('lianmeng_id', $currentPaijuLianmengId);
+					$mPaiju->save();
+				}
 			}
 		}
 		
