@@ -885,6 +885,16 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aReturnList[$key]['float_zhang_dan'] = Calculate::calculateZhangDan($value['zhanji'], $value['baoxian_heji'], $value['paiju_fee'], $floatBaoxianBeichou, $value['duizhangfangfa'], $this->choushui_shuanfa, false);
 			}
 		}
+		//排序
+		if($aReturnList){
+			$aPaijuId = array_keys($aReturnList);
+			$aPaijuList = Paiju::findAll(['id' => $aPaijuId], ['id', 'end_time'], 0, 0, ['end_time' => SORT_ASC]);
+			$aSortList = [];
+			foreach($aPaijuList as $aPaiju){
+				$aSortList[] = $aReturnList[$aPaiju['id']];
+			}
+			$aReturnList = $aSortList;
+		}
 		return $aReturnList;
 	}
 		
