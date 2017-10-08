@@ -189,10 +189,12 @@ class ImportController extends Controller{
 		$type = (string)Yii::$app->request->post('type');
 		$value = Yii::$app->request->post('value');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		$mImportData = ImportData::findOne($id);
 		if(!$mImportData){
 			return new Response('记录不存在', 0);
 		}
+		$aOldRecord = $mImportData->toArray();
 		if($mImportData->user_id != Yii::$app->user->id){
 			return new Response('出错啦', 0);
 		}
@@ -202,6 +204,13 @@ class ImportController extends Controller{
 		if(in_array($type, ['baoxian_heji', 'zhanji'])){
 			$mImportData->set($type, (int)$value);
 			$mImportData->save();
+			$aNewRecord = $mImportData->toArray();
+			if($aOldRecord['zhanji'] != $aNewRecord['zhanji']){
+				$mUser->operateLog(16, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['baoxian_heji'] != $aNewRecord['baoxian_heji']){
+				$mUser->operateLog(17, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
 		}else{
 			return new Response('出错啦', 0);
 		}

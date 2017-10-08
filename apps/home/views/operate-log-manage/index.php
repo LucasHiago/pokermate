@@ -46,6 +46,28 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   【修改支出】支出项：' . $aData['data_json']['aOldRecord']['out_put_type'] . '   支出：' . $aData['data_json']['aOldRecord']['money'] . '  修改后支出：' . $aData['data_json']['aNewRecord']['money'];
 							}elseif($aData['type'] == 15){
 								$log = date('Y.m.d', $aData['create_time']) . '   【删除支出项】支出项：' . $aData['data_json']['aMoneyOutPutType']['out_put_type'];
+							}elseif($aData['type'] == 16){
+								$log = date('Y.m.d', $aData['create_time']) . '   【战绩修改】牌局名：' . $aData['data_json']['aNewRecord']['paiju_name'] . '  玩家ID：' . $aData['data_json']['aNewRecord']['player_id'] . '  玩家昵称：' . $aData['data_json']['aNewRecord']['player_name'] . '  俱乐部：' . $aData['data_json']['aNewRecord']['club_name'] . '  战绩：' . $aData['data_json']['aOldRecord']['zhanji'] . '  修改后战绩：' . $aData['data_json']['aNewRecord']['zhanji'];
+							}elseif($aData['type'] == 17){
+								$log = date('Y.m.d', $aData['create_time']) . '   【保险合计修改】牌局名：' . $aData['data_json']['aNewRecord']['paiju_name'] . '  玩家ID：' . $aData['data_json']['aNewRecord']['player_id'] . '  玩家昵称：' . $aData['data_json']['aNewRecord']['player_name'] . '  俱乐部：' . $aData['data_json']['aNewRecord']['club_name'] . '  保险合计：' . $aData['data_json']['aOldRecord']['baoxian_heji'] . '  修改后保险合计：' . $aData['data_json']['aNewRecord']['baoxian_heji'];
+							}elseif($aData['type'] == 18){
+								$log = date('Y.m.d', $aData['create_time']) . '   【添加联盟】联盟名称：' . $aData['data_json']['aLianmeng']['name'];
+							}elseif($aData['type'] == 19){
+								$log = date('Y.m.d', $aData['create_time']) . '   【删除联盟】联盟名称：' . $aData['data_json']['aLianmeng']['name'];
+							}elseif($aData['type'] == 20){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟】联盟名称：' . $aData['data_json']['aOldRecord']['name'] . ' 修改后联盟名称：' . $aData['data_json']['aNewRecord']['name'];
+							}elseif($aData['type'] == 21){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟欠账】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 联盟欠账：' . $aData['data_json']['aOldRecord']['qianzhang'] . '  修改后联盟欠账：' . $aData['data_json']['aNewRecord']['qianzhang'];
+							}elseif($aData['type'] == 22){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟对账方法】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 联盟对账方法：' . ($aData['data_json']['aOldRecord']['duizhangfangfa'] == 1 ? '0.975' : '无水账单') . '  修改后联盟对账方法：' . ($aData['data_json']['aNewRecord']['duizhangfangfa'] == 1 ? '0.975' : '无水账单');
+							}elseif($aData['type'] == 23){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟上缴桌费】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 上缴桌费：' . $aData['data_json']['aOldRecord']['paiju_fee'] . '  修改后上缴桌费：' . $aData['data_json']['aNewRecord']['paiju_fee'];
+							}elseif($aData['type'] == 24){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟保险抽成】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 保险抽成：' . $aData['data_json']['aOldRecord']['baoxian_choucheng'] . '  修改后保险抽成：' . $aData['data_json']['aNewRecord']['baoxian_choucheng'];
+							}elseif($aData['type'] == 25){
+								$log = date('Y.m.d', $aData['create_time']) . '   【联盟清账】联盟名称：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_name'] . ' 联盟总账单：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_zhong_zhang'] . ' 上桌人数：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_shang_zhuo_ren_shu'] . ' 联盟旧账：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_qian_zhang'] . ' 新账单累计：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_zhang_dan'];
+							}elseif($aData['type'] == 26){
+								$log = date('Y.m.d', $aData['create_time']) . '   【交班转出】总抽水：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['zhongChouShui'] . ' 总保险：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['zhongBaoXian'] . ' 交接金额：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['jiaoBanZhuanChuMoney'] . ' 转出渠道：' . $aData['data_json']['aMoneyType']['pay_type'];
 							}
 							return $log;
 						}

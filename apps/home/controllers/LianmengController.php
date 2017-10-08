@@ -71,6 +71,10 @@ class LianmengController extends Controller{
 		if(!$isSuccess){
 			return new Response('添加失败', 0);
 		}
+		$mLianmeng = Lianmeng::findOne($isSuccess);
+		$aLianmeng = $mLianmeng->toArray();
+		$mUser->operateLog(18, ['aLianmeng' => $aLianmeng]);
+		
 		return new Response('添加成功', 1);
 	}
 	
@@ -92,6 +96,7 @@ class LianmengController extends Controller{
 		if(!$id){
 			$mLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'name' => $name]);
 			if($mLianmeng && $mLianmeng->is_delete){
+				$aOldRecord = $mLianmeng->toArray();
 				$mLianmeng->set('name', $name);
 				$mLianmeng->set('qianzhang', $qianzhang);
 				$mLianmeng->set('duizhangfangfa', $duizhangfangfa);
@@ -99,6 +104,22 @@ class LianmengController extends Controller{
 				$mLianmeng->set('baoxian_choucheng', $baoxianChoucheng);
 				$mLianmeng->set('is_delete', 0);
 				$mLianmeng->save();
+				$aNewRecord = $mLianmeng->toArray();
+				if($aOldRecord['name'] != $aNewRecord['name']){
+					$mUser->operateLog(20, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+				}
+				if($aOldRecord['qianzhang'] != $aNewRecord['qianzhang']){
+					$mUser->operateLog(21, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+				}
+				if($aOldRecord['duizhangfangfa'] != $aNewRecord['duizhangfangfa']){
+					$mUser->operateLog(22, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+				}
+				if($aOldRecord['paiju_fee'] != $aNewRecord['paiju_fee']){
+					$mUser->operateLog(23, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+				}
+				if($aOldRecord['baoxian_choucheng'] != $aNewRecord['baoxian_choucheng']){
+					$mUser->operateLog(24, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+				}
 				return new Response('保存成功', 1, $mLianmeng->id);
 			}
 			if($mLianmeng && $mLianmeng->id != $id){
@@ -117,6 +138,9 @@ class LianmengController extends Controller{
 				return new Response('保存失败', 0);
 			}
 			$id = $isSuccess;
+			$mLianmeng = Lianmeng::findOne($id);
+			$aLianmeng = $mLianmeng->toArray();
+			$mUser->operateLog(18, ['aLianmeng' => $aLianmeng]);
 		}else{
 			$mLianmeng = Lianmeng::findOne($id);
 			if(!$mLianmeng){
@@ -125,12 +149,29 @@ class LianmengController extends Controller{
 			if($mLianmeng->user_id != $mUser->id){
 				return new Response('出错了', 0);
 			}
+			$aOldRecord = $mLianmeng->toArray();
 			$mLianmeng->set('name', $name);
 			$mLianmeng->set('qianzhang', $qianzhang);
 			$mLianmeng->set('duizhangfangfa', $duizhangfangfa);
 			$mLianmeng->set('paiju_fee', $paijuFee);
 			$mLianmeng->set('baoxian_choucheng', $baoxianChoucheng);
 			$mLianmeng->save();
+			$aNewRecord = $mLianmeng->toArray();
+			if($aOldRecord['name'] != $aNewRecord['name']){
+				$mUser->operateLog(20, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['qianzhang'] != $aNewRecord['qianzhang']){
+				$mUser->operateLog(21, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['duizhangfangfa'] != $aNewRecord['duizhangfangfa']){
+				$mUser->operateLog(22, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['paiju_fee'] != $aNewRecord['paiju_fee']){
+				$mUser->operateLog(23, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['baoxian_choucheng'] != $aNewRecord['baoxian_choucheng']){
+				$mUser->operateLog(24, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
 		}
 		return new Response('保存成功', 1, $id);
 	}
@@ -148,6 +189,7 @@ class LianmengController extends Controller{
 		$type = (string)Yii::$app->request->post('type');
 		$value = Yii::$app->request->post('value');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		if(!in_array($type, ['name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng'])){
 			return new Response('出错啦', 0);
 		}
@@ -160,8 +202,25 @@ class LianmengController extends Controller{
 		if(!$mLianmeng){
 			return new Response('联盟不存在', 0);
 		}
+		$aOldRecord = $mLianmeng->toArray();
 		$mLianmeng->set($type, $value);
 		$mLianmeng->save();
+		$aNewRecord = $mLianmeng->toArray();
+		if($type == 'name' && $aOldRecord['name'] != $aNewRecord['name']){
+			$mUser->operateLog(20, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'qianzhang' && $aOldRecord['qianzhang'] != $aNewRecord['qianzhang']){
+			$mUser->operateLog(21, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'duizhangfangfa' && $aOldRecord['duizhangfangfa'] != $aNewRecord['duizhangfangfa']){
+			$mUser->operateLog(22, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'paiju_fee' && $aOldRecord['paiju_fee'] != $aNewRecord['paiju_fee']){
+			$mUser->operateLog(23, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($type == 'baoxian_choucheng' && $aOldRecord['baoxian_choucheng'] != $aNewRecord['baoxian_choucheng']){
+			$mUser->operateLog(24, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
 		
 		return new Response('更新成功', 1);
 	}
@@ -169,6 +228,7 @@ class LianmengController extends Controller{
 	public function actionDelete(){
 		$id = (int)Yii::$app->request->post('id');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
 		if(!$mLianmeng){
 			return new Response('联盟不存在', 0);
@@ -182,6 +242,8 @@ class LianmengController extends Controller{
 		}
 		$mLianmeng->set('is_delete', 1);
 		$mLianmeng->save();
+		$aLianmeng = $mLianmeng->toArray();
+		$mUser->operateLog(19, ['aLianmeng' => $aLianmeng]);
 		
 		return new Response('删除成功', 1);
 	}
@@ -345,7 +407,7 @@ class LianmengController extends Controller{
 		if(!$zhangDan){
 			return new Response('新账单为0', -1);
 		}
-		if(!$mUser->qinZhang($mLianmeng, $zhangDan)){
+		if(!$mUser->qinZhang($mLianmeng, $zhangDan, $aLianmengZhongZhangList[$id])){
 			return new Response('清账失败', 0);
 		}
 		return new Response('清账成功', 1);

@@ -910,7 +910,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	/**
 	 *	联盟清账
 	 */
-	public function qinZhang($mLianmeng, $zhangDan){
+	public function qinZhang($mLianmeng, $zhangDan, $aLianmengZhongZhang = []){
+		$aOldRecord = $mLianmeng->toArray();
 		if(!$zhangDan){
 			return false;
 		}
@@ -925,6 +926,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//更新联盟欠账
 		$mLianmeng->set('qianzhang', ['add', $zhangDan]);
 		$mLianmeng->save();
+		$aNewRecord = $mLianmeng->toArray();
+		$this->operateLog(25, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'zhangDan' => $zhangDan, 'aLianmengZhongZhang' => $aLianmengZhongZhang]);
 		
 		return true;
 	}
@@ -1045,6 +1048,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 *	交班转出操作
 	 */
 	public function doJiaoBanZhuanChu($mMoneyType, $jiaoBanZhuanChuMoney){
+		$aJiaoBanZhuanChuDetail = $this->getJiaoBanZhuanChuDetail();
 		if(!$jiaoBanZhuanChuMoney){
 			return false;
 		}
@@ -1057,7 +1061,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				if(!$mLianmeng){
 					return false;
 				}
-				if(!$this->qinZhang($mLianmeng, $zhangDan)){
+				if(!$this->qinZhang($mLianmeng, $zhangDan, $aLianmengZhongZhang)){
 					return false;
 				}
 			}
@@ -1075,6 +1079,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$this->set('choushui_ajust_value', 0);
 		$this->set('baoxian_ajust_value', 0);
 		$this->save();
+		$aMoneyType = $mMoneyType->toArray();
+		$this->operateLog(26, ['aMoneyType' => $aMoneyType, 'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney, 'aJiaoBanZhuanChuDetail' => $aJiaoBanZhuanChuDetail]);
 		
 		return true;
 	}
