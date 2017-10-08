@@ -65,6 +65,39 @@ $this->beginPage();
 			$('.J-search-form').width($('.page-header').width());
 			$('.J-side-menu').css({'max-height': $('#page-wrapper').css('min-height')});
 			$('.J-side-menu').css({'overflow-x': 'hidden'});
+			$('.J-top-child a').each(function(){
+				var o = this;
+				if($(this).attr('href') == Tools.url('home', 'user-manage/clear-user-data')){
+					$(this).attr('href', 'javascript:;');
+					$(this).click(function(){
+						UBox.confirm('确定删除数据?', function(){
+							UBox.confirm('<div style="height:28px;"><div style="float:left;height: 100%;line-height:28px;">安全密码：</div><input type="text" class="J-save-code form-control" placeholder="请输入安全密码" style="float:left;height:28px;width:200px;" /></div>', function(){
+								ajax({
+									url : Tools.url('home', 'user-manage/clear-user-data'),
+									data : {
+										saveCode : $('.J-save-code').val()
+									},
+									beforeSend : function(){
+										$(o).attr('disabled', 'disabled');
+									},
+									complete : function(){
+										$(o).attr('disabled', false);
+									},
+									success : function(aResult){
+										if(aResult.status == 1){
+											UBox.show(aResult.msg, aResult.status, function(){
+												location.href = Tools.url('home', 'login/logout');
+											}, 3);
+										}else{
+											UBox.show(aResult.msg, aResult.status);
+										}
+									}
+								});
+							});
+						});
+					});
+				}
+			});
 		});
 		
 		function showJumpPage(){

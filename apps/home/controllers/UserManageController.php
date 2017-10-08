@@ -147,4 +147,24 @@ class UserManageController extends Controller{
 		return new Response('保存成功', 1);
 	}
 	
+	public function actionClearUserData(){
+		$saveCode = (string)Yii::$app->request->post('saveCode');
+		
+		if(!$saveCode){
+			return new Response('请输入安全码', -1);
+		}
+		
+		$mUser = Yii::$app->user->getIdentity();
+		if($mUser->save_code != $saveCode){
+			return new Response('安全码不正确', -1);
+		}
+		if($mUser->type == User::TYPE_MANAGE){
+			return new Response('超级管理员账号不能清除数据', -1);
+		}
+		
+		$mUser->clearUserData();
+		
+		return new Response('清除数据成功', 1);
+	}
+	
 }

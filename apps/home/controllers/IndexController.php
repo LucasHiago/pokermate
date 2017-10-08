@@ -202,9 +202,12 @@ class IndexController extends Controller{
 		if(!$mKerenBenjin){
 			return new Response('客人不存在', 0);
 		}
-		
+		$aOldRecord = $mKerenBenjin->toArray();
 		$mKerenBenjin->set('benjin', $benjin);
 		$mKerenBenjin->save();
+		$aNewRecord = $mKerenBenjin->toArray();
+		$mUser = Yii::$app->user->getIdentity();
+		$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		
 		return new Response('操作成功', 1);
 	}
@@ -314,8 +317,12 @@ class IndexController extends Controller{
 				}
 			}
 		}elseif($type == 'benjin'){
+			$aOldRecord = $mKerenBenjin->toArray();
 			$mKerenBenjin->set('benjin', (int)$value);
 			$mKerenBenjin->save();
+			$aNewRecord = $mKerenBenjin->toArray();
+			$mUser = Yii::$app->user->getIdentity();
+			$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		}elseif($type == 'ying_chou'){
 			$mKerenBenjin->set('ying_chou', (float)$value);
 			$mKerenBenjin->save();

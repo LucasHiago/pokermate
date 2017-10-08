@@ -93,6 +93,7 @@ class KerenBenjinManageController extends Controller{
 		if(!$mKerenBenjin){
 			return new Response('会员不存在', -1);
 		}
+		$aOldRecord = $mKerenBenjin->toArray();
 		if(!KerenBenjin::checkKerenbianhao($kerenBianhao)){
 			return new Response('客人编号范围有误', -1);
 		}
@@ -136,6 +137,11 @@ class KerenBenjinManageController extends Controller{
 		$mKerenBenjin->set('agent_id', $agentId);
 		$mKerenBenjin->set('remark', $remark);
 		$mKerenBenjin->save();
+		$aNewRecord = $mKerenBenjin->toArray();
+		$mUser = Yii::$app->user->getIdentity();
+		if($aOldRecord['benjin'] != $aNewRecord['benjin']){
+			$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
 		
 		return new Response('保存成功', 1);
 	}
@@ -212,12 +218,19 @@ class KerenBenjinManageController extends Controller{
 					$mKerenBenjin->modifyKerenBianhao($value);
 				}
 			}
+			
+			$aOldRecord = $mKerenBenjin->toArray();
 			$mKerenBenjin->set('benjin', $benjin);
 			$mKerenBenjin->set('ying_chou', $yingChou);
 			$mKerenBenjin->set('shu_fan', $shuFan);
 			$mKerenBenjin->set('agent_id', $agentId);
 			$mKerenBenjin->set('remark', $remark);
 			$mKerenBenjin->save();
+			$aNewRecord = $mKerenBenjin->toArray();
+			$mUser = Yii::$app->user->getIdentity();
+			if($aOldRecord['benjin'] != $aNewRecord['benjin']){
+				$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
 		}
 		
 		return new Response('保存成功', 1);

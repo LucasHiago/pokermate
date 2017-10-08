@@ -87,6 +87,12 @@ $this->setTitle('账号管理');
 							}
 						}
 					],
+					'save_code'	=>	[
+						'title' => '安全密码',
+						'content' => function($aData){
+							return $aData['save_code'];
+						}
+					],
 					'operate'	=>	[
 						'title' => '操作',
 						'class' => 'col-sm-2',

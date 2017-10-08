@@ -80,7 +80,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//return md5($password);
 	}
 	
+	private static function createSaveCode(){
+		return mt_rand(100000, 999999);
+	}
+	
 	public static function register($aData){
+		$aData['save_code'] = static::createSaveCode();
 		$id = static::insert($aData);
 		$aData['id'] = $id;
 		$mUser = static::toModel($aData);
@@ -129,6 +134,46 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		]);
 	}
 	
+	public function operateLog($type, $aDataJson = []){
+		OperateLog::addRecord([
+			'user_id' => $this->id,
+			'type' => $type,
+			'data_json' => $aDataJson,
+			'create_time' => NOW_TIME,
+		]);
+	}
+	
+	public function clearUserData(){
+		$sql = 'DELETE * FROM ' . Agent::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . Club::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . ExcelFile::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . FenchengSetting::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . KerenBenjin::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . Lianmeng::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . LianmengClub::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . MoneyOutPutType::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . MoneyType::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . Paiju::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . Player::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . OperateLog::tableName() . ' WHERE `user_id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE * FROM ' . User::tableName() . ' WHERE `id`=' . $this->id;
+		$aResult = Yii::$app->db->createCommand($sql)->execute();
+	}
+	
 	/**
 	 *	获取列表
 	 *	$aCondition = [
@@ -158,6 +203,15 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aList = $oQuery->all();
 		if(!$aList){
 			return [];
+		}
+		foreach($aList as $key => $value){
+			if(isset($value['save_code']) && !$value['save_code']){
+				$saveCode = static::createSaveCode();
+				$aList[$key]['save_code'] = $saveCode;
+				$mUser = static::toModel($value);
+				$mUser->set('save_code', $saveCode);
+				$mUser->save();
+			}
 		}
 		return $aList;
 	}

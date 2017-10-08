@@ -106,6 +106,7 @@ return [
 		'user-manage/set-forbidden-user.json'									=> 'user-manage/set-forbidden-user',
 		'user-manage/edit/<id:.*>.html'											=> 'user-manage/show-edit',
 		'user-manage/edit.json'													=> 'user-manage/edit',
+		'user-manage/clear-user-data.json'										=> 'user-manage/clear-user-data',
 		
 		
 		
@@ -123,6 +124,9 @@ return [
 		'keren-benjin-manage/export-list.html'									=> 'keren-benjin-manage/export-list',
 		'keren-benjin-manage/export-player-list.html'							=> 'keren-benjin-manage/export-player-list',
 		'keren-benjin-manage/delete-player.json'								=> 'keren-benjin-manage/delete-player',
+		
+		
+		'operate-log-manage/index.html'											=> 'operate-log-manage/index',
 		
 		
 		''																		=> 'site/index',

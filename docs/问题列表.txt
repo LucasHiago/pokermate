@@ -46,3 +46,24 @@ update player set user_id=11 where user_id=9
 
 ALTER TABLE `user` ADD `active_time` INT(11) NOT NULL COMMENT '启用时间' AFTER `is_forbidden`;
 ALTER TABLE `user` ADD `is_active` tinyint(4) NOT NULL COMMENT '是否启用' AFTER `is_forbidden`;
+ALTER TABLE `user` ADD `save_code` varchar(50) NOT NULL COMMENT '安全密码' AFTER `is_forbidden`;
+CREATE TABLE `operate_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `type` int(11) NOT NULL COMMENT '操作类型',
+  `data_json` text NOT NULL COMMENT '数据json',
+  `create_time` int(11) NOT NULL COMMENT '操作时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+优先
+1.添加日志记录
+2.添加一键清楚数据 不可恢复（需要输入安全密码）
+3.添加启用界面
+需要解决
+1.联盟账单按时间排列
+2.代理导出取证  有小数点 就直接去掉 不要四舍五入
+3.账单结算选择记录上一个选择的联盟
+4.联盟牌局清理
+5.联盟的桌子费没有算
