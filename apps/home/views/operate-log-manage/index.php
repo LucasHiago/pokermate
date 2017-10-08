@@ -18,6 +18,8 @@ $this->setTitle('操作日志');
 							$log = '';
 							if($aData['type'] == 1){
 								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 本金：' . $aData['data_json']['aOldRecord']['benjin'] . '  【修改后】本金：' . $aData['data_json']['aNewRecord']['benjin'];
+							}elseif($aData['type'] == 2){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 本金：' . $aData['data_json']['aOldRecord']['benjin'] . '   【交收后】本金：' . $aData['data_json']['aNewRecord']['benjin'] . '   交收方式：' . $aData['data_json']['aNewMoneyTypeRecord']['pay_type'];
 							}
 							return $log;
 						}

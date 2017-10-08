@@ -177,10 +177,12 @@ class IndexController extends Controller{
 		if(!$mKerenBenjin){
 			return new Response('客人不存在', 0);
 		}
+		$aOldRecord = $mKerenBenjin->toArray();
 		$mMoneyType = MoneyType::findOne(['user_id' => Yii::$app->user->id, 'id' => $payType]);
 		if(!$mMoneyType){
 			return new Response('收缴方式不存在', 0);
 		}
+		$aOldMoneyTypeRecord = $mMoneyType->toArray();
 		if(!$jsjer || intval($jsjer) != $jsjer){
 			return new Response('交收金额必须是大于0的整数', 0);
 		}
@@ -190,6 +192,10 @@ class IndexController extends Controller{
 		
 		$mMoneyType->set('money', ['add', $jsjer]);
 		$mMoneyType->save();
+		$aNewMoneyTypeRecord = $mMoneyType->toArray();
+		$aNewRecord = $mKerenBenjin->toArray();
+		$mUser = Yii::$app->user->getIdentity();
+		$mUser->operateLog(2, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'aOldMoneyTypeRecord' => $aOldMoneyTypeRecord, 'aNewMoneyTypeRecord' => $aNewMoneyTypeRecord]);
 		
 		return new Response('操作成功', 1);
 	}
