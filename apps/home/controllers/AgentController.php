@@ -60,15 +60,22 @@ class AgentController extends Controller{
 		if($mAgent){
 			return new Response('代理已存在', -1);
 		}
-		if(!Agent::addRecord(['user_id' => Yii::$app->user->id, 'agent_name' => $agentName, 'create_time' => NOW_TIME])){
+		$isSuccess = Agent::addRecord(['user_id' => Yii::$app->user->id, 'agent_name' => $agentName, 'create_time' => NOW_TIME]);
+		if(!$isSuccess){
 			return new Response('新增失败', 0);
 		}
+		$mAgent = Agent::findOne($isSuccess);
+		$aAgent = $mAgent->toArray();
+		$mUser = Yii::$app->user->getIdentity();
+		$mUser->operateLog(27, ['aAgent' => $aAgent]);
+		
 		return new Response('新增成功', 1);
 	}
 	
 	public function actionDelete(){
 		$aAgentId = (array)Yii::$app->request->post('aAgentId');
 		
+		$mUser = Yii::$app->user->getIdentity();
 		if(!$aAgentId){
 			return new Response('请选择要删除的代理', -1);
 		}
@@ -79,8 +86,10 @@ class AgentController extends Controller{
 		foreach($aAgentList as $aAgent){
 			$mAgent = Agent::toModel($aAgent);
 			if($mAgent->user_id == Yii::$app->user->id){
+				$aAgent = $mAgent->toArray();
 				$mAgent->set('is_delete', 1);
 				$mAgent->save();
+				$mUser->operateLog(28, ['aAgent' => $aAgent]);
 			}
 		}
 		return new Response('操作成功', 1);
@@ -124,14 +133,22 @@ class AgentController extends Controller{
 		$agentId = (int)Yii::$app->request->post('agentId');
 		$aId = (array)Yii::$app->request->post('aId');
 		
+		$mAgent = Agent::findOne($agentId);
+		if(!$mAgent){
+			return new Response('代理不存在', 0);
+		}
 		if(!$aId){
 			return new Response('请选择要清账的记录', -1);
 		}
 		$mUser = Yii::$app->user->getIdentity();
 		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId);
 		$aUpdateId = [];
+		$totalFenCheng = $mUser->agent_fencheng_ajust_value;
+		$floatTotalFenCheng = $mUser->agent_fencheng_ajust_value;
 		foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
 			if(in_array($aAgentUnCleanFenCheng['id'], $aId)){
+				$totalFenCheng += $aAgentUnCleanFenCheng['fencheng'];
+				$floatTotalFenCheng += $aAgentUnCleanFenCheng['float_fencheng'];
 				array_push($aUpdateId, $aAgentUnCleanFenCheng['id']);
 			}
 		}
@@ -141,6 +158,8 @@ class AgentController extends Controller{
 		if(!$mUser->agentQinZhang($aUpdateId)){
 			return new Response('清账失败', 0);
 		}
+		
+		$mUser->operateLog(29, ['aAgent' => $mAgent->toArray(), 'agent_fencheng_ajust_value' => $mUser->agent_fencheng_ajust_value, 'totalFenCheng' => $totalFenCheng, 'floatTotalFenCheng' => $floatTotalFenCheng, 'aImportId' => $aUpdateId]);
 		
 		return new Response('清账成功', 1);
 	}

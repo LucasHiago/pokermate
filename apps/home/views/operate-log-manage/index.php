@@ -68,6 +68,12 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   【联盟清账】联盟名称：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_name'] . ' 联盟总账单：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_zhong_zhang'] . ' 上桌人数：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_shang_zhuo_ren_shu'] . ' 联盟旧账：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_qian_zhang'] . ' 新账单累计：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_zhang_dan'];
 							}elseif($aData['type'] == 26){
 								$log = date('Y.m.d', $aData['create_time']) . '   【交班转出】总抽水：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['zhongChouShui'] . ' 总保险：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['zhongBaoXian'] . ' 交接金额：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['jiaoBanZhuanChuMoney'] . ' 转出渠道：' . $aData['data_json']['aMoneyType']['pay_type'];
+							}elseif($aData['type'] == 27){
+								$log = date('Y.m.d', $aData['create_time']) . '   【添加代理】代理名称：' . $aData['data_json']['aAgent']['agent_name'];
+							}elseif($aData['type'] == 28){
+								$log = date('Y.m.d', $aData['create_time']) . '   【删除代理】代理名称：' . $aData['data_json']['aAgent']['agent_name'];
+							}elseif($aData['type'] == 29){
+								$log = date('Y.m.d', $aData['create_time']) . '   【代理清账】代理名称：' . $aData['data_json']['aAgent']['agent_name'] . '  总分成：' . $aData['data_json']['totalFenCheng'];
 							}
 							return $log;
 						}
