@@ -153,7 +153,7 @@ class DownLoadExcel extends \yii\base\Object{
 			}else{echo 4;exit;
 				return false;
 			}
-		}catch(\Exception $e){
+		}catch(\Exception $e){echo 5;print_r($e);exit;
 			return false;
 		}
 		return true;
