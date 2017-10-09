@@ -189,9 +189,9 @@ if($mUser){
 								<a href="javascript:;" class="c-h-i-down" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);"></a>
 							</div>
 						<?php } ?>
-						<!--<div class="c-h-item" style="width:43px;margin-left: 15px;">
+						<div class="c-h-item" style="width:43px;margin-left: 15px;">
 							<a href="javascript:;" class="add-icon" onclick="AlertWin.showAddClub();"></a>
-						</div>-->
+						</div>
 					<?php } ?>
 					</div>
 				</div>
