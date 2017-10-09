@@ -90,7 +90,7 @@ class DownLoadExcel extends \yii\base\Object{
 			}
 			//选择俱乐部页面请求
 			$returnString = $this->_doHttpResponsePost($this->selectClubUrl . $clubId);
-			if(!$returnString){
+			if(!$returnString){echo 1;exit;
 				return false;
 			}
 			file_put_contents(Yii::getAlias('@p.resource') . '/' . Yii::getAlias('@p.temp_upload') . '/select_club_' . $clubId . '.html', $returnString);
@@ -103,7 +103,7 @@ class DownLoadExcel extends \yii\base\Object{
 			}
 		}*/
 		$isSuccess = $this->_getDownLoadAndExecuteOneExcel($mClub, $startDay, $endDay);
-		if(!$isSuccess){
+		if(!$isSuccess){echo 2;exit;
 			return false;
 		}
 		return true;
@@ -123,7 +123,7 @@ class DownLoadExcel extends \yii\base\Object{
 		//http://cms.pokermanager.club/cms/club/export?startTime=2017-09-25&endTime=2017-09-25&paramVo.type=1&sort=-4
 		$exportUrl = $this->exportUrl . '?startTime=' . $startDay . '&endTime=' . $endDay . '&paramVo.type=' . $type . '&sort=-4';
 		$returnString = $this->_doHttpResponsePost($exportUrl);
-		if(!$returnString){
+		if(!$returnString){echo 3;exit;
 			return false;
 		}
 		$dir = Yii::getAlias('@p.import') . '/' . date('Ymd');
@@ -150,7 +150,7 @@ class DownLoadExcel extends \yii\base\Object{
 					]);
 				}
 				return true;
-			}else{
+			}else{echo 4;exit;
 				return false;
 			}
 		}catch(\Exception $e){
