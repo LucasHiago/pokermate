@@ -120,7 +120,7 @@ class ImportData extends \common\lib\DbOrmModel{
 					break;
 				}
 			}
-			if(!$isFind && strtotime($v['end_time_format']) > $mUser->active_time){
+			if(!$isFind && strtotime($value[19]) > $mUser->active_time){
 				array_push($aImportDataList, $value);
 			}
 		}
