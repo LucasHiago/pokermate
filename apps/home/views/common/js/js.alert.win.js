@@ -1191,7 +1191,12 @@
 			
 			function bindLianmengEvent(oHtml){
 				oHtml.find('.i-edit').click(function(){
-					$(this).prev().focus();
+					var oTxt = $(this).prev();
+					var txt = oTxt.val();
+					oTxt.val('');
+					oTxt.focus();
+					oTxt.val(txt);
+					//$(this).prev().focus();
 				});
 				oHtml.find('.detail-btn').click(function(){
 					isCloseWinRefresh = false;
