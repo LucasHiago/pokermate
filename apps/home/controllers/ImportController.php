@@ -289,14 +289,24 @@ class ImportController extends Controller{
 		if(!$savePathName){
 			return new Response('获取验证码失败', 0);
 		}
+		$startTime = date('Y-m-d', NOW_TIME - 86400);
+		$endTime = date('Y-m-d');
+		$nowHour = date('G', NOW_TIME);
+		if(in_array($nowHour, [0, 1, 2, 3, 4])){
+			$startTime = date('Y-m-d', NOW_TIME - 86400);
+			$endTime = date('Y-m-d', NOW_TIME);
+		}else{
+			$startTime = date('Y-m-d', NOW_TIME);
+			$endTime = date('Y-m-d', NOW_TIME);
+		}
 		$aData = [
 			'modulusValue' => $aData['modulusValue'],
 			'exponentValue' => $aData['exponentValue'],
 			'path' => $savePathName,
 			'club_login_name' => $mClub->club_login_name,
 			'club_login_password' => $mClub->club_login_password,
-			'start_time' => date('Y-m-d', NOW_TIME - 86400),
-			'end_time' => date('Y-m-d'),
+			'start_time' => $startTime,
+			'end_time' => $endTime,
 		];
 		
 		return new Response('', 1, $aData);
@@ -324,9 +334,9 @@ class ImportController extends Controller{
 			if($startTime > $endTime){
 				return new Response('开始时间不能大于结束时间', 0);
 			}
-			if($startTime < $mUser->active_time){
+			/*if($startTime < $mUser->active_time - 86400){
 				return new Response('开始时间不能小于启用时间' . date('Y-m-d', $mUser->active_time), 0);
-			}
+			}*/
 			if($endTime > NOW_TIME){
 				return new Response('结束时间不能大于今天', 0);
 			}
