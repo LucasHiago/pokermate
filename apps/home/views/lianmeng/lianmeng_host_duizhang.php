@@ -98,6 +98,11 @@ $pageCount = 8;
 			<div class="row-item">
 				<div class="col-item thh">桌子</div>
 			</div>
+			<?php foreach($aLianmengHostDuizhang['aPaijuZhangDanList'] as $aPaijuZhangDan){ ?>
+			<div class="row-item lbb">
+				<div class="col-item" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaijuZhangDan['paiju_id']; ?>, true);"><?php echo $aPaijuZhangDan['paiju_name']; ?></div>
+			</div>	
+			<?php } ?>	
 		<?php } ?>
 		</div>
 	</div>

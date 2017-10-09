@@ -1184,7 +1184,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if($aClubList){
 			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
 		}else{
-			return [];
+			//return [];
 		}
 		$aClubList = ArrayHelper::index($aClubList, 'club_id');
 		if($aClubId){
@@ -1360,9 +1360,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		
 		//如果没有新账单就不显示牌局记录列表了
-		if(!$totalZhanDan){
+		if(!$totalZhanDan && $aClubList){
 			$aPaijuZhangDanList = [];
 		}
+		
 		return [
 			'totalZhanDan' => $totalZhanDan,
 			'aClubZhangDanList' => $aClubZhangDanList,
