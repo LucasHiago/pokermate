@@ -2017,6 +2017,7 @@ input, select{border:none;outline:none;background:none;}
     background-position: -1913px -372px;
 }
 .J-save-code-win .J-select-time{
+	display:none;
 	float: left;
     position: relative;
     top: 127px;
