@@ -1198,8 +1198,9 @@ input, select{border:none;outline:none;background:none;}
     width: 110px;
 }
 .J-bill-list-win{
+	float:left;
 	width:1200px;
-	height:849px;
+	min-height:849px;
 	/*background: url(./../images/bill-list-bg1.png) no-repeat;*/
 }
 .J-bill-list-win .b-header{
@@ -1264,8 +1265,9 @@ input, select{border:none;outline:none;background:none;}
 	cursor:pointer;
 }
 .J-edit-user-info-win{
+	float:left;
 	width:650px;
-	height:425px;
+	min-height:425px;
 	background: url(./../images/103.png) no-repeat;
 }
 .J-edit-user-info-win .J-input{
@@ -1381,8 +1383,9 @@ input, select{border:none;outline:none;background:none;}
     left: -167px;
 }
 .J-money-type-list-win{
+	float:left;
 	width:650px;
-	height:469px;
+	min-height:469px;
 	background: url(./../images/108.png) no-repeat;
 }
 .J-money-type-list-win .m-t-l-head{
@@ -1476,8 +1479,9 @@ input, select{border:none;outline:none;background:none;}
 	cursor:pointer;
 }
 .J-add-agent-win{
+	float:left;
 	width:650px;
-	height:182px;
+	min-height:182px;
     background: url(./../images/105.png) no-repeat;
 }
 .J-add-agent-win .agent-name{
@@ -1501,8 +1505,9 @@ input, select{border:none;outline:none;background:none;}
 	cursor:pointer;
 }
 .J-player-list-win{
+	float:left;
 	width:1320px;
-	height:848px;
+	min-height:848px;
     /*background: url(./../images/110.png) no-repeat;*/
 }
 .J-player-list-win.add-player{
@@ -1631,8 +1636,9 @@ input, select{border:none;outline:none;background:none;}
     background-position: -966px -392px;
 }
 .J-paiju-data-list-win{
+	float:left;
 	width:1200px;
-	height:851px;
+	min-height:851px;
     /*background: url(./../images/300.png) no-repeat;*/
 }
 .J-paiju-data-list-win  .top-title{
@@ -1733,8 +1739,9 @@ input, select{border:none;outline:none;background:none;}
     background-position: -1204px -100px;
 }
 .J-lianmeng-setting-win{
+	float:left;
 	width:650px;
-	height:423px;
+	min-height:423px;
     /*background: url(./../images/401.png) no-repeat;*/
 }
 .J-lianmeng-setting-win .ls-th{
@@ -1993,8 +2000,9 @@ input, select{border:none;outline:none;background:none;}
 	background: url(./../images/bcell.png) repeat-y;
 }
 .J-save-code-win{
+	float:left;
 	width:650px;
-	height:182px;
+	min-height:182px;
     background: url(./../images/1050.png) no-repeat;
 }
 .J-save-code-win .commit-save-code{

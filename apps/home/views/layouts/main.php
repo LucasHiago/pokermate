@@ -121,11 +121,18 @@ if($mUser){
 			}, 200);
 			function ajust(){
 				var winHeight = $(window).height();
+				var winWidth = $(window).width();
 				oHtml.css({width : $(window).width(), heigth: winHeight});
+				var marginTop = "0px";
+				if(oDom.height() < winHeight){
+					marginTop = ((winHeight - oDom.height()) / 2) + "px";
+				}
 				if(winHeight > oDom.height()){
-					oDom.css({margin : "0 auto", "margin-top" : ((winHeight - oDom.height()) / 2) + "px"});
+					//oDom.css({margin : "0 auto", "margin-top" : ((winHeight - oDom.height()) / 2) + "px"});
+					oDom.css({"margin-left" : ((winWidth - oDom.width()) / 2) + "px", "margin-top" : marginTop});
 				}else{
-					oDom.css({margin : "0 auto"});
+					//oDom.css({margin : "0 auto"});
+					oDom.css({"margin-left" : ((winWidth - oDom.width()) / 2) + "px", "margin-top" : marginTop});
 				}
 				document.documentElement.style.overflow = 'hidden';
 			}
