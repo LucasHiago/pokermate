@@ -58,6 +58,9 @@ class MoneyTypeController extends Controller{
 				}
 			}
 			if(!$mMoneyType){
+				if($money < 0){
+					return new Response('金额不能小于0', 0);
+				}
 				$isSuccess = MoneyType::addRecord([
 					'user_id' => $mUser->id,
 					'pay_type' => $payType,

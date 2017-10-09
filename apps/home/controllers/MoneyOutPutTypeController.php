@@ -58,6 +58,9 @@ class MoneyOutPutTypeController extends Controller{
 				}
 			}
 			if(!$mMoneyOutPutType){
+				if($money < 0){
+					return new Response('金额不能小于0', 0);
+				}
 				$isSuccess = MoneyOutPutType::addRecord([
 					'user_id' => $mUser->id,
 					'out_put_type' => $outPutType,

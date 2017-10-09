@@ -64,7 +64,7 @@ class DownLoadExcel extends \yii\base\Object{
 	}
 	
 	public function downSaveCode($clubId){
-		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie_' . $clubId . '.tmp';
+		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie_' . Yii::$app->user->id . '_' . $clubId . '.tmp';
 		$savePathName = Yii::getAlias('@p.temp_upload') . '/savecode_' . $clubId . '.jpg';
 		$returnString = $this->_doHttpResponsePost($this->savecodeUrl);
 		if(!$returnString){
@@ -79,7 +79,7 @@ class DownLoadExcel extends \yii\base\Object{
 		set_time_limit(0);
 		//ini_set("memory_limit", "1024M");
 		$clubId = $mClub->club_id;
-		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie_' . $clubId . '.tmp';
+		$this->_cookieFile = Yii::getAlias('@p.resource') . '/data/temp/cookie_' . $mClub->user_id . '_' . $clubId . '.tmp';
 		$aParam = ['key' => $skey, 'safecode' => $safecode];
 		if(!$retry){
 			//登录请求
