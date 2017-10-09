@@ -1195,7 +1195,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$lianmengIdWhere = ' AND `t2`.`lianmeng_id`=' . $lianmengId;
 		}
 		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . '' . $lianmengIdWhere . $clubIdWhere;
-		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`>=1' . $lianmengIdWhere . $clubIdWhere;
+		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`>=1' . $lianmengIdWhere . $clubIdWhere;
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 		$aPaijuDataZhangDanList = [];
 		$aPaijuZhangDanList = [];
@@ -1374,8 +1374,15 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	/**
 	 *	联盟俱乐部清账
 	 */
-	public function clubQinZhang($mLianmeng, $aZhangDan){
+	public function clubQinZhang($mLianmeng, $aZhangDan, $aLianmengHostDuizhang){
 		if(!$aZhangDan){
+			//清除没添加俱乐部联盟的账单
+			if(isset($aLianmengHostDuizhang['aPaijuZhangDanList']) && $aLianmengHostDuizhang['aPaijuZhangDanList']){
+				$aPaijuId = ArrayHelper::getColumn($aLianmengHostDuizhang['aPaijuZhangDanList'], 'paiju_id');
+				$sql = 'UPDATE ' . ImportData::tableName() . ' SET `club_is_clean`=1 WHERE `user_id`=' . $this->id . ' AND `paiju_id` IN (' . implode(',', $aPaijuId) . ')';
+				Yii::$app->db->createCommand($sql)->execute();
+				return true;
+			}
 			return false;
 		}
 		$zhandan = 0;

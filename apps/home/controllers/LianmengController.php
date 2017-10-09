@@ -460,10 +460,10 @@ class LianmengController extends Controller{
 				'zhang_dan' => $aClubZhangDanList['zhang_dan'],
 			]);
 		}
-		if(!$aClubZhangDan){
+		/*if(!$aClubZhangDan){
 			return new Response('新账单为0', -1);
-		}
-		if(!$mUser->clubQinZhang($mLianmeng, $aClubZhangDan)){
+		}*/
+		if(!$mUser->clubQinZhang($mLianmeng, $aClubZhangDan, $aLianmengHostDuizhang)){
 			return new Response('清账失败', 0);
 		}
 		return new Response('清账成功', 1);
