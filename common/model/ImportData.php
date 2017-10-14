@@ -435,7 +435,7 @@ class ImportData extends \common\lib\DbOrmModel{
 			$mPaiju->save();
 		}
 		//4.更新客人钱包
-		$mKerenBenjin->set('benjin', ['add', $jiesuanValue]);
+		$mKerenBenjin->set('benjin', ['add', $this->zhanji - $this->choushui_value]);
 		$mKerenBenjin->save();
 		
 		return true;
