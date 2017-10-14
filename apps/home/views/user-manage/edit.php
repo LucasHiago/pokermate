@@ -45,8 +45,8 @@ $this->registerJsFile('@r.js.wdate-picker');
 			</select>
 		</div>
 		<div class="form-group">
-			<label>VIP到期时间</label>
-			<input style="width:300px;" class="J-vip-expire-time form-control" value="<?php echo $aUser ? date('Y-m-d', $aUser['vip_expire_time']) : ''; ?>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});">
+			<label>VIP时间(单位：天)</label>
+			<input style="width:300px;" class="J-vip-expire-time form-control" value="<?php echo $aUser ? ($aUser['vip_day']) : ''; ?>">
 		</div>
 		<div class="form-group">
 			<label>起步抽水</label>

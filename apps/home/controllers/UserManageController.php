@@ -58,6 +58,10 @@ class UserManageController extends Controller{
 		$aUser = [];
 		if($mUser){
 			$aUser = $mUser->toArray();
+			$aUser['vip_day'] = 0;
+			if($mUser->vip_expire_time > NOW_TIME){
+				$aUser['vip_day'] = ceil(($mUser->vip_expire_time - NOW_TIME) / 86400);
+			}
 		}
 		
 		return $this->render('edit', [
@@ -116,7 +120,8 @@ class UserManageController extends Controller{
 			$mUser->set('qibu_choushui', $qibuChoushui);
 			$mUser->set('choushui_shuanfa', $choushuiShuanfa);
 			$mUser->set('vip_level', $vipLevel);
-			$mUser->set('vip_expire_time', strtotime($vipExpireTime));
+			//$mUser->set('vip_expire_time', strtotime($vipExpireTime));
+			$mUser->set('vip_expire_time', (((int)$vipExpireTime) * 86400 + NOW_TIME));
 			if($password){
 				$mUser->set('password', User::encryptPassword($password));
 			}
