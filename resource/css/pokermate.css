@@ -1871,6 +1871,21 @@ input, select{border:none;outline:none;background:none;}
     font-weight: bold;
     cursor: pointer;
 }
+.J-lianmeng-zhongzhang-win .s-qinzhan-btn{
+	position: relative;
+    float: right;
+    right: 15px;
+    background: url(./../images/sprite.png) no-repeat;
+    background-position: -673px -367px;
+    top: -32px;
+    width: 85px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+}
 .J-data-list-win .s-lms-txt, .J-lianmeng-zhongzhang-win .s-lms-txt{
 	position: relative;
     float: right;

@@ -803,7 +803,7 @@
 					var aData = aDataList[i];
 					listHtml += '<table class="ls-th">';
 						listHtml += '<tr>';
-							listHtml += '<td>' + aData.paiju_name + '</td>';
+							listHtml += '<td style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(' + i + ');">' + aData.paiju_name + '</td>';
 							listHtml += '<td>' + aData.baoxian_heji + '</td>';
 							listHtml += '<td>' + aData.baoxian_beichou + '</td>';
 							listHtml += '<td>' + aData.shiji_baoxian + '</td>';
@@ -1003,8 +1003,8 @@
 					html += '<div class="h100">';
 						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟账单详情</div>';
 						html += '<div class="h30">';
-							html += '<div style="float:left;width:300px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select lml-select" style="color:#ff6a6a;width:100%;height:100%;"></select></div></div>';
-							html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-btn" style="top:-2px;">联盟设置</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
+							html += '<div style="float:left;width:200px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select lml-select" style="color:#ff6a6a;width:100%;height:100%;"></select></div></div>';
+							html += '<div style="float:right;width:400px;height:100%;"><div class="s-lms-btn" style="top:-2px;">联盟设置</div><div class="s-qinzhan-btn" style="top:-2px;" data-id="' + lianmengId + '">清账</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
 						html += '</div>';
 					html += '</div>';
 					html += '<div class="h50">';
@@ -1124,6 +1124,30 @@
 				oHtml.find('.s-lms-btn').click(function(){
 					$(document).click();
 					AlertWin.showLianmengSetting();
+				});
+				oHtml.find('.s-qinzhan-btn').click(function(){
+					$(document).click();
+					if(confirm('确定清账？')){
+						var o = this;
+						ajax({
+							url : Tools.url('home', 'lianmeng/qin-zhang'),
+							data : {
+								id : $(o).attr('data-id')
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									reloadList();
+								}
+								UBox.show(aResult.msg, aResult.status);
+							}
+						});
+					}
 				});
 				oScrollBar = oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				_loadList(lianmengId);
