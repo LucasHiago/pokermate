@@ -9,6 +9,7 @@ use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\Lianmeng;
 use common\model\LianmengClub;
+use common\model\Calculate;
 
 class LianmengController extends Controller{
 	
@@ -408,8 +409,9 @@ class LianmengController extends Controller{
 		$aLianmengZhangDanDetailList = $mUser->getLianmengZhangDanDetailList($id);
 		$totalZhangDan = 0;
 		foreach($aLianmengZhangDanDetailList as $aLianmengZhangDanDetail){
-			$totalZhangDan += $aLianmengZhangDanDetail['zhang_dan'];
+			$totalZhangDan += $aLianmengZhangDanDetail['float_zhang_dan'];
 		}
+		$totalZhangDan = Calculate::getIntValueByChoushuiShuanfa($totalZhangDan, $mUser->choushui_shuanfa);
 		$aReturn = [
 			'list' => $aLianmengZhangDanDetailList,
 			'totalZhangDan' => $totalZhangDan,
