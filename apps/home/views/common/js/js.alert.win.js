@@ -979,7 +979,7 @@
 					var aData = aDataList[i];
 					listHtml += '<table class="ls-th">';
 						listHtml += '<tr>';
-							listHtml += '<td onclick="AlertWin.showPaijuDataList(' + i + ');" style="cursor:pointer;">' + aData.paiju_name + '</td>';
+							listHtml += '<td onclick="AlertWin.showPaijuDataList(' + aData.paiju_id + ', 1);" style="cursor:pointer;">' + aData.paiju_name + '</td>';
 							listHtml += '<td>' + aData.zhanji + '</td>';
 							listHtml += '<td>' + aData.choushui_value + '</td>';
 							listHtml += '<td>' + aData.paiju_fee + '</td>';

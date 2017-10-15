@@ -707,7 +707,17 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				];
 			}
 		}
-		
+		//排序
+		if($aReturnList){
+			$aPaijuId = array_keys($aReturnList);
+			$aPaijuList = Paiju::findAll(['id' => $aPaijuId], ['id', 'end_time'], 0, 0, ['end_time' => SORT_DESC]);
+			$aSortList = [];
+			foreach($aPaijuList as $aPaiju){
+				$aReturnList[$aPaiju['id']]['paiju_id'] = $aPaiju['id'];
+				$aSortList[] = $aReturnList[$aPaiju['id']];
+			}
+			$aReturnList = $aSortList;
+		}
 		$this->_aUnJiaoBanPaijuChouShuiList = $aReturnList;
 		return $aReturnList;
 	}
@@ -843,7 +853,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				}
 				$aResult = array_merge($aResult, $aEmptyRecordList);
 			}
-		}//print_r($sql);exit;
+		}
 		//合并空账单end
 		return $aResult;
 	}
