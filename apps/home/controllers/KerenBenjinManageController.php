@@ -83,7 +83,7 @@ class KerenBenjinManageController extends Controller{
 		$yingChou = (int)Yii::$app->request->post('yingChou');
 		$shuFan = (int)Yii::$app->request->post('shuFan');
 		$agentId = (int)Yii::$app->request->post('agentId');
-		$remark = (int)Yii::$app->request->post('remark');
+		$remark = (string)Yii::$app->request->post('remark');
 		
 		if(!$id){
 			$oController = new IndexController($this->id, Yii::$app);
@@ -159,7 +159,7 @@ class KerenBenjinManageController extends Controller{
 		$yingChou = (int)Yii::$app->request->post('yingChou');
 		$shuFan = (int)Yii::$app->request->post('shuFan');
 		$agentId = (int)Yii::$app->request->post('agentId');
-		$remark = (int)Yii::$app->request->post('remark');
+		$remark = (string)Yii::$app->request->post('remark');
 		
 		if(!$id){
 			return new Response('玩家不存在', -1);
@@ -206,14 +206,18 @@ class KerenBenjinManageController extends Controller{
 						$mTempKerenBenjin->set('remark', $remark);
 						$mTempKerenBenjin->save();
 						
-						$mKerenBenjin->set('is_delete', 1);
-						$mKerenBenjin->save();
 						$aPlayerList = $mKerenBenjin->getPlayerList();
+						if(count($aPlayerList) == 1){
+							$mKerenBenjin->set('is_delete', 1);
+							$mKerenBenjin->save();
+						}
 						if($aPlayerList){
 							foreach($aPlayerList as $aPlayer){
 								$mPlayer = Player::toModel($aPlayer);
-								$mPlayer->set('keren_bianhao', $mTempKerenBenjin->keren_bianhao);
-								$mPlayer->save();
+								if($id == $mPlayer->id){
+									$mPlayer->set('keren_bianhao', $mTempKerenBenjin->keren_bianhao);
+									$mPlayer->save();
+								}
 							}
 						}
 						$aNewRecord = $mTempKerenBenjin->toArray();
