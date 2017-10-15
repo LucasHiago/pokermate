@@ -41,12 +41,13 @@ $this->setTitle('会员管理');
 					
 					'operate'	=>	[
 						'title' => '操作',
-						'class' => 'col-sm-2',
+						'class' => 'col-sm-3',
 						'content' => function($aData){
 							$str = '';
 							//$str .= '<a href="' . Url::to('home', 'keren-benjin-manage/show-edit', ['id' => $aData['keren_bianhao']]) . '" type="button" class="btn btn-primary">修改</a>&nbsp;&nbsp;';
 							$str .= '<a href="javascript:;" type="button" class="btn btn-primary" onclick="showEditPlayer(this, ' . $aData['id'] . ');">修改</a>&nbsp;&nbsp;';
-							$str .= '<a href="javascript:;" type="button" class="btn btn-danger" onclick="setDeletePlayer(this, ' . $aData['id'] . ', 1);">删除</a>';
+							$str .= '<a href="javascript:;" type="button" class="btn btn-danger" onclick="setDeletePlayer(this, ' . $aData['id'] . ', 1);">删除</a>&nbsp;&nbsp;';
+							$str .= '<a href="' . Url::to('home', 'keren-benjin-manage/export-player-last-paiju-data') . '?id=' . $aData['id'] . '" type="button" class="btn btn-primary">导出记录</a>';
 							return $str;
 						}
 					],

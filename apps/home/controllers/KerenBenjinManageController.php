@@ -324,4 +324,34 @@ class KerenBenjinManageController extends Controller{
 		return new Response('删除成功', 1);
 	}
 	
+	public function actionExportPlayerLastPaijuData(){
+		$id = Yii::$app->request->get('id');
+		
+		$mUser = Yii::$app->user->getIdentity();
+		$mPlayer = Player::findOne($id);
+		if($mPlayer->user_id != Yii::$app->user->id){
+			return new Response('出错了', 0);
+		}
+		
+		$aList = $mPlayer->getLastPaijuData(1, 10);
+		$aDataList = [
+			['牌局名', '桌子级别', '玩家名', '战绩', '结算'],
+		];
+		if(!$aList){
+			return new Response('暂无数据', 0);
+		}
+		foreach($aList as $value){
+			array_push($aDataList, [
+				$value['paiju_name'],
+				$value['mangzhu'],
+				$value['player_name'],
+				$value['zhanji'],
+				$value['jiesuan_value'],
+			]);
+		}
+		
+		$fileName = '客人牌局数据.xlsx';
+		
+		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
+	}
 }

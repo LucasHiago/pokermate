@@ -124,6 +124,7 @@ return [
 		'keren-benjin-manage/export-list.html'									=> 'keren-benjin-manage/export-list',
 		'keren-benjin-manage/export-player-list.html'							=> 'keren-benjin-manage/export-player-list',
 		'keren-benjin-manage/delete-player.json'								=> 'keren-benjin-manage/delete-player',
+		'keren-benjin-manage/export-player-last-paiju-data.html'				=> 'keren-benjin-manage/export-player-last-paiju-data',
 		
 		
 		'operate-log-manage/index.html'											=> 'operate-log-manage/index',

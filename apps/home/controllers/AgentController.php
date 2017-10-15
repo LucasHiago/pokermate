@@ -170,7 +170,7 @@ class AgentController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId);
 		$aDataList = [
-			['牌局名', '桌子级别', '玩家名', '战绩', '分成'],
+			['牌局名', '桌子级别', '玩家名', '战绩', '结算', '分成'],
 		];
 		if(!$aAgentUnCleanFenChengList){
 			return new Response('暂无代理数据', 0);
@@ -181,6 +181,7 @@ class AgentController extends Controller{
 				$value['mangzhu'],
 				$value['player_name'],
 				$value['zhanji'],
+				$value['jiesuan_value'],
 				$value['fencheng'],
 			]);
 		}
@@ -199,6 +200,7 @@ class AgentController extends Controller{
 				$table .= '<td>' . $v[2] . '</td>';
 				$table .= '<td>' . $v[3] . '</td>';
 				$table .= '<td>' . $v[4] . '</td>';
+				$table .= '<td>' . $v[5] . '</td>';
 			$table .= '</tr>';
 		}
 		$table .= '</table>';
