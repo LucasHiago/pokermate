@@ -1,5 +1,67 @@
 (function(container, $){
 	container.AlertWin = {
+		showJiaoShouWin : function(kerenBianhao, moneyTypeId, moneyType){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:460px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">（客人编号：' + kerenBianhao + '）→（' + moneyType + '）</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h20"></div>';
+						html += '<div style="height:52px;margin-bottom: 20px;">';
+							html += '<div class="alert alert-success" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">存入金额</div>';
+							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">+</div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" /></div>';
+						html += '</div>';
+						html += '<div style="height:52px;margin-bottom: 20px;">';
+							html += '<div class="alert alert-danger" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">转出金额</div>';
+							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">-</div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" /></div>';
+						html += '</div>';
+							
+						html += '<div class="h20"></div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+						
+			showAlertWin(oHtml, function(){
+				oHtml.find('input').keyup(function(e){
+					if(e.keyCode == 13){
+						var jsjer = parseInt($(this).val());
+						if($(this).attr('data-type') == 'sub'){
+							jsjer = -jsjer;
+						}
+						var o = this;
+						ajax({
+							url : Tools.url('home', 'index/jiaoshou-jiner'),
+							data : {
+								kerenBianhao : kerenBianhao,
+								payType : moneyTypeId,
+								jsjer : jsjer
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 3);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
+								}
+							}
+						});
+					}
+				});
+			});	
+		},
+		
 		showUserActive : function(o){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
@@ -228,7 +290,7 @@
 				html += '<input type="text" class="save-code" style="text-align: center; border-radius: 5px;float: left; position: relative; top: 63px; left: 160px;background:#181326; width: 120px; height: 48px; line-height: 48px; color: #ffffff; font-size: 20px;" />';
 				html += '<a class="commit-save-code"></a>';
 				html += '<div class="J-select-time"><input type="text" class="st" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /><span style="float: left; width: 28px; text-align: center;">至</span><input type="text" class="et" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /></div>';
-				html += '<div class="J-wait-tip" style="background: #1f1f2f; float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: 125px;color:#f4e2a9;display:none;">正在获取牌局，请稍等...(获取一天牌局大概1分钟左右^ω^)</div>';
+				html += '<div class="J-wait-tip" style="background: #1f1f2f; float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: 125px;color:#f4e2a9;display:none;">正在获取牌局，请稍等...</div>';
 			html += '</div>';
 			
 			var oHtml = $(html);

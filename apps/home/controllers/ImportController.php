@@ -363,7 +363,7 @@ class ImportController extends Controller{
 			return new Response('导入Excel文件数据失败', 0);
 		}*/
 		
-		return new Response('Success', 1);
+		return new Response('获取成功', 1);
 	}
 	
 	private  function _importDownloadExcelFiles($mUser, $clubId){

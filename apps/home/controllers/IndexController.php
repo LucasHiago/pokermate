@@ -183,7 +183,7 @@ class IndexController extends Controller{
 	public function actionJiaoshouJiner(){
 		$kerenBianhao = (int)Yii::$app->request->post('kerenBianhao');
 		$payType = (int)Yii::$app->request->post('payType');
-		$jsjer = Yii::$app->request->post('jsjer');
+		$jsjer = (int)Yii::$app->request->post('jsjer');
 		
 		if(!$kerenBianhao){
 			return new Response('请输入客人编号', -1);
@@ -198,8 +198,8 @@ class IndexController extends Controller{
 			return new Response('收缴方式不存在', 0);
 		}
 		$aOldMoneyTypeRecord = $mMoneyType->toArray();
-		if(!$jsjer || intval($jsjer) != $jsjer){
-			return new Response('交收金额必须是大于0的整数', 0);
+		if(!$jsjer){
+			return new Response('交收金额不能为0', 0);
 		}
 		
 		$mKerenBenjin->set('benjin', ['add', $jsjer]);

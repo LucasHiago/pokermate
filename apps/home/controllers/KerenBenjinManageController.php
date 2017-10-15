@@ -160,6 +160,8 @@ class KerenBenjinManageController extends Controller{
 		$shuFan = (int)Yii::$app->request->post('shuFan');
 		$agentId = (int)Yii::$app->request->post('agentId');
 		$remark = (string)Yii::$app->request->post('remark');
+		$playerName = (string)Yii::$app->request->post('playerName');
+		$playerId = (int)Yii::$app->request->post('playerId');
 		
 		if(!$id){
 			return new Response('玩家不存在', -1);
@@ -253,6 +255,17 @@ class KerenBenjinManageController extends Controller{
 			}
 			if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
 				$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			$aOldPlayer = $mPlayer->toArray();
+			$mPlayer->set('player_id', $playerId);
+			$mPlayer->set('player_name', $playerName);
+			$mPlayer->save();
+			$aNewPlayer = $mPlayer->toArray();
+			if($aOldPlayer['player_id'] != $aNewPlayer['player_id']){
+				$mUser->operateLog(39, ['aOldPlayer' => $aOldPlayer, 'aNewPlayer' => $aNewPlayer]);
+			}
+			if($aOldPlayer['player_name'] != $aNewPlayer['player_name']){
+				$mUser->operateLog(40, ['aOldPlayer' => $aOldPlayer, 'aNewPlayer' => $aNewPlayer]);
 			}
 		}
 		

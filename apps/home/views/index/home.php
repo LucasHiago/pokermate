@@ -95,9 +95,9 @@ $this->setTitle('结账台');
 			<div class="c-b-c-r-center">
 				<a class="krbh"><input type="text" class="J-search-keren-bianhao" value="" /></a>
 				<a class="bj"><input type="text" class="J-search-benjin " value="0" /></a>
-				<a class="J-jsfs jsfs" data-value="<?php echo $aMoneyTypeList ? $aMoneyTypeList[0]['id'] : 0; ?>"><?php echo $aMoneyTypeList ? $aMoneyTypeList[0]['pay_type'] : ''; ?></a>
-				<a class="jsjer"><input type="text" class="J-search-jsjer" value="0" /></a>
-				<a class="J-submit-search-benjin sure"></a>
+				<a class="J-jsfs jsfs" data-value="0">请选择</a>
+				<!--<a class="jsjer"><input type="text" class="J-search-jsjer" value="0" /></a>
+				<a class="J-submit-search-benjin sure"></a>-->
 			</div>
 			<div class="c-b-c-r-bottom">
 				<div class="txt-wrap">
@@ -227,9 +227,17 @@ $this->setTitle('结账台');
 				$('#pageWraper').append(oHtml);
 				oHtml.css({top: $(this).offset().top + 33, left: $(this).offset().left});
 				oHtml.find('.J-jsfs-select-item').on('click', function(){
-					$('.J-jsfs').attr('data-value', $(this).attr('data-value'));
-					$('.J-jsfs').text($(this).text());
+					//$('.J-jsfs').attr('data-value', $(this).attr('data-value'));
+					//$('.J-jsfs').text($(this).text());
+					var kerenBianhao = $('.J-search-keren-bianhao').val();
+					var moneyTypeId = $(this).attr('data-value');
+					var moneyType = $(this).text();
 					oHtml.remove();
+					if(kerenBianhao == ''){
+						UBox.show('请输入客人编号', -1);
+						return;
+					}
+					AlertWin.showJiaoShouWin(kerenBianhao, moneyTypeId, moneyType);
 				});
 				$(document).on('click', function(e){
 					if(!$(e.target).hasClass('J-jsfs')){

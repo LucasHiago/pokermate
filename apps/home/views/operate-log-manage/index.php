@@ -92,6 +92,10 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟俱乐部保险抽成】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 保险抽成：' . $aData['data_json']['aOldRecord']['baoxian_choucheng'] . '  修改后保险抽成：' . $aData['data_json']['aNewRecord']['baoxian_choucheng'];
 							}elseif($aData['type'] == 38){
 								$log = date('Y.m.d', $aData['create_time']) . '   【联盟俱乐部清账】联盟名称：' . $aData['data_json']['aLianmeng']['name'] . ' 新帐：' . $aData['data_json']['zhandan'];
+							}elseif($aData['type'] == 39){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改玩家ID】玩家名称：' . $aData['data_json']['aOldPlayer']['player_name'] . ' 玩家ID：' . $aData['data_json']['aOldPlayer']['player_id'] . '  修改后玩家ID：' . $aData['data_json']['aNewPlayer']['player_id'];
+							}elseif($aData['type'] == 40){
+								$log = date('Y.m.d', $aData['create_time']) . '   【修改玩家名称】玩家名称：' . $aData['data_json']['aOldPlayer']['player_name'] . '  修改后玩家名称：' . $aData['data_json']['aNewPlayer']['player_name'];
 							}
 							return $log;
 						}
