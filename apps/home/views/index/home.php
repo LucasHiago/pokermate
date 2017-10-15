@@ -79,7 +79,7 @@ $this->setTitle('结账台');
 		</div>
 		<div class="c-b-c-center">
 			<a href="javascript:;" class="chaer"></a>
-			<a href="javascript:;" class="J-imbalance-money ball <?php echo abs($aUnJiaoBanPaijuTotalStatistic['imbalanceMoney']) > 100 ? 'fu' : ''; ?>"><?php echo $aUnJiaoBanPaijuTotalStatistic['imbalanceMoney']; ?></a>
+			<a href="javascript:;" class="J-imbalance-money ball <?php echo abs($aUnJiaoBanPaijuTotalStatistic['imbalanceMoney']) > 1 ? 'fu' : ''; ?>"><?php echo $aUnJiaoBanPaijuTotalStatistic['imbalanceMoney']; ?></a>
 			<a href="javascript:;" class="lmzz" onclick="AlertWin.showLianmengZhongZhang();"></a>
 			<a href="javascript:;" class="krxx" onclick="AlertWin.showPlayerList();"></a>
 			<a href="javascript:;" class="lspj" onclick="AlertWin.showPaijuList({isHistory : 1});"></a>
