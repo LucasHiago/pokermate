@@ -212,7 +212,12 @@ class IndexController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		$mUser->operateLog(2, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'aOldMoneyTypeRecord' => $aOldMoneyTypeRecord, 'aNewMoneyTypeRecord' => $aNewMoneyTypeRecord]);
 		
-		return new Response('操作成功', 1);
+		if($jsjer > 0){
+			return new Response('存入成功', 1);
+		}else{
+			return new Response('转出成功', 1);
+		}
+		//return new Response('操作成功', 1);
 	}
 	
 	public function actionUpdateBenjin(){
