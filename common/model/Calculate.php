@@ -28,7 +28,11 @@ class Calculate extends \yii\base\Object{
 				$jiesuanValue = $zhanji;
 			}
 		}else{
-			$jiesuanValue = $zhanji * (1 - ($shuFan / 100));
+			if(-$zhanji >= $qibuChoushui){
+				$jiesuanValue = $zhanji * (1 - ($shuFan / 100));
+			}else{
+				$jiesuanValue = $zhanji;
+			}
 		}
 		if(!$returnInt){
 			return $jiesuanValue;
@@ -121,9 +125,9 @@ class Calculate extends \yii\base\Object{
 	 *	$returnInt	是否取整返回
 	 */
 	public static function calculateBaoxianBeichou($baoxianHeji = 0, $baoxianChoucheng = 0, $choushuiShuanfa = 0, $returnInt = true){
-		if($baoxianHeji <= 0){
+		/*if($baoxianHeji <= 0){
 			return 0;
-		}
+		}*/
 		$baoxianBeichou = -$baoxianHeji * ($baoxianChoucheng / 100);
 		if(!$returnInt){
 			return $baoxianBeichou;
