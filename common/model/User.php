@@ -939,7 +939,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aReturnList[$lianmengId]['lianmeng_zhang_dan'] += $aLianmengZhangDanDetail['zhang_dan'];
 				$aReturnList[$lianmengId]['float_lianmeng_zhang_dan'] += $aLianmengZhangDanDetail['float_zhang_dan'];
 			}
-			//$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aReturnList[$lianmengId]['lianmeng_qian_zhang'] + $aReturnList[$lianmengId]['lianmeng_zhang_dan'];
+			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aReturnList[$lianmengId]['lianmeng_qian_zhang'] + $aReturnList[$lianmengId]['lianmeng_zhang_dan'];
 			$aReturnList[$lianmengId]['float_lianmeng_zhong_zhang'] = $aReturnList[$lianmengId]['lianmeng_qian_zhang'] + $aReturnList[$lianmengId]['float_lianmeng_zhang_dan'];
 		}
 		foreach($aReturnList as $lianmengId => $aValue){
