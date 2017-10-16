@@ -1,5 +1,127 @@
 (function(container, $){
 	container.AlertWin = {
+		showMoneyTypeWin : function(moneyTypeId, moneyType){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:460px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">（' + moneyType + '）</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h20"></div>';
+						html += '<div style="height:52px;margin-bottom: 20px;">';
+							html += '<div class="alert alert-success" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">增加金额</div>';
+							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">+</div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" /></div>';
+						html += '</div>';
+						html += '<div style="height:52px;margin-bottom: 20px;">';
+							html += '<div class="alert alert-danger" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">减少金额</div>';
+							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">-</div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" /></div>';
+						html += '</div>';
+							
+						html += '<div class="h20"></div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+						
+			showAlertWin(oHtml, function(){
+				oHtml.find('input').keyup(function(e){
+					if(e.keyCode == 13){
+						var addMoney = parseInt($(this).val());
+						if($(this).attr('data-type') == 'sub'){
+							addMoney = -addMoney;
+						}
+						var o = this;
+						ajax({
+							url : Tools.url('home', 'money-type/add-money'),
+							data : {
+								id : moneyTypeId,
+								addMoney : addMoney
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 3);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
+								}
+							}
+						});
+					}
+				});
+			});	
+		},
+		
+		showMoneyOutPutTypeWin : function(moneyTypeId, moneyType){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:460px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">（' + moneyType + '）</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h20"></div>';
+						html += '<div style="height:52px;margin-bottom: 20px;">';
+							html += '<div class="alert alert-success" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">增加金额</div>';
+							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">+</div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" /></div>';
+						html += '</div>';
+						html += '<div style="height:52px;margin-bottom: 20px;">';
+							html += '<div class="alert alert-danger" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">减少金额</div>';
+							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">-</div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" /></div>';
+						html += '</div>';
+							
+						html += '<div class="h20"></div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+						
+			showAlertWin(oHtml, function(){
+				oHtml.find('input').keyup(function(e){
+					if(e.keyCode == 13){
+						var addMoney = parseInt($(this).val());
+						if($(this).attr('data-type') == 'sub'){
+							addMoney = -addMoney;
+						}
+						var o = this;
+						ajax({
+							url : Tools.url('home', 'money-out-put-type/add-money'),
+							data : {
+								id : moneyTypeId,
+								addMoney : addMoney
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 3);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
+								}
+							}
+						});
+					}
+				});
+			});	
+		},
+		
 		showJiaoShouWin : function(kerenBianhao, moneyTypeId, moneyType){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:460px;">';

@@ -29,7 +29,7 @@ class MoneyOutPutTypeController extends Controller{
 		if($id){
 			$mMoneyOutPutType = MoneyOutPutType::findOne($id);
 			if(!$mMoneyOutPutType){
-				return new Response('支付方式不存在', -1);
+				return new Response('支出方式不存在', -1);
 			}
 			$aOldRecord = $mMoneyOutPutType->toArray();
 			//$mMoneyOutPutType->set('out_put_type', $outPutType);
@@ -45,7 +45,7 @@ class MoneyOutPutTypeController extends Controller{
 				'out_put_type' => $outPutType,
 			]);
 			if($mMoneyOutPutType && !$mMoneyOutPutType->is_delete){
-				return new Response('支付方式已存在', 0);
+				return new Response('支出方式已存在', 0);
 			}
 			if($mMoneyOutPutType && $mMoneyOutPutType->is_delete){
 				$aOldRecord = $mMoneyOutPutType->toArray();
@@ -89,7 +89,7 @@ class MoneyOutPutTypeController extends Controller{
 		foreach($aId as $id){
 			$mMoneyOutPutType = MoneyOutPutType::findOne($id);
 			if(!$mMoneyOutPutType){
-				return new Response('支付方式不存在', -1);
+				return new Response('支出方式不存在', -1);
 			}
 			if($mMoneyOutPutType->user_id != Yii::$app->user->id){
 				return new Response('出错了', 0);
@@ -101,4 +101,28 @@ class MoneyOutPutTypeController extends Controller{
 		}
 		return new Response('删除成功', 1);
 	}
+	
+	public function actionAddMoney(){
+		$id = (int)Yii::$app->request->post('id');
+		$addMoney = (int)Yii::$app->request->post('addMoney');
+		
+		$mUser = Yii::$app->user->getIdentity();
+		$mMoneyOutPutType = MoneyOutPutType::findOne($id);
+		if(!$mMoneyOutPutType){
+			return new Response('支出方式不存在', -1);
+		}
+		$aOldRecord = $mMoneyOutPutType->toArray();
+		$mMoneyOutPutType->set('money', ['add', $addMoney]);
+		$mMoneyOutPutType->save();
+		$aNewRecord = $mMoneyOutPutType->toArray();
+		if($aOldRecord['money'] != $aNewRecord['money']){
+			$mUser->operateLog(14, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($addMoney > 0){
+			return new Response('增加金额成功', 1);
+		}else{
+			return new Response('减少金额成功', 1);
+		}
+	}
+	
 }

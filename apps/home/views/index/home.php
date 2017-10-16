@@ -200,6 +200,7 @@ $this->setTitle('结账台');
 				oTxt.val('');
 				oTxt.focus();
 				oTxt.val(txt);
+				AlertWin.showMoneyOutPutTypeWin(oTxt.attr('data-id'), $(this).prev().prev().text());
 			});
 			
 			$('.b-b-item-center-list').find('input').keyup(function(e){
@@ -283,6 +284,7 @@ $this->setTitle('结账台');
 				oTxt.val('');
 				oTxt.focus();
 				oTxt.val(txt);
+				AlertWin.showMoneyTypeWin(oTxt.attr('data-id'), $(this).prev().prev().text());
 			});
 			
 			$('.b-b-item-left-list').find('input').keyup(function(e){

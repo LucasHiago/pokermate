@@ -101,4 +101,28 @@ class MoneyTypeController extends Controller{
 		}
 		return new Response('删除成功', 1);
 	}
+	
+	public function actionAddMoney(){
+		$id = (int)Yii::$app->request->post('id');
+		$addMoney = (int)Yii::$app->request->post('addMoney');
+		
+		$mUser = Yii::$app->user->getIdentity();
+		$mMoneyType = MoneyType::findOne($id);
+		if(!$mMoneyType){
+			return new Response('支付方式不存在', -1);
+		}
+		$aOldRecord = $mMoneyType->toArray();
+		$mMoneyType->set('money', ['add', $addMoney]);
+		$mMoneyType->save();
+		$aNewRecord = $mMoneyType->toArray();
+		if($aOldRecord['money'] != $aNewRecord['money']){
+			$mUser->operateLog(11, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($addMoney > 0){
+			return new Response('增加金额成功', 1);
+		}else{
+			return new Response('减少金额成功', 1);
+		}
+	}
+	
 }
