@@ -107,8 +107,6 @@ class KerenBenjinManageController extends Controller{
 						$mTempKerenBenjin->set('is_delete', 0);
 						$mTempKerenBenjin->save();
 						
-						$mKerenBenjin->set('is_delete', 1);
-						$mKerenBenjin->save();
 						$aPlayerList = $mKerenBenjin->getPlayerList();
 						if($aPlayerList){
 							foreach($aPlayerList as $aPlayer){
@@ -117,6 +115,7 @@ class KerenBenjinManageController extends Controller{
 								$mPlayer->save();
 							}
 						}
+						$mKerenBenjin->delete();
 						return new Response('合并成功', 1, 'reload');
 					}else{
 						return new Response('改编号已有客人使用，是否合并共用？', 2);
@@ -209,10 +208,6 @@ class KerenBenjinManageController extends Controller{
 						$mTempKerenBenjin->save();
 						
 						$aPlayerList = $mKerenBenjin->getPlayerList();
-						if(count($aPlayerList) == 1){
-							$mKerenBenjin->set('is_delete', 1);
-							$mKerenBenjin->save();
-						}
 						if($aPlayerList){
 							foreach($aPlayerList as $aPlayer){
 								$mPlayer = Player::toModel($aPlayer);
@@ -221,6 +216,9 @@ class KerenBenjinManageController extends Controller{
 									$mPlayer->save();
 								}
 							}
+						}
+						if(count($aPlayerList) == 1){
+							$mKerenBenjin->delete();
 						}
 						$aNewRecord = $mTempKerenBenjin->toArray();
 						$mUser = Yii::$app->user->getIdentity();
@@ -328,7 +326,13 @@ class KerenBenjinManageController extends Controller{
 		if($mPlayer->user_id != Yii::$app->user->id){
 			return new Response('出错了', 0);
 		}
+		$mKerenBenjin = KerenBenjin::findOne(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao]);
+		$aPlayerList = $mKerenBenjin->getPlayerList();
+		if(count($aPlayerList) == 1){
+			$mKerenBenjin->delete();
+		}
 		$aPlayer = $mPlayer->toArray();
+		$mPlayer->set('keren_bianhao', 0);
 		$mPlayer->set('is_delete', 1);
 		$mPlayer->save();
 		$mUser = Yii::$app->user->getIdentity();

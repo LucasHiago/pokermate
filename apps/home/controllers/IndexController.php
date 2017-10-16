@@ -316,8 +316,6 @@ class IndexController extends Controller{
 						$mTempKerenBenjin->set('is_delete', 0);
 						$mTempKerenBenjin->save();
 						
-						$mKerenBenjin->set('is_delete', 1);
-						$mKerenBenjin->save();
 						$aPlayerList = $mKerenBenjin->getPlayerList();
 						if($aPlayerList){
 							foreach($aPlayerList as $aPlayer){
@@ -326,6 +324,7 @@ class IndexController extends Controller{
 								$mPlayer->save();
 							}
 						}
+						$mKerenBenjin->delete();
 						$aNewRecord = $mTempKerenBenjin->toArray();
 						$mUser = Yii::$app->user->getIdentity();
 						$mUser->operateLog(6, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'aMergeRecord' => $aMergeRecord]);
@@ -472,19 +471,32 @@ class IndexController extends Controller{
 				return new Response('代理不存在', -1);
 			}
 		}
-		$isSuccess = Player::addRecord([
-			'user_id' => Yii::$app->user->id,
-			'keren_bianhao' => $kerenBianhao,
-			'player_id' => $playerId,
-			'player_name' => $playerName,
-			'create_time' => NOW_TIME,
-		]);
-		ImportData::addEmptyDataRecord(Yii::$app->user->id, $playerId, $playerName);
-		
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 		if(!$mKerenBenjin){
 			return new Response('出错啦', 0);
 		}
+		if($mKerenBenjin->is_delete){
+			$mKerenBenjin->set('is_delete', 0);
+			$mKerenBenjin->save();
+		}
+		$mPlayer = Player::findOne(['user_id' => Yii::$app->user->id, 'player_id' => $playerId, 'is_delete' => 1]);
+		$isSuccess = 0;
+		if($mPlayer){
+			$isSuccess = $mPlayer->id;
+			$mPlayer->set('keren_bianhao', $kerenBianhao);
+			$mPlayer->set('is_delete', 0);
+			$mPlayer->save();
+		}else{
+			$isSuccess = Player::addRecord([
+				'user_id' => Yii::$app->user->id,
+				'keren_bianhao' => $kerenBianhao,
+				'player_id' => $playerId,
+				'player_name' => $playerName,
+				'create_time' => NOW_TIME,
+			]);
+		}
+		ImportData::addEmptyDataRecord(Yii::$app->user->id, $playerId, $playerName);
+		
 		$aOldRecord = $mKerenBenjin->toArray();
 		$mKerenBenjin->set('benjin', $benjin);
 		$mKerenBenjin->set('ying_chou', $yingChou);

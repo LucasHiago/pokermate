@@ -61,7 +61,7 @@ $this->setTitle('会员管理');
 	var aAgentList = <?php echo json_encode($aAgentList); ?>;
 	
 	function setDeletePlayer(o, id, status){
-		var tips = '确定删除？';
+		var tips = '删除用户将清空该用户在代理中的结算记录，是否确认删除？';
 		if(status == 0){
 			tips = '确定启用？';
 		}

@@ -450,6 +450,30 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			foreach($aList as $key => $value){
 				if(isset($value['keren_benjin_info']) && $value['keren_benjin_info'] && isset($value['keren_benjin_info']['is_delete']) && !$value['keren_benjin_info']['is_delete']){
 					array_push($aReturnList, $value);
+				}else{
+					//恢复玩家，创建新的钱包ID start
+					$kerenId = KerenBenjin::addRecord(['user_id' => $value['user_id'], 'keren_bianhao' => KerenBenjin::getNextKerenbianhao($value['user_id']), 'create_time' => NOW_TIME]);
+					$mKerenBenjin = KerenBenjin::findOne($kerenId);
+					$mPlayer = Player::findOne(['user_id' => $value['user_id'], 'player_id' => $value['player_id']]);
+					if($mPlayer){
+						$mPlayer->set('keren_bianhao', $mKerenBenjin->keren_bianhao);
+						$mPlayer->set('is_delete', 0);
+						$mPlayer->save();
+					}
+					//恢复玩家，创建新的钱包ID end
+					$value['keren_benjin_info'] = $mKerenBenjin->toArray();
+					$value['keren_benjin_info']['player_id'] = $value['player_id'];
+					$jiesuanValue = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $this->qibu_choushui, $this->choushui_shuanfa);
+					$floatJiesuanValue = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $mKerenBenjin->ying_chou, $mKerenBenjin->shu_fan, $this->qibu_choushui, $this->choushui_shuanfa, false);
+					$value['jiesuan_value'] = $jiesuanValue;
+					$value['float_jiesuan_value'] = $floatJiesuanValue;
+					if($value['status']){
+						//如果该记录已结算，显示最新本金
+						$value['new_benjin'] = $mKerenBenjin->benjin;
+					}else{
+						$value['new_benjin'] = $mKerenBenjin->benjin + $value['jiesuan_value'];
+					}
+					array_push($aReturnList, $value);
 				}
 			}
 		}else{

@@ -268,7 +268,7 @@
 		}
 			
 		function _deleteRecord(o){
-			if(confirm('确定删除？')){
+			if(confirm('删除用户将清空该用户在代理中的结算记录，是否确认删除？')){
 				ajax({
 					url : Tools.url('home', 'index/delete-keren'),
 					data : {

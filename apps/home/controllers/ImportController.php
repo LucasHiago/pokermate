@@ -67,7 +67,6 @@ class ImportController extends Controller{
 					$mKerenBenjin = KerenBenjin::findOne([
 						'user_id' => $mUser->id,
 						'keren_bianhao' => $kerenBianhao,
-						'is_delete' => 0,
 					]);
 					if(!$mKerenBenjin){
 						KerenBenjin::addRecord([
@@ -75,12 +74,16 @@ class ImportController extends Controller{
 							'keren_bianhao' => $kerenBianhao, 
 							'create_time' => NOW_TIME
 						]);
+					}else{
+						if($mKerenBenjin->is_delete){
+							$mKerenBenjin->set('is_delete', 0);
+							$mKerenBenjin->save();
+						}
 					}
 					$mPlayer = Player::findOne([
 						'user_id' => $mUser->id,
 						'keren_bianhao' => $kerenBianhao,
 						'player_id' => $playerId,
-						'is_delete' => 0,
 					]);
 					if(!$mPlayer){
 						Player::addRecord([
@@ -90,6 +93,12 @@ class ImportController extends Controller{
 							'player_name' => $aData[0],
 							'create_time' => NOW_TIME,
 						]);
+					}else{
+						if($mPlayer->is_delete){
+							$mPlayer->set('keren_bianhao', $kerenBianhao);
+							$mPlayer->set('is_delete', 0);
+							$mPlayer->save();
+						}
 					}
 				}
 				return new Response('导入Excel文件成功', 1);
@@ -144,12 +153,21 @@ class ImportController extends Controller{
 							'remark' => $remark, 
 							'create_time' => NOW_TIME
 						]);
+					}else{
+						if($mKerenBenjin->is_delete){
+							$mKerenBenjin->set('benjin', $benjin);
+							$mKerenBenjin->set('ying_chou', $yingChou);
+							$mKerenBenjin->set('shu_fan', $shuFan);
+							$mKerenBenjin->set('agent_id', $agentId);
+							$mKerenBenjin->set('remark', $remark);
+							$mKerenBenjin->set('is_delete', 0);
+							$mKerenBenjin->save();
+						}
 					}
 					$mPlayer = Player::findOne([
 						'user_id' => $mUser->id,
 						'keren_bianhao' => $kerenBianhao,
 						'player_id' => $playerId,
-						'is_delete' => 0,
 					]);
 					if(!$mPlayer){
 						Player::addRecord([
@@ -159,6 +177,12 @@ class ImportController extends Controller{
 							'player_name' => $playerName,
 							'create_time' => NOW_TIME,
 						]);
+					}else{
+						if($mPlayer->is_delete){
+							$mPlayer->set('keren_bianhao', $kerenBianhao);
+							$mPlayer->set('is_delete', 0);
+							$mPlayer->save();
+						}
 					}
 				}
 				return new Response('导入Excel文件成功', 1);
