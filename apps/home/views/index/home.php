@@ -1,6 +1,8 @@
 <?php
 use umeworld\lib\Url;
 $this->setTitle('结账台');
+$this->registerJsFile('@r.js.paiju.list');
+$this->registerJsFile('@r.js.keren.list');
 ?>
 <div class="c-body-wrap">
 	<div class="c-b-list">
@@ -163,6 +165,7 @@ $this->setTitle('结账台');
 
 <script type="text/javascript">	
 	var aAgentList = <?php echo json_encode($aAgentList); ?>;
+	
 	function initMoneyOutPutType(){
 		//$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 		
