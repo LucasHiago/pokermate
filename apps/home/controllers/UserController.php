@@ -173,9 +173,13 @@ class UserController extends Controller{
 	public function actionGetUnJiaoBanPaijuTotalStatistic(){
 		$mUser = Yii::$app->user->getIdentity();
 		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
+		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
 		
 		return new Response('', 1, [
 			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
+			'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
 		]);
 	}
 	

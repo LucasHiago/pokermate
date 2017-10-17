@@ -32,11 +32,11 @@ class IndexController extends Controller{
 		$aLianmengList = $mUser->getLianmengList();
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
-		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
-		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
-		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
-		$imbalanceMoney = $mUser->getImbalanceMoney();
-		$jiaoBanZhuanChuMoney = $mUser->getJiaoBanZhuanChuMoney();
+		//$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
+		//$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
+		//$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		//$imbalanceMoney = $mUser->getImbalanceMoney();
+		//$jiaoBanZhuanChuMoney = $mUser->getJiaoBanZhuanChuMoney();
 		
 		$aCurrentPaiju = [];
 		$currentPaijuLianmengId = 0;
@@ -95,19 +95,19 @@ class IndexController extends Controller{
 		}
 		
 		return $this->render('home', [
-			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+			//'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'aMoneyTypeList' => $aMoneyTypeList,
 			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
-			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
-			'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
+			//'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
+			//'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
 			'aLastPaijuList' => $aLastPaijuList,
 			'aAgentList' => $aAgentList,
 			'aPaijuDataList' => $aPaijuDataList,
 			'aLianmengList' => $aLianmengList,
 			'aCurrentPaiju' => $aCurrentPaiju,
 			'currentPaijuLianmengId' => $currentPaijuLianmengId,
-			'imbalanceMoney' => $imbalanceMoney,
-			'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney,
+			//'imbalanceMoney' => $imbalanceMoney,
+			//'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney,
 		]);
 	}
 	

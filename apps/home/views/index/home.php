@@ -81,18 +81,18 @@ $this->registerJsFile('@r.js.keren.list');
 		</div>
 		<div class="c-b-c-center">
 			<a href="javascript:;" class="chaer"></a>
-			<a href="javascript:;" class="J-imbalance-money ball <?php echo abs($aUnJiaoBanPaijuTotalStatistic['imbalanceMoney']) > 1 ? 'fu' : ''; ?>"><?php echo $aUnJiaoBanPaijuTotalStatistic['imbalanceMoney']; ?></a>
+			<a href="javascript:;" class="J-imbalance-money ball">0</a>
 			<a href="javascript:;" class="lmzz" onclick="AlertWin.showLianmengZhongZhang();"></a>
 			<a href="javascript:;" class="krxx" onclick="AlertWin.showPlayerList();"></a>
 			<a href="javascript:;" class="lspj" onclick="AlertWin.showPaijuList({isHistory : 1});"></a>
 			<a href="javascript:;" class="jbzc" onclick="AlertWin.showJiaoBanZhuanChu();"></a>
-			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money ball"><?php echo $aUnJiaoBanPaijuTotalStatistic['jiaoBanZhuanChuMoney']; ?></a>
+			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money ball">0</a>
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
-				<div class="J-h-zcs h-zcs" onclick="AlertWin.showChouShuiList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['shijiChouShui']; ?></div>
-				<div class="J-h-zbx h-zbx" onclick="AlertWin.showZhongBaoXianList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['zhongBaoXian']; ?></div>
-				<div class="J-h-szrs h-szrs" onclick="AlertWin.showShanZhuoRenShuList();"><?php echo $aUnJiaoBanPaijuTotalStatistic['shangZhuoRenShu']; ?></div>
+				<div class="J-h-zcs h-zcs" onclick="AlertWin.showChouShuiList();">0</div>
+				<div class="J-h-zbx h-zbx" onclick="AlertWin.showZhongBaoXianList();">0</div>
+				<div class="J-h-szrs h-szrs" onclick="AlertWin.showShanZhuoRenShuList();">0</div>
 			</div>
 			<div class="c-b-c-r-center">
 				<a class="krbh"><input type="text" class="J-search-keren-bianhao" value="" /></a>
@@ -105,11 +105,11 @@ $this->registerJsFile('@r.js.keren.list');
 				<div class="txt-wrap">
 					<div class="txt-head-wrap">
 						<a class="head-txt">资金</a>
-						<a class="momey1"><?php echo $moneyTypeTotalMoney; ?></a>
+						<a class="J-money-type-total-money momey1">0</a>
 					</div>
 					<div class="txt-head-wrap" style="margin-left:58px;">
 						<a class="head-txt">支出</a>
-						<a class="momey1"><?php echo $moneyOutPutTypeTotalMoney; ?></a>
+						<a class="J-money-out-put-type-total-money momey1">0</a>
 					</div>
 					<div class="txt-head-wrap" style="margin-left:45px;">
 						<a class="head-txt">俱乐部信息</a>
@@ -151,9 +151,9 @@ $this->registerJsFile('@r.js.keren.list');
 					<div class="b-b-item-right">
 						<div class="h40"></div>
 						<div class="b-r-stat-w">
-							<div class="J-krzbj stat-txt krzbj"><?php echo $aUnJiaoBanPaijuTotalStatistic['kerenTotalBenjinMoney']; ?></div>
-							<div class="J-krqk stat-txt krqk"><?php echo $aUnJiaoBanPaijuTotalStatistic['kerenTotalQianKuanMoney']; ?></div>
-							<div class="J-krsy stat-txt krsy"><?php echo $aUnJiaoBanPaijuTotalStatistic['kerenTotalShuYin']; ?></div>
+							<div class="J-krzbj stat-txt krzbj">0</div>
+							<div class="J-krqk stat-txt krqk">0</div>
+							<div class="J-krsy stat-txt krsy">0</div>
 						</div>
 					</div>
 				</div>
@@ -528,11 +528,19 @@ $this->registerJsFile('@r.js.keren.list');
 					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
 					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
-					$('.J-imbalance-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
+					var imbalanceMoney = parseInt(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
+					if(Math.abs(imbalanceMoney) > 1){
+						$('.J-imbalance-money').addClass('fu');
+					}else{
+						$('.J-imbalance-money').removeClass('fu');
+					}
+					$('.J-imbalance-money').text(imbalanceMoney);
 					$('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
 					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
 					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
 					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
+					$('.J-money-out-put-type-total-money').text(aResult.data.moneyOutPutTypeTotalMoney);
+					$('.J-money-type-total-money').text(aResult.data.moneyTypeTotalMoney);
 				}
 			}
 		});
@@ -545,5 +553,6 @@ $this->registerJsFile('@r.js.keren.list');
 		initMoneyType();
 		initJiaoShouJinEr();
 		initMoneyOutPutType();
+		refreshUnJiaoBanPaijuTotalStatistic();
 	});
 </script>
