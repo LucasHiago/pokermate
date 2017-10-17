@@ -407,12 +407,19 @@
 			var exponent = '';
 			var modulus = '';
 			var html = '';
-			html += '<div class="J-save-code-win">';
-				html += '<img style="float: left; position: relative; top: 63px; border-radius: 5px; left: 150px; width: 120px; height: 48px;border:none;" />';
-				html += '<input type="text" class="save-code" style="text-align: center; border-radius: 5px;float: left; position: relative; top: 63px; left: 160px;background:#181326; width: 120px; height: 48px; line-height: 48px; color: #ffffff; font-size: 20px;" />';
-				html += '<a class="commit-save-code"></a>';
-				html += '<div class="J-select-time"><input type="text" class="st" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /><span style="float: left; width: 28px; text-align: center;">至</span><input type="text" class="et" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /></div>';
-				html += '<div class="J-wait-tip" style="background: #1f1f2f; float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: 125px;color:#f4e2a9;display:none;">正在获取牌局，请稍等...</div>';
+			html += '<div class="J-data-list-win J-save-code-win" style="background:none;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">获取牌局</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;min-height:182px;">';
+						html += '<img class="img-thumbnail" style="float: left; position: relative; top: 63px; border-radius: 5px; left: 150px; width: 120px; height: 48px;border:1px solid #ccc;" />';
+						html += '<input type="text" class="form-control save-code" style="text-align: center; border-radius: 5px;float: left; position: relative; top: 63px; left: 160px; width: 120px; height: 48px; line-height: 48px; font-size: 20px;" />';
+						html += '<a class="btn btn-lg btn-primary commit-save-code">确定</a>';
+						html += '<div class="J-select-time"><input type="text" class="st" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /><span style="float: left; width: 28px; text-align: center;">至</span><input type="text" class="et" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /></div>';
+						html += '<div class="J-wait-tip" style="background:#ffffff;float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: -120px;color:#333;display:none;">正在获取牌局，请稍等...</div>';
+					html += '</div>';
+				html += '</div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
@@ -762,36 +769,21 @@
 		showJiaoBanZhuanChu : function(){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
-				html += '<div class="d-l-h">';
-					html += '<div class="h100">';
-						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">交班转出</div>';
-						html += '<div class="h30"></div>';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">交班转出</h3>';
 					html += '</div>';
-					html += '<div class="h50">';
-						html += '<table class="ls-th">';
-							html += '<tr>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">总抽水</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">总保险</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">总支出</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">交接金额</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">转出渠道</td>';
-							html += '</tr>';
-						html += '</table>';
+					html += '<div class="panel-body" style="padding:0px;min-height:190px;">';
+						html += '<div class="h20"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-club-list-table table">';
+							html += '<tr><th>总抽水</th><th>总保险</th><th>总支出</th><th>交接金额</th><th>转出渠道</th></tr>';
+							html += '<tr><td class="J-zhong-chou-shui" style="line-height:34px;border-bottom: 1px solid #ddd;">0</td><td class="J-zhong-bao-xian" style="line-height:34px;border-bottom: 1px solid #ddd;">0</td><td class="J-total-out-put-type-money" style="line-height:34px;border-bottom: 1px solid #ddd;">0</td><td class="J-jiao-ban-zhuan-chu-money" style="line-height:34px;border-bottom: 1px solid #ddd;">0</td><td style="border-bottom: 1px solid #ddd;"><select class="J-zhuan-chu-qidao form-control"></select></td></tr>';
+							html += '</table>';
+						html += '</div>';
+						html += '<div class="J-jbzc-sure-btn btn btn-primary" data-imbalance-money="0" style="margin-left: 290px;">确定</div>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="ls-list-wrap" style="min-height:260px;">';
-					html += '<table class="ls-th">';
-						html += '<tr>';
-							html += '<td class="J-zhong-chou-shui">0</td>';
-							html += '<td class="J-zhong-bao-xian">0</td>';
-							html += '<td class="J-total-out-put-type-money">0</td>';
-							html += '<td class="J-jiao-ban-zhuan-chu-money">0</td>';
-							html += '<td><select class="J-zhuan-chu-qidao" style="color:#ff6a6a;"></select></td>';
-						html += '</tr>';
-					html += '</table>';
-				html += '</div>';
-				html += '<div class="d-l-footer"></div>';
-				html += '<div class="J-jbzc-sure-btn jbzc-sure-btn" data-imbalance-money="0"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -2258,12 +2250,37 @@
 		
 		showAddClub : function(){
 			var html = '';
-			html += '<div class="J-edit-club-win J-edit-user-info-win">';
-				html += '<input type="text" class="J-input J-club-name" value="" />';
-				html += '<input type="text" class="J-input J-club-id" value="" />';
-				html += '<input type="text" class="J-input J-club-login-name" value="" />';
-				html += '<input type="text" class="J-input J-club-login-password" value="" />';
-				html += '<div class="J-new-btn"></div>';
+			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">添加俱乐部</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px 50px;">';
+						html += '<div class="h20"></div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>俱乐部名称</label>';
+							html += '<input type="text" class="J-input J-club-name form-control" value="" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>俱乐部ID</label>';
+							html += '<input type="text" class="J-input J-club-id form-control" value="" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>登录账户</label>';
+							html += '<input type="text" class="J-input J-club-login-name form-control" value="" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>登录密码</label>';
+							html += '<input type="text" class="J-input J-club-login-password form-control" value="" />';
+						html += '</div>';
+						html += '<div class="btn btn-sm btn-primary J-new-btn">保存</div>';
+						html += '<div class="h20"></div>';
+					html += '</div>';
+				html += '</div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
@@ -2302,13 +2319,38 @@
 		
 		showEditClub : function(aClub){
 			var html = '';
-			html += '<div class="J-edit-club-win J-edit-user-info-win">';
-				html += '<input type="text" class="J-input J-club-name" value="' + aClub.club_name + '" />';
-				html += '<input type="text" class="J-input J-club-id" value="' + aClub.club_id + '" />';
-				html += '<input type="text" class="J-input J-club-login-name" value="' + aClub.club_login_name + '" />';
-				html += '<input type="text" class="J-input J-club-login-password" value="' + aClub.club_login_password + '" />';
-				html += '<div class="J-del-btn"></div>';
-				html += '<div class="J-edit-btn"></div>';
+			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">我的俱乐部</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px 50px;">';
+						html += '<div class="h20"></div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>俱乐部名称</label>';
+							html += '<input type="text" class="J-input J-club-name form-control" value="' + aClub.club_name + '" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>俱乐部ID</label>';
+							html += '<input type="text" class="J-input J-club-id form-control" value="' + aClub.club_id + '" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>登录账户</label>';
+							html += '<input type="text" class="J-input J-club-login-name form-control" value="' + aClub.club_login_name + '" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>登录密码</label>';
+							html += '<input type="text" class="J-input J-club-login-password form-control" value="' + aClub.club_login_password + '" />';
+						html += '</div>';
+						html += '<div class="btn btn-sm btn-danger J-del-btn">删除</div>';
+						html += '<div class="btn btn-sm btn-primary J-edit-btn" style="margin-left:20px;">保存</div>';
+						html += '<div class="h20"></div>';
+					html += '</div>';
+				html += '</div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
@@ -2377,16 +2419,40 @@
 		showEditUserInfo : function(){
 			var aUser = App.oCurrentUser;
 			var html = '';
-			html += '<div class="J-edit-user-info-win">';
-				html += '<input type="text" class="J-input J-login-name" value="' + aUser.login_name + '" />';
-				html += '<input type="text" class="J-input J-password" value="' + aUser.password + '" />';
-				html += '<input type="text" class="J-input J-qibu-choushui" value="' + aUser.qibu_choushui + '" />';
-				html += '<div class="J-input J-choushui-shuanfa" data-value=""></div>';
-				html += '<div class="J-input J-choushui-shuanfa-item-wrap">';
-					html += '<div class="J-choushui-shuanfa-item" data-value="1">四舍五入</div>';
-					html += '<div class="J-choushui-shuanfa-item" data-value="2">余数抹零</div>';
+			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">俱乐部设置</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px 50px;">';
+						html += '<div class="h20"></div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>俱乐部账号</label>';
+							html += '<input type="text" class="J-input J-login-name form-control" value="' + aUser.login_name + '" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>俱乐部密码</label>';
+							html += '<input type="text" class="J-input J-password form-control" value="' + aUser.password + '" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>起步抽水</label>';
+							html += '<input type="text" class="J-input J-qibu-choushui form-control" value="' + aUser.qibu_choushui + '" />';
+						html += '</div>';
+						
+						html += '<div class="form-group">';
+							html += '<label>抽水算法</label>';
+							html += '<select class="form-control J-choushui-shuanfa" data-value="">';
+								html += '<option value="1">四舍五入</option>';
+								html += '<option value="2">余数抹零</option>';
+							html += '</select>';
+						html += '</div>';
+						html += '<div class="btn btn-sm btn-primary J-save-btn">保存</div>';
+						html += '<div class="h20"></div>';
+					html += '</div>';
 				html += '</div>';
-				html += '<div class="J-input J-save-btn"></div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
@@ -2410,7 +2476,7 @@
 						loginName : oHtml.find('.J-login-name').val(),
 						password : oHtml.find('.J-password').val(),
 						qibuChoushui : oHtml.find('.J-qibu-choushui').val(),
-						choushuiShuanfa : oHtml.find('.J-choushui-shuanfa').attr('data-value')
+						choushuiShuanfa : oHtml.find('.J-choushui-shuanfa').val()
 					},
 					beforeSend : function(){
 						$(o).attr('disabled', 'disabled');
@@ -2430,7 +2496,7 @@
 				});
 			});
 			showAlertWin(oHtml, function(){
-				oHtml.find('.J-choushui-shuanfa-item[data-value=' + aUser.choushui_shuanfa + ']').click();
+				oHtml.find('.J-choushui-shuanfa').val(aUser.choushui_shuanfa);
 			});
 		},
 		

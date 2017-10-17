@@ -2025,11 +2025,11 @@ input, select{border:none;outline:none;background:none;}
     position: relative;
     top: 62px;
     left: 181px;
-    width: 93px;
-    height: 48px;
+   /* width: 93px;
+    height: 48px;*/
     cursor: pointer;
-	background: url(./../images/sprite.png) no-repeat;
-    background-position: -1913px -372px;
+	/*background: url(./../images/sprite.png) no-repeat;
+    background-position: -1913px -372px;*/
 }
 .J-save-code-win .J-select-time{
 	display:none;
