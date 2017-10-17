@@ -64,4 +64,6 @@ return [
 	
 	'css.pokermate' => '@r.url/css/pokermate.css',
 	'js.alert.win' => '@r.url/plug-in/js.alert.win.js',
+	'js.paiju.list' => '@r.url/plug-in/js.paiju.list.js',
+	'js.keren.list' => '@r.url/plug-in/js.keren.list.js',
 ];
