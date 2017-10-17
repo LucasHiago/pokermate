@@ -63,4 +63,5 @@ return [
 	'js.rsa.md5' => '@r.url/plug-in/rsa/md5.js',
 	
 	'css.pokermate' => '@r.url/css/pokermate.css',
+	'js.alert.win' => '@r.url/plug-in/js.alert.win.js',
 ];

@@ -3,6 +3,7 @@ use umeworld\lib\Url;
 use yii\helpers\ArrayHelper;
 $this->registerAssetBundle('common\assets\ManageCoreAsset');
 $this->registerJsFile('@r.js.wdate-picker');
+$this->registerJsFile('@r.js.alert.win');
 $this->beginPage(); 
 $mUser = Yii::$app->user->getIdentity();
 $aUser = [];
@@ -155,7 +156,7 @@ if($mUser){
 				$(o).val(parseInt($(o).val()));
 			}
 		}
-		<?php echo $this->render(Yii::getAlias('@r.js.alert.win')); ?>
+		
 	</script>
 </head>
 <body>
