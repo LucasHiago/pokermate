@@ -1765,52 +1765,36 @@
 		},
 		
 		showAddPlayer : function(){
+			$(document).click();
 			var html = '';
-			html += '<div class="J-player-list-win add-player">';
-				html += '<div class="p-l-head">';
-					//html += '<input type="text" class="search-krbh" />';
-					//html += '<input type="text" class="add-player"/>';
-				html += '</div>';
-				html += '<div class="p-l-title"></div>';
-				html += '<div class="p-l-body" style="background:none;">';
-					html += '<div class="p-l-item-wrap">';
-						html += '<div class="p-l-item" style="background:none;margin-top: 15px;">';
-							html += '<div style="width:58px;" class="c-td"></div>';
-							html += '<div style="width:108px;" class="c-td"><input type="text" data-type="keren_bianhao" /></div>';
-							html += '<div style="width:33px;" class="c-td"></div>';
-							html += '<div style="width:174px;" class="c-td"><input type="text" data-type="benjin" /></div>';
-							var playerListHtml = '';
-							
-							html += '<div style="width:170px;cursor:pointer;" class="J-select-play c-td"><input type="text" data-type="player_name" style="height:100%;width:100%;" /></div>';
-							html += '<div style="width:156px;" class="c-td">';
-								html += '<input type="text" style="float:left;display:block;width:94px;height:100%;text-align: right;" data-type="ying_chou" />';
-								html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
-								html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
-							html += '</div>';
-							html += '<div style="width:157px;" class="c-td">';
-								html += '<input type="text" style="float:left;display:block;width:102px;height:100%;text-align: right;" data-type="shu_fan" />';
-								html += '<span style="float:left;display:block;width:10px;height:100%;">%</span>';
-								html += '<a class="edit-icn" style="float:left;display:block;width:43px;height:100%;cursor:pointer;"></a>';
-							html += '</div>';
-							var agentListHtml = '';
-							/*var agentName = '请选择';
-							if(aAgentList.length != 0){
-								agentListHtml += '<div class="play-select-list"><div class="p-s-wrap">';
+			html += '<div class="J-data-list-win" style="float:left;width:1200px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">添加新客户</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-keren-list-table table table-hover table-striped">';
+							html += '<tr><th>客人编号</th><th>本金</th><th>游戏名字</th><th>赢抽点数</th><th>输返点数</th><th>代理人</th><th>玩家ID</th><th>操作</th></tr>';
+							html += '<tr>';
+								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="benjin" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="player_name" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="ying_chou" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="shu_fan" /></td>';
+								var agentListHtml = '';
+								agentListHtml += '<select class="J-agent-select-change form-control" style="min-width:120px;">';
+								agentListHtml += '<option value="0">请选择</option>';
 								for(var k in aAgentList){
-									agentListHtml += '<div class="h10"></div>';
-									agentListHtml += '<div class="play-select-list-item" data-id="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</div>';
+									agentListHtml += '<option value="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</option>';
 								}
-								agentListHtml += '</div></div>';
-							}*/
-							agentListHtml += '<select class="J-agent-select-change" style="padding: 2px; color: #ffffff; background: #221a3c; height: 35px; width: 70%; text-align: center; margin-left: 32px;">';
-							agentListHtml += '<option value="0">请选择</option>';
-							for(var k in aAgentList){
-								agentListHtml += '<option value="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</option>';
-							}
-							agentListHtml += '</select>';
-							html += '<div style="width:154px;cursor:pointer;" class="J-agent-id J-select-play c-td" data-id="0">' + agentListHtml + '</div>';
-							html += '<div style="width:157px;" class="c-td"><input type="text" data-type="play_id" /></div>';
-							html += '<div style="width:116px;" class="c-td"><a class="add-btn" style="position: relative;left: 25px;top: 8px;display: block;width: 78px;height: 33px;cursor:pointer;"></a></div>';
+								agentListHtml += '</select>';
+								html += '<td>' + agentListHtml + '</td>';
+								html += '<td><input type="text" class="form-control" data-type="play_id" /></td>';
+								html += '<td><a class="J-add-btn btn btn-sm btn-primary">添加</a></td>';
+							html += '</tr>';
+							html += '</table>';
 						html += '</div>';
 					html += '</div>';
 				html += '</div>';
@@ -1819,32 +1803,8 @@
 			var oHtml = $(html);
 			
 			showAlertWin(oHtml, function(){
-				/*oHtml.find('.J-select-play').click(function(){
-					$(this).find('.play-select-list').show();
-				});
-				oHtml.find('.play-select-list').each(function(){
-					$(this).show();
-					$(this).css({left : 100});
-					$(this).hide();
-				});
-				oHtml.find('.play-select-list').on('mouseleave', function(){
-					$(this).hide();
-				});
-				oHtml.find('.play-select-list .play-select-list-item').on('click', function(){
-					var oList = $(this).parent().parent().parent().parent();
-					oList.prev().text($(this).text());
-					oList.parent().attr('data-id', $(this).attr('data-id'));
-					setTimeout(function(){
-						oList.hide();
-					}, 100);
-					
-				});
-				oHtml.find('.play-select-list .p-s-wrap').each(function(){
-					$(this).parent().show();
-					$(this).tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
-					$(this).parent().hide();
-				});*/
-				oHtml.find('.add-btn').click(function(){
+				
+				oHtml.find('.J-add-btn').click(function(){
 					var o = this;
 					ajax({
 						url : Tools.url('home', 'index/add-keren'),
@@ -1865,7 +1825,6 @@
 						},
 						success : function(aResult){
 							if(aResult.status == 1){
-								$(o).parent().parent().parent().parent().parent().parent().remove();
 								UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
 								}, 3);
@@ -1880,38 +1839,39 @@
 		
 		showPlayerList : function(){
 			var html = '';
-			html += '<div class="J-player-list-win">';
-				html += '<div class="p-l-head-wrap">';
-					html += '<div class="p-l-head">';
-						html += '<input type="text" class="search-krbh" />';
-						html += '<input type="text" class="add-player" onclick="AlertWin.showAddPlayer();"  />';
+			html += '<div class="J-data-list-win" style="float:left;width:1200px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">客人详情</h3>';
 					html += '</div>';
-					html += '<div class="p-l-title"><div class="krbh-sort"></div><div class="bj-sort"></div></div>';
-				html += '</div>';
-				html += '<div class="p-l-body" style="float:left;min-height: 580px;">';
-					html += '<div class="p-l-item-wrap">';
-						
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="h30">';
+							html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showAddPlayer();" style="float:right;margin-right:10px;">添加新客户</button>';
+							html += '<input type="text" class="J-search-krbh form-control" style="float:right;width:150px;margin-right:10px;" placeholder="请输入客人编号" />';
+						html += '</div>';
+						html += '<div class="h10"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-keren-list-table table table-hover table-striped">';
+							html += '<tr><th class="J-krbh-sort" style="cursor:pointer;">客人编号</th><th class="J-bj-sort" style="cursor:pointer;">本金</th><th>游戏名字</th><th>赢抽点数</th><th>输返点数</th><th>代理人</th><th>备注</th><th>操作</th></tr>';
+							html += '</table>';
+						html += '</div>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="p-l-footer"></div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
 			
 			showAlertWin(oHtml, function(){
-				oKerenListObject = new KerenList({oWrapDom : oHtml.find('.p-l-body .p-l-item-wrap')});
+				oKerenListObject = new KerenList({oWrapDom : oHtml.find('.J-keren-list-table')});
 				oKerenListObject.show(1);
 				$('.J-alert-win-wrap').scroll(function(){
 					var page = oKerenListObject.oWrapDom.attr('data-page');
 					oKerenListObject.show(parseInt(page) + 1);
 				});
-				/*oKerenListObject.oScrollBar = oHtml.find('.p-l-body').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
-				oKerenListObject.oScrollBar.scrollEndEventFunc = function(){
-					var page = oKerenListObject.oWrapDom.attr('data-page');
-					oKerenListObject.show(parseInt(page) + 1);
-				}*/
+				
 				var tt = '';
-				oHtml.find('.search-krbh').keyup('input propertychange', function(){
+				oHtml.find('.J-search-krbh').keyup('input propertychange', function(){
 					var ooo = this;
 					clearTimeout(tt);
 					tt = setTimeout(function(){
@@ -1923,7 +1883,7 @@
 						oKerenListObject.show(1);
 					}, 500);
 				});
-				oHtml.find('.krbh-sort').click(function(){
+				oHtml.find('.J-krbh-sort').click(function(){
 					oKerenListObject.aExtentParam.benjinSort = 0;
 					oHtml.find('.bj-sort').removeClass('active');
 					if($(this).hasClass('active')){
@@ -1935,7 +1895,7 @@
 					}
 					oKerenListObject.show(1);
 				});
-				oHtml.find('.bj-sort').click(function(){
+				oHtml.find('.J-bj-sort').click(function(){
 					oKerenListObject.aExtentParam.kerenBianhaoSort = 0;
 					oHtml.find('.krbh-sort').removeClass('active');
 					if($(this).hasClass('active')){
