@@ -1654,7 +1654,7 @@ input, select{border:none;outline:none;background:none;}
 	width:1200px;
 	height:90px;
 }
-.J-paiju-data-list-win  .top-up .info-detail{
+.info-detail{
 	position: relative;
     float: left;
     width: 934px;
@@ -1665,16 +1665,15 @@ input, select{border:none;outline:none;background:none;}
     top: 29px;
 	text-align:center;
 }
-.J-paiju-data-list-win  .top-up .info-detail a{
+.J-info-detail a{
 	display:inline-block;
     min-width:10px;
     height: 33px;
     line-height: 33px;
-	color:#ffffff;
 	margin:0 2px;
 	text-decoration:none;
 }
-.J-paiju-data-list-win  .top-up .info-detail .val{
+.J-info-detail .val{
 	color:#e49d76;
 }
 .J-paiju-data-list-win  .top-th{
