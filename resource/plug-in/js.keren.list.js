@@ -73,7 +73,7 @@
 				var fontColorGreen = '';
 				if(aData[i].agent_id != 0){
 					hasAgent = true;
-					fontColorGreen = ' color:#00ff00; ';
+					fontColorGreen = ' color:#0000ff; ';
 				}
 				html += '<tr class="J-kr-row">';
 					html += '<td><input type="text" class="form-control" data-type="keren_bianhao" data-record-id="' + aData[i].id + '" value="' + aData[i].keren_bianhao + '" style="' + fontColorGreen + '" /></td>';
