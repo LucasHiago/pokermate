@@ -874,43 +874,39 @@
 		
 		showShanZhuoRenShuList : function(){
 			var html = '';
-			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
-				html += '<div class="d-l-h">';
-					html += '<div class="h100">';
-						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">上桌人数</div>';
-						html += '<div class="h30">';
+			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">上桌人数</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="h30 breadcrumb">';
 							html += '<div style="float:left;width:300px;height:100%;"></div>';
-							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">上桌人数: <font class="J-total-shan-zhuo-ren-shu" style="color:#f4e2a9;">0</font> </div></div>';
+							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">上桌人数: <font class="J-total-shan-zhuo-ren-shu" style="color:#ff5722;">0</font> </div></div>';
+						html += '</div>';
+					html += '<div class="h10"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-szrs-list-table table table-hover table-striped">';
+							html += '<tr><th>牌局名</th><th>上桌人数</th></tr>';
+							html += '</table>';
 						html += '</div>';
 					html += '</div>';
-					html += '<div class="h50">';
-						html += '<table class="ls-th">';
-							html += '<tr>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">上桌人数</td>';
-							html += '</tr>';
-						html += '</table>';
-					html += '</div>';
 				html += '</div>';
-				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
-				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
-			function appendLianmengItemHtml(aDataList){
+			function appendSzrsItemHtml(aDataList){
 				var listHtml = '';
 				for(var i in aDataList){
 					var aData = aDataList[i];
-					listHtml += '<table class="ls-th">';
-						listHtml += '<tr>';
-							listHtml += '<td>' + aData.paiju_name + '</td>';
-							listHtml += '<td>' + aData.shang_zhuo_ren_shu + '</td>';
-						listHtml += '</tr>';
-					listHtml += '</table>';
-					listHtml += '<div class="h10"></div>';
+					listHtml += '<tr>';
+						listHtml += '<td>' + aData.paiju_name + '</td>';
+						listHtml += '<td>' + aData.shang_zhuo_ren_shu + '</td>';
+					listHtml += '</tr>';
 				}
 				var oListHtml = $(listHtml);
-				oHtml.find('.ls-list-wrap').append(oListHtml);
+				oHtml.find('.J-szrs-list-table').append(oListHtml);
 				
 				return oListHtml;
 			}
@@ -927,9 +923,8 @@
 					},
 					success : function(aResult){
 						if(aResult.status == 1){
-							oHtml.find('.ls-list-wrap').html('');
 							if(aResult.data.length != 0){
-								appendLianmengItemHtml(aResult.data.list);
+								appendSzrsItemHtml(aResult.data.list);
 								oHtml.find('.J-total-shan-zhuo-ren-shu').text(aResult.data.totalShangZhuoRenShu);
 								//oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 							}
@@ -945,31 +940,28 @@
 		
 		showZhongBaoXianList : function(){
 			var html = '';
-			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
-				html += '<div class="d-l-h">';
-					html += '<div class="h100">';
-						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">总保险</div>';
-						html += '<div class="h30">';
+			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">总保险</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="h30 breadcrumb">';
 							html += '<div style="float:left;width:300px;height:100%;">';
-								html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">保险微调：</div>';
-								html += '<input type="text" class="J-baoxian-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+								html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#333;">保险微调：</div>';
+								html += '<input type="text" class="J-baoxian-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#333;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
 							html += '</div>';
-							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总保险: <font class="J-total-baoxian" style="color:#f4e2a9;">0</font> 元</div></div>';
+							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总保险: <font class="J-total-baoxian" style="color:#ff5722;">0</font> 元</div></div>';
+						html += '</div>';
+					html += '<div class="h10"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-baoxian-list-table table table-hover table-striped">';
+							html += '<tr><th>牌局名</th><th>牌桌保险</th><th>保险被抽</th><th>实际保险</th></tr>';
+							html += '</table>';
 						html += '</div>';
 					html += '</div>';
-					html += '<div class="h50">';
-						html += '<table class="ls-th">';
-							html += '<tr>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">牌桌保险</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">实际保险</td>';
-							html += '</tr>';
-						html += '</table>';
-					html += '</div>';
 				html += '</div>';
-				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
-				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -977,18 +969,15 @@
 				var listHtml = '';
 				for(var i in aDataList){
 					var aData = aDataList[i];
-					listHtml += '<table class="ls-th">';
-						listHtml += '<tr>';
-							listHtml += '<td style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(' + i + ');">' + aData.paiju_name + '</td>';
-							listHtml += '<td>' + aData.baoxian_heji + '</td>';
-							listHtml += '<td>' + aData.baoxian_beichou + '</td>';
-							listHtml += '<td>' + aData.shiji_baoxian + '</td>';
-						listHtml += '</tr>';
-					listHtml += '</table>';
-					listHtml += '<div class="h10"></div>';
+					listHtml += '<tr>';
+						listHtml += '<td style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(' + i + ');">' + aData.paiju_name + '</td>';
+						listHtml += '<td>' + aData.baoxian_heji + '</td>';
+						listHtml += '<td>' + aData.baoxian_beichou + '</td>';
+						listHtml += '<td>' + aData.shiji_baoxian + '</td>';
+					listHtml += '</tr>';
 				}
 				var oListHtml = $(listHtml);
-				oHtml.find('.ls-list-wrap').append(oListHtml);
+				oHtml.find('.J-baoxian-list-table').append(oListHtml);
 				
 				return oListHtml;
 			}
@@ -1057,33 +1046,28 @@
 		
 		showChouShuiList : function(){
 			var html = '';
-			html += '<div class="J-data-list-win J-lianmeng-setting-win">';
-				html += '<div class="d-l-h">';
-					html += '<div class="h100">';
-						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">抽水列表</div>';
-						html += '<div class="h30">';
+			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">抽水列表</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="h30 breadcrumb">';
 							html += '<div style="float:left;width:300px;height:100%;">';
-								html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#ffffff;">抽水微调：</div>';
-								html += '<input type="text" class="J-choushui-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
+								html += '<div style="float:left;margin-left:20px;width:70px;height:30px;line-height:30px;color:#333;">抽水微调：</div>';
+								html += '<input type="text" class="J-choushui-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#333;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
 							html += '</div>';
-							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总抽水: <font class="J-total-choushui" style="color:#f4e2a9;">0</font> 元</div><div class="s-lms-txt">牌局总数: <font class="J-total-paiju" style="color:#f4e2a9;">0</font> </div></div>';
+							html += '<div style="float:right;width:340px;height:100%;"><div class="s-lms-txt">总抽水: <font class="J-total-choushui" style="color:#ff5722;">0</font> 元</div><div class="s-lms-txt">牌局总数: <font class="J-total-paiju" style="color:#ff5722;">0</font> </div></div>';
+						html += '</div>';
+						html += '<div class="h10"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-chousui-list-table table table-hover table-striped">';
+							html += '<tr><th>牌局名</th><th>战绩</th><th>抽水</th><th>桌子费</th><th>联盟补贴</th><th>实际抽水</th></tr>';
+							html += '</table>';
 						html += '</div>';
 					html += '</div>';
-					html += '<div class="h50">';
-						html += '<table class="ls-th">';
-							html += '<tr>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">抽水</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">联盟补贴</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">实际抽水</td>';
-							html += '</tr>';
-						html += '</table>';
-					html += '</div>';
 				html += '</div>';
-				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
-				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -1091,20 +1075,17 @@
 				var listHtml = '';
 				for(var i in aDataList){
 					var aData = aDataList[i];
-					listHtml += '<table class="ls-th">';
-						listHtml += '<tr>';
-							listHtml += '<td onclick="AlertWin.showPaijuDataList(' + aData.paiju_id + ', 1);" style="cursor:pointer;">' + aData.paiju_name + '</td>';
-							listHtml += '<td>' + aData.zhanji + '</td>';
-							listHtml += '<td>' + aData.choushui_value + '</td>';
-							listHtml += '<td>' + aData.paiju_fee + '</td>';
-							listHtml += '<td>' + aData.lianmeng_butie + '</td>';
-							listHtml += '<td>' + aData.shiji_choushui_value + '</td>';
-						listHtml += '</tr>';
-					listHtml += '</table>';
-					listHtml += '<div class="h10"></div>';
+					listHtml += '<tr>';
+						listHtml += '<td onclick="AlertWin.showPaijuDataList(' + aData.paiju_id + ', 1);" style="cursor:pointer;">' + aData.paiju_name + '</td>';
+						listHtml += '<td>' + aData.zhanji + '</td>';
+						listHtml += '<td>' + aData.choushui_value + '</td>';
+						listHtml += '<td>' + aData.paiju_fee + '</td>';
+						listHtml += '<td>' + aData.lianmeng_butie + '</td>';
+						listHtml += '<td>' + aData.shiji_choushui_value + '</td>';
+					listHtml += '</tr>';
 				}
 				var oListHtml = $(listHtml);
-				oHtml.find('.ls-list-wrap').append(oListHtml);
+				oHtml.find('.J-chousui-list-table').append(oListHtml);
 				
 				return oListHtml;
 			}
@@ -1174,31 +1155,25 @@
 		
 		showLianmengZhangDanDetail : function(lianmengId){
 			var html = '';
-			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
-				html += '<div class="d-l-h">';
-					html += '<div class="h100">';
-						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟账单详情</div>';
-						html += '<div class="h30">';
-							html += '<div style="float:left;width:200px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select lml-select" style="color:#ff6a6a;width:100%;height:100%;"></select></div></div>';
-							html += '<div style="float:right;width:400px;height:100%;"><div class="s-lms-btn" style="top:-2px;">联盟设置</div><div class="s-qinzhan-btn" style="top:-2px;" data-id="' + lianmengId + '">清账</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#f4e2a9;">0</font> 元</div></div>';
+			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">联盟账单详情</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="h30 breadcrumb">';
+							html += '<div style="float:left;width:200px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select form-control" style="width:120px;margin-left:10px;"></select></div></div>';
+							html += '<div style="float:right;width:400px;height:100%;"><div class="J-s-lms-btn btn btn-sm btn-primary" style="float: right;top:-2px;margin-right: 10px;">联盟设置</div><div class="J-s-qinzhan-btn btn btn-sm btn-danger" style="float: right;top:-2px;margin-right: 10px;" data-id="' + lianmengId + '">清账</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#ff5722;">0</font> 元</div></div>';
+						html += '</div>';
+					html += '<div class="h10"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-lmzddd-list-table table table-hover table-striped">';
+							html += '<tr><th>牌局名</th><th>战绩</th><th>保险</th><th>桌子费</th><th>保险被抽</th><th>当局账单</th><th>更改联盟</th></tr>';
+							html += '</table>';
 						html += '</div>';
 					html += '</div>';
-					html += '<div class="h50">';
-						html += '<table class="ls-th">';
-							html += '<tr>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">牌局名</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">战绩</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">保险</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">桌子费</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">保险被抽</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">当局账单</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">更改联盟</td>';
-							html += '</tr>';
-						html += '</table>';
-					html += '</div>';
 				html += '</div>';
-				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
-				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -1210,25 +1185,22 @@
 				}
 				for(var i in aDataList){
 					var aData = aDataList[i];
-					listHtml += '<table class="ls-th">';
-						listHtml += '<tr>';
-							listHtml += '<td>' + aData.paiju_name + '</td>';
-							listHtml += '<td>' + aData.zhanji + '</td>';
-							//listHtml += '<td>' + aData.baoxian_heji + '</td>';
-							listHtml += '<td>' + aData.fu_baoxian_heji + '</td>';
-							listHtml += '<td>' + aData.paiju_fee + '</td>';
-							listHtml += '<td>' + aData.baoxian_beichou + '</td>';
-							listHtml += '<td>' + aData.zhang_dan + '</td>';
-							listHtml += '<td><select class="lml-item-select" data-paiju-id="' + aData.paiju_id + '" data-lianmeng-id="' + aData.lianmeng_id + '" style="color:#ff6a6a;">' + lianmengSelectHtml + '</select></td>';
-						listHtml += '</tr>';
-					listHtml += '</table>';
-					listHtml += '<div class="h10"></div>';
+					listHtml += '<tr>';
+						listHtml += '<td>' + aData.paiju_name + '</td>';
+						listHtml += '<td>' + aData.zhanji + '</td>';
+						//listHtml += '<td>' + aData.baoxian_heji + '</td>';
+						listHtml += '<td>' + aData.fu_baoxian_heji + '</td>';
+						listHtml += '<td>' + aData.paiju_fee + '</td>';
+						listHtml += '<td>' + aData.baoxian_beichou + '</td>';
+						listHtml += '<td>' + aData.zhang_dan + '</td>';
+						listHtml += '<td><select class="lml-item-select form-control" data-paiju-id="' + aData.paiju_id + '" data-lianmeng-id="' + aData.lianmeng_id + '">' + lianmengSelectHtml + '</select></td>';
+					listHtml += '</tr>';
 				}
 				var oListHtml = $(listHtml);
-				oHtml.find('.ls-list-wrap').append(oListHtml);
+				oHtml.find('.J-lmzddd-list-table').append(oListHtml);
 				oHtml.find('.J-lml-select').html(lianmengSelectHtml);
 				oHtml.find('.J-lml-select').val(lianmengId);
-				oHtml.find('.ls-list-wrap select').each(function(){
+				oHtml.find('.J-lmzddd-list-table select').each(function(){
 					$(this).val($(this).attr('data-lianmeng-id'));
 				});
 				bindLianmengEvent(oHtml);
@@ -1237,8 +1209,8 @@
 			}
 			
 			function bindLianmengEvent(oHtml){
-				oHtml.find('.ls-list-wrap select').unbind();
-				oHtml.find('.ls-list-wrap select').on('change', function(){
+				oHtml.find('.J-lmzddd-list-table select').unbind();
+				oHtml.find('.J-lmzddd-list-table select').on('change', function(){
 					var o = this;
 					ajax({
 						url : Tools.url('home', 'paiju/chang-paiju-lianmeng'),
@@ -1253,17 +1225,21 @@
 							$(o).attr('disabled', false);
 						},
 						success : function(aResult){
-							UBox.show(aResult.msg, aResult.status);
+							UBox.show(aResult.msg, aResult.status, function(){
+								$(document).click();
+								AlertWin.showLianmengZhangDanDetail(lianmengId);
+							}, 3);
 						}
 					});
 				});
 				oHtml.find('.J-lml-select').unbind();
 				oHtml.find('.J-lml-select').on('change', function(){
-					oHtml.find('.ls-list-wrap').html('');
-					_loadList($(this).val(), this);
+					$(document).click();
+					AlertWin.showLianmengZhangDanDetail($(this).val());
+					//_loadList($(this).val(), this);
 				});
 			}
-			var oScrollBar = {};
+			
 			function _loadList(id, o){
 				ajax({
 					url : Tools.url('home', 'lianmeng/get-lianmeng-zhang-dan-detail-list'),
@@ -1280,28 +1256,21 @@
 					},
 					success : function(aResult){
 						if(aResult.status == 1){
-							oHtml.find('.ls-list-wrap').html('');
 							if(aResult.data.length != 0){
 								appendLianmengItemHtml(id, aResult.data.list, aResult.data.aLianmengList);
 								oHtml.find('.J-total-zhan-dan').text(aResult.data.totalZhangDan);
-								oScrollBar.update('relative');
 							}
 						}
 					}
 				});
 			}
 			
-			function reloadList(){
-				$(document).click();
-				AlertWin.showLianmengZhongZhang();
-			}
-			
 			showAlertWin(oHtml, function(){
-				oHtml.find('.s-lms-btn').click(function(){
+				oHtml.find('.J-s-lms-btn').click(function(){
 					$(document).click();
 					AlertWin.showLianmengSetting();
 				});
-				oHtml.find('.s-qinzhan-btn').click(function(){
+				oHtml.find('.J-s-qinzhan-btn').click(function(){
 					$(document).click();
 					if(confirm('确定清账？')){
 						var o = this;
@@ -1325,7 +1294,6 @@
 						});
 					}
 				});
-				oScrollBar = oHtml.find('.ls-list-wrap').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
 				_loadList(lianmengId);
 				
 			});	
@@ -1333,34 +1301,28 @@
 		
 		showLianmengZhongZhang : function(){
 			var html = '';
-			html += '<div class="J-lianmeng-zhongzhang-win J-lianmeng-setting-win">';
-				html += '<div class="d-l-h">';
-					html += '<div class="h100">';
-						html += '<div class="h50" style="text-align: center; line-height: 50px; color: #e91e63; font-size: 18px; font-weight: bold;">联盟总账</div>';
-						html += '<div class="h30">';
+			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">联盟总账</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="h30 breadcrumb">';
 							html += '<div style="float:left;width:300px;height:100%;">';
-								html += '<div style="float:left;margin-left:20px;width:100px;height:30px;line-height:30px;color:#ffffff;">联盟总账微调：</div>';
+								html += '<div style="float:left;margin-left:20px;width:100px;height:30px;line-height:30px;color:#333;">联盟总账微调：</div>';
 								html += '<input type="text" class="J-lianmeng-zhongzhang-ajust-value" style="float:left;width:70px;height:18px;line-height:18px;color:#ffffff;text-align: center;color: #f4e2a9;background:#58463d;border-radius: 5px;margin-top: 6px;" value="0" />';
 							html += '</div>';
-							html += '<div style="float:right;width:300px;height:100%;"><div style="line-height:30px;color:#ffffff;padding-left:30px;">所有联盟总账：<font class="J-total-zhong-zhang" style="color:#f4e2a9;">0</font></div><div class="s-lms-btn">联盟设置</div></div>';
+							html += '<div style="float:right;width:300px;height:100%;"><div style="line-height:30px;color:#333;padding-left:30px;">所有联盟总账：<font class="J-total-zhong-zhang" style="color:#ff5722;">0</font></div><div class="J-s-lms-btn btn btn-sm btn-primary" style="position: relative;float: right;top: -30px;right: 10px;">联盟设置</div></div>';
+						html += '</div>';
+						html += '<div class="h10"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-lmzz-list-table table table-hover table-striped">';
+							html += '<tr><th>联盟名称</th><th>联盟总账单</th><th>上桌人数</th><th>联盟旧账</th><th>新账单累计</th><th>操作</th><th>清账</th></tr>';
+							html += '</table>';
 						html += '</div>';
 					html += '</div>';
-					html += '<div class="h50">';
-						html += '<table class="ls-th">';
-							html += '<tr>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">联盟名称</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">联盟总账单</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">上桌人数</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">联盟旧账</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">新账单累计</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">操作</td>';
-								html += '<td style="font-weight:bold;color: #fccdaa;">清账</td>';
-							html += '</tr>';
-						html += '</table>';
-					html += '</div>';
 				html += '</div>';
-				html += '<div class="ls-list-wrap" style="min-height:260px;"></div>';
-				html += '<div class="d-l-footer"></div>';
 			html += '</div>';
 			var oHtml = $(html);
 			
@@ -1368,21 +1330,18 @@
 				var listHtml = '';
 				for(var i in aDataList){
 					var aData = aDataList[i];
-					listHtml += '<table class="ls-th">';
-						listHtml += '<tr>';
-							listHtml += '<td>' + aData.lianmeng_name + '</td>';
-							listHtml += '<td>' + aData.lianmeng_zhong_zhang + '</td>';
-							listHtml += '<td>' + aData.lianmeng_shang_zhuo_ren_shu + '</td>';
-							listHtml += '<td><input type="text" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;width:62px;text-align:right;" /><span class="i-edit"></span></td>';
-							listHtml += '<td>' + aData.lianmeng_zhang_dan + '</td>';
-							listHtml += '<td class="J-detail-btn op-btn detail-btn" data-id="' + aData.lianmeng_id + '">账单详情</td>';
-							listHtml += '<td class="J-qin-zhang op-btn clear-btn" data-id="' + aData.lianmeng_id + '">清账</td>';
-						listHtml += '</tr>';
-					listHtml += '</table>';
-					listHtml += '<div class="h10"></div>';
+					listHtml += '<tr>';
+						listHtml += '<td>' + aData.lianmeng_name + '</td>';
+						listHtml += '<td>' + aData.lianmeng_zhong_zhang + '</td>';
+						listHtml += '<td>' + aData.lianmeng_shang_zhuo_ren_shu + '</td>';
+						listHtml += '<td><input type="text" class="form-control" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;width:70px;text-align:right;" /><span class="i-edit"></span></td>';
+						listHtml += '<td>' + aData.lianmeng_zhang_dan + '</td>';
+						listHtml += '<td class="J-detail-btn" data-id="' + aData.lianmeng_id + '"><button class="btn btn-sm btn-warning" style="width:100%;">账单详情</button></td>';
+						listHtml += '<td class="J-qin-zhang" data-id="' + aData.lianmeng_id + '"><button class="btn btn-sm btn-danger" style="width:100%;">清账</button></td>';
+					listHtml += '</tr>';
 				}
 				var oListHtml = $(listHtml);
-				oHtml.find('.ls-list-wrap').html(oListHtml);
+				oHtml.find('.J-lmzz-list-table').append(oListHtml);
 				
 				bindLianmengEvent(oHtml);
 				
@@ -1398,12 +1357,12 @@
 					oTxt.val(txt);
 					//$(this).prev().focus();
 				});
-				oHtml.find('.detail-btn').click(function(){
+				oHtml.find('.J-detail-btn').click(function(){
 					isCloseWinRefresh = false;
 					$(document).click();
 					AlertWin.showLianmengZhangDanDetail($(this).attr('data-id'));
 				});
-				oHtml.find('.ls-list-wrap .J-qin-zhang').click(function(){
+				oHtml.find('.J-lmzz-list-table .J-qin-zhang').click(function(){
 					if(confirm('确定清账？')){
 						var o = this;
 						ajax({
@@ -1426,7 +1385,7 @@
 						});
 					}
 				});
-				oHtml.find('.ls-list-wrap input[data-type=qian_zhang]').keyup(function(e){
+				oHtml.find('.J-lmzz-list-table input[data-type=qian_zhang]').keyup(function(e){
 					var o = this;
 					if(e.keyCode == 13){
 						ajax({
@@ -1469,7 +1428,6 @@
 					success : function(aResult){
 						isCloseWinRefresh = true;
 						if(aResult.status == 1){
-							oHtml.find('.ls-list-wrap').html('');
 							if(aResult.data.length != 0){
 								appendLianmengItemHtml(aResult.data.list);
 								oHtml.find('.J-total-zhong-zhang').text(aResult.data.totalZhongZhang);
@@ -1487,7 +1445,7 @@
 			}
 			
 			showAlertWin(oHtml, function(){
-				oHtml.find('.s-lms-btn').click(function(){
+				oHtml.find('.J-s-lms-btn').click(function(){
 					isCloseWinRefresh = false;
 					$(document).click();
 					AlertWin.showLianmengSetting();
