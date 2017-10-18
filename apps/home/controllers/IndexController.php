@@ -32,11 +32,11 @@ class IndexController extends Controller{
 		$aLianmengList = $mUser->getLianmengList();
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
-		//$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
-		//$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
-		//$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
-		//$imbalanceMoney = $mUser->getImbalanceMoney();
-		//$jiaoBanZhuanChuMoney = $mUser->getJiaoBanZhuanChuMoney();
+		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
+		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
+		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		$imbalanceMoney = $mUser->getImbalanceMoney();
+		$jiaoBanZhuanChuMoney = $mUser->getJiaoBanZhuanChuMoney();
 		
 		$aCurrentPaiju = [];
 		$currentPaijuLianmengId = 0;
@@ -95,19 +95,19 @@ class IndexController extends Controller{
 		}
 		
 		return $this->render('home', [
-			//'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'aMoneyTypeList' => $aMoneyTypeList,
 			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
-			//'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
-			//'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
+			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
+			'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
 			'aLastPaijuList' => $aLastPaijuList,
 			'aAgentList' => $aAgentList,
 			'aPaijuDataList' => $aPaijuDataList,
 			'aLianmengList' => $aLianmengList,
 			'aCurrentPaiju' => $aCurrentPaiju,
 			'currentPaijuLianmengId' => $currentPaijuLianmengId,
-			//'imbalanceMoney' => $imbalanceMoney,
-			//'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney,
+			'imbalanceMoney' => $imbalanceMoney,
+			'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney,
 		]);
 	}
 	
@@ -473,7 +473,18 @@ class IndexController extends Controller{
 		}
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 		if(!$mKerenBenjin){
-			return new Response('出错啦', 0);
+			//return new Response('出错啦', 0);
+			$kerenId = KerenBenjin::addRecord([
+				'user_id' => Yii::$app->user->id, 
+				'keren_bianhao' => KerenBenjin::getNextKerenbianhao(Yii::$app->user->id), 
+				'benjin' => $benjin, 
+				'ying_chou' => $yingChou, 
+				'shu_fan' => $shuFan, 
+				'agent_id' => $agentId, 
+				'remark' => $remark, 
+				'create_time' => NOW_TIME
+			]);
+			$mKerenBenjin = KerenBenjin::findOne($kerenId);
 		}
 		if($mKerenBenjin->is_delete){
 			$mKerenBenjin->set('is_delete', 0);
