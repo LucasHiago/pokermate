@@ -66,6 +66,9 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟保险抽成】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 保险抽成：' . $aData['data_json']['aOldRecord']['baoxian_choucheng'] . '  修改后保险抽成：' . $aData['data_json']['aNewRecord']['baoxian_choucheng'];
 							}elseif($aData['type'] == 25){
 								$log = date('Y.m.d', $aData['create_time']) . '   【联盟清账】联盟名称：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_name'] . ' 联盟总账单：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_zhong_zhang'] . ' 联盟旧账：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_qian_zhang'] . ' 新账单累计：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_zhang_dan'];
+								if(isset($aData['data_json']['aLianmengZhangDanDetailList'])){
+									$log .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-primary" data-id="' . $aData['id'] . '" onclick="showCleanPaiju(this, \'' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_name'] . '\', ' . $aData['data_json']['aLianmengZhangDanDetailList']['totalZhangDan'] . ');">查看清理牌局</button>';
+								}
 							}elseif($aData['type'] == 26){
 								$log = date('Y.m.d', $aData['create_time']) . '   【交班转出】总抽水：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['zhongChouShui'] . ' 总保险：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['zhongBaoXian'] . ' 交接金额：' . $aData['data_json']['aJiaoBanZhuanChuDetail']['jiaoBanZhuanChuMoney'] . ' 转出渠道：' . $aData['data_json']['aMoneyType']['pay_type'];
 							}elseif($aData['type'] == 27){
@@ -108,41 +111,60 @@ $this->setTitle('操作日志');
 	</div>
 </div>
 <script type="text/javascript">
+	var aList = <?php echo json_encode($aList); ?>;
 	
 	function search(){
 		var condition = $('form[name=J-search-form]').serialize();
 		location.href = '<?php echo Url::to('home', 'club-manage/index'); ?>?' + condition;
 	}
 	
-	function setDelete(o, id, status){
-		var tips = '确定删除？';
-		if(status == 0){
-			tips = '确定启用？';
+	function showCleanPaiju(o, lianmengName, totalZhangDan){
+		var aDataList = {};
+		var optime = 0;
+		for(var j in aList){
+			if(aList[j].id == $(o).attr('data-id')){
+				aDataList = aList[j].data_json.aLianmengZhangDanDetailList.list;
+				optime = aList[j].create_time;
+				break;
+			}
 		}
-		UBox.confirm(tips, function(){
-			ajax({
-				url : '<?php echo Url::to('home', 'club-manage/set-delete'); ?>',
-				data : {
-					id : id,
-					status : status
-				},
-				beforeSend : function(){
-					$(o).attr('disabled', 'disabled');
-				},
-				complete : function(){
-					$(o).attr('disabled', false);
-				},
-				success : function(aResult){
-					if(aResult.status == 1){
-						UBox.show(aResult.msg, aResult.status, function(){
-							location.reload();
-						}, 3);
-					}else{
-						UBox.show(aResult.msg, aResult.status);
-					}
-				}
-			});
-		});
+		
+		var html = '';
+		html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+			html += '<div class="panel panel-primary">';
+				html += '<div class="panel-heading">';
+					html += ' <h3 class="panel-title" style="text-align:center;">' + lianmengName + '</h3>';
+				html += '</div>';
+				html += '<div class="panel-body" style="padding:0px;">';
+					html += '<div class="h10"></div>';
+					html += '<div class="h30 breadcrumb">';
+						html += '<div style="float:left;width:300px;height:100%;"><div style="padding-left:10px;line-height:30px;">清账时间：<font style="color:#ff5722;">' + Tools.date('Y-m-d H:i:s', optime) + '</font></div></div>';
+						html += '<div style="float:right;width:300px;height:100%;"><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#ff5722;">' + totalZhangDan + '</font> 元</div></div>';
+					html += '</div>';
+					html += '<div class="h10"></div>';
+					html += '<div class="table-responsive" style="padding:0px 10px;">';
+						html += '<table class="J-lmzddd-list-table table table-hover table-striped">';
+						html += '<tr><th>牌局名</th><th>战绩</th><th>保险</th><th>桌子费</th><th>保险被抽</th><th>当局账单</th></tr>';
+						for(var i in aDataList){
+							var aData = aDataList[i];
+							html += '<tr>';
+								html += '<td>' + aData.paiju_name + '</td>';
+								html += '<td>' + aData.zhanji + '</td>';
+								html += '<td>' + aData.fu_baoxian_heji + '</td>';
+								html += '<td>' + aData.paiju_fee + '</td>';
+								html += '<td>' + aData.baoxian_beichou + '</td>';
+								html += '<td>' + aData.zhang_dan + '</td>';
+							html += '</tr>';
+						}
+						html += '</table>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+		html += '</div>';
+		var oHtml = $(html);
+		showAlertWin(oHtml, function(){
+			
+		});	
 	}
 	
 	$(function(){

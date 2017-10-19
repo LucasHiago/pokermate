@@ -990,7 +990,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	/**
 	 *	联盟清账
 	 */
-	public function qinZhang($mLianmeng, $zhangDan, $aLianmengZhongZhang = []){
+	public function qinZhang($mLianmeng, $zhangDan, $aLianmengZhongZhang = [], $aOldLianmengZhangDanDetailList = []){
 		$aOldRecord = $mLianmeng->toArray();
 		if(!$zhangDan){
 			return false;
@@ -1008,7 +1008,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$mLianmeng->set('qianzhang', ['add', $zhangDan]);
 		$mLianmeng->save();
 		$aNewRecord = $mLianmeng->toArray();
-		$this->operateLog(25, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'zhangDan' => $zhangDan, 'aLianmengZhongZhang' => $aLianmengZhongZhang]);
+		$this->operateLog(25, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'zhangDan' => $zhangDan, 'aLianmengZhongZhang' => $aLianmengZhongZhang, 'aLianmengZhangDanDetailList' => $aOldLianmengZhangDanDetailList]);
 		
 		return true;
 	}

@@ -406,19 +406,36 @@ class LianmengController extends Controller{
 		}
 		$mUser = Yii::$app->user->getIdentity();
 		$aLianmengList = $mUser->getLianmengList();
+		/*$aLianmengZhangDanDetailList = $mUser->getLianmengZhangDanDetailList($id);
+		$totalZhangDan = 0;
+		foreach($aLianmengZhangDanDetailList as $aLianmengZhangDanDetail){
+			$totalZhangDan += $aLianmengZhangDanDetail['float_zhang_dan'];
+		}
+		$totalZhangDan = Calculate::getIntValueByChoushuiShuanfa($totalZhangDan, $mUser->choushui_shuanfa);*/
+		$aReturn = $this->_getLianmengZhangDanDetailList($id);
+		$aReturn['aLianmengList'] = $aLianmengList;
+		/*$aReturn = [
+			'list' => $aLianmengZhangDanDetailList,
+			'totalZhangDan' => $totalZhangDan,
+			'aLianmengList' => $aLianmengList,
+		];*/
+		
+		return new Response('', 1, $aReturn);
+	}
+	
+	private function _getLianmengZhangDanDetailList($id){
+		$mUser = Yii::$app->user->getIdentity();
+		$aLianmengList = $mUser->getLianmengList();
 		$aLianmengZhangDanDetailList = $mUser->getLianmengZhangDanDetailList($id);
 		$totalZhangDan = 0;
 		foreach($aLianmengZhangDanDetailList as $aLianmengZhangDanDetail){
 			$totalZhangDan += $aLianmengZhangDanDetail['float_zhang_dan'];
 		}
 		$totalZhangDan = Calculate::getIntValueByChoushuiShuanfa($totalZhangDan, $mUser->choushui_shuanfa);
-		$aReturn = [
+		return [
 			'list' => $aLianmengZhangDanDetailList,
 			'totalZhangDan' => $totalZhangDan,
-			'aLianmengList' => $aLianmengList,
 		];
-		
-		return new Response('', 1, $aReturn);
 	}
 	
 	public function actionQinZhang(){
@@ -428,6 +445,7 @@ class LianmengController extends Controller{
 		if(!$mLianmeng){
 			return new Response('联盟不存在', 0);
 		}
+		$aLianmengZhangDanDetailList = $this->_getLianmengZhangDanDetailList($id);
 		$mUser = Yii::$app->user->getIdentity();
 		$aLianmengZhongZhangList = $mUser->getLianmengZhongZhangList();
 		if(!isset($aLianmengZhongZhangList[$id])){
@@ -437,7 +455,7 @@ class LianmengController extends Controller{
 		if(!$zhangDan){
 			return new Response('新账单为0', -1);
 		}
-		if(!$mUser->qinZhang($mLianmeng, $zhangDan, $aLianmengZhongZhangList[$id])){
+		if(!$mUser->qinZhang($mLianmeng, $zhangDan, $aLianmengZhongZhangList[$id], $aLianmengZhangDanDetailList)){
 			return new Response('清账失败', 0);
 		}
 		return new Response('清账成功', 1);

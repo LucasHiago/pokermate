@@ -130,6 +130,57 @@ $this->beginPage();
 
 			location.href = url;
 		}
+		var isCanCloseWin = true;
+		var isCloseWinRefresh = false;
+		function showAlertWin(oDom, callback){
+			var oHtml = $('<div class="J-alert-win-wrap" style="z-index:100000;position:fixed;top:0px;left:0px;width:100%;height:100%;overflow-y: scroll;background:rgba(0,0,0,0.8);"></div>');
+			oHtml.append(oDom);
+			$('#wrapper').append(oHtml);
+			document.documentElement.style.overflow = 'hidden';
+			
+			setTimeout(function(){
+				$(document).on('click', function(e){
+					if(!$(e.target).parents().hasClass('J-alert-win-wrap') && !$(e.target).hasClass('wrapUBox') && !$(e.target).parents().hasClass('wrapUBox')){
+						if(isCanCloseWin){
+							clearInterval(tt);
+							oHtml.remove();
+							document.documentElement.style.overflow = '';
+							if(isCloseWinRefresh){
+								location.reload();
+							}
+							isCloseWinRefresh = false;
+						}
+					}
+				});
+			}, 200);
+			function ajust(){
+				var winHeight = $(window).height();
+				var winWidth = $(window).width();
+				oHtml.css({width : $(window).width(), heigth: winHeight});
+				var marginTop = "0px";
+				if(oDom.height() < winHeight){
+					marginTop = ((winHeight - oDom.height()) / 2) + "px";
+				}
+				if(winHeight > oDom.height()){
+					//oDom.css({margin : "0 auto", "margin-top" : ((winHeight - oDom.height()) / 2) + "px"});
+					oDom.css({"margin-left" : ((winWidth - oDom.width()) / 2) + "px", "margin-top" : marginTop});
+				}else{
+					//oDom.css({margin : "0 auto"});
+					oDom.css({"margin-left" : ((winWidth - oDom.width()) / 2) + "px", "margin-top" : marginTop});
+				}
+				document.documentElement.style.overflow = 'hidden';
+			}
+			ajust();
+			var tt = setInterval(function(){
+				ajust();
+			}, 100);
+			$(window).resize(function(){
+				ajust();
+			});
+			if(callback){
+				callback();
+			}
+		}
 	</script>
 </body>
 </html>
