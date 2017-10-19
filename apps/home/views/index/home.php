@@ -8,7 +8,7 @@ $this->registerJsFile('@r.js.keren.list');
 	<div class="c-b-list">
 		<div class="c-b-list-wrap">
 		<?php foreach($aLastPaijuList as $aPaiju){ ?>
-			<div class="panel panel-<?php echo !$aPaiju['status'] ? 'green' : 'yellow'; ?> paiju-item">
+			<div class="panel panel-<?php echo !$aPaiju['status'] ? 'yellow' : 'green'; ?> paiju-item">
 				<div class="panel-heading">
 					<h3 class="panel-title" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);"><?php echo $aPaiju['paiju_name']; ?></h3>
 				</div>

@@ -70,7 +70,7 @@
 		function _appendList(aData){
 			var html = '';
 			for(var i in aData){
-				html += '<div class="panel panel-' + (aData[i].status == 0 ? 'green' : 'yellow') + ' paiju-item">';
+				html += '<div class="panel panel-' + (aData[i].status == 0 ? 'yellow' : 'green') + ' paiju-item">';
 					html += '<div class="panel-heading">';
 						html += '<h3 class="panel-title" onclick="AlertWin.showPaijuDataList(' + aData[i].id + ', 1);">' + aData[i].paiju_name + '</h3>';
 					html += '</div>';
