@@ -1163,7 +1163,7 @@
 				for(var i in aDataList){
 					var aData = aDataList[i];
 					listHtml += '<tr>';
-						listHtml += '<td>' + aData.paiju_name + '</td>';
+						listHtml += '<td class="J-sh-paijuname" data-id="' + aData.paiju_id + '" style="cursor:pointer;">' + aData.paiju_name + '</td>';
 						listHtml += '<td>' + aData.zhanji + '</td>';
 						//listHtml += '<td>' + aData.baoxian_heji + '</td>';
 						listHtml += '<td>' + aData.fu_baoxian_heji + '</td>';
@@ -1214,6 +1214,10 @@
 					$(document).click();
 					AlertWin.showLianmengZhangDanDetail($(this).val());
 					//_loadList($(this).val(), this);
+				});
+				oHtml.find('.J-sh-paijuname').click(function(){
+					$(document).click();
+					AlertWin.showPaijuDataList($(this).attr('data-id'), 1);
 				});
 			}
 			
@@ -1311,7 +1315,7 @@
 						listHtml += '<td>' + aData.lianmeng_name + '</td>';
 						listHtml += '<td>' + aData.lianmeng_zhong_zhang + '</td>';
 						listHtml += '<td>' + aData.lianmeng_shang_zhuo_ren_shu + '</td>';
-						listHtml += '<td><input type="text" class="form-control" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;width:70px;text-align:right;" /><span class="i-edit"></span></td>';
+						listHtml += '<td><input type="text" class="form-control" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;text-align:right;width:100px;" /><span class="i-edit"></span></td>';
 						listHtml += '<td>' + aData.lianmeng_zhang_dan + '</td>';
 						listHtml += '<td class="J-detail-btn" data-id="' + aData.lianmeng_id + '"><button class="btn btn-sm btn-warning" style="width:100%;">账单详情</button></td>';
 						listHtml += '<td class="J-qin-zhang" data-id="' + aData.lianmeng_id + '"><button class="btn btn-sm btn-danger" style="width:100%;">清账</button></td>';

@@ -932,6 +932,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$aPaijuList = Paiju::findAll(['id' => $aPaijuId], ['id', 'end_time'], 0, 0, ['end_time' => SORT_DESC]);
 			$aSortList = [];
 			foreach($aPaijuList as $aPaiju){
+				$aReturnList[$aPaiju['id']]['paiju_id'] = $aPaiju['id'];
 				$aSortList[] = $aReturnList[$aPaiju['id']];
 			}
 			$aReturnList = $aSortList;
