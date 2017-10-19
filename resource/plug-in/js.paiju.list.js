@@ -70,19 +70,21 @@
 		function _appendList(aData){
 			var html = '';
 			for(var i in aData){
-				html += '<div class="c-b-list-item ' + (aData[i].status == 0 ? 'new' : '') + '">';
-					html += '<div class="c-b-l-i-title" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(' + aData[i].id + ', 1);">' + aData[i].paiju_name + '</div>';
-					html += '<div class="c-b-l-i-bottom">';
-						html += '<a class="l-text"><span>核对数字</span><span ' + (aData[i].hedui_shuzi != 0 ? 'style="color:#ff0000;"' : '') + '>' + aData[i].hedui_shuzi + '</span></a>';
+				html += '<div class="panel panel-' + (aData[i].status == 0 ? 'green' : 'yellow') + ' paiju-item">';
+					html += '<div class="panel-heading">';
+						html += '<h3 class="panel-title" onclick="AlertWin.showPaijuDataList(' + aData[i].id + ', 1);">' + aData[i].paiju_name + '</h3>';
+					html += '</div>';
+					html += '<div class="panel-body">';
+						html += '<div class="pj-cell"><span>核对数字</span><span ' + (aData[i].hedui_shuzi != 0 ? 'style="color:#ff0000;"' : '') + '>' + aData[i].hedui_shuzi + '</span></div>';
 						if(aData[i].status == 0){
-							html += '<a class="l-edit" onclick="AlertWin.showPaijuDataList(' + aData[i].id + ', 1);"></a>';
+							html += '<div class="pj-cell"><button class="btn btn-sm btn-default" onclick="AlertWin.showPaijuDataList(' + aData[i].id + ', 1);">修改</button></div>';
 						}else{
-							html += '<a class="l-edit" style="background:none;cursor:default;"></a>';
+							html += '<div class="pj-cell"></div>';
 						}
-						if(aData[i].status == 0){
-							html += '<a href="' + Tools.url('home', 'index/index') + '?paijuId=' + aData[i].id + '" class="l-status ' + (aData[i].status == 1 || aData[i].status == 2 ? 'l-clean' : '') + '"></a>';
+						if(parseInt(aData[i].status) > 0){
+							html += '<div class="pj-cell"><a class="btn btn-sm btn-default">已结算</a></div>';
 						}else{
-							html += '<a class="l-status ' + (aData[i].status == 1 || aData[i].status == 2 ? 'l-clean' : '') + '"></a>';
+							html += '<div class="pj-cell"><a href="' + Tools.url('home', 'index/index') + '?paijuId=' + aData[i].id + '" class="btn btn-sm btn-default">结算</a></div>';
 						}
 					html += '</div>';
 				html += '</div>';

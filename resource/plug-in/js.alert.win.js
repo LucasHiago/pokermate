@@ -2348,25 +2348,26 @@
 		
 		showPaijuList : function(aParam){
 			var html = '';
-			
-			html += '<div class="J-bill-list-win">';
-				html += '<div class="b-header"><div class="J-paiju-count-wrap">牌局总数：<font class="J-paiju-count" style="color: #f4e2a9;">0</font></div></div>';
-				html += '<div class="content-body">';
-					html += '<div class="item-wrap">';
-					
+			html += '<div class="J-data-list-win" style="float:left;width:1200px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">账单列表</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="h30 breadcrumb">';
+							html += '<div style="float:left;width:200px;height:100%;"></div>';
+							html += '<div style="float:right;width:400px;height:100%;"><div class="s-lms-txt">牌局总数: <font class="J-paiju-count" style="color:#ff5722;">0</font></div></div>';
+						html += '</div>';
+						html += '<div class="h10"></div>';
+						html += '<div class="J-paiju-list-wrap"></div>';
 					html += '</div>';
 				html += '</div>';
-				html += '<div class="content-bottom" style="display:none;">';
-					html += '<div class="l-btn"></div>';
-					html += '<div class="c-txt">1/10</div>';
-					html += '<div class="r-btn"></div>';
-				html += '</div>';
-				html += '<div class="b-footer"></div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
 			showAlertWin(oHtml, function(){
-				oPaijuListObject = new PaijuList({oWrapDom : oHtml.find('.item-wrap')});
+				oPaijuListObject = new PaijuList({oWrapDom : oHtml.find('.J-paiju-list-wrap')});
 				if(aParam && typeof(aParam.isHistory)){
 					oPaijuListObject.aExtentParam.isHistory = 1;
 				}

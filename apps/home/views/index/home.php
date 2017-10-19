@@ -8,19 +8,21 @@ $this->registerJsFile('@r.js.keren.list');
 	<div class="c-b-list">
 		<div class="c-b-list-wrap">
 		<?php foreach($aLastPaijuList as $aPaiju){ ?>
-			<div class="c-b-list-item <?php echo !$aPaiju['status'] ? 'new' : ''; ?>">
-				<div class="c-b-l-i-title" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);"><?php echo $aPaiju['paiju_name']; ?></div>
-				<div class="c-b-l-i-bottom">
-					<a class="l-text"><span>核对数字</span><span <?php echo $aPaiju['hedui_shuzi'] ? 'style="color:#ff0000;"' : ''; ?>><?php echo $aPaiju['hedui_shuzi']; ?></span></a>
+			<div class="panel panel-<?php echo !$aPaiju['status'] ? 'green' : 'yellow'; ?> paiju-item">
+				<div class="panel-heading">
+					<h3 class="panel-title" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);"><?php echo $aPaiju['paiju_name']; ?></h3>
+				</div>
+				<div class="panel-body">
+					<div class="pj-cell"><span>核对数字</span><span <?php echo $aPaiju['hedui_shuzi'] ? 'style="color:#ff0000;"' : ''; ?>><?php echo $aPaiju['hedui_shuzi']; ?></span></div>
 					<?php if(!$aPaiju['status']){ ?>
-					<a class="l-edit" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);"></a>
+					<div class="pj-cell"><button class="btn btn-sm btn-default" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);">修改</button></div>
 					<?php }else{ ?>
-					<a class="l-edit" style="background:none;cursor:default;"></a>
+					<div class="pj-cell"></div>
 					<?php } ?>
 					<?php if(!$aPaiju['status']){ ?>
-					<a href="<?php echo Url::to('home', 'index/index'); ?>?paijuId=<?php echo $aPaiju['id']; ?>" class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"><?php echo $aCurrentPaiju && $aCurrentPaiju['id'] == $aPaiju['id'] ? '<span style="position: relative; top: 26px; left: 4px; float: left; height: 4px; width: 43px; display: block; background: #ff0000;"></span>' : ''; ?></a>
+					<div class="pj-cell"><a href="<?php echo Url::to('home', 'index/index'); ?>?paijuId=<?php echo $aPaiju['id']; ?>" class="btn btn-sm btn-default <?php echo  $aCurrentPaiju && $aCurrentPaiju['id'] == $aPaiju['id'] ? 'current' : ''; ?>">结算</a></div>
 					<?php }else{ ?>
-					<a class="l-status <?php echo $aPaiju['status'] == 1 ? 'l-clean' : ''; ?>"><?php echo  $aCurrentPaiju && $aCurrentPaiju['id'] == $aPaiju['id'] ? '<span style="position: relative; top: 26px; left: 4px; float: left; height: 4px; width: 43px; display: block; background: #ff0000;"></span>' : ''; ?></a>
+					<div class="pj-cell"><a class="btn btn-sm btn-default <?php echo  $aCurrentPaiju && $aCurrentPaiju['id'] == $aPaiju['id'] ? 'current' : ''; ?>">已结算</a></div>
 					<?php } ?>
 				</div>
 			</div>

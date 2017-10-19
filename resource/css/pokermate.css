@@ -2072,4 +2072,47 @@ input, select{border:none;outline:none;background:none;}
 	left:35px;
 	color:#ffffff;	
 }
+.paiju-item{
+	float:left;
+	width:184px;
+	height:74px;
+	margin-top:8px;
+	margin-left:13px;
+}
+.paiju-item .panel-heading{
+	height:30px;
+}
+.paiju-item .panel-title{
+	text-align:center;
+	cursor:pointer;
+	line-height: 12px;
+}
+.paiju-item .panel-body{
+	padding:0;
+}
+.paiju-item .pj-cell{
+	float:left;
+	margin-top:6px;
+	width:60px;
+	height:40px;
+}
+.paiju-item .pj-cell button{
+	display:block;
+	margin:0 auto;
+}
+.paiju-item .pj-cell a{
+	color: #333;
+}
+.paiju-item .pj-cell a.current{
+	border-color:#ff0000;
+}
+.paiju-item .pj-cell span{
+	display:block;
+	height: 17px;
+    line-height: 17px;
+    width: 100%;
+    color: #333;
+    text-align: center;
+    font-size: 12px;
+}
 /*background:rgba(0,0,0,0.2);*/
