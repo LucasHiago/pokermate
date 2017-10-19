@@ -170,12 +170,12 @@ class UserController extends Controller{
 		return new Response('交班转出成功', 1);
 	}
 	
-	public function actionGetUnJiaoBanPaijuTotalStatistic(){
+	public function actionGetUnJiaoBanPaijuTotalStatistic(){$st=microtime(true);
 		$mUser = Yii::$app->user->getIdentity();
 		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
 		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
 		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
-		
+		$et=microtime(true);Yii::info('useTime:'. ($et - $st));
 		return new Response('', 1, [
 			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
