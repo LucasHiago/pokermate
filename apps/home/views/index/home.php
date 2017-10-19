@@ -553,8 +553,6 @@ $this->registerJsFile('@r.js.keren.list');
 		initMoneyType();
 		initJiaoShouJinEr();
 		initMoneyOutPutType();
-		/*setTimeout(function(){
-			refreshUnJiaoBanPaijuTotalStatistic();
-		}, 1000);*/
+		refreshUnJiaoBanPaijuTotalStatistic();
 	});
 </script>
