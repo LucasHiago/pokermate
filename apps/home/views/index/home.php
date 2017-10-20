@@ -51,7 +51,7 @@ $this->registerJsFile('@r.js.keren.list');
 					<table class="J-jlbzd-list-table table table-hover table-striped">
 					<tr><th>游戏名</th><th>客人编号</th><th>本金</th><th>结算</th><th>新本金</th><th>操作</th></tr>
 					<?php if(!$aPaijuDataList && $aCurrentPaiju){ ?>
-						<tr style="background:#ffffff;"><td></td><td></td><td>空账单</td><td></td><td></td><td><button class="btn btn-sm btn-primary" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);">结算</button></td></tr>
+						<tr style="background:#ffffff;"><td></td><td></td><td>空账单</td><td></td><td></td><td><button class="btn btn-sm btn-primary" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);" style="width:58px;">结算</button></td></tr>
 					<?php } ?>
 					<?php foreach($aPaijuDataList as $aPaijuData){ ?>
 						<tr>
@@ -64,7 +64,7 @@ $this->registerJsFile('@r.js.keren.list');
 								<?php if($aPaijuData['status']){ ?>
 									<button class="btn btn-sm btn-warning">已结算</button>
 								<?php }else{ ?>
-									<button class="btn btn-sm btn-primary" onclick="doJieShuanPaijuRecord(this, <?php echo $aPaijuData['id']; ?>);">结算</button>
+									<button class="btn btn-sm btn-primary" onclick="doJieShuanPaijuRecord(this, <?php echo $aPaijuData['id']; ?>);" style="width:58px;">结算</button>
 								<?php } ?>
 							</td>
 						</tr>
