@@ -194,12 +194,15 @@ class KerenBenjinManageController extends Controller{
 				//$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
 				if($mTempKerenBenjin){	
 					if($isMerge){
+						$aPlayerList = $mKerenBenjin->getPlayerList();
 						$aMergeRecord = $mTempKerenBenjin->toArray();
 						if($mTempKerenBenjin->is_delete){
 							$mTempKerenBenjin->set('is_delete', 0);
 							$mTempKerenBenjin->set('benjin', $benjin);
 						}else{
-							$mTempKerenBenjin->set('benjin', ['add', $benjin]);
+							if(count($aPlayerList) == 1){
+								$mTempKerenBenjin->set('benjin', ['add', $benjin]);
+							}
 						}
 						$mTempKerenBenjin->set('ying_chou', $yingChou);
 						$mTempKerenBenjin->set('shu_fan', $shuFan);
@@ -207,7 +210,6 @@ class KerenBenjinManageController extends Controller{
 						$mTempKerenBenjin->set('remark', $remark);
 						$mTempKerenBenjin->save();
 						
-						$aPlayerList = $mKerenBenjin->getPlayerList();
 						if($aPlayerList){
 							foreach($aPlayerList as $aPlayer){
 								$mPlayer = Player::toModel($aPlayer);

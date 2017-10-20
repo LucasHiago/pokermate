@@ -431,8 +431,8 @@ $this->registerJsFile('@r.js.keren.list');
 			success : function(aResult){
 				if(aResult.status == 1){
 					$(o).removeAttr('onclick');
-					$(o).removeClass('btn-primary');
-					$(o).addClass('btn-warning');
+					$(o).removeClass('btn-warning');
+					$(o).addClass('btn-success');
 					$(o).text('已结算');
 					/*$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
@@ -469,8 +469,8 @@ $this->registerJsFile('@r.js.keren.list');
 			success : function(aResult){
 				if(aResult.status == 1){
 					$(o).removeAttr('onclick');
-					$(o).removeClass('btn-primary');
-					$(o).addClass('btn-warning');
+					$(o).removeClass('btn-warning');
+					$(o).addClass('btn-success');
 					$(o).text('已结算');
 					/*$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
