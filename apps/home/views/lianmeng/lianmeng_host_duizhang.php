@@ -141,7 +141,7 @@ $pageCount = 8;
 		}
 	}
 	$(function(){
-		$('.c-h-t-menu.m3').addClass('active');
+		$('.J-c-h-t-menu-m3').addClass('active');
 		initItemPage();
 		$('.J-lianmeng-selector').val(<?php echo $lianmengId; ?>);
 		$('.J-lianmeng-selector').on('change', function(){

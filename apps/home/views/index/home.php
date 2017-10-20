@@ -28,7 +28,7 @@ $this->registerJsFile('@r.js.keren.list');
 			</div>
 		<?php } ?>
 		</div>
-		<div class="c-b-list-arrow" onclick="AlertWin.showPaijuList();"></div>
+		<div class="c-b-list-arrow" onclick="AlertWin.showPaijuList();"><i class="fa fa-chevron-right"></i></div>
 	</div>
 	<div class="c-b-content">
 		<div class="c-b-c-left">
@@ -38,7 +38,7 @@ $this->registerJsFile('@r.js.keren.list');
 					<a>结束时间：<?php echo date('Y-m-d H:i:s', $aCurrentPaiju['end_time']); ?>&nbsp;</a>
 					<a><?php echo $aCurrentPaiju['paiju_name']; ?>：选择联盟</a>
 					<a>
-						<select class="J-jieshuan-lianmeng-select" data-paiju-id="<?php echo $aCurrentPaiju['id']; ?>" style="border: 1px solid;height:25px;border-radius:5px;">
+						<select class="J-jieshuan-lianmeng-select form-control" data-paiju-id="<?php echo $aCurrentPaiju['id']; ?>">
 							<?php foreach($aLianmengList as $aLianmeng){ ?>
 								<option value="<?php echo $aLianmeng['id']; ?>"><?php echo $aLianmeng['name']; ?></option>
 							<?php } ?>
@@ -46,116 +46,113 @@ $this->registerJsFile('@r.js.keren.list');
 					</a>
 					<?php } ?>
 				</div>
-				<div class="c-b-c-l-tab">
-					<a href="javascript:;" class="cbcl-tab-btn b1"></a>
-					<a href="javascript:;" class="cbcl-tab-btn b2"></a>
-					<a href="javascript:;" class="cbcl-tab-btn b3"></a>
-					<a href="javascript:;" class="cbcl-tab-btn b4"></a>
-					<a href="javascript:;" class="cbcl-tab-btn b5"></a>
-				</div>
-				<div class="c-b-c-l-tab-list">
-				<?php if(!$aPaijuDataList && $aCurrentPaiju){ ?>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text"></div>
-							<div class="i-text"></div>
-							<div class="i-text">空账单</div>
-							<div class="i-text"></div>
-							<div class="i-text"></div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);"></div>
-					</div>
-				<?php } ?>
-				<?php foreach($aPaijuDataList as $aPaijuData){ ?>
-					<div class="c-b-c-l-tab-list-item">
-						<div class="c-b-c-l-tab-list-item-left">
-							<div class="i-text" title="<?php echo $aPaijuData['player_name']; ?>"><?php echo $aPaijuData['player_name']; ?></div>
-							<div class="i-text"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?></div>
-							<div class="i-text"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['benjin'] : 0; ?></div>
-							<div class="i-text"><?php echo $aPaijuData['jiesuan_value']; ?></div>
-							<div class="i-text"><?php echo $aPaijuData['new_benjin']; ?></div>
-						</div>
-						<div class="c-b-c-l-tab-list-item-right <?php echo $aPaijuData['status'] ? 'clean' : ''; ?>" <?php echo $aPaijuData['status'] ? '' : 'onclick="doJieShuanPaijuRecord(this, ' . $aPaijuData['id'] . ');"'; ?>></div>
-					</div>
-				<?php } ?>
+				<div class="h10"></div>
+				<div class="table-responsive">
+					<table class="J-jlbzd-list-table table table-hover table-striped">
+					<tr><th>游戏名</th><th>客人编号</th><th>本金</th><th>结算</th><th>新本金</th><th>操作</th></tr>
+					<?php if(!$aPaijuDataList && $aCurrentPaiju){ ?>
+						<tr style="background:#ffffff;"><td></td><td></td><td>空账单</td><td></td><td></td><td><button class="btn btn-sm btn-primary" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);">结算</button></td></tr>
+					<?php } ?>
+					<?php foreach($aPaijuDataList as $aPaijuData){ ?>
+						<tr>
+							<td title="<?php echo $aPaijuData['player_name']; ?>"><?php echo $aPaijuData['player_name']; ?></td>
+							<td><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?></td>
+							<td><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['benjin'] : 0; ?></td>
+							<td><?php echo $aPaijuData['jiesuan_value']; ?></td>
+							<td><?php echo $aPaijuData['new_benjin']; ?></td>
+							<td>
+								<?php if($aPaijuData['status']){ ?>
+									<button class="btn btn-sm btn-warning">已结算</button>
+								<?php }else{ ?>
+									<button class="btn btn-sm btn-primary" onclick="doJieShuanPaijuRecord(this, <?php echo $aPaijuData['id']; ?>);">结算</button>
+								<?php } ?>
+							</td>
+						</tr>
+					<?php } ?>
+					</table>
 				</div>
 			</div>
 		</div>
 		<div class="c-b-c-center">
-			<a href="javascript:;" class="chaer"></a>
-			<a href="javascript:;" class="J-imbalance-money ball">0</a>
-			<a href="javascript:;" class="lmzz" onclick="AlertWin.showLianmengZhongZhang();"></a>
-			<a href="javascript:;" class="krxx" onclick="AlertWin.showPlayerList();"></a>
-			<a href="javascript:;" class="lspj" onclick="AlertWin.showPaijuList({isHistory : 1});"></a>
-			<a href="javascript:;" class="jbzc" onclick="AlertWin.showJiaoBanZhuanChu();"></a>
-			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money ball">0</a>
+			<a href="javascript:;" class="chaer btn btn-sm btn-primary">差额</a>
+			<a href="javascript:;" class="J-imbalance-money btn btn-lg btn-success ball">0</a>
+			<a href="javascript:;" class="lmzz btn btn-lg btn-primary" onclick="AlertWin.showLianmengZhongZhang();">联盟总账</a>
+			<a href="javascript:;" class="krxx btn btn-lg btn-primary" onclick="AlertWin.showPlayerList();">客人信息</a>
+			<a href="javascript:;" class="lspj btn btn-lg btn-primary" onclick="AlertWin.showPaijuList({isHistory : 1});">历史牌局</a>
+			<a href="javascript:;" class="jbzc btn btn-sm btn-primary" onclick="AlertWin.showJiaoBanZhuanChu();">交班转出</a>
+			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money btn btn-lg btn-success ball">0</a>
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
-				<div class="J-h-zcs h-zcs" onclick="AlertWin.showChouShuiList();">0</div>
-				<div class="J-h-zbx h-zbx" onclick="AlertWin.showZhongBaoXianList();">0</div>
-				<div class="J-h-szrs h-szrs" onclick="AlertWin.showShanZhuoRenShuList();">0</div>
+				<div class="alert alert-success" style="float: left;width:170px;margin-bottom:0px;cursor:pointer;" onclick="AlertWin.showChouShuiList();"><strong>总抽水：</strong><font class="J-h-zcs">0</font></div>
+				<div class="alert alert-success" style="float: left;width:170px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="AlertWin.showZhongBaoXianList();"><strong>总保险：</strong><font class="J-h-zbx">0</font></div>
+				<div class="alert alert-success" style="float: left;width:170px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="AlertWin.showShanZhuoRenShuList();"><strong>上桌人数：</strong><font class="J-h-szrs">0</font></div>
 			</div>
 			<div class="c-b-c-r-center">
-				<a class="krbh"><input type="text" class="J-search-keren-bianhao" value="" /></a>
-				<a class="bj"><input type="text" class="J-search-benjin " value="0" /></a>
-				<a class="J-jsfs jsfs" data-value="0">请选择</a>
-				<!--<a class="jsjer"><input type="text" class="J-search-jsjer" value="0" /></a>
-				<a class="J-submit-search-benjin sure"></a>-->
+				<div class="form-group" style="float:left;width:140px;margin:15px;margin-left:26px;">
+					<label>客人编号</label>
+					<input type="text" class="J-search-keren-bianhao form-control" value="" />
+				</div>
+				<div class="form-group" style="float:left;width:140px;margin:15px;">
+					<label>本金</label>
+					<input type="text" class="J-search-benjin form-control" value="0" />
+				</div>
+				<div class="form-group" style="float:left;width:140px;margin:15px;">
+					<label>缴收方式</label>
+					<select class="J-jsfs form-control">
+					<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
+						<option value="<?php echo $aMoneyType['id']; ?>"><?php echo $aMoneyType['pay_type']; ?></option>
+					<?php } ?>
+					</select>
+				</div>
 			</div>
 			<div class="c-b-c-r-bottom">
-				<div class="txt-wrap">
-					<div class="txt-head-wrap">
-						<a class="head-txt">资金</a>
-						<a class="J-money-type-total-money momey1">0</a>
+				<div class="panel panel-default" style="float:left;width:180px;margin-right:4px;min-height: 400px;">
+					<div class="panel-heading">
+						<h3 class="panel-title"><strong>资金</strong>（<font class="J-money-type-total-money" style="color: #3c763d;">0</font>）</h3>
 					</div>
-					<div class="txt-head-wrap" style="margin-left:58px;">
-						<a class="head-txt">支出</a>
-						<a class="J-money-out-put-type-total-money momey1">0</a>
-					</div>
-					<div class="txt-head-wrap" style="margin-left:45px;">
-						<a class="head-txt">俱乐部信息</a>
+					<div class="panel-body">
+					<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
+						<div class="form-group">
+							<label><?php echo $aMoneyType['pay_type']; ?></label>
+							<input type="text" class="J-money-type-item-input form-control" data-id="<?php echo $aMoneyType['id']; ?>" value="<?php echo $aMoneyType['money']; ?>" />
+							<i class="fa fa-pencil" style="position: relative;float: right;top: -33px;right: 2px;cursor: pointer;height: 32px;line-height: 32px;"></i>
+						</div>
+					<?php } ?>
+					<button class="btn btn-sm btn-primary" onclick='AlertWin.showMoneyTypeList(<?php echo json_encode($aMoneyTypeList); ?>);'>新增/删除</button>
 					</div>
 				</div>
-				<div class="c-b-c-r-bottom-body">
-					<div class="b-b-item-left">
-						<div class="h40"></div>
-						<div class="b-b-item-left-list">
-						<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
-							<div class="b-b-i-l-i">
-								<div class="type"><?php echo $aMoneyType['pay_type']; ?></div>
-								<div class="in-text"><input type="text" value="<?php echo $aMoneyType['money']; ?>" data-id="<?php echo $aMoneyType['id']; ?>" /></div>
-								<div class="edit-btn"></div>
-							</div>
-						<?php } ?>
-							<div class="b-b-i-l-i" style="background:none;">
-								<div class="op-btn" onclick='AlertWin.showMoneyTypeList(<?php echo json_encode($aMoneyTypeList); ?>);'>新增/删除</div>
-							</div>
-							<div class="b-b-i-l-i" style="background:none;"></div>
-						</div>
+				<div class="panel panel-default" style="float:left;width:180px;margin-right:4px;min-height: 400px;">
+					<div class="panel-heading">
+						<h3 class="panel-title"><strong>支出</strong>（<font class="J-money-out-put-type-total-money" style="color: #3c763d;">0</font>）</h3>
 					</div>
-					<div class="b-b-item-center">
-						<div class="h40"></div>
-						<div class="b-b-item-center-list">
-							<?php foreach($aMoneyOutPutTypeList as $aMoneyOutPutType){ ?>
-							<div class="b-b-i-l-i">
-								<div class="type"><?php echo $aMoneyOutPutType['out_put_type']; ?></div>
-								<div class="in-text"><input type="text" value="<?php echo $aMoneyOutPutType['money']; ?>" data-id="<?php echo $aMoneyOutPutType['id']; ?>" /></div>
-								<div class="edit-btn"></div>
-							</div>
-						<?php } ?>
-							<div class="b-b-i-l-i" style="background:none;">
-								<div class="op-btn" onclick='AlertWin.showMoneyOutPutTypeList(<?php echo json_encode($aMoneyOutPutTypeList); ?>);'>新增/删除</div>
-							</div>
-							<div class="b-b-i-l-i" style="background:none;"></div>
+					<div class="panel-body">
+						<?php foreach($aMoneyOutPutTypeList as $aMoneyType){ ?>
+						<div class="form-group">
+							<label><?php echo $aMoneyType['out_put_type']; ?></label>
+							<input type="text" class="J-money-out-put-type-item-input form-control" data-id="<?php echo $aMoneyType['id']; ?>" value="<?php echo $aMoneyType['money']; ?>" />
+							<i class="fa fa-pencil" style="position: relative;float: right;top: -33px;right: 2px;cursor: pointer;height: 32px;line-height: 32px;"></i>
 						</div>
+					<?php } ?>
+					<button class="btn btn-sm btn-primary" onclick='AlertWin.showMoneyOutPutTypeList(<?php echo json_encode($aMoneyOutPutTypeList); ?>);'>新增/删除</button>
 					</div>
-					<div class="b-b-item-right">
-						<div class="h40"></div>
-						<div class="b-r-stat-w">
-							<div class="J-krzbj stat-txt krzbj">0</div>
-							<div class="J-krqk stat-txt krqk">0</div>
-							<div class="J-krsy stat-txt krsy">0</div>
+				</div>
+				<div class="panel panel-default" style="float:left;width:172px;min-height: 400px;">
+					<div class="panel-heading">
+						<h3 class="panel-title"><strong>俱乐部信息</strong></h3>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label>客人总本金</label>
+							<div class="J-krzbj" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
+						</div>
+						<div class="form-group">
+							<label>客人欠款</label>
+							<div class="J-krqk " style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
+						</div>
+						<div class="form-group">
+							<label>客人输赢</label>
+							<div class="J-krsy" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
 						</div>
 					</div>
 				</div>
@@ -169,9 +166,7 @@ $this->registerJsFile('@r.js.keren.list');
 	var aAgentList = <?php echo json_encode($aAgentList); ?>;
 	
 	function initMoneyOutPutType(){
-		//$('.b-b-item-center-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
-		
-		function commitMoneyTypeChange(o){
+		function commitMoneyOutPutTypeChange(o){
 			ajax({
 				url : Tools.url('home', 'money-out-put-type/save'),
 				data : {
@@ -197,8 +192,8 @@ $this->registerJsFile('@r.js.keren.list');
 		}
 		
 		function initMoneyTypeListEvent(){
-			$('.b-b-item-center-list').find('.edit-btn').on('click', function(){
-				var oTxt = $(this).parent().find('input');
+			$('.J-money-out-put-type-item-input').next().on('click', function(){
+				var oTxt = $(this).prev();
 				var txt = oTxt.val();
 				oTxt.val('');
 				oTxt.focus();
@@ -206,9 +201,9 @@ $this->registerJsFile('@r.js.keren.list');
 				AlertWin.showMoneyOutPutTypeWin(oTxt.attr('data-id'), $(this).prev().prev().text());
 			});
 			
-			$('.b-b-item-center-list').find('input').keyup(function(e){
+			$('.J-money-out-put-type-item-input').keyup(function(e){
 				if(e.keyCode == 13){
-					commitMoneyTypeChange(this);
+					commitMoneyOutPutTypeChange(this);
 				}
 			});
 		}
@@ -220,39 +215,18 @@ $this->registerJsFile('@r.js.keren.list');
 
 	function initMoneyType(){
 		function initJsfs(){
-			$('.J-jsfs').on('click', function(){
-				var html = '';
-				html += '<div class="J-jsfs-select">';
-				<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
-					html += '<div class="J-jsfs-select-item" data-value="<?php echo $aMoneyType['id']; ?>"><?php echo $aMoneyType['pay_type']; ?></div>';
-				<?php } ?>
-				html += '</div>';
-				var oHtml = $(html);
-				$('#pageWraper').append(oHtml);
-				oHtml.css({top: $(this).offset().top + 33, left: $(this).offset().left});
-				oHtml.find('.J-jsfs-select-item').on('click', function(){
-					//$('.J-jsfs').attr('data-value', $(this).attr('data-value'));
-					//$('.J-jsfs').text($(this).text());
-					var kerenBianhao = $('.J-search-keren-bianhao').val();
-					var moneyTypeId = $(this).attr('data-value');
-					var moneyType = $(this).text();
-					oHtml.remove();
-					if(kerenBianhao == ''){
-						UBox.show('请输入客人编号', -1);
-						return;
-					}
-					AlertWin.showJiaoShouWin(kerenBianhao, moneyTypeId, moneyType);
-				});
-				$(document).on('click', function(e){
-					if(!$(e.target).hasClass('J-jsfs')){
-						oHtml.remove();
-					}
-				});
+			$('.J-jsfs').on('change', function(){
+				var kerenBianhao = $('.J-search-keren-bianhao').val();
+				var moneyTypeId = $(this).val();
+				var moneyType = $(this).find("option:selected").text();
+				
+				if(kerenBianhao == ''){
+					UBox.show('请输入客人编号', -1);
+					return;
+				}
+				AlertWin.showJiaoShouWin(kerenBianhao, moneyTypeId, moneyType);
 			});
-		}
-		
-		function initMoneyTypeListScroll(){
-			$('.b-b-item-left-list').tinyscrollbar({axis : 'y', scrollbarVisable : false, wheelSpeed : 10});
+			
 		}
 		
 		function commitMoneyTypeChange(o){
@@ -281,8 +255,8 @@ $this->registerJsFile('@r.js.keren.list');
 		}
 		
 		function initMoneyTypeListEvent(){
-			$('.b-b-item-left-list').find('.edit-btn').on('click', function(){
-				var oTxt = $(this).parent().find('input');
+			$('.J-money-type-item-input').next().on('click', function(){
+				var oTxt = $(this).prev();
 				var txt = oTxt.val();
 				oTxt.val('');
 				oTxt.focus();
@@ -290,7 +264,7 @@ $this->registerJsFile('@r.js.keren.list');
 				AlertWin.showMoneyTypeWin(oTxt.attr('data-id'), $(this).prev().prev().text());
 			});
 			
-			$('.b-b-item-left-list').find('input').keyup(function(e){
+			$('.J-money-type-item-input').keyup(function(e){
 				if(e.keyCode == 13){
 					commitMoneyTypeChange(this);
 				}
@@ -300,7 +274,6 @@ $this->registerJsFile('@r.js.keren.list');
 			setInputInterval(this);
 		}); */
 		initJsfs();
-		//initMoneyTypeListScroll();
 		initMoneyTypeListEvent();
 	}
 
@@ -458,7 +431,9 @@ $this->registerJsFile('@r.js.keren.list');
 			success : function(aResult){
 				if(aResult.status == 1){
 					$(o).removeAttr('onclick');
-					$(o).addClass('clean');
+					$(o).removeClass('btn-primary');
+					$(o).addClass('btn-warning');
+					$(o).text('已结算');
 					/*$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
 					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
@@ -494,7 +469,9 @@ $this->registerJsFile('@r.js.keren.list');
 			success : function(aResult){
 				if(aResult.status == 1){
 					$(o).removeAttr('onclick');
-					$(o).addClass('clean');
+					$(o).removeClass('btn-primary');
+					$(o).addClass('btn-warning');
+					$(o).text('已结算');
 					/*$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
 					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
@@ -549,7 +526,7 @@ $this->registerJsFile('@r.js.keren.list');
 	}
 	
 	$(function(){
-		$('.c-h-t-menu.m1').addClass('active');
+		$('.J-c-h-t-menu-m1').addClass('active');
 		
 		initPaijuDataList();
 		initMoneyType();

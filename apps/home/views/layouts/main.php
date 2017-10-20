@@ -165,7 +165,7 @@ if($mUser){
 		<div id="pageWraper">
 			<div class="c-head-wrap">
 				<div class="c-h-left">
-					<a href="javascript:;" class="heitao-icon" title="<?php echo $mUser->name; ?>"></a>
+					<a href="javascript:;" class="heitao-icon fa fa-user" title="<?php echo $mUser->name; ?>"></a>
 					<?php if(!$mUser->is_active){ ?>
 						<a class="vipinfo">未启用</a>
 					<?php }else{ ?>
@@ -180,36 +180,44 @@ if($mUser){
 					<div class="c-h-center-w">
 					<?php if(!$mUser->is_active){ ?>
 						<div class="c-h-item">
-							<a href="javascript:;" class="c-h-i-up" onclick='AlertWin.showUserActive(this);'>启用设置</a>
-							<a href="javascript:;" class="c-h-i-down"></a>
+							<a href="javascript:;" class="btn btn-lg btn-success" style="width:95%;margin-top: 10px;" onclick='AlertWin.showUserActive(this);'>启用设置</a>
+							<a href="javascript:;" class="btn btn-success" style="margin-left: 36px;margin-top: 8px;">获取牌局</a>
 						</div>
 					<?php }else{ ?>
 						<?php foreach($aClubList as $aClub){ ?>
 							<div class="c-h-item">
-								<a href="javascript:;" class="c-h-i-up" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></a>
-								<a href="javascript:;" class="c-h-i-down" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);"></a>
+								<a href="javascript:;" class="btn btn-lg btn-success" style="width:95%;margin-top: 10px;" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></a>
+								<a href="javascript:;" class="btn btn-success" style="margin-left: 36px;margin-top: 8px;" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);">获取牌局</a>
 							</div>
 						<?php } ?>
 						<div class="c-h-item" style="width:43px;margin-left: 15px;">
-							<a href="javascript:;" class="add-icon" onclick="AlertWin.showAddClub();"></a>
+							<a href="javascript:;" class="btn btn-default" onclick="AlertWin.showAddClub();" style="margin-top:36px;" title="添加俱乐部">+</a>
 						</div>
 					<?php } ?>
 					</div>
 				</div>
 				<div class="c-h-right">
-					<a href="<?php echo Url::to('home', 'user-manage/index'); ?>" class="log-icon"></a>
-					<a href="javascript:;" class="setting-icon" onclick="AlertWin.showEditUserInfo();"></a>
-					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="close-icon"></a>
+					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:30px;">关闭</a>
+					<a href="javascript:;" class="btn btn-default" onclick="AlertWin.showEditUserInfo();" style="float:right;margin-right:10px;margin-top:30px;">设置</a>
+					<a href="<?php echo Url::to('home', 'user-manage/index'); ?>" class="btn btn-default" style="float:right;margin-right:10px;margin-top:30px;">管理</a>
 				</div>
-				<div class="c-h-tab-w">
-					<a href="<?php echo Url::to('home', 'index/index'); ?>" class="c-h-t-menu m1"></a>
-					<a href="<?php echo Url::to('home', 'agent/index'); ?>" class="c-h-t-menu m2"></a>
-					<a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>" class="c-h-t-menu m3"></a>
-					<a href="javascript:;" class="c-h-t-jiaoban" onclick="AlertWin.showJiaoBanZhuanChu();"></a>
+				<div class="h20"></div>
+				<div class="navbar navbar-default">
+					<div class="container" style="width:1320px;">
+						<div class="navbar-collapse collapse">
+							<ul class="nav navbar-nav">
+								<li class="J-c-h-t-menu-m1"><a href="<?php echo Url::to('home', 'index/index'); ?>">结账台</a></li>
+								<li class="J-c-h-t-menu-m2"><a href="<?php echo Url::to('home', 'agent/index'); ?>">代理分成</a></li>
+								<li class="J-c-h-t-menu-m3"><a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>">联盟主机对账</a></li>
+							</ul>
+							<a href="javascript:;" class="btn btn-lg btn-warning" style="float:right;position:relative;right:16px;top:3px;" onclick="AlertWin.showJiaoBanZhuanChu();">交班账单</a>
+						</div>
+						
+					</div>
 				</div>
 			</div>
 			<?php echo $content; ?>
-			<div class="c-footer-wrap"></div>
+			<div class="c-footer-wrap" style="height:20px;"></div>
 		</div>	
 	</div>
 	<?php $this->endBody(); ?>

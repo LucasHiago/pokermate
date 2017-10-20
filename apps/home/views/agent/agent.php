@@ -307,7 +307,7 @@ if($aCurrentAgent){
 	}
 	
 	$(function(){
-		$('.c-h-t-menu.m2').addClass('active');
+		$('.J-c-h-t-menu-m2').addClass('active');
 		initAgentList();
 		initAgentSetting();
 		initAgentFenCheng();

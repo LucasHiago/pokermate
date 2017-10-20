@@ -1,6 +1,6 @@
 body{
 	margin-top:30px;
-	background:url('./../images/bg.jpg');
+	/*background:url('./../images/bg.jpg');*/
 }
 .h1{height:1px;margin:0px;padding:0px;}
 .h2{height:2px;margin:0px;padding:0px;}
@@ -34,7 +34,8 @@ input, select{border:none;outline:none;background:none;}
 .c-head-wrap{
 	width:100%;
 	height:197px;
-	background:url('./../images/10087.jpg') no-repeat;
+	/*background:url('./../images/10087.jpg') no-repeat;*/
+	background:#ffffff;
 	overflow:hidden;
 }
 .c-head-wrap .c-h-left{
@@ -50,8 +51,14 @@ input, select{border:none;outline:none;background:none;}
     left: 80px;
 	width:65px;
 	height:65px;
-	background:url('./../images/sprite.png') no-repeat;
-	background-position:-1349px -8px;
+	/*background:url('./../images/sprite.png') no-repeat;
+	background-position:-1349px -8px;*/
+    font-size: 48px;
+    color: #e91e63;
+    background: #ccc;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 65px;
 }
 .c-head-wrap .c-h-left .vipinfo{
 	display:block;
@@ -62,11 +69,14 @@ input, select{border:none;outline:none;background:none;}
 	width:156px;
 	line-height:27px;
 	height:27px;
-	background:url('./../images/sprite.png') no-repeat;
-	background-position:-1441px -14px;
+	/*background:url('./../images/sprite.png') no-repeat;
+	background-position:-1441px -14px;*/
 	font-weight: bold;
-    color: #feffd8;
+   /* color: #feffd8;*/
 	text-align:center;
+	background: #ccc;
+    border-radius: 15px;
+    color: #e91e63;
 }
 .c-head-wrap .c-h-center{
 	display:inline-block;
@@ -205,12 +215,14 @@ input, select{border:none;outline:none;background:none;}
 .c-footer-wrap{
 	width:100%;
 	height:95px;
-	background: url(./../images/10089.png) no-repeat;
+	/*background: url(./../images/10089.png) no-repeat;*/
+	background:#ffffff;
 }
 .c-body-wrap{
 	width:100%;
 	min-height:768px;
-	background: url(./../images/10088.png) repeat-y;
+	/*background: url(./../images/10088.png) repeat-y;*/
+	background:#ffffff;
 	/*background:url('./../images/sprite1.png') no-repeat;
 	background-position:-674px -500px;*/
 	overflow:hidden;
@@ -224,8 +236,11 @@ input, select{border:none;outline:none;background:none;}
 	margin:0 auto;
 	width:1233px;
 	height:90px;
-	background:url('./../images/sprite.png') no-repeat;
-	background-position:0px 0px;
+	/*background:url('./../images/sprite.png') no-repeat;
+	background-position:0px 0px;*/
+	border: 1px solid #ddd;
+    border-radius: 4px;
+	background: #f5f5f5;
 }
 .c-b-list-item{
 	float:left;
@@ -294,9 +309,13 @@ input, select{border:none;outline:none;background:none;}
     right: 54px;
 	height:60px;
 	width:30px;
-	background:url('./../images/sprite.png') no-repeat;
-	background-position:-1964px -60px;
+	/*background:url('./../images/sprite.png') no-repeat;
+	background-position:-1964px -60px;*/
 	cursor:pointer;
+	background: none;
+    text-align: center;
+    line-height: 65px;
+    font-size: 22px;
 }
 .c-body-wrap .c-b-content{
 	width:100%;
@@ -310,7 +329,7 @@ input, select{border:none;outline:none;background:none;}
 	min-height:562px;
 	overflow:hidden;
 	/*background:url('./../images/9.png') no-repeat;*/
-	background:#1e1d2d;
+	background:#eeeeee;
 	border-radius: 20px;
 }
 .c-body-wrap .c-b-content .c-b-c-left .cbb-lm-wrap{
@@ -323,7 +342,7 @@ input, select{border:none;outline:none;background:none;}
 	min-width:80px;
 	line-height:25px;
 	height:25px;
-	color:#ff6a6a;
+	color:#333;
 }
 .c-body-wrap .c-b-content .c-b-c-left .c-b-c-left-wrap{
 	margin:0 auto;
@@ -410,9 +429,9 @@ input, select{border:none;outline:none;background:none;}
 	display:block;
 	float:left;
 	width:106px;
-	height:35px;
+	/*height:35px;
 	background:url('./../images/sprite.png') no-repeat;
-	background-position:1px -100px;
+	background-position:1px -100px;*/
 	margin-left:15px;
 	margin-top:10px;
 }
@@ -421,48 +440,51 @@ input, select{border:none;outline:none;background:none;}
 	float:left;
 	width:118px;
 	height:118px;
-	line-height:118px;
-	background:url('./../images/sprite.png') no-repeat;
-	background-position:-2px -147px;
+	line-height:95px;
+	/*background:url('./../images/sprite.png') no-repeat;
+	background-position:-2px -147px;*/
 	margin-left:10px;
 	margin-top:10px;
 	margin-bottom:15px;
 	text-align:center;
 	color:#ffffff;
 	font-size: 20px;
+	border-radius:50%;
+	background:#00ff00;
 }
 .c-body-wrap .c-b-content .c-b-c-center .ball.fu{
-	background-position:-132px -150px;
+	/*background-position:-132px -150px;*/
+	background:#ff0000;
 }
 .c-body-wrap .c-b-content .c-b-c-center .lmzz{
 	display:block;
 	float:left;
-	width:106px;
+	/*width:106px;
 	height:44px;
 	line-height:44px;
 	background:url('./../images/sprite.png') no-repeat;
-	background-position:-240px -95px;
+	background-position:-240px -95px;*/
 	margin-left:15px;
 }
 .c-body-wrap .c-b-content .c-b-c-center .krxx{
 	display:block;
 	float:left;
-	width:106px;
+	/*width:106px;
 	height:44px;
 	line-height:44px;
 	background:url('./../images/sprite.png') no-repeat;
-	background-position:-362px -95px;
+	background-position:-362px -95px;*/
 	margin-left:15px;
 	margin-top:5px;
 }
 .c-body-wrap .c-b-content .c-b-c-center .lspj{
 	display:block;
 	float:left;
-	width:106px;
+	/*width:106px;
 	height:44px;
 	line-height:44px;
 	background:url('./../images/sprite.png') no-repeat;
-	background-position:-482px -95px;
+	background-position:-482px -95px;*/
 	margin-left:15px;
 	margin-top:5px;
 }
@@ -470,9 +492,9 @@ input, select{border:none;outline:none;background:none;}
 	display:block;
 	float:left;
 	width:106px;
-	height:35px;
+	/*height:35px;
 	background:url('./../images/sprite.png') no-repeat;
-	background-position:-121px -100px;
+	background-position:-121px -100px;*/
 	margin-left:15px;
 	margin-top:15px;
 }
@@ -530,11 +552,14 @@ input, select{border:none;outline:none;background:none;}
 	display:inline-block;
 	width:540px;
 	height:94px;
-	background:url('./../images/sprite.png') no-repeat;
-	background-position:-277px -159px;
+	/*background:url('./../images/sprite.png') no-repeat;
+	background-position:-277px -159px;*/
+	border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f5f5f5;
 }
 .c-body-wrap .c-b-content .c-b-c-right .c-b-c-r-center input{
-	border:none;
+	/*border:none;
 	outline:none;
 	width:100%;
 	height:100%;
@@ -543,7 +568,7 @@ input, select{border:none;outline:none;background:none;}
     font-size: 18px;
     color: #ffffff;
     height: 33px;
-    line-height: 33px;
+    line-height: 33px;*/
 }
 .c-body-wrap .c-b-content .c-b-c-right .c-b-c-r-center .krbh{
 	float:left;
