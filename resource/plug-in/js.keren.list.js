@@ -85,7 +85,7 @@
 					}
 					playerListHtml += '</select>';
 					html += '<td style="cursor:pointer;" class="J-select-play" data-id="' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].id : 0) + '">' + playerListHtml + '</td>';
-					html += '<td><input type="text" class="form-control" style=' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_chou" value="' + aData[i].ying_chou + '" /></td>';
+					html += '<td><input type="text" class="form-control" style="' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_chou" value="' + aData[i].ying_chou + '" /></td>';
 					html += '<td><input type="text" class="form-control" style="' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="shu_fan" value="' + aData[i].shu_fan + '" /></td>';
 					var agentListHtml = '';
 					agentListHtml += '<select class="J-agent-select-change form-control" data-init-id="' + aData[i].agent_id + '" data-record-id="' + aData[i].id + '" style="min-width:120px;' + fontColorGreen + '">';
