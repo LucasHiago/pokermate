@@ -476,7 +476,7 @@ class IndexController extends Controller{
 			//return new Response('出错啦', 0);
 			$kerenId = KerenBenjin::addRecord([
 				'user_id' => Yii::$app->user->id, 
-				'keren_bianhao' => KerenBenjin::getNextKerenbianhao(Yii::$app->user->id), 
+				'keren_bianhao' => $kerenBianhao ? $kerenBianhao : KerenBenjin::getNextKerenbianhao(Yii::$app->user->id), 
 				'benjin' => $benjin, 
 				'ying_chou' => $yingChou, 
 				'shu_fan' => $shuFan, 
