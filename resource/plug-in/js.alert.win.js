@@ -1316,7 +1316,7 @@
 					var aData = aDataList[i];
 					listHtml += '<tr>';
 						listHtml += '<td>' + aData.lianmeng_name + '</td>';
-						listHtml += '<td>' + aData.lianmeng_zhong_zhang + '</td>';
+						listHtml += '<td>' + aData.int_float_lianmeng_zhong_zhang + '</td>';
 						listHtml += '<td>' + aData.lianmeng_shang_zhuo_ren_shu + '</td>';
 						listHtml += '<td><input type="text" class="form-control" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;text-align:right;width:100px;" /><span class="i-edit"></span></td>';
 						listHtml += '<td>' + aData.lianmeng_zhang_dan + '</td>';

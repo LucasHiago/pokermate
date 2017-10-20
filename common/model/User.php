@@ -979,6 +979,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			}
 			$aReturnList[$lianmengId]['lianmeng_zhong_zhang'] = $aReturnList[$lianmengId]['lianmeng_qian_zhang'] + $aReturnList[$lianmengId]['lianmeng_zhang_dan'];
 			$aReturnList[$lianmengId]['float_lianmeng_zhong_zhang'] = $aReturnList[$lianmengId]['lianmeng_qian_zhang'] + $aReturnList[$lianmengId]['float_lianmeng_zhang_dan'];
+			$aReturnList[$lianmengId]['int_float_lianmeng_zhong_zhang'] = Calculate::getIntValueByChoushuiShuanfa($aReturnList[$lianmengId]['float_lianmeng_zhong_zhang'], $this->choushui_shuanfa);
 		}
 		foreach($aReturnList as $lianmengId => $aValue){
 			$aReturnList[$lianmengId]['lianmeng_zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($aReturnList[$lianmengId]['float_lianmeng_zhang_dan'], $this->choushui_shuanfa);
