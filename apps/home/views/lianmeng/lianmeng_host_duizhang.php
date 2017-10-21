@@ -6,8 +6,6 @@ $minColumn = 9;
 $pageCount = 8;
 ?>
 
-<div class="J-go-scroll-left"></div>
-<div class="J-go-scroll-right"></div>
 <div class="c-body-wrap lmzj-wrap">
 	<div class="h50">
 		<div class="h-left">
@@ -107,8 +105,8 @@ $pageCount = 8;
 		</div>
 	</div>
 </div>
-<div class="J-go-scroll-left fa fa-chevron-left" onclick="showItemPrevPage(this);"></div>
-<div class="J-go-scroll-right fa fa-chevron-right" onclick="showItemNextPage(this);"></div>
+<div class="J-go-scroll-left" onclick="showItemPrevPage(this);"><i class="fa fa-chevron-left"></i></div>
+<div class="J-go-scroll-right" onclick="showItemNextPage(this);"><i class="fa fa-chevron-right"></i></div>
 <script type="text/javascript">	
 	var currentItemPage = 1;
 	function _showItemPage(){
@@ -133,7 +131,7 @@ $pageCount = 8;
 	}
 	function initItemPage(){
 		_showItemPage();
-		$('.J-go-scroll-left').css({left : $('.lmzj-wrap').offset().left});
+		$('.J-go-scroll-left').css({left : $('.lmzj-wrap').offset().left + 5});
 		$('.J-go-scroll-right').css({left : $('.lmzj-wrap').offset().left + 1320 - 40});
 		if(parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) < 10){
 			$('.J-go-scroll-left').hide();

@@ -1986,7 +1986,7 @@ input, select{border:none;outline:none;background:none;}
 }
 .lmzj-wrap .lmzj-content-wrap .body-list-wrap{
 	float:left;
-	margin-left:20px;
+	margin-left:15px;
 	min-height:698px;
 	max-width: 1230px;
 	min-width: 1230px;
@@ -2095,7 +2095,7 @@ input, select{border:none;outline:none;background:none;}
 .J-go-scroll-left, .J-go-scroll-right{
 	position:fixed;
 	top:310px;
-	width:50px;
+	width:35px;
 	height:100px;
 	cursor:pointer;
 	text-align: center;
@@ -2103,6 +2103,8 @@ input, select{border:none;outline:none;background:none;}
     font-size: 30px;
 	/*background: url(./../images/sprite.png) no-repeat;
     background-position: -1963px -40px;*/
+	background: #ffea4b;
+    border-radius: 15px;
 }
 .J-go-scroll-left{
 	/*transform: rotate(180deg);
