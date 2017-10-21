@@ -1402,15 +1402,18 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
 				foreach($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'] as $kk => $vv){
 					//账单值与自己俱乐部联盟账单值相反
-					$zhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
+					//$zhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
 					$floatZhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa, false);
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($floatZhandan, $this->choushui_shuanfa);
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['float_zhang_dan'] = $floatZhandan;
 					//$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $zhandan;
-					$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] += $floatZhandan;
+					//$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] += $floatZhandan;
 				}
+				$clubFloatZhandan = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa, false);
+				$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] = $clubFloatZhandan;
+				$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($clubFloatZhandan, $this->choushui_shuanfa);
 			}
-			$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'], $this->choushui_shuanfa);
+			
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
 		}
