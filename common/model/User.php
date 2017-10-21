@@ -1403,7 +1403,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				foreach($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'] as $kk => $vv){
 					//账单值与自己俱乐部联盟账单值相反
 					$zhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
-					$floatZhandan = Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa, false);
+					$floatZhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa, false);
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($floatZhandan, $this->choushui_shuanfa);
 					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['float_zhang_dan'] = $floatZhandan;
 					//$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $zhandan;
