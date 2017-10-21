@@ -854,7 +854,7 @@ input, select{border:none;outline:none;background:none;}
     min-height: 675px;
 	margin-top: 25px;
     margin-left: 28px;
-	background:url('./../images/18.png') no-repeat;
+	/*background:url('./../images/18.png') no-repeat;*/
 }
 .c-body-wrap .ag-bg .ag-left{
 	float:left;
@@ -1802,7 +1802,7 @@ input, select{border:none;outline:none;background:none;}
 .J-lianmeng-setting-win .ls-add-wrap td, .J-lianmeng-setting-win .ls-list-wrap td{
 	height:30px;
 	line-height:30px;
-	background: url(./../images/304.png) no-repeat center;
+	/*background: url(./../images/304.png) no-repeat center;*/
 }
 .J-lianmeng-setting-win  td input,.J-lianmeng-setting-win .la-add-btn,.J-lianmeng-setting-win .ls-t-select{
 	display:block;
@@ -1924,7 +1924,7 @@ input, select{border:none;outline:none;background:none;}
 	margin-left:15px;
 	width:84px;
 	height:30px;
-	background: url(./../images/304.png) no-repeat center;
+	/*background: url(./../images/304.png) no-repeat center;*/
 	color:#ffffff;
 }
 .J-data-list-win .jbzc-sure-btn{
@@ -1962,7 +1962,7 @@ input, select{border:none;outline:none;background:none;}
 	margin-left:50px;
 	min-width:86px;
 	width:120px;
-	background: url(./../images/304.png) no-repeat center;
+	/*background: url(./../images/304.png) no-repeat center;*/
 }
 .lmzj-wrap .h-l-div.h-text-bg{
 	margin-left:20px;
