@@ -180,14 +180,26 @@ if($mUser){
 					<div class="c-h-center-w">
 					<?php if(!$mUser->is_active){ ?>
 						<div class="c-h-item">
-							<a href="javascript:;" class="btn btn-lg btn-success" style="width:95%;margin-top: 10px;" onclick='AlertWin.showUserActive(this);'>启用设置</a>
-							<a href="javascript:;" class="btn btn-success" style="margin-left: 36px;margin-top: 8px;">获取牌局</a>
+							<div class="panel panel-yellow" style="height: 90px; margin-top: 5px;">
+								<div class="panel-heading" style="cursor:pointer;">
+									<h3 class="panel-title" style="text-align:center;" onclick="AlertWin.showUserActive(this);">启用设置</h3>
+								</div>
+								<div class="panel-body" style="text-align:center;">
+									<a href="javascript:;" class="btn btn-primary" style="color: #fff; margin-top: -7px;" onclick="AlertWin.showUserActive(this);">开始启用</a>
+								</div>
+							</div>
 						</div>
 					<?php }else{ ?>
 						<?php foreach($aClubList as $aClub){ ?>
 							<div class="c-h-item">
-								<a href="javascript:;" class="btn btn-lg btn-success" style="width:95%;margin-top: 10px;" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></a>
-								<a href="javascript:;" class="btn btn-success" style="margin-left: 36px;margin-top: 8px;" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);">获取牌局</a>
+								<div class="panel panel-yellow" style="height: 90px; margin-top: 5px;">
+									<div class="panel-heading" style="cursor:pointer;">
+										<h3 class="panel-title" style="text-align:center;" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></h3>
+									</div>
+									<div class="panel-body" style="text-align:center;">
+										<a href="javascript:;" class="btn btn-primary" style="color: #fff; margin-top: -7px;" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);">获取牌局</a>
+									</div>
+								</div>
 							</div>
 						<?php } ?>
 						<div class="c-h-item" style="width:43px;margin-left: 15px;">
@@ -197,20 +209,20 @@ if($mUser){
 					</div>
 				</div>
 				<div class="c-h-right">
-					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:30px;">关闭</a>
-					<a href="javascript:;" class="btn btn-default" onclick="AlertWin.showEditUserInfo();" style="float:right;margin-right:10px;margin-top:30px;">设置</a>
-					<a href="<?php echo Url::to('home', 'user-manage/index'); ?>" class="btn btn-default" style="float:right;margin-right:10px;margin-top:30px;">管理</a>
+					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:30px;">退出登录</a>
+					<a href="javascript:;" class="J-top-btn-hover btn btn-default" onclick="AlertWin.showEditUserInfo();" style="float:right;margin-right:10px;margin-top:30px;background: #e7e7e7;">账号设置</a>
+					<a href="<?php echo Url::to('home', 'user-manage/index'); ?>" class="J-top-btn-hover btn btn-default" style="float:right;margin-right:10px;margin-top:30px;background: #e7e7e7;">账号管理</a>
 				</div>
 				<div class="h20"></div>
-				<div class="navbar navbar-default">
+				<div class="navbar navbar-default" style="background-color: #171515;">
 					<div class="container" style="width:1320px;">
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
-								<li class="J-c-h-t-menu-m1"><a href="<?php echo Url::to('home', 'index/index'); ?>">结账台</a></li>
-								<li class="J-c-h-t-menu-m2"><a href="<?php echo Url::to('home', 'agent/index'); ?>">代理分成</a></li>
-								<li class="J-c-h-t-menu-m3"><a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>">联盟主机对账</a></li>
+								<li class="J-c-h-t-menu-m1"><a href="<?php echo Url::to('home', 'index/index'); ?>" style="width:138px;text-align:center;font-weight:bold;font-size:18px;">结账台</a></li>
+								<li class="J-c-h-t-menu-m2"><a href="<?php echo Url::to('home', 'agent/index'); ?>" style="width:138px;text-align:center;font-weight:bold;font-size:18px;">代理分成</a></li>
+								<li class="J-c-h-t-menu-m3"><a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>" style="width:138p;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
 							</ul>
-							<a href="javascript:;" class="btn btn-lg btn-warning" style="float:right;position:relative;right:16px;top:3px;" onclick="AlertWin.showJiaoBanZhuanChu();">交班账单</a>
+							<a href="javascript:;" class="btn btn-lg btn-primary" style="float:right;position:relative;right:16px;top:3px;" onclick="AlertWin.showJiaoBanZhuanChu();">交班账单</a>
 						</div>
 						
 					</div>
@@ -225,6 +237,13 @@ if($mUser){
 		$(function(){
 			$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
 			$('.c-h-center').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});
+			
+			$('.J-top-btn-hover').hover(function(){
+				$(this).css('background', '#868686');
+			});
+			$('.J-top-btn-hover').on('mouseleave', function(){
+				$(this).css('background', '#e7e7e7');
+			});
 		});
 	</script>
 </body>

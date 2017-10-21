@@ -18,7 +18,7 @@ $pageCount = 8;
 					<?php } ?>
 				</select>
 			</div>
-			<div class="h-text-bg h-l-div"><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>联盟盈利：</b><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
 		</div>
 		<div class="h-right">
 			<div class="J-club-qin-zhang btn btn-primary" style="float:right;margin-right:45px;">清账</div>
@@ -41,7 +41,7 @@ $pageCount = 8;
 			<div class="row-item">
 				<div class="col-item thh">旧帐</div>
 				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
-				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><input type="text" class="J-change-input-selector ci-txt" data-id="<?php echo $aClubZhangDan['lianmeng_club_id']; ?>" value="<?php echo $aClubZhangDan['qianzhang']; ?>" /><i class="fa fa-pencil ci-edit"></i></div>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><input type="text" class="J-change-input-selector ci-txt form-control" data-id="<?php echo $aClubZhangDan['lianmeng_club_id']; ?>" value="<?php echo $aClubZhangDan['qianzhang']; ?>" /><i class="fa fa-pencil ci-edit"></i></div>
 				<?php if($index % $pageCount == 0){$itemPage += 1;}$index++;} ?>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<div class="col-item" style="background:none;"></div>

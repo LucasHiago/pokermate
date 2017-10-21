@@ -170,22 +170,40 @@ class AgentController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId);
 		$aDataList = [
-			['牌局名', '桌子级别', '玩家名', '战绩', '结算', '分成'],
+			['牌局名', '桌子级别', '玩家名', '战绩', '结算', '分成比例', '分成'],
 		];
 		if(!$aAgentUnCleanFenChengList){
 			return new Response('暂无代理数据', 0);
 		}
+		$fenchengTotal = 0;
 		foreach($aAgentUnCleanFenChengList as $value){
+			$fenchengRate = 0;
+			if($value['zhanji'] > 0){
+				$fenchengRate = $value['yingfan'];
+			}else{
+				$fenchengRate = $value['shufan'];
+			}
+			$fenchengRate .= '%';
 			array_push($aDataList, [
 				$value['paiju_name'],
 				$value['mangzhu'],
 				$value['player_name'],
 				$value['zhanji'],
 				$value['jiesuan_value'],
+				$fenchengRate,
 				$value['fencheng'],
 			]);
+			$fenchengTotal += $value['fencheng'];
 		}
-		
+		array_push($aDataList, [
+			'',
+			'',
+			'',
+			'',
+			'',
+			'合计',
+			$fenchengTotal,
+		]);
 		$fileName = '代理数据.xlsx';
 		//$this->_htmlToExcel($aDataList);exit;
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
