@@ -12,17 +12,17 @@ $pageCount = 8;
 	<div class="h50">
 		<div class="h-left">
 			<div class="h-select-list-bg h-l-div">
-				<select class="J-lianmeng-selector" style="width:100%;height:30px;padding: 2px;color: #ff6a6a;">
+				<select class="J-lianmeng-selector form-control" style="width:120px;">
 					<?php foreach($aLianmengList as $aLianmeng){ ?>
 					<option value="<?php echo $aLianmeng['id']; ?>"><?php echo $aLianmeng['name']; ?></option>
 					<?php } ?>
 				</select>
 			</div>
-			<div class="h-text-bg h-l-div" style="text-align:center;color: #f4e2a9;"><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
 		</div>
 		<div class="h-right">
-			<div class="J-club-qin-zhang gy-btn-bg h-l-div" style="margin-left:400px;">清账</div>
-			<div class="gy-btn-bg h-l-div" style="margin-left:20px;" onclick="AlertWin.showLianmengClubSetting(<?php echo $lianmengId; ?>);">联盟设置</div>
+			<div class="J-club-qin-zhang btn btn-primary" style="float:right;margin-right:45px;">清账</div>
+			<div class="btn btn-primary" style="float:right;margin-right:20px;" onclick="AlertWin.showLianmengClubSetting(<?php echo $lianmengId; ?>);">联盟设置</div>
 		</div>
 	</div>
 	<div class="lmzj-content-wrap">
@@ -41,7 +41,7 @@ $pageCount = 8;
 			<div class="row-item">
 				<div class="col-item thh">旧帐</div>
 				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
-				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><input type="text" class="J-change-input-selector ci-txt" data-id="<?php echo $aClubZhangDan['lianmeng_club_id']; ?>" value="<?php echo $aClubZhangDan['qianzhang']; ?>" /><i class="ci-edit"></i></div>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><input type="text" class="J-change-input-selector ci-txt" data-id="<?php echo $aClubZhangDan['lianmeng_club_id']; ?>" value="<?php echo $aClubZhangDan['qianzhang']; ?>" /><i class="fa fa-pencil ci-edit"></i></div>
 				<?php if($index % $pageCount == 0){$itemPage += 1;}$index++;} ?>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<div class="col-item" style="background:none;"></div>
@@ -107,8 +107,8 @@ $pageCount = 8;
 		</div>
 	</div>
 </div>
-<div class="J-go-scroll-left" onclick="showItemPrevPage(this);"></div>
-<div class="J-go-scroll-right" onclick="showItemNextPage(this);"></div>
+<div class="J-go-scroll-left fa fa-chevron-left" onclick="showItemPrevPage(this);"></div>
+<div class="J-go-scroll-right fa fa-chevron-right" onclick="showItemNextPage(this);"></div>
 <script type="text/javascript">	
 	var currentItemPage = 1;
 	function _showItemPage(){

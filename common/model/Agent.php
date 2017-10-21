@@ -23,6 +23,7 @@ class Agent extends \common\lib\DbOrmModel{
 	 *		'id' =>
 	 *		'user_id' =>
 	 *		'agent_id' =>
+	 *		'is_delete' =>
 	 *	]
 	 *	$aControl = [
 	 *		'select' =>
@@ -71,6 +72,9 @@ class Agent extends \common\lib\DbOrmModel{
 		}
 		if(isset($aCondition['agent_id'])){
 			$aWhere[] = ['agent_id' => $aCondition['agent_id']];
+		}
+		if(isset($aCondition['is_delete'])){
+			$aWhere[] = ['is_delete' => $aCondition['is_delete']];
 		}
 		return $aWhere;
 	}
