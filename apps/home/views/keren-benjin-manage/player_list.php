@@ -6,10 +6,31 @@ $this->setTitle('会员管理');
 ?>
 
 <div class="row">
-	<a href="<?php echo Url::to('home', 'keren-benjin-manage/show-edit', ['id' => 0]); ?>" type="button" class="btn btn-primary">新增会员</a>
-	<a href="<?php echo Url::to('home', 'keren-benjin-manage/export-list'); ?>" type="button" class="btn btn-primary" onclick="exportExcel(this);">导出列表</a>
-</div>
+	<a style="float:left;" href="<?php echo Url::to('home', 'keren-benjin-manage/show-edit', ['id' => 0]); ?>" type="button" class="btn btn-primary">新增会员</a>
+	<a style="float:left;margin-left: 15px;" href="<?php echo Url::to('home', 'keren-benjin-manage/export-list'); ?>" type="button" class="btn btn-primary" onclick="exportExcel(this);">导出列表</a>
 
+	<div class="col-lg-12" style="float:left;width: 513px;margin-left: 15px;">
+		<form role="form" class="J-search-form form-horizontal" name="J-search-form">
+			<div class="J-condition-line">
+				<label class="control-label" style="float:left;">玩家名字</label>
+				<div class="col-sm-2" style="width:150px;">
+					<input type="text" class="J-player-name form-control" name="playerName" value="<?php echo $playerName ? $playerName : ''; ?>" />
+				</div>
+				
+				<label class="control-label" style="float:left;">玩家ID</label>
+				<div class="col-sm-2" style="width:150px;">
+					<input type="text" class="J-player-id form-control" name="playerId" value="<?php echo $playerId ? $playerId : ''; ?>" />
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-2" style="width:90px;">
+						<button type="button" class="J-search btn btn-primary" onclick="search();">搜索</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 <br />
 
 <div class="row">
@@ -59,6 +80,11 @@ $this->setTitle('会员管理');
 </div>
 <script type="text/javascript">
 	var aAgentList = <?php echo json_encode($aAgentList); ?>;
+	
+	function search(){
+		var condition = $('form[name=J-search-form]').serialize();
+		location.href = '<?php echo Url::to('home', 'keren-benjin-manage/player-list'); ?>?' + condition;
+	}
 	
 	function setDeletePlayer(o, id, status){
 		var tips = '删除用户将清空该用户在代理中的结算记录，是否确认删除？';

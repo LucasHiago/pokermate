@@ -41,6 +41,7 @@ class LianmengController extends Controller{
 		$duizhangfangfa = (int)Yii::$app->request->post('duizhangfangfa');
 		$paijuFee = (int)Yii::$app->request->post('paijuFee');
 		$baoxianChoucheng = (int)Yii::$app->request->post('baoxianChoucheng');
+		$paijuCreater = (string)Yii::$app->request->post('paijuCreater');
 		
 		if(!$name){
 			return new Response('请输入联盟名称', -1);
@@ -67,6 +68,7 @@ class LianmengController extends Controller{
 			'duizhangfangfa' => $duizhangfangfa,
 			'paiju_fee' => $paijuFee,
 			'baoxian_choucheng' => $baoxianChoucheng,
+			'paiju_creater' => $paijuCreater,
 			'create_time' => NOW_TIME,
 		]);
 		if(!$isSuccess){
@@ -86,6 +88,7 @@ class LianmengController extends Controller{
 		$duizhangfangfa = (int)Yii::$app->request->post('duizhangfangfa');
 		$paijuFee = (int)Yii::$app->request->post('paijuFee');
 		$baoxianChoucheng = (int)Yii::$app->request->post('baoxianChoucheng');
+		$paijuCreater = (string)Yii::$app->request->post('paijuCreater');
 		
 		if(!$name){
 			return new Response('请输入联盟名称', -1);
@@ -103,6 +106,7 @@ class LianmengController extends Controller{
 				$mLianmeng->set('duizhangfangfa', $duizhangfangfa);
 				$mLianmeng->set('paiju_fee', $paijuFee);
 				$mLianmeng->set('baoxian_choucheng', $baoxianChoucheng);
+				$mLianmeng->set('paiju_creater', $paijuCreater);
 				$mLianmeng->set('is_delete', 0);
 				$mLianmeng->save();
 				$aNewRecord = $mLianmeng->toArray();
@@ -133,6 +137,7 @@ class LianmengController extends Controller{
 				'duizhangfangfa' => $duizhangfangfa,
 				'paiju_fee' => $paijuFee,
 				'baoxian_choucheng' => $baoxianChoucheng,
+				'paiju_creater' => $paijuCreater,
 				'create_time' => NOW_TIME,
 			]);
 			if(!$isSuccess){
@@ -156,6 +161,7 @@ class LianmengController extends Controller{
 			$mLianmeng->set('duizhangfangfa', $duizhangfangfa);
 			$mLianmeng->set('paiju_fee', $paijuFee);
 			$mLianmeng->set('baoxian_choucheng', $baoxianChoucheng);
+			$mLianmeng->set('paiju_creater', $paijuCreater);
 			$mLianmeng->save();
 			$aNewRecord = $mLianmeng->toArray();
 			if($aOldRecord['name'] != $aNewRecord['name']){
@@ -191,10 +197,10 @@ class LianmengController extends Controller{
 		$value = Yii::$app->request->post('value');
 		
 		$mUser = Yii::$app->user->getIdentity();
-		if(!in_array($type, ['name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng'])){
+		if(!in_array($type, ['name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng', 'paiju_creater'])){
 			return new Response('出错啦', 0);
 		}
-		if($type == 'name'){
+		if($type == 'name' || $type == 'paiju_creater'){
 			$value = (string)$value;
 		}else{
 			$value = (int)$value;

@@ -57,6 +57,8 @@ CREATE TABLE `operate_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 
+ALTER TABLE `lianmeng` ADD `paiju_creater` varchar(50) NOT NULL COMMENT '建局者昵称' AFTER `baoxian_choucheng`;
+
 优先
 1.添加日志记录
 2.添加一键清楚数据 不可恢复（需要输入安全密码）

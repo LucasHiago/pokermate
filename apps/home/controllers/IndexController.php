@@ -73,6 +73,13 @@ class IndexController extends Controller{
 		}
 		//如果该未结算牌局默认联盟删除了，则重新绑定一个
 		if($aCurrentPaiju){
+			if($aPaijuDataList){
+				$paijuCreater = $aPaijuDataList[0]['paiju_creater'];
+				$mLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'paiju_creater' => $paijuCreater]);
+				if($mLianmeng){
+					Cookie::set('last_lianmeng_id_' . $mUser->id, $mLianmeng->id);
+				}
+			}
 			$mPaiju = Paiju::toModel($aCurrentPaiju);
 			if(!$aCurrentPaiju['status']){
 				$lastLianmengId = Cookie::get('last_lianmeng_id_' . $mUser->id);
@@ -411,10 +418,10 @@ class IndexController extends Controller{
 		if(!$mKerenBenjin){
 			return new Response('客人不存在', -1);
 		}
-		$mAgent = Agent::findOne((int)$value);
+		/*$mAgent = Agent::findOne((int)$value);
 		if(!$mAgent){
 			return new Response('代理不存在', -1);
-		}
+		}*/
 		$mKerenBenjin->set('agent_id', (int)$value);
 		$mKerenBenjin->save();
 		

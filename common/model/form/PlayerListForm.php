@@ -8,10 +8,14 @@ use yii\helpers\ArrayHelper;
 class PlayerListForm extends \yii\base\Model{
 	public $page = 1;
 	public $pageSize = 9999999999;
+	public $playerId = '';
+	public $playerName = '';
 
 	public function rules(){
 		return [
 			['page', 'compare', 'compareValue' => 0, 'operator' => '>'],
+			['playerId', 'noCheck'],
+			['playerName', 'noCheck'],
 		];
 	}
 	
@@ -21,7 +25,7 @@ class PlayerListForm extends \yii\base\Model{
 	
 	public function getList(){
 		$mUser = Yii::$app->user->getIdentity();
-		$aList = $mUser->getAllPlayerInfoList();
+		$aList = $mUser->getAllPlayerInfoList($this->playerId, $this->playerName);
 
 		return $aList;
 	}

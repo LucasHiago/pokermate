@@ -45,6 +45,8 @@ class KerenBenjinManageController extends Controller{
 		return $this->render('player_list', [
 			'aList' => $aList,
 			'aAgentList' => $aAgentList,
+			'playerId' => $oListForm->playerId,
+			'playerName' => $oListForm->playerName,
 		]);
 	}
 	
@@ -206,7 +208,9 @@ class KerenBenjinManageController extends Controller{
 						}
 						$mTempKerenBenjin->set('ying_chou', $yingChou);
 						$mTempKerenBenjin->set('shu_fan', $shuFan);
-						$mTempKerenBenjin->set('agent_id', $agentId);
+						if($agentId){
+							$mTempKerenBenjin->set('agent_id', $agentId);
+						}
 						$mTempKerenBenjin->set('remark', $remark);
 						$mTempKerenBenjin->save();
 						

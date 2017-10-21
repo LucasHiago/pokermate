@@ -56,6 +56,12 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		if(isset($aCondition['`k1`.`is_delete`'])){
 			$where .= ' AND `k1`.`is_delete`=' . $aCondition['`k1`.`is_delete`'];
 		}
+		/*if(isset($aCondition['`k3`.`player_id`'])){
+			$where .= ' AND `k3`.`player_id`=' . $aCondition['`k3`.`player_id`'];
+		}
+		if(isset($aCondition['`k3`.`player_name`'])){
+			$where .= ' AND `k3`.`player_name`=' . $aCondition['`k3`.`player_name`'];
+		}*/
 		return $where;
 	}
 	
