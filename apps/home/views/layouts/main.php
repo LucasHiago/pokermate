@@ -192,7 +192,7 @@ if($mUser){
 					<?php }else{ ?>
 						<?php foreach($aClubList as $aClub){ ?>
 							<div class="c-h-item">
-								<div class="panel panel-yellow" style="height: 90px; margin-top: 5px;">
+								<div class="panel panel-yellow" style="width:155px;height: 90px; margin-top: 5px;">
 									<div class="panel-heading" style="cursor:pointer;">
 										<h3 class="panel-title" style="text-align:center;" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></h3>
 									</div>

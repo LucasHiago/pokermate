@@ -1140,8 +1140,8 @@
 					html += '<div class="panel-body" style="padding:0px;">';
 						html += '<div class="h10"></div>';
 						html += '<div class="h30 breadcrumb">';
-							html += '<div style="float:left;width:200px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select form-control" style="width:120px;margin-left:10px;"></select></div></div>';
-							html += '<div style="float:right;width:400px;height:100%;"><div class="J-s-lms-btn btn btn-sm btn-primary" style="float: right;top:-2px;margin-right: 10px;">联盟设置</div><div class="J-s-qinzhan-btn btn btn-sm btn-danger" style="float: right;top:-2px;margin-right: 10px;" data-id="' + lianmengId + '">清账</div><div class="s-lms-txt">新账单累计: <font class="J-total-zhan-dan" style="color:#ff5722;">0</font> 元</div></div>';
+							html += '<div style="float:left;width:150px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select form-control" style="width:120px;margin-left:10px;"></select></div></div>';
+							html += '<div style="float:right;width:480px;height:100%;"><div class="J-s-lms-btn btn btn-sm btn-primary" style="float: right;top:-2px;margin-right: 10px;">联盟设置</div><div class="J-s-qinzhan-btn btn btn-sm btn-danger" style="float: right;top:-2px;margin-right: 10px;" data-id="' + lianmengId + '">清账</div><div class="s-lms-txt" style="right:0px;">新账单累计: <font class="J-total-zhan-dan" style="color:#ff5722;">0</font> 元</div><div class="s-lms-txt" style="right:0px;">桌子费合计: <font class="J-total-zhouzi-fee" style="color:#ff5722;">0</font> 元</div></div>';
 						html += '</div>';
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
@@ -1160,8 +1160,10 @@
 				for(var j in aLianmengList){
 					lianmengSelectHtml += '<option value="' + aLianmengList[j].id + '">' + aLianmengList[j].name + '</option>';
 				}
+				var totalZhouziFee = 0;
 				for(var i in aDataList){
 					var aData = aDataList[i];
+					totalZhouziFee += parseInt(aData.paiju_fee);
 					listHtml += '<tr>';
 						listHtml += '<td class="J-sh-paijuname" data-id="' + aData.paiju_id + '" style="cursor:pointer;">' + aData.paiju_name + '</td>';
 						listHtml += '<td>' + aData.zhanji + '</td>';
@@ -1174,6 +1176,7 @@
 					listHtml += '</tr>';
 				}
 				var oListHtml = $(listHtml);
+				oHtml.find('.J-total-zhouzi-fee').text(totalZhouziFee);
 				oHtml.find('.J-lmzddd-list-table').append(oListHtml);
 				oHtml.find('.J-lml-select').html(lianmengSelectHtml);
 				oHtml.find('.J-lml-select').val(lianmengId);
