@@ -38,8 +38,8 @@ if($aCurrentAgent){
 						<?php foreach($aFenchengListSetting as $aFenchengSetting){ ?>
 							<tr>
 								<td style="vertical-align: inherit;"><?php echo $aFenchengSetting['zhuozi_jibie']; ?></td>
-								<td><input type="text" class="J-feng-setting-input J-fcs-i form-control" data-id="<?php echo $aFenchengSetting['id']; ?>" data-type="yingfan" value="<?php echo $aFenchengSetting['yingfan']; ?>" /></td>
-								<td><input type="text" class="J-feng-setting-input J-fcs-i form-control" data-id="<?php echo $aFenchengSetting['id']; ?>" data-type="shufan" value="<?php echo $aFenchengSetting['shufan']; ?>" /></td>
+								<td><div style="float:left;height:32px;"><input type="text" class="J-feng-setting-input J-fcs-i form-control" data-id="<?php echo $aFenchengSetting['id']; ?>" data-type="yingfan" value="<?php echo $aFenchengSetting['yingfan']; ?>" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>
+								<td><div style="float:left;height:32px;"><input type="text" class="J-feng-setting-input J-fcs-i form-control" data-id="<?php echo $aFenchengSetting['id']; ?>" data-type="shufan" value="<?php echo $aFenchengSetting['shufan']; ?>" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>
 							</tr>
 						<?php } ?>
 							<tr>
@@ -149,17 +149,11 @@ if($aCurrentAgent){
 	}
 	
 	function initAgentSetting(){
-		$('.J-fenchengsetting-list-table .J-fcs-i').each(function(){
-			var offset = $(this).offset();
-			var oHtml = $('<span style="float: right;position: absolute;top: ' + (offset.top + 8) + 'px;left: ' + (offset.left + $(this).width() + 8) + 'px;">%</span>');
-			$(this).after(oHtml);
-		});
-		
 		$('.J-feng-setting-input').keyup(function(e){
 			var o = this;
 			var id = $(o).attr('data-id');
-			var yingfan = $(this).parent().parent().find('input[data-type=yingfan]').val();
-			var shufan = $(this).parent().parent().find('input[data-type=shufan]').val();
+			var yingfan = $(this).parent().parent().parent().find('input[data-type=yingfan]').val();
+			var shufan = $(this).parent().parent().parent().find('input[data-type=shufan]').val();
 			if(e.keyCode == 13){
 				ajax({
 					url : Tools.url('home', 'agent/save-setting'),
