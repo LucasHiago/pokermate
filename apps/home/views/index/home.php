@@ -57,7 +57,7 @@ $this->registerJsFile('@r.js.keren.list');
 							<tr style="background:#ffffff;"><td></td><td></td><td>空账单</td><td></td><td></td><td><button class="btn btn-sm btn-warning" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);" style="width:58px;">结算</button></td></tr>
 						<?php } ?>
 						<?php foreach($aPaijuDataList as $aPaijuData){ ?>
-							<tr class="J-jieshuan-row" data-id="<?php echo $aPaijuData['id']; ?>" data-keren-bian-hao="<?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?>" data-status="0">
+							<tr class="J-jieshuan-row" data-id="<?php echo $aPaijuData['id']; ?>" data-keren-bian-hao="<?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?>" data-status="<?php echo $aPaijuData['status']; ?>">
 								<td data-type="player_name" title="<?php echo $aPaijuData['player_name']; ?>"><?php echo $aPaijuData['player_name']; ?></td>
 								<td data-type="keren_bianhao"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?></td>
 								<td data-type="benjin"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['benjin'] : 0; ?></td>

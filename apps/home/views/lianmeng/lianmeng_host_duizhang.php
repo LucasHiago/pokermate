@@ -133,7 +133,7 @@ $pageCount = 8;
 		_showItemPage();
 		$('.J-go-scroll-left').css({left : $('.lmzj-wrap').offset().left + 5});
 		$('.J-go-scroll-right').css({left : $('.lmzj-wrap').offset().left + 1320 - 40});
-		if(parseInt($('.body-list-wrap .row-item.lbb:first .col-item').length) < 10){
+		if(parseInt($('.body-list-wrap .row-item:first .col-item').length) < 10){
 			$('.J-go-scroll-left').hide();
 			$('.J-go-scroll-right').hide();
 		}
