@@ -1494,6 +1494,16 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				}
 			}
 		}
+		//排序
+		if($aPaijuZhangDanList){
+			$aPaijuId = array_keys($aPaijuZhangDanList);
+			$aPaijuList = Paiju::findAll(['id' => $aPaijuId], ['id', 'end_time'], 0, 0, ['end_time' => SORT_DESC]);
+			$aSortList = [];
+			foreach($aPaijuList as $aPaiju){
+				$aSortList[] = $aPaijuZhangDanList[$aPaiju['id']];
+			}
+			$aPaijuZhangDanList = $aSortList;
+		}
 		return [
 			'totalPaijuCount' => $totalPaijuCount,
 			'totalHeduishuziPaijuCount' => $totalHeduishuziPaijuCount,
