@@ -1419,7 +1419,16 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		
 		//如果没有新账单就不显示牌局记录列表了
-		if(!$totalZhanDan && $aClubList){
+		$hasUncleanZhangDan = false;
+		if($aPaijuZhangDanList){
+			foreach($aPaijuZhangDanList as $aPaijuZhangDan){
+				if(!$aPaijuZhangDan['club_is_clean']){
+					$hasUncleanZhangDan = true;
+					break;
+				}
+			}
+		}
+		if(!$hasUncleanZhangDan && $aClubList){
 			$aPaijuZhangDanList = [];
 		}
 		
