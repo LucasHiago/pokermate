@@ -1255,6 +1255,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$totalHeduishuzi = 0;
 		$totalPaijuCount = 0;
 		$totalHeduishuziPaijuCount = 0;
+		$aPaijuList = [];
 		//补上未添加到联盟的俱乐部的牌局
 		if($aResult){
 			$aPaijuId = array_unique(ArrayHelper::getColumn($aResult, 'paiju_id'));
@@ -1485,7 +1486,14 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if(!$hasUncleanZhangDan && $aTotalClubList){
 			$aPaijuZhangDanList = [];
 		}
-		
+		foreach($aPaijuZhangDanList as $k => $v){
+			foreach($aPaijuList as $aPaiju){
+				if($aPaiju['id'] == $v['paiju_id']){
+					$aPaijuZhangDanList[$k]['hedui_shuzi'] = $aPaiju['hedui_shuzi'];
+					break;
+				}
+			}
+		}
 		return [
 			'totalPaijuCount' => $totalPaijuCount,
 			'totalHeduishuziPaijuCount' => $totalHeduishuziPaijuCount,

@@ -68,18 +68,20 @@ $pageCount = 8;
 			</div>
 			<?php foreach($aLianmengHostDuizhang['aPaijuZhangDanList'] as $aPaijuZhangDan){ ?>
 			<div class="row-item lbb">
-				<div class="col-item" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaijuZhangDan['paiju_id']; ?>, true);"><?php echo $aPaijuZhangDan['paiju_name']; ?></div>
+				<div class="col-item" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaijuZhangDan['paiju_id']; ?>, true);" title="核对数值：<?php echo $aPaijuZhangDan['hedui_shuzi']; ?>；"><?php echo $aPaijuZhangDan['paiju_name']; ?></div>
 			<?php 
 				$itemPage = 1;$index = 1; 
 				foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){
 					$num = 0;
+					$floatNum = 0;
 					foreach($aClubZhangDan['club_zhang_dan_list'] as $pjid => $aClubPaiju){
 						if($pjid == $aPaijuZhangDan['paiju_id']){
 							$num += $aClubPaiju['zhang_dan'];
+							$floatNum += $aClubPaiju['float_zhang_dan'];
 						}
 					}
 			?>
-				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>"><?php echo $num; ?></div>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>" data-float-zhang-dang="<?php echo $floatNum; ?>"><?php echo $num; ?></div>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<!--<div class="col-item" style="background:#231b2d;width:132px;margin:0px;"></div>-->
 				<?php } ?>
@@ -240,5 +242,12 @@ $pageCount = 8;
 		$('.lmzj-content-wrap').height(h);
 		$('.body-list-wrap').height(h);
 		$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});*/
+		$('.row-item.lbb').each(function(){
+			var total = 0;
+			$(this).find('.J-item-page').each(function(){
+				total += parseFloat($(this).attr('data-float-zhang-dang'));
+			});
+			$(this).find('.col-item:first').attr('title', $(this).find('.col-item:first').attr('title') + '单局之和：' + total);
+		});
 	});
 </script>
