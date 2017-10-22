@@ -75,7 +75,7 @@ $pageCount = 8;
 			<?php foreach($aLianmengHostDuizhang['aPaijuZhangDanList'] as $aPaijuZhangDan){ ?>
 			<div class="row-item lbb">
 				<div class="col-item" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaijuZhangDan['paiju_id']; ?>, true);">
-					<span style="position: relative; display: block; height: 25px; line-height: 25px; font-size: 14px; float: left; width: 100%;"><?php echo $aPaijuZhangDan['paiju_name']; ?></span>
+					<span style="position: relative; display: block; height: 25px; line-height: 25px; font-size: 16px; float: left; width: 100%;"><?php echo $aPaijuZhangDan['paiju_name']; ?></span>
 					<span style="float: left; display: block; position: relative; line-height: 15px; width: 100%; font-size: 12px;">核对数值：<font style="color:<?php echo $aPaijuZhangDan['hedui_shuzi'] ? '#ff0000;' : '#00ff00' ?>"><?php echo $aPaijuZhangDan['hedui_shuzi']; ?></font></span>
 				</div>
 			<?php 
