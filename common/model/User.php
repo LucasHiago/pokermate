@@ -1414,10 +1414,11 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($clubFloatZhandan, $this->choushui_shuanfa);
 			}
 			
-			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
+			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
 			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
+			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = Calculate::getIntValueByChoushuiShuanfa($aClubZhangDanList[$aClub['club_id']]['hui_zhong'], $this->choushui_shuanfa);
 		}
-		
+		$totalZhanDan = Calculate::getIntValueByChoushuiShuanfa($totalZhanDan, $this->choushui_shuanfa);
 		//如果没有新账单就不显示牌局记录列表了
 		$hasUncleanZhangDan = false;
 		if($aPaijuZhangDanList){
