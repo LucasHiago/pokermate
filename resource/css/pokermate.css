@@ -1950,8 +1950,12 @@ input, select{border:none;outline:none;background:none;}
 }
 .lmzj-wrap .h-left, .lmzj-wrap .h-right{
 	display:inline-block;
-	width:658px;
+	width:923px;
 	height:100%;
+}
+.lmzj-wrap .h-right{
+	float:right;
+	width:220px;
 }
 .lmzj-wrap .h-left .h-l-div, .lmzj-wrap .h-right .h-l-div{
 	float:left;

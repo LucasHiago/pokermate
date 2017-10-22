@@ -1252,12 +1252,24 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . '' . $lianmengIdWhere . $clubIdWhere;
 		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`>=1' . $lianmengIdWhere . $clubIdWhere;
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		$totalHeduishuzi = 0;
+		$totalPaijuCount = 0;
+		$totalHeduishuziPaijuCount = 0;
 		//补上未添加到联盟的俱乐部的牌局
 		if($aResult){
 			$aPaijuId = array_unique(ArrayHelper::getColumn($aResult, 'paiju_id'));
 			$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`>=1' . $lianmengIdWhere . ' AND `t1`.paiju_id IN(' . implode(',', $aPaijuId) . ')';
 			//$aOtherClubResult = Yii::$app->db->createCommand($sql)->queryAll();
 			$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+			
+			$aPaijuList = Paiju::getPaijuList(['id' => $aPaijuId], ['width_hedui_shuzi' => true]);
+			$totalPaijuCount = count($aPaijuList);
+			foreach($aPaijuList as $aPaiju){
+				$totalHeduishuzi += $aPaiju['hedui_shuzi'];
+				if($aPaiju['hedui_shuzi']){
+					$totalHeduishuziPaijuCount += 1;
+				}
+			}
 		}
 		
 		$aPaijuDataZhangDanList = [];
@@ -1475,6 +1487,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		
 		return [
+			'totalPaijuCount' => $totalPaijuCount,
+			'totalHeduishuziPaijuCount' => $totalHeduishuziPaijuCount,
+			'totalHeduishuzi' => $totalHeduishuzi,
 			'totalZhanDan' => $totalZhanDan,
 			'aClubZhangDanList' => $aClubZhangDanList,
 			'aPaijuZhangDanList' => $aPaijuZhangDanList,

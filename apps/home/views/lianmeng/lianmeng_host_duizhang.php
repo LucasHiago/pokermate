@@ -17,10 +17,13 @@ $pageCount = 8;
 				</select>
 			</div>
 			<div class="h-text-bg h-l-div"><b>联盟盈利：</b><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>牌局总数：</b><?php echo isset($aLianmengHostDuizhang['totalPaijuCount']) ? $aLianmengHostDuizhang['totalPaijuCount'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>核对牌局不为0总数：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuziPaijuCount']) ? $aLianmengHostDuizhang['totalHeduishuziPaijuCount'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>核对数值总和：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuzi']) ? $aLianmengHostDuizhang['totalHeduishuzi'] : 0; ?></div>
 		</div>
 		<div class="h-right">
-			<div class="J-club-qin-zhang btn btn-primary" style="float:right;margin-right:45px;">清账</div>
-			<div class="btn btn-primary" style="float:right;margin-right:20px;" onclick="AlertWin.showLianmengClubSetting(<?php echo $lianmengId; ?>);">联盟设置</div>
+			<div class="J-club-qin-zhang btn btn-primary" style="float:right;margin-right:45px;margin-top: 8px;">清账</div>
+			<div class="btn btn-primary" style="float:right;margin-right:20px;margin-top: 8px;" onclick="AlertWin.showLianmengClubSetting(<?php echo $lianmengId; ?>);">联盟设置</div>
 		</div>
 	</div>
 	<div class="lmzj-content-wrap">
