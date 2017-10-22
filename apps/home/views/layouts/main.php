@@ -203,7 +203,7 @@ if($mUser){
 							</div>
 						<?php } ?>
 						<div class="c-h-item" style="width:43px;margin-left: 15px;">
-							<a href="javascript:;" class="btn btn-default" onclick="AlertWin.showAddClub();" style="margin-top:36px;" title="添加俱乐部">+</a>
+							<a href="javascript:;" class="J-top-btn-hover btn btn-default" onclick="AlertWin.showAddClub();" style="margin-top:36px;background: #e7e7e7;" title="添加俱乐部">+</a>
 						</div>
 					<?php } ?>
 					</div>

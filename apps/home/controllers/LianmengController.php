@@ -61,6 +61,12 @@ class LianmengController extends Controller{
 			$mLianmeng->save();
 			return new Response('添加成功', 1);
 		}
+		if($paijuCreater){
+			$mTempLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'paiju_creater' => $paijuCreater]);
+			if($mTempLianmeng){
+				return new Response('开桌人名字不能重复', -1);
+			}
+		}
 		$isSuccess = Lianmeng::addRecord([
 			'user_id' => $mUser->id,
 			'name' => $name,
@@ -95,6 +101,12 @@ class LianmengController extends Controller{
 		}
 		if(!in_array($duizhangfangfa, [Lianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, Lianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG])){
 			return new Response('对账方法有误', -1);
+		}
+		if($paijuCreater){
+			$mTempLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'paiju_creater' => $paijuCreater]);
+			if($mTempLianmeng && !$id){
+				return new Response('开桌人名字不能重复', -1);
+			}
 		}
 		$mUser = Yii::$app->user->getIdentity();
 		if(!$id){
@@ -199,6 +211,14 @@ class LianmengController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		if(!in_array($type, ['name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng', 'paiju_creater'])){
 			return new Response('出错啦', 0);
+		}
+		if($type == 'paiju_creater'){
+			if($value){
+				$mTempLianmeng = Lianmeng::findOne(['user_id' => $mUser->id, 'paiju_creater' => (string)$value]);
+				if($mTempLianmeng){
+					return new Response('开桌人名字不能重复', -1);
+				}
+			}
 		}
 		if($type == 'name' || $type == 'paiju_creater'){
 			$value = (string)$value;
