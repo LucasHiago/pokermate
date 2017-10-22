@@ -60,7 +60,13 @@ $pageCount = 8;
 			<div class="row-item">
 				<div class="col-item thh">桌子</div>
 				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
-				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>" style="cursor:pointer;" onclick='AlertWin.showClubZhangDanDetail(<?php echo $lianmengId; ?>, <?php echo json_encode($aClubZhangDan['club_zhang_dan_list']); ?>, "<?php echo $aClubZhangDan['club_name']; ?>");'><?php echo $aClubZhangDan['club_name']; ?></div>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>" style="cursor:pointer;" onclick='AlertWin.showClubZhangDanDetail(<?php echo $lianmengId; ?>, <?php echo json_encode($aClubZhangDan['club_zhang_dan_list']); ?>, "<?php echo $aClubZhangDan['club_name']; ?>");'>
+					<?php if($aClubZhangDan['lianmeng_club_id']){ ?>
+						<?php echo $aClubZhangDan['club_name']; ?>
+					<?php }else{ ?>
+						<font style="color:#ff0000;"><?php echo $aClubZhangDan['club_name']; ?></font>
+					<?php } ?>
+				</div>
 				<?php if($index % $pageCount == 0){$itemPage += 1;}$index++;} ?>
 				<?php for($i = count($aLianmengHostDuizhang['aClubZhangDanList']); $i < $minColumn; $i++){ ?>
 					<div class="col-item" style="background:none;"></div>
@@ -68,7 +74,10 @@ $pageCount = 8;
 			</div>
 			<?php foreach($aLianmengHostDuizhang['aPaijuZhangDanList'] as $aPaijuZhangDan){ ?>
 			<div class="row-item lbb">
-				<div class="col-item" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaijuZhangDan['paiju_id']; ?>, true);" title="核对数值：<?php echo $aPaijuZhangDan['hedui_shuzi']; ?>；"><?php echo $aPaijuZhangDan['paiju_name']; ?></div>
+				<div class="col-item" style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(<?php echo $aPaijuZhangDan['paiju_id']; ?>, true);">
+					<span style="position: relative; display: block; height: 25px; line-height: 25px; font-size: 14px; float: left; width: 100%;"><?php echo $aPaijuZhangDan['paiju_name']; ?></span>
+					<span style="float: left; display: block; position: relative; line-height: 15px; width: 100%; font-size: 12px;">核对数值：<font style="color:<?php echo $aPaijuZhangDan['hedui_shuzi'] ? '#ff0000;' : '#00ff00' ?>"><?php echo $aPaijuZhangDan['hedui_shuzi']; ?></font></span>
+				</div>
 			<?php 
 				$itemPage = 1;$index = 1; 
 				foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){
@@ -184,6 +193,9 @@ $pageCount = 8;
 		$('.J-change-input-selector').keyup(function(e){
 			var o = this;
 			if(e.keyCode == 13){
+				if($(o).attr('data-id') == 0){
+					return;
+				}
 				ajax({
 					url : Tools.url('home', 'lianmeng/update-lianmeng-club-info'),
 					data : {
@@ -242,12 +254,14 @@ $pageCount = 8;
 		$('.lmzj-content-wrap').height(h);
 		$('.body-list-wrap').height(h);
 		$('.body-list-wrap').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});*/
-		$('.row-item.lbb').each(function(){
+		
+		
+		/*$('.row-item.lbb').each(function(){
 			var total = 0;
 			$(this).find('.J-item-page').each(function(){
 				total += parseFloat($(this).attr('data-float-zhang-dang'));
 			});
 			$(this).find('.col-item:first').attr('title', $(this).find('.col-item:first').attr('title') + '单局之和：' + total);
-		});
+		});*/
 	});
 </script>
