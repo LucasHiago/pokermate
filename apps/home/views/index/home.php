@@ -65,7 +65,7 @@ $this->registerJsFile('@r.js.keren.list');
 								<td data-type="new_benjin"><?php echo $aPaijuData['new_benjin']; ?></td>
 								<td>
 									<?php if($aPaijuData['status']){ ?>
-										<button class="btn btn-sm btn-success">已结算</button>
+										<button class="btn btn-sm btn-success" style="cursor:default;">已结算</button>
 									<?php }else{ ?>
 										<button class="btn btn-sm btn-warning" onclick="doJieShuanPaijuRecord(this, <?php echo $aPaijuData['id']; ?>);" style="width:58px;">结算</button>
 									<?php } ?>
@@ -78,13 +78,13 @@ $this->registerJsFile('@r.js.keren.list');
 			</div>
 		</div>
 		<div class="c-b-c-center">
-			<a href="javascript:;" class="chaer btn btn-sm btn-info">核算差额</a>
-			<a href="javascript:;" class="J-imbalance-money btn btn-lg btn-success ball">0</a>
+			<a href="javascript:;" class="chaer btn btn-sm btn-info" style="cursor:default;">核算差额</a>
+			<a href="javascript:;" class="J-imbalance-money btn btn-lg btn-success ball" style="cursor:default;">0</a>
 			<a href="javascript:;" class="lmzz btn btn-lg btn-primary" onclick="AlertWin.showLianmengZhongZhang();">联盟总账</a>
 			<a href="javascript:;" class="krxx btn btn-lg btn-primary" onclick="AlertWin.showPlayerList();">客人信息</a>
 			<a href="javascript:;" class="lspj btn btn-lg btn-primary" onclick="AlertWin.showPaijuList({isHistory : 1});">历史牌局</a>
-			<a href="javascript:;" class="jbzc btn btn-sm btn-info">今日盈利</a>
-			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money btn btn-lg btn-success ball">0</a>
+			<a href="javascript:;" class="jbzc btn btn-sm btn-info" style="cursor:default;">今日盈利</a>
+			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money btn btn-lg btn-success ball" style="cursor:default;">0</a>
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
@@ -124,7 +124,7 @@ $this->registerJsFile('@r.js.keren.list');
 							<i class="fa fa-pencil" style="position: relative;float: right;top: -25px;right: 2px;cursor: pointer;height: 25px;line-height: 25px;"></i>
 						</div>
 					<?php } ?>
-					<button class="btn btn-sm btn-primary" onclick='AlertWin.showMoneyTypeList(<?php echo json_encode($aMoneyTypeList); ?>);'>新增/删除</button>
+					<button class="btn btn-sm btn-primary" onclick='AlertWin.showMoneyTypeList(<?php echo json_encode($aMoneyTypeList); ?>);' style="margin-top: 10px;">新增/删除</button>
 					</div>
 				</div>
 				<div class="panel panel-info" style="float:left;width:180px;margin-right:4px;min-height: 400px;">
@@ -139,7 +139,7 @@ $this->registerJsFile('@r.js.keren.list');
 							<i class="fa fa-pencil" style="position: relative;float: right;top: -25px;right: 2px;cursor: pointer;height: 25px;line-height: 25px;"></i>
 						</div>
 					<?php } ?>
-					<button class="btn btn-sm btn-primary" onclick='AlertWin.showMoneyOutPutTypeList(<?php echo json_encode($aMoneyOutPutTypeList); ?>);'>新增/删除</button>
+					<button class="btn btn-sm btn-primary" onclick='AlertWin.showMoneyOutPutTypeList(<?php echo json_encode($aMoneyOutPutTypeList); ?>);' style="margin-top: 10px;">新增/删除</button>
 					</div>
 				</div>
 				<div class="panel panel-info" style="float:left;width:172px;min-height: 400px;">

@@ -22,7 +22,10 @@ if($mUser){
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title><?php echo $this->title; ?></title>
 	<?php $this->head(); ?>
-	<style type="text/css">.phcolor{color:#999999;}</style>
+	<style type="text/css">
+		.phcolor{color:#999999;}
+		body .table-responsive table td{vertical-align: middle;}
+	</style>
 	<script type="text/javascript">
 		if(window.App && !App.inited){
 			App.config({
@@ -165,7 +168,7 @@ if($mUser){
 		<div id="pageWraper">
 			<div class="c-head-wrap">
 				<div class="c-h-left">
-					<a href="javascript:;" class="heitao-icon fa fa-user" title="<?php echo $mUser->name; ?>"></a>
+					<a href="<?php echo Url::to('home', 'index/index'); ?>" class="heitao-icon fa fa-user" title="<?php echo $mUser->name; ?>"></a>
 					<?php if(!$mUser->is_active){ ?>
 						<a class="vipinfo">未启用</a>
 					<?php }else{ ?>
@@ -222,7 +225,7 @@ if($mUser){
 								<li class="J-c-h-t-menu-m2"><a href="<?php echo Url::to('home', 'agent/index'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">代理分成</a></li>
 								<li class="J-c-h-t-menu-m3"><a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
 							</ul>
-							<a href="javascript:;" class="btn btn-lg btn-primary" style="float:right;position:relative;right:16px;top:3px;" onclick="AlertWin.showJiaoBanZhuanChu();">交班账单</a>
+							<a href="javascript:;" class="btn btn-lg btn-primary" style="float:right;position:relative;right:16px;top:2px;" onclick="AlertWin.showJiaoBanZhuanChu();">交班账单</a>
 						</div>
 						
 					</div>

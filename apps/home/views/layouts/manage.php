@@ -15,6 +15,7 @@ $this->beginPage();
 	<meta name="description" content="" /> 
 	<?php $this->head(); ?>
 	<style type="text/css">
+	body .table-responsive table td{vertical-align: middle;}
 	.umNavbar .navbar-collapse{padding-left:0;}
 	.navbar-nav a.active{outline: none; background-color:#000 !important; color:#FFF;}
 
