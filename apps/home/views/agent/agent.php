@@ -67,9 +67,9 @@ if($aCurrentAgent){
 					<div class="row h30">
 						<div class="form-group" style="position:relative;top:-10px;">
 							<label style="float:left;line-height:32px;">分成微调：</label>
-							<input type="text" class="J-agent-fencheng-ajust-value form-control" value="<?php echo $agentFenchengAjustValue; ?>" style="float:left;width:100px;">
+							<input type="text" class="J-agent-fencheng-ajust-value form-control" value="<?php echo $agentFenchengAjustValue; ?>" style="float:left;width:90px;">
 							<label style="float:left;line-height:32px;margin-left:20px;">总分成：<font style="color:#ff5722;"><?php echo $totalFenCheng; ?></font></label>
-							<label style="float:left;line-height:32px;margin-left:50px;">牌局总数：<font style="color:#ff5722;"><?php echo count($aAgentUnCleanFenChengList); ?></font></label>
+							<label style="float:left;line-height:32px;margin-left:20px;">牌局总数：<font style="color:#ff5722;"><?php echo count($aAgentUnCleanFenChengList); ?></font></label>
 							<button class="btn btn-sm btn-primary" onclick="cleanAgentFencheng(this);" style="float:right;margin-left: 10px;">清账</button>
 							<a class="btn btn-sm btn-primary" href="<?php echo Url::to('home', 'agent/export'); ?>?agentId=<?php echo $aCurrentAgent['id']; ?>" style="float:right;">导出代理数据</a>
 						</div>
