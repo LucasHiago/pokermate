@@ -76,7 +76,7 @@ class MoneyOutPutTypeController extends Controller{
 			}
 		}
 		
-		return new Response('保存成功', 1);
+		return new Response('保存成功', 1, ['imbalanceMoney' => $mUser->getImbalanceMoney()]);
 	}
 	
 	public function actionDelete(){
@@ -99,7 +99,7 @@ class MoneyOutPutTypeController extends Controller{
 			$aMoneyOutPutType = $mMoneyOutPutType->toArray();
 			$mUser->operateLog(15, ['aMoneyOutPutType' => $aMoneyOutPutType]);
 		}
-		return new Response('删除成功', 1);
+		return new Response('删除成功', 1, ['imbalanceMoney' => $mUser->getImbalanceMoney()]);
 	}
 	
 	public function actionAddMoney(){
@@ -118,10 +118,11 @@ class MoneyOutPutTypeController extends Controller{
 		if($aOldRecord['money'] != $aNewRecord['money']){
 			$mUser->operateLog(14, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		}
+		$imbalanceMoney = $mUser->getImbalanceMoney();
 		if($addMoney > 0){
-			return new Response('增加金额成功', 1);
+			return new Response('增加金额成功', 1, ['imbalanceMoney' => $imbalanceMoney]);
 		}else{
-			return new Response('减少金额成功', 1);
+			return new Response('减少金额成功', 1, ['imbalanceMoney' => $imbalanceMoney]);
 		}
 	}
 	

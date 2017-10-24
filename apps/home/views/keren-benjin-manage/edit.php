@@ -83,7 +83,7 @@ $this->setTitle($aKerenBenjin ? '编辑会员' : '新增会员');
 				if(aResult.status == 1){
 					UBox.show(aResult.msg, aResult.status, function(){
 						location.href = Tools.url('home', 'keren-benjin-manage/index');
-					}, 3);
+					}, 1);
 				}else{
 					UBox.show(aResult.msg, aResult.status);
 				}

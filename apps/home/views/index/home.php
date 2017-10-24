@@ -186,9 +186,10 @@ $this->registerJsFile('@r.js.keren.list');
 				},
 				success : function(aResult){
 					if(aResult.status == 1){
+						showImbalanceMoney(aResult.data.imbalanceMoney);
 						UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
-						}, 3);
+						}, 1);
 					}else{
 						UBox.show(aResult.msg, aResult.status);
 					}
@@ -252,9 +253,10 @@ $this->registerJsFile('@r.js.keren.list');
 				},
 				success : function(aResult){
 					if(aResult.status == 1){
+						showImbalanceMoney(aResult.data.imbalanceMoney);
 						UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
-						}, 3);
+						}, 1);
 					}else{
 						UBox.show(aResult.msg, aResult.status);
 					}
@@ -341,9 +343,10 @@ $this->registerJsFile('@r.js.keren.list');
 			},
 			success : function(aResult){
 				if(aResult.status == 1){
+					showImbalanceMoney(aResult.data.imbalanceMoney);
 					UBox.show(aResult.msg, aResult.status, function(){
 						location.reload();
-					}, 3);
+					}, 1);
 				}else{
 					UBox.show(aResult.msg, aResult.status);
 				}
@@ -381,9 +384,10 @@ $this->registerJsFile('@r.js.keren.list');
 				},
 				success : function(aResult){
 					if(aResult.status == 1){
+						showImbalanceMoney(aResult.data.imbalanceMoney);
 						UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
-						}, 3);
+						}, 1);
 					}else{
 						UBox.show(aResult.msg, aResult.status);
 					}
@@ -528,13 +532,7 @@ $this->registerJsFile('@r.js.keren.list');
 					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
 					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
 					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
-					var imbalanceMoney = parseInt(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
-					if(Math.abs(imbalanceMoney) > 1){
-						$('.J-imbalance-money').addClass('fu');
-					}else{
-						$('.J-imbalance-money').removeClass('fu');
-					}
-					$('.J-imbalance-money').text(imbalanceMoney);
+					showImbalanceMoney(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
 					$('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
 					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
 					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);

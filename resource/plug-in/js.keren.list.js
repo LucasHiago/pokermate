@@ -157,7 +157,7 @@
 						if(aResult.data == 'reload'){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 3);
+							}, 1);
 							return;
 						}
 						$(o).val(aResult.data);

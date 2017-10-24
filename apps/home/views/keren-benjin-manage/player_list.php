@@ -108,7 +108,7 @@ $this->setTitle('会员管理');
 					if(aResult.status == 1){
 						UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
-						}, 3);
+						}, 1);
 					}else{
 						UBox.show(aResult.msg, aResult.status);
 					}
@@ -174,7 +174,7 @@ $this->setTitle('会员管理');
 				if(aResult.status == 1){
 					UBox.show(aResult.msg, aResult.status, function(){
 						location.reload();
-					}, 3);
+					}, 1);
 				}else{
 					UBox.show(aResult.msg, aResult.status);
 				}

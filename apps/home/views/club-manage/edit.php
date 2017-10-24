@@ -53,7 +53,7 @@ $this->setTitle($aClub ? '编辑俱乐部' : '新增俱乐部');
 				if(aResult.status == 1){
 					UBox.show(aResult.msg, aResult.status, function(){
 						location.href = Tools.url('home', 'club-manage/index');
-					}, 3);
+					}, 1);
 				}else{
 					UBox.show(aResult.msg, aResult.status);
 				}

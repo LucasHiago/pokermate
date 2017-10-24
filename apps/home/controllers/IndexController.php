@@ -219,10 +219,11 @@ class IndexController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		$mUser->operateLog(2, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord, 'aOldMoneyTypeRecord' => $aOldMoneyTypeRecord, 'aNewMoneyTypeRecord' => $aNewMoneyTypeRecord]);
 		
+		$imbalanceMoney = $mUser->getImbalanceMoney();
 		if($jsjer > 0){
-			return new Response('存入成功', 1);
+			return new Response('存入成功', 1, ['imbalanceMoney' => $imbalanceMoney]);
 		}else{
-			return new Response('转出成功', 1);
+			return new Response('转出成功', 1, ['imbalanceMoney' => $imbalanceMoney]);
 		}
 		//return new Response('操作成功', 1);
 	}
@@ -242,7 +243,7 @@ class IndexController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		
-		return new Response('操作成功', 1);
+		return new Response('操作成功', 1, ['imbalanceMoney' => $mUser->getImbalanceMoney()]);
 	}
 	
 	public function actionGetKerenList(){

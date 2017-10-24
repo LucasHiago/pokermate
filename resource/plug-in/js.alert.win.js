@@ -48,9 +48,10 @@
 							},
 							success : function(aResult){
 								if(aResult.status == 1){
+									showImbalanceMoney(aResult.data.imbalanceMoney);
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -109,9 +110,10 @@
 							},
 							success : function(aResult){
 								if(aResult.status == 1){
+									showImbalanceMoney(aResult.data.imbalanceMoney);
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -173,7 +175,7 @@
 								if(aResult.status == 1){
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -395,7 +397,7 @@
 							if(aResult.status == 1){
 								UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
-								}, 3);
+								}, 1);
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
@@ -443,7 +445,7 @@
 							$(document).click();
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 3);
+							}, 1);
 						}else if(aResult.status == 2){
 							if(confirm(aResult.msg)){
 								aData.retry = 1;
@@ -841,7 +843,7 @@
 								if(aResult.status == 1){
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -1013,7 +1015,7 @@
 									//reloadList();
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -1122,7 +1124,7 @@
 									//reloadList();
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -1211,7 +1213,7 @@
 							UBox.show(aResult.msg, aResult.status, function(){
 								$(document).click();
 								AlertWin.showLianmengZhangDanDetail(lianmengId);
-							}, 3);
+							}, 1);
 						}
 					});
 				});
@@ -1276,7 +1278,7 @@
 								if(aResult.status == 1){
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -1395,7 +1397,7 @@
 								if(aResult.status == 1){
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -1461,7 +1463,7 @@
 									//reloadList();
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 3);
+									}, 1);
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -1807,7 +1809,7 @@
 							if(aResult.status == 1){
 								UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
-								}, 3);
+								}, 1);
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
@@ -1916,7 +1918,7 @@
 						if(aResult.status == 1){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 3);
+							}, 1);
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
@@ -1972,7 +1974,7 @@
 							if(aResult.status == 1){
 								UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
-								}, 3);
+								}, 1);
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
@@ -1998,7 +2000,7 @@
 						if(aResult.status == 1){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 3);
+							}, 1);
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
@@ -2056,7 +2058,7 @@
 							if(aResult.status == 1){
 								UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
-								}, 3);
+								}, 1);
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
@@ -2082,7 +2084,7 @@
 						if(aResult.status == 1){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 3);
+							}, 1);
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
@@ -2154,7 +2156,7 @@
 						if(aResult.status == 1){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 3);
+							}, 1);
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
@@ -2222,7 +2224,7 @@
 							if(aResult.status == 1){
 								UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
-								}, 3);
+								}, 1);
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
@@ -2252,7 +2254,7 @@
 						if(aResult.status == 1){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 3);
+							}, 1);
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
@@ -2337,7 +2339,7 @@
 						if(aResult.status == 1){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 3);
+							}, 1);
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}

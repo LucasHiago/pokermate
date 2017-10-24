@@ -237,6 +237,16 @@ if($mUser){
 	</div>
 	<?php $this->endBody(); ?>
 	<script type="text/javascript">
+		function showImbalanceMoney(imbalanceMoney){
+			imbalanceMoney = parseInt(imbalanceMoney);
+			if(Math.abs(imbalanceMoney) > 1){
+				$('.J-imbalance-money').addClass('fu');
+			}else{
+				$('.J-imbalance-money').removeClass('fu');
+			}
+			$('.J-imbalance-money').text(imbalanceMoney);
+		}
+		
 		$(function(){
 			$('.c-h-center-w').width(parseInt($('.c-h-item').length) * 160 - 102);
 			$('.c-h-center').tinyscrollbar({axis : 'x', scrollbarVisable : false, wheelSpeed : 10});

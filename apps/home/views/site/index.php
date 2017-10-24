@@ -50,7 +50,7 @@ $this->setTitle('用户登录');
 				if(aResult.status == 1){
 					UBox.show(aResult.msg, aResult.status, function(){
 						location.href = aResult.data;
-					}, 3);
+					}, 1);
 				}else{
 					UBox.show(aResult.msg, aResult.status);
 				}
