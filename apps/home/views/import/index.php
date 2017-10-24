@@ -10,8 +10,8 @@ $this->registerAssetBundle('common\assets\FileAsset');
 	<title>导入Excel文件</title>
 	<style type="text/css">
 		html,body,*{margin:0;padding:0;}
-		.J-upfile-wrap{margin: 0 auto; margin-top: 100px; width: 1000px; height: 400px; border-radius: 50px; background: #231b2d;}
-		.J-upfile-wrap .title{height: 100px; line-height: 100px; text-align: center; color: #fcfba3; font-size: 22px;}
+		.J-upfile-wrap{margin: 0 auto; min-height: 600px; background: #ffffff;}
+		.J-upfile-wrap .title{height: 100px; line-height: 100px; text-align: center; color: #333; font-size: 22px;}
 		.J-upfile-wrap .up-btn{margin: 0 auto; margin-top: 112px; width: 150px; height: 35px; line-height: 35px; text-align: center; color: #FFC107; font-size: 18px; border-radius: 20px; background: #a03e3e; cursor: pointer;}
 		.J-upfile-wrap .J-tip-msg{display:none;margin-top: 20px; width: 100%; height: 35px; line-height: 35px; text-align: center; color: #00ff00; font-size: 16px; }
 	</style>
