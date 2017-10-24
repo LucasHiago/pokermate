@@ -75,7 +75,7 @@
 						html += '<h3 class="panel-title" onclick="AlertWin.showPaijuDataList(' + aData[i].id + ', 1);">' + aData[i].paiju_name + '</h3>';
 					html += '</div>';
 					html += '<div class="panel-body">';
-						html += '<div class="pj-cell"><span>核对数字</span><span ' + (aData[i].hedui_shuzi != 0 ? 'style="color:#ff0000;"' : '') + '>' + aData[i].hedui_shuzi + '</span></div>';
+						html += '<div class="pj-cell"><span>账单误差</span><span ' + (aData[i].hedui_shuzi != 0 ? 'style="color:#ff0000;"' : '') + '>' + aData[i].hedui_shuzi + '</span></div>';
 						if(aData[i].status == 0){
 							html += '<div class="pj-cell"><button class="btn btn-sm btn-default" onclick="AlertWin.showPaijuDataList(' + aData[i].id + ', 1);">修改</button></div>';
 						}else{

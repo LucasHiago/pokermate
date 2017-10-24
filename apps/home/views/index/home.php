@@ -13,7 +13,7 @@ $this->registerJsFile('@r.js.keren.list');
 					<h3 class="panel-title" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);"><?php echo $aPaiju['paiju_name']; ?></h3>
 				</div>
 				<div class="panel-body">
-					<div class="pj-cell"><span>核对数字</span><span <?php echo $aPaiju['hedui_shuzi'] ? 'style="color:#ff0000;"' : ''; ?>><?php echo $aPaiju['hedui_shuzi']; ?></span></div>
+					<div class="pj-cell"><span>账单误差</span><span <?php echo $aPaiju['hedui_shuzi'] ? 'style="color:#ff0000;"' : ''; ?>><?php echo $aPaiju['hedui_shuzi']; ?></span></div>
 					<?php if(!$aPaiju['status']){ ?>
 					<div class="pj-cell"><button class="btn btn-sm btn-default" onclick="AlertWin.showPaijuDataList(<?php echo $aPaiju['id']; ?>, 1);">修改</button></div>
 					<?php }else{ ?>
