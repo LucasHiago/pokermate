@@ -1455,7 +1455,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aClubZhangDanList[$aClub['club_id']]['float_baoxian_beichou'] += $v['float_baoxian_beichou'];
 			}
 			if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
+				$hasClubZhangDan = false;
 				foreach($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'] as $kk => $vv){
+					$hasClubZhangDan = true;
 					//账单值与自己俱乐部联盟账单值相反
 					//$zhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
 					$floatZhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa, false);
@@ -1464,9 +1466,11 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					//$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $zhandan;
 					//$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] += $floatZhandan;
 				}
-				$clubFloatZhandan = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa, false);
-				$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] = $clubFloatZhandan;
-				$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($clubFloatZhandan, $this->choushui_shuanfa);
+				if($hasClubZhangDan){
+					$clubFloatZhandan = -Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa, false);
+					$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] = $clubFloatZhandan;
+					$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($clubFloatZhandan, $this->choushui_shuanfa);
+				}
 			}
 			
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
@@ -1519,7 +1523,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 *	联盟俱乐部清账
 	 */
 	public function clubQinZhang($mLianmeng, $aZhangDan, $aLianmengHostDuizhang){
-		if(!$aZhangDan){
+		/*if(!$aZhangDan){
 			//清除没添加俱乐部联盟的账单
 			if(isset($aLianmengHostDuizhang['aPaijuZhangDanList']) && $aLianmengHostDuizhang['aPaijuZhangDanList']){
 				$aPaijuId = ArrayHelper::getColumn($aLianmengHostDuizhang['aPaijuZhangDanList'], 'paiju_id');
@@ -1528,22 +1532,28 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				return true;
 			}
 			return false;
-		}
+		}*/
 		$zhandan = 0;
 		foreach($aZhangDan as $value){
 			//更新俱乐部账单牌局已清账状态
-			$sql = 'UPDATE ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . LianmengClub::tableName() . ' AS `t2` ON `t1`.`club_id`=`t2`.`club_id` SET `t1`.`club_is_clean`=1 WHERE `t1`.`user_id`=' . $this->id . ' AND `t1`.`club_id`=' . $value['club_id'] . ' AND `t1`.`club_is_clean`=0 AND `t2`.`lianmeng_id`=' . $mLianmeng->id . ' AND `t2`.`is_delete`=0';
-			Yii::$app->db->createCommand($sql)->execute();
+			//$sql = 'UPDATE ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . LianmengClub::tableName() . ' AS `t2` ON `t1`.`club_id`=`t2`.`club_id` SET `t1`.`club_is_clean`=1 WHERE `t1`.`user_id`=' . $this->id . ' AND `t1`.`club_id`=' . $value['club_id'] . ' AND `t1`.`club_is_clean`=0 AND `t2`.`lianmeng_id`=' . $mLianmeng->id . ' AND `t2`.`is_delete`=0';
+			//Yii::$app->db->createCommand($sql)->execute();
 			//更新俱乐部欠账
 			$mLianmengClub = LianmengClub::findOne(['user_id' => $this->id, 'lianmeng_id' => $mLianmeng->id, 'club_id' => $value['club_id']]);
 			if(!$mLianmengClub){
-				return false;
+				continue;
 			}
 			if($value['zhang_dan']){
 				$zhandan += $value['zhang_dan'];
 				$mLianmengClub->set('qianzhang', ['add', $value['zhang_dan']]);
 				$mLianmengClub->save();
 			}
+		}
+		//更新俱乐部账单牌局已清账状态
+		if(isset($aLianmengHostDuizhang['aPaijuZhangDanList']) && $aLianmengHostDuizhang['aPaijuZhangDanList']){
+			$aPaijuId = ArrayHelper::getColumn($aLianmengHostDuizhang['aPaijuZhangDanList'], 'paiju_id');
+			$sql = 'UPDATE ' . ImportData::tableName() . ' SET `club_is_clean`=1 WHERE `user_id`=' . $this->id . ' AND `paiju_id` IN (' . implode(',', $aPaijuId) . ')';
+			Yii::$app->db->createCommand($sql)->execute();
 		}
 		$this->operateLog(38, ['aLianmeng' => $mLianmeng->toArray(), 'zhandan' => $zhandan, 'aZhangDan' => $aZhangDan]);
 		
