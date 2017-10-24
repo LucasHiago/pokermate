@@ -101,8 +101,8 @@ $this->registerJsFile('@r.js.keren.list');
 					<label>本金</label>
 					<input type="text" class="J-search-benjin form-control" value="0" />
 				</div>
-				<div class="form-group" style="float:left;width:140px;margin:15px;">
-					<label>本金修改方式</label>
+				<div class="form-group" style="float:left;width:150px;margin:15px;">
+					<label>本金修改方式-资金流向</label>
 					<select class="J-jsfs form-control">
 					<option value="0">请选择</option>
 					<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
