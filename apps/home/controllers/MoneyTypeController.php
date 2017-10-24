@@ -15,7 +15,7 @@ class MoneyTypeController extends Controller{
 	public function actionSave(){
 		$id = (int)Yii::$app->request->post('id');
 		$payType = trim(strip_tags((string)Yii::$app->request->post('payType')));
-		$money = Yii::$app->request->post('money');
+		$money = (int)Yii::$app->request->post('money');
 		
 		if(!$id && !$payType){
 			return new Response('请填写支付方式', -1);
@@ -58,9 +58,9 @@ class MoneyTypeController extends Controller{
 				}
 			}
 			if(!$mMoneyType){
-				if($money < 0){
+				/*if($money < 0){
 					return new Response('金额不能小于0', 0);
-				}
+				}*/
 				$isSuccess = MoneyType::addRecord([
 					'user_id' => $mUser->id,
 					'pay_type' => $payType,

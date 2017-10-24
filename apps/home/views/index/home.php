@@ -344,9 +344,11 @@ $this->registerJsFile('@r.js.keren.list');
 			success : function(aResult){
 				if(aResult.status == 1){
 					showImbalanceMoney(aResult.data.imbalanceMoney);
-					UBox.show(aResult.msg, aResult.status, function(){
+					$('.J-search-keren-bianhao').val('');
+					$('.J-search-benjin').val('');
+					/*UBox.show(aResult.msg, aResult.status, function(){
 						location.reload();
-					}, 1);
+					}, 1);*/
 				}else{
 					UBox.show(aResult.msg, aResult.status);
 				}
@@ -355,9 +357,9 @@ $this->registerJsFile('@r.js.keren.list');
 	}
 	
 	function initJiaoShouJinEr(){
-		$('.J-search-keren-bianhao, .J-search-benjin, .J-search-jsjer').bind('input propertychange', function() {  
+		/*$('.J-search-keren-bianhao, .J-search-benjin, .J-search-jsjer').bind('input propertychange', function() {  
 			setInputInterval(this);
-		}); 
+		}); */
 		var tt = '';
 		$('.J-search-keren-bianhao').bind('input propertychange', function(){
 			var o = this;

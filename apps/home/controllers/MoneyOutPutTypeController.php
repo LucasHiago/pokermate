@@ -15,7 +15,7 @@ class MoneyOutPutTypeController extends Controller{
 	public function actionSave(){
 		$id = (int)Yii::$app->request->post('id');
 		$outPutType = trim(strip_tags((string)Yii::$app->request->post('outPutType')));
-		$money = Yii::$app->request->post('money');
+		$money = (int)Yii::$app->request->post('money');
 		
 		if(!$id && !$outPutType){
 			return new Response('请填写支出方式', -1);
@@ -58,9 +58,9 @@ class MoneyOutPutTypeController extends Controller{
 				}
 			}
 			if(!$mMoneyOutPutType){
-				if($money < 0){
+				/*if($money < 0){
 					return new Response('金额不能小于0', 0);
-				}
+				}*/
 				$isSuccess = MoneyOutPutType::addRecord([
 					'user_id' => $mUser->id,
 					'out_put_type' => $outPutType,
