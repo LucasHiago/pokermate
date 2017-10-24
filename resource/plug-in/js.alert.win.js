@@ -49,6 +49,8 @@
 							success : function(aResult){
 								if(aResult.status == 1){
 									showImbalanceMoney(aResult.data.imbalanceMoney);
+									/*UBox.show(aResult.msg, aResult.status);
+									$(document).click();*/
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
 									}, 1);
@@ -111,6 +113,8 @@
 							success : function(aResult){
 								if(aResult.status == 1){
 									showImbalanceMoney(aResult.data.imbalanceMoney);
+									/*UBox.show(aResult.msg, aResult.status);
+									$(document).click();*/
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
 									}, 1);
@@ -173,6 +177,9 @@
 							},
 							success : function(aResult){
 								if(aResult.status == 1){
+									showImbalanceMoney(aResult.data.imbalanceMoney);
+									/*UBox.show(aResult.msg, aResult.status);
+									$(document).click();*/
 									UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
 									}, 1);
