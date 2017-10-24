@@ -313,6 +313,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return (int)$aResult[0]['total_money'];
 	}
 	
+	public function getTotalZhengKerenBenjiMoney(){
+		$sql = 'SELECT SUM(`benjin`) as `total_money` FROM ' . KerenBenjin::tableName() . ' WHERE `user_id`=' . $this->id . ' AND `benjin`>0 AND `is_delete`=0';
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return (int)$aResult[0]['total_money'];
+	}
+	
 	public function getTotalQianKuanMoney(){
 		$sql = 'SELECT SUM(`benjin`) as `total_money` FROM ' . KerenBenjin::tableName() . ' WHERE `user_id`=' . $this->id . ' AND `is_delete`=0 AND `benjin`<0';
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
@@ -348,8 +354,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		foreach($aFenchengConfigList as $zhuoziJibie){
 			$flag = false;
 			foreach($aList as $value){
-				if(in_array($value['zhuozi_jibie'], $aFenchengConfigList)){
+				if($value['zhuozi_jibie'] == $zhuoziJibie){
 					$flag = true;
+					break;
 				}
 			}
 			if(!$flag){
@@ -523,6 +530,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aUnJiaoBanPaijuTotalStatistic['imbalanceMoney'] = $this->getImbalanceMoney();
 		$aUnJiaoBanPaijuTotalStatistic['jiaoBanZhuanChuMoney'] = $this->getJiaoBanZhuanChuMoney();
 		$aUnJiaoBanPaijuTotalStatistic['kerenTotalBenjinMoney'] = $this->getTotalKerenBenjiMoney();
+		$aUnJiaoBanPaijuTotalStatistic['zhengKerenTotalBenjinMoney'] = $this->getTotalZhengKerenBenjiMoney();
 		$aUnJiaoBanPaijuTotalStatistic['kerenTotalQianKuanMoney'] = $this->getTotalQianKuanMoney();
 		$aUnJiaoBanPaijuTotalStatistic['kerenTotalShuYin'] = $this->getTotalShuYin();
 		

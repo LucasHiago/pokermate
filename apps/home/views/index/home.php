@@ -152,6 +152,10 @@ $this->registerJsFile('@r.js.keren.list');
 							<div class="J-krzbj" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
 						</div>
 						<div class="form-group">
+							<label>客人正本金</label>
+							<div class="J-zkrzbj" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
+						</div>
+						<div class="form-group">
 							<label>客人欠款</label>
 							<div class="J-krqk " style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
 						</div>
@@ -187,9 +191,10 @@ $this->registerJsFile('@r.js.keren.list');
 				success : function(aResult){
 					if(aResult.status == 1){
 						showImbalanceMoney(aResult.data.imbalanceMoney);
-						UBox.show(aResult.msg, aResult.status, function(){
+						UBox.show(aResult.msg, aResult.status);
+						/*UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
-						}, 1);
+						}, 1);*/
 					}else{
 						UBox.show(aResult.msg, aResult.status);
 					}
@@ -254,9 +259,10 @@ $this->registerJsFile('@r.js.keren.list');
 				success : function(aResult){
 					if(aResult.status == 1){
 						showImbalanceMoney(aResult.data.imbalanceMoney);
-						UBox.show(aResult.msg, aResult.status, function(){
+						UBox.show(aResult.msg, aResult.status);
+						/*UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
-						}, 1);
+						}, 1);*/
 					}else{
 						UBox.show(aResult.msg, aResult.status);
 					}
@@ -346,6 +352,7 @@ $this->registerJsFile('@r.js.keren.list');
 					showImbalanceMoney(aResult.data.imbalanceMoney);
 					$('.J-search-keren-bianhao').val('');
 					$('.J-search-benjin').val('');
+					UBox.show(aResult.msg, aResult.status);
 					/*UBox.show(aResult.msg, aResult.status, function(){
 						location.reload();
 					}, 1);*/
@@ -537,6 +544,7 @@ $this->registerJsFile('@r.js.keren.list');
 					showImbalanceMoney(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
 					$('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
 					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
+					$('.J-zkrzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhengKerenTotalBenjinMoney);
 					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
 					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
 					$('.J-money-out-put-type-total-money').text(aResult.data.moneyOutPutTypeTotalMoney);
