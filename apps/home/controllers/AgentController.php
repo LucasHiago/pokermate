@@ -208,7 +208,7 @@ class AgentController extends Controller{
 			'合计',
 			$fenchengTotal,
 		]);
-		$fileName = '代理数据' . $mAgent->agent_name . '.xlsx';
+		$fileName = '代理数据(' . $mAgent->agent_name . ').xlsx';
 		//$this->_htmlToExcel($aDataList);exit;
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
 	}
