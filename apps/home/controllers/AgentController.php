@@ -167,6 +167,10 @@ class AgentController extends Controller{
 	public function actionExport(){
 		$agentId = (int)Yii::$app->request->get('agentId');
 		
+		$mAgent = Agent::findOne($agentId);
+		if(!$mAgent){
+			return new Response('代理不存在', 0);
+		}
 		$mUser = Yii::$app->user->getIdentity();
 		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId);
 		$aDataList = [
@@ -204,7 +208,7 @@ class AgentController extends Controller{
 			'合计',
 			$fenchengTotal,
 		]);
-		$fileName = '代理数据.xlsx';
+		$fileName = '代理数据' . $mAgent->agent_name . '.xlsx';
 		//$this->_htmlToExcel($aDataList);exit;
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
 	}
