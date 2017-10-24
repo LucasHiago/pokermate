@@ -2,6 +2,7 @@
 use umeworld\lib\Url;
 $this->registerAssetBundle('common\assets\ManageCoreAsset');
 $this->registerAssetBundle('common\assets\FileAsset');
+$this->setTitle('导入全部客人信息Excel文件');
 ?>
 <!DOCTYPE HTML>
 <html lang="en-US">

@@ -2,12 +2,13 @@
 use umeworld\lib\Url;
 $this->registerAssetBundle('common\assets\ManageCoreAsset');
 $this->registerAssetBundle('common\assets\FileAsset');
+$this->setTitle('导入牌局Excel文件');
 ?>
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>导入Excel文件</title>
+	<title>导入牌局Excel文件</title>
 	<style type="text/css">
 		html,body,*{margin:0;padding:0;}
 		.J-upfile-wrap{margin: 0 auto; min-height: 600px; background: #ffffff;}
@@ -18,7 +19,7 @@ $this->registerAssetBundle('common\assets\FileAsset');
 </head>
 <body>
 	<div class="J-upfile-wrap">
-		<div class="title">上传Excel文件</div>
+		<div class="title">导入牌局Excel文件</div>
 		<div class="up-btn" onclick="uploadProfile(this);">请选择文件</div><input type="file" style="display:none;" />
 		<div class="J-tip-msg">正在上传，请稍等!</div>
 	</div>
