@@ -18,8 +18,8 @@ $pageCount = 8;
 			</div>
 			<div class="h-text-bg h-l-div"><b>联盟盈利：</b><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
 			<div class="h-text-bg h-l-div"><b>牌局总数：</b><?php echo isset($aLianmengHostDuizhang['totalPaijuCount']) ? $aLianmengHostDuizhang['totalPaijuCount'] : 0; ?></div>
-			<div class="h-text-bg h-l-div"><b>核对非0牌局总数：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuziPaijuCount']) ? $aLianmengHostDuizhang['totalHeduishuziPaijuCount'] : 0; ?></div>
-			<div class="h-text-bg h-l-div"><b>核对数值总和：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuzi']) ? $aLianmengHostDuizhang['totalHeduishuzi'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>误差非0牌局总数：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuziPaijuCount']) ? $aLianmengHostDuizhang['totalHeduishuziPaijuCount'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>牌局误差值总和：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuzi']) ? $aLianmengHostDuizhang['totalHeduishuzi'] : 0; ?></div>
 		</div>
 		<div class="h-right">
 			<div class="J-club-qin-zhang btn btn-primary" style="float:right;margin-right:45px;margin-top: 8px;">清账</div>
