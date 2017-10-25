@@ -49,11 +49,12 @@
 							success : function(aResult){
 								if(aResult.status == 1){
 									showImbalanceMoney(aResult.data.imbalanceMoney);
-									/*UBox.show(aResult.msg, aResult.status);
-									$(document).click();*/
-									UBox.show(aResult.msg, aResult.status, function(){
+									//UBox.show(aResult.msg, aResult.status);
+									refreshUnJiaoBanPaijuTotalStatistic();
+									$(document).click();
+									/*UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 1);
+									}, 1);*/
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -113,11 +114,12 @@
 							success : function(aResult){
 								if(aResult.status == 1){
 									showImbalanceMoney(aResult.data.imbalanceMoney);
-									/*UBox.show(aResult.msg, aResult.status);
-									$(document).click();*/
-									UBox.show(aResult.msg, aResult.status, function(){
+									//UBox.show(aResult.msg, aResult.status);
+									refreshUnJiaoBanPaijuTotalStatistic();
+									$(document).click();
+									/*UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 1);
+									}, 1);*/
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}
@@ -178,11 +180,12 @@
 							success : function(aResult){
 								if(aResult.status == 1){
 									showImbalanceMoney(aResult.data.imbalanceMoney);
-									/*UBox.show(aResult.msg, aResult.status);
-									$(document).click();*/
-									UBox.show(aResult.msg, aResult.status, function(){
+									//UBox.show(aResult.msg, aResult.status);
+									refreshUnJiaoBanPaijuTotalStatistic();
+									$(document).click();
+									/*UBox.show(aResult.msg, aResult.status, function(){
 										location.reload();
-									}, 1);
+									}, 1);*/
 								}else{
 									UBox.show(aResult.msg, aResult.status);
 								}

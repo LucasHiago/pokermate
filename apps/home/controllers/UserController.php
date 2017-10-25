@@ -175,11 +175,15 @@ class UserController extends Controller{
 		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
 		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
 		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
+		$aMoneyTypeList = $mUser->getMoneyTypeList();
+		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
 		
 		return new Response('', 1, [
 			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
 			'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
+			'aMoneyTypeList' => $aMoneyTypeList,
+			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
 		]);
 	}
 	

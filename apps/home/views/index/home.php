@@ -191,6 +191,7 @@ $this->registerJsFile('@r.js.keren.list');
 				success : function(aResult){
 					if(aResult.status == 1){
 						showImbalanceMoney(aResult.data.imbalanceMoney);
+						refreshUnJiaoBanPaijuTotalStatistic();
 						UBox.show(aResult.msg, aResult.status);
 						/*UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
@@ -259,6 +260,7 @@ $this->registerJsFile('@r.js.keren.list');
 				success : function(aResult){
 					if(aResult.status == 1){
 						showImbalanceMoney(aResult.data.imbalanceMoney);
+						refreshUnJiaoBanPaijuTotalStatistic();
 						UBox.show(aResult.msg, aResult.status);
 						/*UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
@@ -350,6 +352,7 @@ $this->registerJsFile('@r.js.keren.list');
 			success : function(aResult){
 				if(aResult.status == 1){
 					showImbalanceMoney(aResult.data.imbalanceMoney);
+					refreshUnJiaoBanPaijuTotalStatistic();
 					$('.J-search-keren-bianhao').val('');
 					$('.J-search-benjin').val('');
 					UBox.show(aResult.msg, aResult.status);
@@ -394,9 +397,11 @@ $this->registerJsFile('@r.js.keren.list');
 				success : function(aResult){
 					if(aResult.status == 1){
 						showImbalanceMoney(aResult.data.imbalanceMoney);
-						UBox.show(aResult.msg, aResult.status, function(){
+						refreshUnJiaoBanPaijuTotalStatistic();
+						UBox.show(aResult.msg, aResult.status);
+						/*UBox.show(aResult.msg, aResult.status, function(){
 							location.reload();
-						}, 1);
+						}, 1);*/
 					}else{
 						UBox.show(aResult.msg, aResult.status);
 					}
@@ -549,6 +554,14 @@ $this->registerJsFile('@r.js.keren.list');
 					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
 					$('.J-money-out-put-type-total-money').text(aResult.data.moneyOutPutTypeTotalMoney);
 					$('.J-money-type-total-money').text(aResult.data.moneyTypeTotalMoney);
+					var aMoneyTypeList = aResult.data.aMoneyTypeList;
+					var aMoneyOutPutTypeList = aResult.data.aMoneyOutPutTypeList;
+					for(var i in aMoneyTypeList){
+						$('.J-money-type-item-input[data-id=' + aMoneyTypeList[i].id + ']').val(aMoneyTypeList[i].money);
+					}
+					for(var j in aMoneyOutPutTypeList){
+						$('.J-money-out-put-type-item-input[data-id=' + aMoneyOutPutTypeList[j].id + ']').val(aMoneyOutPutTypeList[j].money);
+					}
 				}
 			}
 		});
