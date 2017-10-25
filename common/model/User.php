@@ -349,6 +349,22 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	
 	public function getFenchengListSetting($agentId){
 		$aFenchengConfigList = FenchengSetting::getFenchengConfigList();
+		//
+		$aList = FenchengSetting::findAll(['user_id' => $this->id, 'agent_id' => $agentId, 'zhuozi_jibie' => $aFenchengConfigList]);
+		$aList = ArrayHelper::index($aList, 'zhuozi_jibie');
+		if(isset($aList['500/1000']) && isset($aList['1000/2000'])){
+			if($aList['500/1000']['id'] > $aList['1000/2000']['id']){
+				$mT1 = FenchengSetting::findOne($aList['500/1000']['id']);
+				$mT2 = FenchengSetting::findOne($aList['1000/2000']['id']);
+				$mT2->set('zhuozi_jibie', '500/1000');
+				$mT2->save();
+				$mT1->set('zhuozi_jibie', '1000/2000');
+				$mT1->set('yingfan', $mT2->yingfan);
+				$mT1->set('shufan', $mT2->shufan);
+				$mT1->save();
+			}
+		}
+		//
 		$aList = FenchengSetting::findAll(['user_id' => $this->id, 'agent_id' => $agentId, 'zhuozi_jibie' => $aFenchengConfigList]);
 		$aInsertList = [];
 		foreach($aFenchengConfigList as $zhuoziJibie){
