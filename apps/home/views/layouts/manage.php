@@ -2,7 +2,8 @@
 use umeworld\lib\Url;
 use yii\helpers\ArrayHelper;
 $this->registerAssetBundle('common\assets\ManageCoreAsset');
-$this->beginPage(); 
+$this->beginPage();
+$mUser = Yii::$app->user->getIdentity(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,6 +67,9 @@ $this->beginPage();
 			$('.J-search-form').width($('.page-header').width());
 			$('.J-side-menu').css({'max-height': $('#page-wrapper').css('min-height')});
 			$('.J-side-menu').css({'overflow-x': 'hidden'});
+			<?php if(!$mUser->isManager()){ ?>
+				$('.J-side-menu').prepend('<li class="J-top-child "><a class="collapsed" href="<?php echo Url::to('home', 'user-manage/show-edit', ['id' => $mUser->id]); ?>"><i class="fa fa-fw fa-user"></i> 账号管理</a></li>');
+			<?php } ?>
 			$('.J-top-child a').each(function(){
 				var o = this;
 				if($(this).attr('href') == Tools.url('home', 'user-manage/clear-user-data')){

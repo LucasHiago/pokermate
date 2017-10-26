@@ -33,14 +33,14 @@ return [
 			'icon_class' => 'file',	
 			'child' => [],
 		],
-		[
+		/*[
 			'title' => '清除数据',
 			'en_title' => 'vip_manage',
 			'url' => ['user-manage/clear-user-data'],
 			'permission' => ['user', 'manager'],
 			'icon_class' => 'trash',	
 			'child' => [],
-		],
+		],*/
 		
 		/*[
 			'title' => '一级标题',

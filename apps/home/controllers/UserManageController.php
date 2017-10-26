@@ -15,8 +15,10 @@ class UserManageController extends Controller{
 	
 	public function init(){
 		$mUser = Yii::$app->user->getIdentity();
-		if(!$mUser->isManager()){
-			return Yii::$app->response->redirect(Url::to('home', 'club-manage/index'));
+		if(!in_array($this->module->requestedRoute, ['user-manage/show-edit', 'user-manage/edit'])){
+			if(!$mUser->isManager()){
+				return Yii::$app->response->redirect(Url::to('home', 'club-manage/index'));
+			}
 		}
 		return parent::init();
 	}
@@ -55,6 +57,9 @@ class UserManageController extends Controller{
 		$id = Yii::$app->request->get('id');
 		
 		$mUser = User::findOne($id);
+		if(!Yii::$app->user->getIdentity()->isManager() && $id != Yii::$app->user->id){
+			return new Response('抱歉，您没有权限！', 0);
+		}
 		$aUser = [];
 		if($mUser){
 			$aUser = $mUser->toArray();
