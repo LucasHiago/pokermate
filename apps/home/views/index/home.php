@@ -45,7 +45,7 @@ $this->registerJsFile('@r.js.keren.list');
 								<?php } ?>
 							</select>
 						</a>
-						<a style="float:right;font-size:14px;">选择交接联盟：</a>
+						<a style="float:right;font-size:14px;">选择交接联盟:</a>
 						<?php } ?>
 					</h3>
 				</div>
