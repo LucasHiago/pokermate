@@ -1942,6 +1942,7 @@
 		},
 		
 		showMoneyOutPutTypeList : function(aMoneyOutPutTypeList){
+			isCloseWinRefresh = true;
 			var html = '';
 			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
 				html += '<div class="panel panel-primary">';
@@ -1982,9 +1983,13 @@
 						},
 						success : function(aResult){
 							if(aResult.status == 1){
-								UBox.show(aResult.msg, aResult.status, function(){
+								UBox.show(aResult.msg, aResult.status);
+								isCloseWinRefresh = false;
+								$(document).click();
+								AlertWin.showMoneyOutPutTypeList(aResult.data.aMoneyOutPutTypeList);
+								/*UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
-								}, 1);
+								}, 1);*/
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
@@ -2008,9 +2013,13 @@
 					},
 					success : function(aResult){
 						if(aResult.status == 1){
-							UBox.show(aResult.msg, aResult.status, function(){
+							UBox.show(aResult.msg, aResult.status);
+							isCloseWinRefresh = false;
+							$(document).click();
+							AlertWin.showMoneyOutPutTypeList(aResult.data.aMoneyOutPutTypeList);
+							/*UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 1);
+							}, 1);*/
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
@@ -2026,6 +2035,7 @@
 		},
 		
 		showMoneyTypeList : function(aMoneyTypeList){
+			isCloseWinRefresh = true;
 			var html = '';
 			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
 				html += '<div class="panel panel-primary">';
@@ -2066,9 +2076,13 @@
 						},
 						success : function(aResult){
 							if(aResult.status == 1){
-								UBox.show(aResult.msg, aResult.status, function(){
+								UBox.show(aResult.msg, aResult.status);
+								isCloseWinRefresh = false;
+								$(document).click();
+								AlertWin.showMoneyTypeList(aResult.data.aMoneyTypeList);
+								/*UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
-								}, 1);
+								}, 1);*/
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
@@ -2092,9 +2106,13 @@
 					},
 					success : function(aResult){
 						if(aResult.status == 1){
-							UBox.show(aResult.msg, aResult.status, function(){
+							UBox.show(aResult.msg, aResult.status);
+							isCloseWinRefresh = false;
+							$(document).click();
+							AlertWin.showMoneyTypeList(aResult.data.aMoneyTypeList);
+							/*UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();
-							}, 1);
+							}, 1);*/
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}

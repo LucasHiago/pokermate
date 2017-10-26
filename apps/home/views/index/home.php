@@ -37,7 +37,7 @@ $this->registerJsFile('@r.js.keren.list');
 					<h3 class="panel-title" style="line-height: 39px;">
 						<?php if($aCurrentPaiju){ ?>
 						<a style="float: left; font-size: 14px; width: 205px; display: inline-block;">结束时间：<?php echo date('Y-m-d H:i:s', $aCurrentPaiju['end_time']); ?>&nbsp;</a>
-						<a style="font-size: 16px; width: 155px; display: inline-block; float: left; text-align: center;"><?php echo $aCurrentPaiju['paiju_name']; ?></a>
+						<a style="font-size: 16px; width: 130px; display: inline-block; float: left; text-align: center;"><?php echo $aCurrentPaiju['paiju_name']; ?></a>
 						<a>
 							<select class="J-jieshuan-lianmeng-select form-control" data-paiju-id="<?php echo $aCurrentPaiju['id']; ?>" style="width: 120px; float: right; position: relative; top: 2px;">
 								<?php foreach($aLianmengList as $aLianmeng){ ?>
@@ -45,7 +45,7 @@ $this->registerJsFile('@r.js.keren.list');
 								<?php } ?>
 							</select>
 						</a>
-						<a style="float:right;font-size:14px;">选择联盟：</a>
+						<a style="float:right;font-size:14px;">选择交接联盟：</a>
 						<?php } ?>
 					</h3>
 				</div>

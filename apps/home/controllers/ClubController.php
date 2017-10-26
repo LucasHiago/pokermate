@@ -55,7 +55,8 @@ class ClubController extends Controller{
 			$bindClubLimitCount = $mUser->getBindClubLimitCount();
 			$aClubList = $mUser->getUserClubList();
 			if(count($aClubList) >= $bindClubLimitCount){
-				return new Response('您的会员等级只能绑定' . $bindClubLimitCount . '个俱乐部', -1);
+				return new Response('提示:需要钻石会员才能增添2个或以上的俱乐部', -1);
+				//return new Response('您的会员等级只能绑定' . $bindClubLimitCount . '个俱乐部', -1);
 			}
 			$isSuccess = Club::addRecord([
 				'user_id' => $mUser->id,

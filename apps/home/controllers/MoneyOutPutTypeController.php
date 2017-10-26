@@ -75,8 +75,11 @@ class MoneyOutPutTypeController extends Controller{
 				$mUser->operateLog(13, ['aMoneyOutPutType' => $aMoneyOutPutType]);
 			}
 		}
-		
-		return new Response('保存成功', 1, ['imbalanceMoney' => $mUser->getImbalanceMoney()]);
+		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
+		return new Response('保存成功', 1, [
+			'imbalanceMoney' => $mUser->getImbalanceMoney(),
+			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
+		]);
 	}
 	
 	public function actionDelete(){
@@ -99,7 +102,11 @@ class MoneyOutPutTypeController extends Controller{
 			$aMoneyOutPutType = $mMoneyOutPutType->toArray();
 			$mUser->operateLog(15, ['aMoneyOutPutType' => $aMoneyOutPutType]);
 		}
-		return new Response('删除成功', 1, ['imbalanceMoney' => $mUser->getImbalanceMoney()]);
+		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
+		return new Response('删除成功', 1, [
+			'imbalanceMoney' => $mUser->getImbalanceMoney(),
+			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
+		]);
 	}
 	
 	public function actionAddMoney(){

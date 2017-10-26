@@ -228,7 +228,7 @@ if($mUser){
 								<li class="J-c-h-t-menu-m1"><a href="<?php echo Url::to('home', 'index/index'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">结账台</a></li>
 								<li class="J-c-h-t-menu-m2"><a href="<?php echo Url::to('home', 'agent/index'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">代理分成</a></li>
 								<?php if(!$mUser->hasLianmengHostDuiZhangFunction()){ ?>
-								<li class="J-c-h-t-menu-m3"><a href="javascript:;" onclick="UBox.show('抱歉，您还没开通这个功能使用权限！', -1);" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
+								<li class="J-c-h-t-menu-m3"><a href="javascript:;" onclick="UBox.show('提示:需要黑金会员才能开通此功能！', -1);" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
 								<?php }else{ ?>
 								<li class="J-c-h-t-menu-m3"><a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
 								<?php } ?>
@@ -259,7 +259,7 @@ if($mUser){
 			var html = '';
 			html += '<div style="height:56px;">';
 				html += '<div style="height:28px;">';
-					html += '确定删除数据？一旦输入安全密码，即清楚所有数据，账号数据不留任何痕迹！';
+					html += '确定删除数据？一旦输入安全密码，即清除所有数据，账号数据不留任何痕迹！';
 				html += '</div>';
 				html += '<div style="height:28px;margin-top: 26px;">';
 					html += '<div style="float:left;height: 100%;line-height:28px;">安全密码：</div>';

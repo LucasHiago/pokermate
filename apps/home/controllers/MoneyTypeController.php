@@ -75,8 +75,11 @@ class MoneyTypeController extends Controller{
 				$mUser->operateLog(10, ['aMoneyType' => $aMoneyType]);
 			}
 		}
-		
-		return new Response('保存成功', 1, ['imbalanceMoney' => $mUser->getImbalanceMoney()]);
+		$aMoneyTypeList = $mUser->getMoneyTypeList();
+		return new Response('保存成功', 1, [
+			'imbalanceMoney' => $mUser->getImbalanceMoney(),
+			'aMoneyTypeList' => $aMoneyTypeList,
+		]);
 	}
 	
 	public function actionDelete(){
@@ -99,7 +102,11 @@ class MoneyTypeController extends Controller{
 			$aMoneyType = $mMoneyType->toArray();
 			$mUser->operateLog(12, ['aMoneyType' => $aMoneyType]);
 		}
-		return new Response('删除成功', 1, ['imbalanceMoney' => $mUser->getImbalanceMoney()]);
+		$aMoneyTypeList = $mUser->getMoneyTypeList();
+		return new Response('删除成功', 1, [
+			'imbalanceMoney' => $mUser->getImbalanceMoney(),
+			'aMoneyTypeList' => $aMoneyTypeList,
+		]);
 	}
 	
 	public function actionAddMoney(){

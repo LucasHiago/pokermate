@@ -74,7 +74,7 @@ $this->beginPage();
 						var html = '';
 						html += '<div style="height:56px;">';
 							html += '<div style="height:28px;">';
-								html += '确定删除数据？一旦输入安全密码，即清楚所有数据，账号数据不留任何痕迹！';
+								html += '确定删除数据？一旦输入安全密码，即清除所有数据，账号数据不留任何痕迹！';
 							html += '</div>';
 							html += '<div style="height:28px;margin-top: 26px;">';
 								html += '<div style="float:left;height: 100%;line-height:28px;">安全密码：</div>';
