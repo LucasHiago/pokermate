@@ -251,6 +251,9 @@ $mUser = Yii::$app->user->getIdentity();
 					commitMoneyOutPutTypeChange(this);
 				}
 			});
+			$('.J-money-out-put-type-item-input').blur(function(e){
+				commitMoneyOutPutTypeChange(this);
+			});
 		}
 		/*$('.b-b-item-center input').bind('input propertychange', function() {  
 			setInputInterval(this);
@@ -331,6 +334,9 @@ $mUser = Yii::$app->user->getIdentity();
 				if(e.keyCode == 13){
 					commitMoneyTypeChange(this);
 				}
+			});
+			$('.J-money-type-item-input').blur(function(e){
+				commitMoneyTypeChange(this);
 			});
 		}
 		/*$('.b-b-item-left input').bind('input propertychange', function() {  
@@ -466,6 +472,9 @@ $mUser = Yii::$app->user->getIdentity();
 			if(e.keyCode == 13){
 				updateBenjin(this);
 			}
+		});
+		$('.J-search-benjin').blur(function(e){
+			updateBenjin(this);
 		});
 	}
 	
