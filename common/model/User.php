@@ -145,14 +145,45 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	
 	public static function getVipList(){
 		return [
-			1 => 'VIP1(黄金会员)',
-			2 => 'VIP2(钻石会员)',
-			3 => 'VIP3(黑金会员)',
-			4 => 'VIP4',
-			5 => 'VIP5',
-			6 => 'VIP6',
-			7 => 'VIP7',
+			1 => '黄金会员',
+			2 => '钻石会员',
+			3 => '黑金会员',
 		];
+	}
+	
+	public function isYellowGoldVip(){
+		return $this->vip_level == 1 && $this->vip_expire_time > NOW_TIME;
+	}
+	
+	public function isDiamondVip(){
+		return $this->vip_level == 2 && $this->vip_expire_time > NOW_TIME;
+	}
+	
+	public function isBlackGoldVip(){
+		return $this->vip_level == 3 && $this->vip_expire_time > NOW_TIME;
+	}
+	
+	public function getBindClubLimitCount(){
+		$count = 0;
+		if($this->isYellowGoldVip()){
+			$count = 1;
+		}elseif($this->isDiamondVip()){
+			$count = PHP_INT_MAX;
+		}elseif($this->isBlackGoldVip()){
+			$count = PHP_INT_MAX;
+		}
+		return $count;
+	}
+	
+	public function hasLianmengHostDuiZhangFunction(){
+		if($this->isYellowGoldVip()){
+			return false;
+		}elseif($this->isDiamondVip()){
+			return false;
+		}elseif($this->isBlackGoldVip()){
+			return true;
+		}
+		return false;
 	}
 	
 	public function clearUserData(){

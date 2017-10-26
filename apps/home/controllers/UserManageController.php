@@ -142,7 +142,7 @@ class UserManageController extends Controller{
 				'qibu_choushui' => $qibuChoushui,
 				'choushui_shuanfa' => $choushuiShuanfa,
 				'vip_level' => $vipLevel,
-				'vip_expire_time' => strtotime($vipExpireTime),
+				'vip_expire_time' => (((int)$vipExpireTime) * 86400 + NOW_TIME),
 				'create_time' => NOW_TIME,
 			]);
 			if(!$mUser){

@@ -1,6 +1,6 @@
 <?php
 use umeworld\lib\Url;
-$this->setTitle('结账台');
+$this->setTitle('');
 $this->registerJsFile('@r.js.paiju.list');
 $this->registerJsFile('@r.js.keren.list');
 ?>

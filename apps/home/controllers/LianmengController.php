@@ -17,6 +17,9 @@ class LianmengController extends Controller{
 		$id = (int)Yii::$app->request->get('id');
 		
 		$mUser = Yii::$app->user->getIdentity();
+		if(!$mUser->hasLianmengHostDuiZhangFunction()){
+			return new Response('抱歉，您还没开通这个功能使用权限！', 0);
+		}
 		$aLianmengList = $mUser->getLianmengList();
 		if($id){
 			$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => $mUser->id, 'is_delete' => 0]);

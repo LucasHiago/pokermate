@@ -12,7 +12,7 @@ return [
     'runtimePath' => PROJECT_PATH . '/runtime/home',
     'components' => [
 		'view' => [
-			'commonTitle' => 'pokermate',
+			'commonTitle' => '德扑客服系统',
 			'baseTitle' => 'XXX-X-XX-XC-basetitle',
 		],
     ],

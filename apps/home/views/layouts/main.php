@@ -223,7 +223,11 @@ if($mUser){
 							<ul class="nav navbar-nav">
 								<li class="J-c-h-t-menu-m1"><a href="<?php echo Url::to('home', 'index/index'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">结账台</a></li>
 								<li class="J-c-h-t-menu-m2"><a href="<?php echo Url::to('home', 'agent/index'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">代理分成</a></li>
+								<?php if(!$mUser->hasLianmengHostDuiZhangFunction()){ ?>
+								<li class="J-c-h-t-menu-m3"><a href="javascript:;" onclick="UBox.show('抱歉，您还没开通这个功能使用权限！', -1);" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
+								<?php }else{ ?>
 								<li class="J-c-h-t-menu-m3"><a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
+								<?php } ?>
 							</ul>
 							<a href="javascript:;" class="btn btn-lg btn-primary" style="float:right;position:relative;right:16px;top:2px;" onclick="AlertWin.showJiaoBanZhuanChu();">交班账单</a>
 						</div>
