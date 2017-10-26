@@ -1,5 +1,6 @@
 <?php 
 use umeworld\lib\Url;
+use common\model\User;
 use yii\helpers\ArrayHelper;
 $this->registerAssetBundle('common\assets\ManageCoreAsset');
 $this->registerJsFile('@r.js.wdate-picker');
@@ -8,10 +9,12 @@ $this->beginPage();
 $mUser = Yii::$app->user->getIdentity();
 $aUser = [];
 $aClubList = [];
+$aVipList = [];
 if($mUser){
 	$aUser = $mUser->toArray();
 	//unset($aUser['password']);
 	$aClubList = $mUser->getUserClubList();
+	$aVipList = User::getVipList();
 }
 ?>
 <!DOCTYPE html>
@@ -173,9 +176,9 @@ if($mUser){
 						<a class="vipinfo">未启用</a>
 					<?php }else{ ?>
 						<?php if($mUser->isVip()){ ?>
-						<a class="vipinfo">VIP<?php echo $mUser->vip_level; ?>&nbsp;还有<?php echo $mUser->vipDaysRemaining(); ?>天到期</a>
+						<a class="vipinfo"><?php echo $aVipList[$mUser->vip_level]; ?>&nbsp;还有<?php echo $mUser->vipDaysRemaining(); ?>天到期</a>
 						<?php }else{ ?>
-						<a class="vipinfo">VIP已到期</a>
+						<a class="vipinfo">会员已到期</a>
 						<?php } ?>
 					<?php } ?>
 				</div>

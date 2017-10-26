@@ -151,6 +151,20 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		];
 	}
 	
+	public function isVip(){
+		if($this->vip_level && $this->vip_expire_time > NOW_TIME){
+			return true;
+		}
+		return false;
+	}
+	
+	public function vipDaysRemaining(){
+		if($this->isVip()){
+			return ceil(($this->vip_expire_time - NOW_TIME) / 86400);
+		}
+		return 0;
+	}
+	
 	public function isYellowGoldVip(){
 		return $this->vip_level == 1 && $this->vip_expire_time > NOW_TIME;
 	}
@@ -301,20 +315,6 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			return true;
 		}
 		return false;
-	}
-	
-	public function isVip(){
-		if($this->vip_level && $this->vip_expire_time > NOW_TIME){
-			return true;
-		}
-		return false;
-	}
-	
-	public function vipDaysRemaining(){
-		if($this->isVip()){
-			return ceil(($this->vip_expire_time - NOW_TIME) / 86400);
-		}
-		return 0;
 	}
 	
 	public function getUserClubList(){
