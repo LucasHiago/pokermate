@@ -140,7 +140,7 @@ class DownLoadExcel extends \yii\base\Object{
 			$isSuccess = ImportData::importFromExcelDataList($mUser, $aDataList);
 			$aDataList = null;
 			if($isSuccess){
-				if(strtotime($startDay) < NOW_TIME){
+				/*if(strtotime($startDay) < NOW_TIME){
 					ExcelFile::addRecord([
 						'user_id' => $mClub->user_id,
 						'club_id' => $mClub->club_id,
@@ -148,7 +148,7 @@ class DownLoadExcel extends \yii\base\Object{
 						'download_time' => NOW_TIME,
 						'import_time' => NOW_TIME,
 					]);
-				}
+				}*/
 				return true;
 			}else{
 				return false;
