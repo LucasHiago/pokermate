@@ -215,7 +215,8 @@ if($mUser){
 					</div>
 				</div>
 				<div class="c-h-right">
-					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="btn btn-danger" style="float:right;margin-right:20px;margin-top:30px;">退出登录</a>
+					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="btn btn-danger" style="float:right;margin-right:10px;margin-top:30px;">退出登录</a>
+					<a class="btn btn-danger" onclick="clearUserData(this);" style="float:right;margin-right:10px;margin-top:30px;">安全密码</a>
 					<a href="javascript:;" class="J-top-btn-hover btn btn-default" onclick="AlertWin.showEditUserInfo();" style="float:right;margin-right:10px;margin-top:30px;background: #e7e7e7;">账号设置</a>
 					<a href="<?php echo Url::to('home', 'user-manage/index'); ?>" class="J-top-btn-hover btn btn-default" style="float:right;margin-right:10px;margin-top:30px;background: #e7e7e7;">账号管理</a>
 				</div>
@@ -252,6 +253,42 @@ if($mUser){
 				$('.J-imbalance-money').removeClass('fu');
 			}
 			$('.J-imbalance-money').text(imbalanceMoney);
+		}
+		
+		function clearUserData(o){
+			var html = '';
+			html += '<div style="height:56px;">';
+				html += '<div style="height:28px;">';
+					html += '确定删除数据？一旦输入安全密码，即清楚所有数据，账号数据不留任何痕迹！';
+				html += '</div>';
+				html += '<div style="height:28px;margin-top: 26px;">';
+					html += '<div style="float:left;height: 100%;line-height:28px;">安全密码：</div>';
+					html += '<input type="text" class="J-save-code form-control" placeholder="请输入安全密码" style="float:left;height:28px;width:200px;" />';
+				html += '</div>';
+			html += '</div>';
+			UBox.confirm(html, function(){
+				ajax({
+					url : Tools.url('home', 'user-manage/clear-user-data'),
+					data : {
+						saveCode : $('.J-save-code').val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status, function(){
+								location.href = Tools.url('home', 'login/logout');
+							}, 1);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
 		}
 		
 		$(function(){

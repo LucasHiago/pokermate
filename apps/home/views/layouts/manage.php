@@ -71,29 +71,37 @@ $this->beginPage();
 				if($(this).attr('href') == Tools.url('home', 'user-manage/clear-user-data')){
 					$(this).attr('href', 'javascript:;');
 					$(this).click(function(){
-						UBox.confirm('确定删除数据?', function(){
-							UBox.confirm('<div style="height:28px;"><div style="float:left;height: 100%;line-height:28px;">安全密码：</div><input type="text" class="J-save-code form-control" placeholder="请输入安全密码" style="float:left;height:28px;width:200px;" /></div>', function(){
-								ajax({
-									url : Tools.url('home', 'user-manage/clear-user-data'),
-									data : {
-										saveCode : $('.J-save-code').val()
-									},
-									beforeSend : function(){
-										$(o).attr('disabled', 'disabled');
-									},
-									complete : function(){
-										$(o).attr('disabled', false);
-									},
-									success : function(aResult){
-										if(aResult.status == 1){
-											UBox.show(aResult.msg, aResult.status, function(){
-												location.href = Tools.url('home', 'login/logout');
-											}, 1);
-										}else{
-											UBox.show(aResult.msg, aResult.status);
-										}
+						var html = '';
+						html += '<div style="height:56px;">';
+							html += '<div style="height:28px;">';
+								html += '确定删除数据？一旦输入安全密码，即清楚所有数据，账号数据不留任何痕迹！';
+							html += '</div>';
+							html += '<div style="height:28px;margin-top: 26px;">';
+								html += '<div style="float:left;height: 100%;line-height:28px;">安全密码：</div>';
+								html += '<input type="text" class="J-save-code form-control" placeholder="请输入安全密码" style="float:left;height:28px;width:200px;" />';
+							html += '</div>';
+						html += '</div>';
+						UBox.confirm(html, function(){
+							ajax({
+								url : Tools.url('home', 'user-manage/clear-user-data'),
+								data : {
+									saveCode : $('.J-save-code').val()
+								},
+								beforeSend : function(){
+									$(o).attr('disabled', 'disabled');
+								},
+								complete : function(){
+									$(o).attr('disabled', false);
+								},
+								success : function(aResult){
+									if(aResult.status == 1){
+										UBox.show(aResult.msg, aResult.status, function(){
+											location.href = Tools.url('home', 'login/logout');
+										}, 1);
+									}else{
+										UBox.show(aResult.msg, aResult.status);
 									}
-								});
+								}
 							});
 						});
 					});
