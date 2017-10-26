@@ -9,7 +9,7 @@ if($aCurrentAgent){
 <div class="c-body-wrap">
 	<div class="ag-bg">
 		<div class="ag-left">
-			<div class="panel panel-info" style="float:left;width:297px;min-height: 790px;">
+			<div class="panel panel-info" style="float:left;width:297px;min-height: 817px;">
 				<div class="panel-heading">
 					<h3 class="panel-title"><strong>代理列表</strong></h3>
 				</div>
@@ -27,7 +27,7 @@ if($aCurrentAgent){
 			</div>
 		</div>
 		<div class="ag-center">
-			<div class="panel panel-info" style="float:left;width:297px;min-height: 790px;">
+			<div class="panel panel-info" style="float:left;width:297px;min-height: 817px;">
 				<div class="panel-heading">
 					<h3 class="panel-title"><strong>分成设置</strong></h3>
 				</div>
@@ -58,7 +58,7 @@ if($aCurrentAgent){
 			</div>
 		</div>
 		<div class="ag-right">
-			<div class="panel panel-info" style="float:left;width:631px;min-height: 790px;">
+			<div class="panel panel-info" style="float:left;width:631px;min-height: 817px;">
 				<div class="panel-heading">
 					<h3 class="panel-title"><strong>分成信息</strong></h3>
 				</div>
