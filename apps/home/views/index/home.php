@@ -3,6 +3,7 @@ use umeworld\lib\Url;
 $this->setTitle('');
 $this->registerJsFile('@r.js.paiju.list');
 $this->registerJsFile('@r.js.keren.list');
+$mUser = Yii::$app->user->getIdentity();
 ?>
 <div class="c-body-wrap">
 	<div class="c-b-list">
@@ -28,7 +29,11 @@ $this->registerJsFile('@r.js.keren.list');
 			</div>
 		<?php } ?>
 		</div>
+		<?php if(!$mUser->is_active){ ?>
+		<div class="c-b-list-arrow" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><i class="fa fa-chevron-right" style="color: #1e8430;margin-left:4px;"></i></div>
+		<?php }else{ ?>
 		<div class="c-b-list-arrow" onclick="AlertWin.showPaijuList();"><i class="fa fa-chevron-right" style="color: #1e8430;margin-left:4px;"></i></div>
+		<?php } ?>
 	</div>
 	<div class="c-b-content">
 		<div class="c-b-c-left">
@@ -80,17 +85,29 @@ $this->registerJsFile('@r.js.keren.list');
 		<div class="c-b-c-center">
 			<a href="javascript:;" class="chaer btn btn-sm btn-info" style="cursor:default;">核算差额</a>
 			<a href="javascript:;" class="J-imbalance-money btn btn-lg btn-success ball" style="cursor:default;">0</a>
+			<?php if(!$mUser->is_active){ ?>
+			<a href="javascript:;" class="lmzz btn btn-lg btn-primary" onclick="UBox.show('提示:您的账号还没开始启用！', -1);">联盟总账</a>
+			<a href="javascript:;" class="krxx btn btn-lg btn-primary" onclick="UBox.show('提示:您的账号还没开始启用！', -1);">客人信息</a>
+			<a href="javascript:;" class="lspj btn btn-lg btn-primary" onclick="UBox.show('提示:您的账号还没开始启用！', -1);">历史牌局</a>
+			<?php }else{ ?>
 			<a href="javascript:;" class="lmzz btn btn-lg btn-primary" onclick="AlertWin.showLianmengZhongZhang();">联盟总账</a>
 			<a href="javascript:;" class="krxx btn btn-lg btn-primary" onclick="AlertWin.showPlayerList();">客人信息</a>
 			<a href="javascript:;" class="lspj btn btn-lg btn-primary" onclick="AlertWin.showPaijuList({isHistory : 1});">历史牌局</a>
+			<?php } ?>
 			<a href="javascript:;" class="jbzc btn btn-sm btn-info" style="cursor:default;">当班收益</a>
 			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money btn btn-lg btn-success ball" style="cursor:default;">0</a>
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
+			<?php if(!$mUser->is_active){ ?>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>总抽水：</strong><font class="J-h-zcs">0</font></div>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>总保险：</strong><font class="J-h-zbx">0</font></div>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>上桌人数：</strong><font class="J-h-szrs">0</font></div>
+			<?php }else{ ?>
 				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;cursor:pointer;" onclick="AlertWin.showChouShuiList();"><strong>总抽水：</strong><font class="J-h-zcs">0</font></div>
 				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="AlertWin.showZhongBaoXianList();"><strong>总保险：</strong><font class="J-h-zbx">0</font></div>
 				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="AlertWin.showShanZhuoRenShuList();"><strong>上桌人数：</strong><font class="J-h-szrs">0</font></div>
+			<?php } ?>
 			</div>
 			<div class="c-b-c-r-center">
 				<div class="form-group" style="float:left;width:140px;margin:15px;margin-left:26px;">
@@ -124,7 +141,11 @@ $this->registerJsFile('@r.js.keren.list');
 							<i class="fa fa-pencil" style="position: relative;float: right;top: -25px;right: 2px;cursor: pointer;height: 25px;line-height: 25px;"></i>
 						</div>
 					<?php } ?>
+					<?php if(!$mUser->is_active){ ?>
+					<button class="btn btn-sm btn-primary" onclick="UBox.show('提示:您的账号还没开始启用！', -1);" style="margin-top: 10px;">新增/删除</button>
+					<?php }else{ ?>
 					<button class="btn btn-sm btn-primary" onclick='AlertWin.showMoneyTypeList(<?php echo json_encode($aMoneyTypeList); ?>);' style="margin-top: 10px;">新增/删除</button>
+					<?php } ?>
 					</div>
 				</div>
 				<div class="panel panel-info" style="float:left;width:180px;margin-right:4px;min-height: 400px;">
@@ -139,7 +160,11 @@ $this->registerJsFile('@r.js.keren.list');
 							<i class="fa fa-pencil" style="position: relative;float: right;top: -25px;right: 2px;cursor: pointer;height: 25px;line-height: 25px;"></i>
 						</div>
 					<?php } ?>
+					<?php if(!$mUser->is_active){ ?>
+					<button class="btn btn-sm btn-primary" onclick="UBox.show('提示:您的账号还没开始启用！', -1);" style="margin-top: 10px;">新增/删除</button>
+					<?php }else{ ?>
 					<button class="btn btn-sm btn-primary" onclick='AlertWin.showMoneyOutPutTypeList(<?php echo json_encode($aMoneyOutPutTypeList); ?>);' style="margin-top: 10px;">新增/删除</button>
+					<?php } ?>
 					</div>
 				</div>
 				<div class="panel panel-info" style="float:left;width:172px;min-height: 400px;">
@@ -176,6 +201,10 @@ $this->registerJsFile('@r.js.keren.list');
 	
 	function initMoneyOutPutType(){
 		function commitMoneyOutPutTypeChange(o){
+			<?php if(!$mUser->is_active){ ?>
+				UBox.show('提示:您的账号还没开始启用！', -1);
+				return;
+			<?php } ?>
 			ajax({
 				url : Tools.url('home', 'money-out-put-type/save'),
 				data : {
@@ -205,6 +234,10 @@ $this->registerJsFile('@r.js.keren.list');
 		
 		function initMoneyTypeListEvent(){
 			$('.J-money-out-put-type-item-input').next().on('click', function(){
+				<?php if(!$mUser->is_active){ ?>
+					UBox.show('提示:您的账号还没开始启用！', -1);
+					return;
+				<?php } ?>
 				var oTxt = $(this).prev();
 				var txt = oTxt.val();
 				oTxt.val('');
@@ -228,6 +261,10 @@ $this->registerJsFile('@r.js.keren.list');
 	function initMoneyType(){
 		function initJsfs(){
 			$('.J-jsfs').on('change', function(){
+				<?php if(!$mUser->is_active){ ?>
+					UBox.show('提示:您的账号还没开始启用！', -1);
+					return;
+				<?php } ?>
 				var kerenBianhao = $('.J-search-keren-bianhao').val();
 				var moneyTypeId = $(this).val();
 				var moneyType = $(this).find("option:selected").text();
@@ -245,6 +282,10 @@ $this->registerJsFile('@r.js.keren.list');
 		}
 		
 		function commitMoneyTypeChange(o){
+			<?php if(!$mUser->is_active){ ?>
+				UBox.show('提示:您的账号还没开始启用！', -1);
+				return;
+			<?php } ?>
 			ajax({
 				url : Tools.url('home', 'money-type/save'),
 				data : {
@@ -274,6 +315,10 @@ $this->registerJsFile('@r.js.keren.list');
 		
 		function initMoneyTypeListEvent(){
 			$('.J-money-type-item-input').next().on('click', function(){
+				<?php if(!$mUser->is_active){ ?>
+					UBox.show('提示:您的账号还没开始启用！', -1);
+					return;
+				<?php } ?>
 				var oTxt = $(this).prev();
 				var txt = oTxt.val();
 				oTxt.val('');
@@ -316,6 +361,10 @@ $this->registerJsFile('@r.js.keren.list');
 	}
 	
 	function getKerenBenjin(o, kerenBianhao){
+		<?php if(!$mUser->is_active){ ?>
+			UBox.show('提示:您的账号还没开始启用！', -1);
+			return;
+		<?php } ?>
 		ajax({
 			url : Tools.url('home', 'index/get-keren-benjin') + '?r=' + Math.random(),
 			data : {
@@ -337,6 +386,10 @@ $this->registerJsFile('@r.js.keren.list');
 	}
 	
 	function updateBenjin(o){
+		<?php if(!$mUser->is_active){ ?>
+			UBox.show('提示:您的账号还没开始启用！', -1);
+			return;
+		<?php } ?>
 		ajax({
 			url : Tools.url('home', 'index/update-benjin'),
 			data : {

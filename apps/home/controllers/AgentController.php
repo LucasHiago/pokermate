@@ -18,6 +18,9 @@ class AgentController extends Controller{
 		$agentId = (int)Yii::$app->request->get('agentId');
 		
 		$mUser = Yii::$app->user->getIdentity();
+		if(!$mUser->is_active){
+			return new Response('提示:您的账号还没开始启用！', 0);
+		}
 		$aAgentList = $mUser->getAgentList();
 		$aCurrentAgent = [];
 		if($aAgentList){

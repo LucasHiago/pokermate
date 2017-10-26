@@ -17,6 +17,9 @@ class LianmengController extends Controller{
 		$id = (int)Yii::$app->request->get('id');
 		
 		$mUser = Yii::$app->user->getIdentity();
+		if(!$mUser->is_active){
+			return new Response('提示:您的账号还没开始启用！', 0);
+		}
 		if(!$mUser->hasLianmengHostDuiZhangFunction()){
 			return new Response('抱歉，您还没开通这个功能使用权限！', 0);
 		}
