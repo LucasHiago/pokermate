@@ -55,7 +55,8 @@ $this->setTitle('账号管理');
 						'class' => 'col-sm-1',
 						'content' => function($aData){
 							if($aData['vip_level']){
-								return 'VIP' . $aData['vip_level'];
+								$aVipList = User::getVipList();
+								return $aVipList[$aData['vip_level']];
 							}
 							return '普通账号';
 						}

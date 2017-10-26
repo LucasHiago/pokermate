@@ -3,6 +3,7 @@ use umeworld\lib\Url;
 use common\model\User;
 $this->setTitle($aUser ? '编辑账号' : '新增账号');
 $this->registerJsFile('@r.js.wdate-picker');
+$aVipList = User::getVipList();
 ?>
 <br />
 <div class="row">
@@ -35,13 +36,9 @@ $this->registerJsFile('@r.js.wdate-picker');
 			<label>VIP等级</label>
 			<select class="J-vip-level form-control" style="width:300px;">
 				<option value="0">普通账号</option>
-				<option value="1">VIP1</option>
-				<option value="2">VIP2</option>
-				<option value="3">VIP3</option>
-				<option value="4">VIP4</option>
-				<option value="5">VIP5</option>
-				<option value="6">VIP6</option>
-				<option value="7">VIP7</option>
+			<?php foreach($aVipList as $vip => $vipName){ ?>
+				<option value="<?php echo $vip; ?>"><?php echo $vipName; ?></option>
+			<?php } ?>
 			</select>
 		</div>
 		<div class="form-group">

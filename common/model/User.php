@@ -143,6 +143,18 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		]);
 	}
 	
+	public static function getVipList(){
+		return [
+			1 => 'VIP1(黄金会员)',
+			2 => 'VIP2(钻石会员)',
+			3 => 'VIP3(黑金会员)',
+			4 => 'VIP4',
+			5 => 'VIP5',
+			6 => 'VIP6',
+			7 => 'VIP7',
+		];
+	}
+	
 	public function clearUserData(){
 		$sql = 'DELETE FROM ' . Agent::tableName() . ' WHERE `user_id`=' . $this->id;
 		Yii::$app->db->createCommand($sql)->execute();
