@@ -71,7 +71,9 @@ if($aCurrentAgent){
 							<label style="float:left;line-height:32px;margin-left:20px;">总分成：<font style="color:#ff5722;"><?php echo $totalFenCheng; ?></font></label>
 							<label style="float:left;line-height:32px;margin-left:20px;">牌局总数：<font style="color:#ff5722;"><?php echo count($aAgentUnCleanFenChengList); ?></font></label>
 							<button class="btn btn-sm btn-primary" onclick="cleanAgentFencheng(this);" style="float:right;margin-left: 10px;">清账</button>
+							<?php if($aCurrentAgent){ ?>
 							<a class="btn btn-sm btn-primary" href="<?php echo Url::to('home', 'agent/export'); ?>?agentId=<?php echo $aCurrentAgent['id']; ?>" style="float:right;">导出代理数据</a>
+							<?php } ?>
 						</div>
 					</div>
 					<div class="h10"></div>

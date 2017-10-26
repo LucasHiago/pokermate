@@ -83,7 +83,7 @@ $this->registerJsFile('@r.js.keren.list');
 			<a href="javascript:;" class="lmzz btn btn-lg btn-primary" onclick="AlertWin.showLianmengZhongZhang();">联盟总账</a>
 			<a href="javascript:;" class="krxx btn btn-lg btn-primary" onclick="AlertWin.showPlayerList();">客人信息</a>
 			<a href="javascript:;" class="lspj btn btn-lg btn-primary" onclick="AlertWin.showPaijuList({isHistory : 1});">历史牌局</a>
-			<a href="javascript:;" class="jbzc btn btn-sm btn-info" style="cursor:default;">今日盈利</a>
+			<a href="javascript:;" class="jbzc btn btn-sm btn-info" style="cursor:default;">当班收益</a>
 			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money btn btn-lg btn-success ball" style="cursor:default;">0</a>
 		</div>
 		<div class="c-b-c-right">
