@@ -96,7 +96,8 @@ $this->beginPage();
 								success : function(aResult){
 									if(aResult.status == 1){
 										UBox.show(aResult.msg, aResult.status, function(){
-											location.href = Tools.url('home', 'login/logout');
+											//location.href = Tools.url('home', 'login/logout');
+											location.reload();
 										}, 1);
 									}else{
 										UBox.show(aResult.msg, aResult.status);
