@@ -218,7 +218,11 @@ if($mUser){
 					<a href="<?php echo Url::to('home', 'login/logout'); ?>" class="btn btn-danger" style="float:right;margin-right:10px;margin-top:30px;">退出登录</a>
 					<a class="btn btn-danger" onclick="clearUserData(this);" style="float:right;margin-right:10px;margin-top:30px;">安全密码</a>
 					<a href="javascript:;" class="J-top-btn-hover btn btn-default" onclick="AlertWin.showEditUserInfo();" style="float:right;margin-right:10px;margin-top:30px;background: #e7e7e7;">账号设置</a>
+					<?php if(!$mUser->is_active){ ?>
+					<a onclick="UBox.show('提示:您的账号还没开始启用！', -1);" class="J-top-btn-hover btn btn-default" style="float:right;margin-right:10px;margin-top:30px;background: #e7e7e7;">账号管理</a>
+					<?php }else{ ?>
 					<a href="<?php echo Url::to('home', 'user-manage/index'); ?>" class="J-top-btn-hover btn btn-default" style="float:right;margin-right:10px;margin-top:30px;background: #e7e7e7;">账号管理</a>
+					<?php } ?>
 				</div>
 				<div class="h20"></div>
 				<div class="navbar navbar-default" style="background-color: #171515;">
