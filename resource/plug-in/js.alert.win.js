@@ -1,5 +1,124 @@
 (function(container, $){
 	container.AlertWin = {
+		showAgentClean : function(agentId, agentName, aId, selectTotalFencheng, aMoneyTypeList){
+			var html = '';
+			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:600px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">代理清账</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="alert alert-info">请选择以下方式对代理（' + agentName + '）的账单进行处理。&nbsp;&nbsp;<strong>分成总额</strong>：<font class="J-select-total-fencheng-val" style="color:#ff5722;">' + selectTotalFencheng + '</font></div>';
+						
+						html += '<div class="well" style="min-height:75px;">';
+							html += '<div class="form-group">';
+								html += '<label style="float:left;line-height:32px;">资金转出：</label>';
+								html += '<select class="J-money-type-val form-control" style="float:left;width:150px;">';
+								html += '<option value="0">请选择</option>';
+								for(var i in aMoneyTypeList){
+									html += '<option value="' + aMoneyTypeList[i].id + '">' + aMoneyTypeList[i].pay_type + '</option>';
+								}
+								html += '</select>';
+								html += '<div style="float:left;min-width:50px;line-height:32px;">&nbsp;&nbsp;当前账户资金：<font class="J-money-type-money-val" style="color:#ff5722;">0</font></div>';
+								html += '<button class="J-qz-type-btn btn btn-sm btn-warning" style="float:right;margin-left:20px;" data-type="1">确认转出</button>';
+							html += '</div>';
+						html += '</div>';
+						
+						html += '<div class="well" style="min-height:75px;">';
+							html += '<div class="form-group">';
+								html += '<label style="float:left;line-height:32px;">纳入客人本金：</label>';
+								html += '<input type="text" class="J-keren-bianhao-val form-control" style="float:left;width:150px;" placeholder="请输入客人编号" />';
+								html += '<div style="float:left;min-width:50px;line-height:32px;">&nbsp;&nbsp;当前本金：<font class="J-keren-money" style="color:#ff5722;">0</font></div>';
+								html += '<button class="J-qz-type-btn btn btn-sm btn-warning" style="float:right;margin-left:20px;" data-type="2">确认纳入</button>';
+							html += '</div>';
+						html += '</div>';
+						
+						html += '<div class="well" style="min-height:75px;">';
+							html += '<div class="form-group">';
+								html += '<label style="float:left;line-height:32px;">直接清理账单，不对结账台数据进行修改：</label>';
+								html += '<button class="J-qz-type-btn btn btn-sm btn-warning" style="float:right;margin-left:20px;" data-type="3">直接清账</button>';
+							html += '</div>';
+						html += '</div>';
+						
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function getKerenBenjin(o, kerenBianhao){
+				ajax({
+					url : Tools.url('home', 'index/get-keren-benjin') + '?r=' + Math.random(),
+					data : {
+						kerenBianhao : kerenBianhao
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.J-keren-money').text(aResult.data.benjin);
+						}
+					}
+				});
+			}
+
+			function agentQinzhang(o, type){
+				if(confirm('确定要清账？')){
+					var aDataParam = {
+						agentId : agentId, 
+						aId : aId,
+						qinzhangValue : oHtml.find('.J-select-total-fencheng-val').text(),
+						type : type
+					};
+					if(type == 1){
+						aDataParam.moneyTypeId = $(o).parent().find('.J-money-type-val').val();
+					}else if(type == 2){
+						aDataParam.kerenBianhao = $(o).parent().find('.J-keren-bianhao-val').val();
+					}
+					ajax({
+						url : Tools.url('home', 'agent/clean'),
+						data : aDataParam,
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								UBox.show(aResult.msg, aResult.status, function(){
+									location.reload();
+								}, 1);
+							}else{
+								UBox.show(aResult.msg, aResult.status);
+							}
+						}
+					});
+				}
+			}
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.J-qz-type-btn').click(function(){
+					agentQinzhang(this, $(this).attr('data-type'));
+				});
+				oHtml.find('.J-money-type-val').change(function(){
+					oHtml.find('.J-money-type-money-val').text(0);
+					for(var j in aMoneyTypeList){
+						if(aMoneyTypeList[j].id == $(this).val()){
+							oHtml.find('.J-money-type-money-val').text(aMoneyTypeList[j].money);
+							break;
+						}
+					}
+				});
+				var tt = '';
+				$('.J-keren-bianhao-val').bind('input propertychange', function(){
+					var o = this;
+					clearTimeout(tt);
+					tt = setTimeout(function(){
+						getKerenBenjin(o, $(o).val());
+					}, 500);
+				}); 
+			});	
+		},
+		
 		showMoneyTypeWin : function(moneyTypeId, moneyType){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:460px;">';

@@ -1226,6 +1226,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$this->set('choushui_ajust_value', 0);
 		$this->set('baoxian_ajust_value', 0);
 		$this->save();
+		//6.将代理清账记录设置为不可见
+		$sql = 'UPDATE ' . AgentQinzhangRecord::tableName() . ' SET `is_show`=0 WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		//7.记录资金修改日志
 		$aMoneyType = $mMoneyType->toArray();
 		$this->operateLog(26, ['aMoneyType' => $aMoneyType, 'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney, 'aJiaoBanZhuanChuDetail' => $aJiaoBanZhuanChuDetail]);
 		

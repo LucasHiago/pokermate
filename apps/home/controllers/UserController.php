@@ -9,6 +9,8 @@ use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\User;
 use common\model\MoneyType;
+use common\model\AgentQinzhangRecord;
+use common\model\Lianmeng;
 
 class UserController extends Controller{
 	
@@ -85,6 +87,29 @@ class UserController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		
 		$aChouShuiList = $mUser->getUnJiaoBanPaijuChouShuiList();
+		$aAgentQinzhangRecordList = AgentQinzhangRecord::getList(['user_id' => $mUser->id, 'is_show' => 1], ['width_agent_info' => true]);
+		
+		$aReturnChouShuiList = [];
+		foreach($aAgentQinzhangRecordList as $aAgentQinzhangRecord){
+			array_push($aReturnChouShuiList, [
+				'baoxian_heji' => 0,
+				'choushui_value' => 0,
+				'duizhangfangfa' => Lianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU,
+				'float_choushui_value' => 0,
+				'float_lianmeng_butie' => 0,
+				'float_shiji_choushui_value' => 0,
+				'int_float_shiji_choushui_value' => 0,
+				'lianmeng_butie' => 0,
+				'paiju_fee' => 0,
+				'paiju_id' => 0,
+				'paiju_name' => '(' . $aAgentQinzhangRecord['agent_info']['agent_name'] . ')清账',
+				'shiji_choushui_value' => $aAgentQinzhangRecord['qinzhang_value'],
+				'zhanji' => 0,
+			]);
+		}
+		foreach($aChouShuiList as $aChouShui){
+			array_push($aReturnChouShuiList, $aChouShui);
+		}
 		
 		/*$totalChouShui = $mUser->choushui_ajust_value;
 		foreach($aChouShuiList as $aChouShui){
@@ -93,7 +118,7 @@ class UserController extends Controller{
 		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
 		$totalChouShui = $aUnJiaoBanPaijuTotalStatistic['shijiChouShui'];
 		$aData = [
-			'list' => $aChouShuiList,
+			'list' => $aReturnChouShuiList,
 			'count' => count($aChouShuiList),
 			'totalChouShui' => $totalChouShui,
 			'choushuiAjustValue' => $mUser->choushui_ajust_value,

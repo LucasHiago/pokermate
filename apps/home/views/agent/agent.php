@@ -7,7 +7,10 @@ if($aCurrentAgent){
 }
 ?>
 <div class="c-body-wrap">
-	<div class="ag-bg">
+	<div style="height: 30px; width: 100%;">
+		<a style="display: block; float: right; width: 200px; height: 30px; line-height: 30px; position: relative; background: #eeeeee; border-radius: 20px; text-align: center; right: 25px; font-weight: bold;">代理分成总和：<font class="J-all-agent-total-fencheng">0</font></a>
+	</div>
+	<div class="ag-bg" style="margin-top: 5px;">
 		<div class="ag-left">
 			<div class="panel panel-info" style="float:left;width:297px;min-height: 817px;">
 				<div class="panel-heading">
@@ -87,7 +90,7 @@ if($aCurrentAgent){
 								<td><?php echo $aAgentUnCleanFenCheng['mangzhu']; ?></td>
 								<td><?php echo $aAgentUnCleanFenCheng['player_name']; ?></td>
 								<td><?php echo $aAgentUnCleanFenCheng['zhanji']; ?></td>
-								<td><?php echo $aAgentUnCleanFenCheng['fencheng']; ?></td>
+								<td class="J-ag-paiju-fc"><?php echo $aAgentUnCleanFenCheng['fencheng']; ?></td>
 							</tr>
 						<?php } ?>
 						</table>
@@ -268,13 +271,17 @@ if($aCurrentAgent){
 	
 	function cleanAgentFencheng(o){
 		var aId = [];
+		var selectTotalFencheng = 0;
 		$('.J-ag-r-select:checked').each(function(){
 			aId.push($(this).attr('data-id'));
+			selectTotalFencheng += parseInt($(this).parent().parent().find('.J-ag-paiju-fc').text());
 		});
 		if(aId.length == 0){
 			UBox.show('请选择要清账的记录', -1);
 			return;
 		}
+		AlertWin.showAgentClean(<?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, '<?php echo $aCurrentAgent ? $aCurrentAgent['agent_name'] : '' ?>', aId, selectTotalFencheng, <?php echo json_encode($aMoneyTypeList); ?>);
+		return;
 		if(confirm('确定要清账？')){
 			ajax({
 				url : Tools.url('home', 'agent/clean'),
@@ -301,9 +308,22 @@ if($aCurrentAgent){
 		}
 	}
 	
+	function getAllAgentTotalFencheng(){
+		ajax({
+			url : Tools.url('home', 'agent/get-all-agent-total-fencheng'),
+			data : {},
+			success : function(aResult){
+				if(aResult.status == 1){
+					$('.J-all-agent-total-fencheng').text(aResult.data);
+				}
+			}
+		});
+	}
+	
 	$(function(){
 		$('.J-c-h-t-menu-m2').addClass('active');
 		initAgentSetting();
 		initAgentFenCheng();
+		getAllAgentTotalFencheng();
 	});
 </script>

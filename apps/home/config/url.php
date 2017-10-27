@@ -87,6 +87,7 @@ return [
 		'agent/one-key-save-setting.json'										=> 'agent/one-key-save-setting',
 		'agent/clean.json'														=> 'agent/clean',
 		'agent/export.html'														=> 'agent/export',
+		'agent/all-agent-total-fencheng.json'									=> 'agent/get-all-agent-total-fencheng',
 		
 		
 		'import/index.html'														=> 'import/index',

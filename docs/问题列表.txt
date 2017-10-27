@@ -59,6 +59,19 @@ CREATE TABLE `operate_log` (
 
 ALTER TABLE `lianmeng` ADD `paiju_creater` varchar(50) NOT NULL COMMENT '建局者昵称' AFTER `baoxian_choucheng`;
 
+
+CREATE TABLE `agent_qinzhang_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `agent_id` int(11) NOT NULL COMMENT '代理ID',
+  `qinzhang_value` int(11) NOT NULL COMMENT '清账金额',
+  `import_data_id` text NOT NULL COMMENT '记录id',
+  `is_show` tinyint(4) NOT NULL COMMENT '是否显示',
+  `create_time` int(11) NOT NULL COMMENT '时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
 优先
 1.添加日志记录
 2.添加一键清楚数据 不可恢复（需要输入安全密码）

@@ -11,6 +11,9 @@ use common\model\Agent;
 use common\model\FenchengSetting;
 use common\model\ImportData;
 use common\model\Calculate;
+use common\model\KerenBenjin;
+use common\model\MoneyType;
+use common\model\AgentQinzhangRecord;
 
 class AgentController extends Controller{
 	
@@ -43,7 +46,9 @@ class AgentController extends Controller{
 			$floatTotalFenCheng += $aAgentUnCleanFenCheng['float_fencheng'];
 		}
 		
+		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		return $this->render('agent', [
+			'aMoneyTypeList' => $aMoneyTypeList,
 			'aCurrentAgent' => $aCurrentAgent,
 			'aAgentList' => $aAgentList,
 			'aAgentUnCleanFenChengList' => $aAgentUnCleanFenChengList,
@@ -135,6 +140,8 @@ class AgentController extends Controller{
 	public function actionClean(){
 		$agentId = (int)Yii::$app->request->post('agentId');
 		$aId = (array)Yii::$app->request->post('aId');
+		$type = (int)Yii::$app->request->post('type');
+		$qinzhangValue = (int)Yii::$app->request->post('qinzhangValue');
 		
 		$mAgent = Agent::findOne($agentId);
 		if(!$mAgent){
@@ -155,6 +162,7 @@ class AgentController extends Controller{
 				array_push($aUpdateId, $aAgentUnCleanFenCheng['id']);
 			}
 		}
+		
 		if(!$aUpdateId){
 			return new Response('请选择要清账的记录', 0);
 		}
@@ -163,6 +171,41 @@ class AgentController extends Controller{
 		}
 		
 		$mUser->operateLog(29, ['aAgent' => $mAgent->toArray(), 'agent_fencheng_ajust_value' => $mUser->agent_fencheng_ajust_value, 'totalFenCheng' => $totalFenCheng, 'floatTotalFenCheng' => $floatTotalFenCheng, 'aImportId' => $aUpdateId]);
+		if($qinzhangValue && in_array($type, [1, 2])){
+			if($type == 1){
+				$moneyTypeId = (int)Yii::$app->request->post('moneyTypeId');
+				$mMoneyType = MoneyType::findOne($moneyTypeId);
+				if(!$mMoneyType){
+					return new Response('请选择资金转出类型', -1);
+				}
+				$aOldRecord = $mMoneyType->toArray();
+				$mMoneyType->set('money', ['sub', $qinzhangValue]);
+				$mMoneyType->save();
+				$aNewRecord = $mMoneyType->toArray();
+				if($aOldRecord['money'] != $aNewRecord['money']){
+					$mUser->operateLog(11, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+				}
+			}elseif($type == 2){
+				$kerenBianhao = (int)Yii::$app->request->post('kerenBianhao');
+				$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao, 'is_delete' => 0]);
+				if(!$mKerenBenjin){
+					return new Response('客人不存在', -1);
+				}
+				$aOldRecord = $mKerenBenjin->toArray();
+				$mKerenBenjin->set('benjin', ['add', $qinzhangValue]);
+				$mKerenBenjin->save();
+				$aNewRecord = $mKerenBenjin->toArray();
+				$mUser->operateLog(1, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			AgentQinzhangRecord::addRecord([
+				'user_id' => $mUser->id,
+				'agent_id' => $agentId,
+				'qinzhang_value' => $qinzhangValue,
+				'import_data_id' => $aUpdateId,
+				'is_show' => 1,
+				'create_time' => NOW_TIME,
+			]);
+		}
 		
 		return new Response('清账成功', 1);
 	}
@@ -233,4 +276,22 @@ class AgentController extends Controller{
 		Yii::$app->excel->htmlTableToExcel($fileName, $table);
 		
 	}
+	
+	public function actionGetAllAgentTotalFencheng(){
+		$mUser = Yii::$app->user->getIdentity();
+		$aAgentList = $mUser->getAgentList();
+		
+		$totalFenCheng = $mUser->agent_fencheng_ajust_value;
+		//$floatTotalFenCheng = $mUser->agent_fencheng_ajust_value;
+		foreach($aAgentList as $aCurrentAgent){
+			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($aCurrentAgent['id']);
+			foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
+				$totalFenCheng += $aAgentUnCleanFenCheng['fencheng'];
+				//$floatTotalFenCheng += $aAgentUnCleanFenCheng['float_fencheng'];
+			}
+		}
+		
+		return new Response('', 1, $totalFenCheng);
+	}
+	
 }
