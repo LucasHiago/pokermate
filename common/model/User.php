@@ -643,6 +643,15 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	}
 	
 	/**
+	 *	统计未交班代理清账总额
+	 */
+	public function getTotalAgentQinzhangValue(){
+		$sql = 'SELECT SUM(`qinzhang_value`) AS `total_qinzhang_value` from ' . AgentQinzhangRecord::tableName() . ' where `user_id`=' . $this->id . ' AND `is_show`=1';
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return (int)$aResult[0]['total_qinzhang_value'];
+	}
+	
+	/**
 	 *	统计实际抽水，浮点数计算后取整
 	 */
 	public function getShijiChouShuiByType($returnInt = true){
@@ -651,6 +660,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		foreach($aChouShuiList as $aChouShui){
 			$shijiChouShui += $aChouShui['float_shiji_choushui_value'];
 		}
+		//实际抽水减去代理清账额
+		$totalQinzhangValue = $this->getTotalAgentQinzhangValue();
+		$shijiChouShui -= $totalQinzhangValue;
 		if(!$returnInt){
 			return $shijiChouShui;
 		}
