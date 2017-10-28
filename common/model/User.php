@@ -234,6 +234,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$this->set('baoxian_ajust_value', 0);
 		$this->set('agent_fencheng_ajust_value', 0);
 		$this->set('lianmeng_zhongzhang_ajust_value', 0);
+		$this->set('cache_data', '');
 		$this->set('is_active', 0);
 		//$this->set('active_time', 0);
 		$this->save();
@@ -1238,6 +1239,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//5.清空微调值
 		$this->set('choushui_ajust_value', 0);
 		$this->set('baoxian_ajust_value', 0);
+		$this->set('cache_data', '');
 		$this->save();
 		//6.将代理清账记录设置为不可见
 		$sql = 'UPDATE ' . AgentQinzhangRecord::tableName() . ' SET `is_show`=0 WHERE `user_id`=' . $this->id;
