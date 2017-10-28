@@ -236,7 +236,11 @@ class UserController extends Controller{
 		}
 		
 		$mUser->set('is_active', 1);
-		$mUser->set('active_time', NOW_TIME);
+		if($mUser->active_time){
+			$mUser->set('active_time', NOW_TIME);
+		}else{
+			$mUser->set('active_time', strtotime(date('Y-m-d', NOW_TIME)));
+		}
 		$mUser->save();
 		
 		return new Response('启用成功', 1);
