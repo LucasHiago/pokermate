@@ -8,6 +8,7 @@ use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 
 class User extends \common\lib\DbOrmModel implements IdentityInterface{
+	protected $_aEncodeFields = ['cache_data' => 'json'];
 	//用户类型：0普通用户1后台用户2微信用户3QQ用户4微博用户5支付宝用户
 	const TYPE_NORMAL = 0;
 	const TYPE_MANAGE = 1;

@@ -203,13 +203,17 @@ class UserController extends Controller{
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
 		
-		return new Response('', 1, [
+		$aCacheData = [
 			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
 			'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
 			'aMoneyTypeList' => $aMoneyTypeList,
 			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
-		]);
+		];
+		$mUser->set('cache_data', $aCacheData);
+		$mUser->save();
+		
+		return new Response('', 1, $aCacheData);
 	}
 	
 	public function actionGetClubAndLianmengList(){

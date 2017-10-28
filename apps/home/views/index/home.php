@@ -605,28 +605,32 @@ $mUser = Yii::$app->user->getIdentity();
 			},
 			success : function(aResult){
 				if(aResult.status == 1){
-					$('.J-h-zcs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
-					$('.J-h-zbx').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
-					$('.J-h-szrs').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
-					showImbalanceMoney(aResult.data.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
-					$('.J-jiao-ban-zhuan-chu-money').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
-					$('.J-krzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
-					$('.J-zkrzbj').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.zhengKerenTotalBenjinMoney);
-					$('.J-krqk').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
-					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
-					$('.J-money-out-put-type-total-money').text(aResult.data.moneyOutPutTypeTotalMoney);
-					$('.J-money-type-total-money').text(aResult.data.moneyTypeTotalMoney);
-					var aMoneyTypeList = aResult.data.aMoneyTypeList;
-					var aMoneyOutPutTypeList = aResult.data.aMoneyOutPutTypeList;
-					for(var i in aMoneyTypeList){
-						$('.J-money-type-item-input[data-id=' + aMoneyTypeList[i].id + ']').val(aMoneyTypeList[i].money);
-					}
-					for(var j in aMoneyOutPutTypeList){
-						$('.J-money-out-put-type-item-input[data-id=' + aMoneyOutPutTypeList[j].id + ']').val(aMoneyOutPutTypeList[j].money);
-					}
+					updatePageStatisticData(aResult.data);
 				}
 			}
 		});
+	}
+	
+	function updatePageStatisticData(aCacheData){
+		$('.J-h-zcs').text(aCacheData.aUnJiaoBanPaijuTotalStatistic.shijiChouShui);
+		$('.J-h-zbx').text(aCacheData.aUnJiaoBanPaijuTotalStatistic.zhongBaoXian);
+		$('.J-h-szrs').text(aCacheData.aUnJiaoBanPaijuTotalStatistic.shangZhuoRenShu);
+		showImbalanceMoney(aCacheData.aUnJiaoBanPaijuTotalStatistic.imbalanceMoney);
+		$('.J-jiao-ban-zhuan-chu-money').text(aCacheData.aUnJiaoBanPaijuTotalStatistic.jiaoBanZhuanChuMoney);
+		$('.J-krzbj').text(aCacheData.aUnJiaoBanPaijuTotalStatistic.kerenTotalBenjinMoney);
+		$('.J-zkrzbj').text(aCacheData.aUnJiaoBanPaijuTotalStatistic.zhengKerenTotalBenjinMoney);
+		$('.J-krqk').text(aCacheData.aUnJiaoBanPaijuTotalStatistic.kerenTotalQianKuanMoney);
+		$('.J-krsy').text(aCacheData.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);
+		$('.J-money-out-put-type-total-money').text(aCacheData.moneyOutPutTypeTotalMoney);
+		$('.J-money-type-total-money').text(aCacheData.moneyTypeTotalMoney);
+		var aMoneyTypeList = aCacheData.aMoneyTypeList;
+		var aMoneyOutPutTypeList = aCacheData.aMoneyOutPutTypeList;
+		for(var i in aMoneyTypeList){
+			$('.J-money-type-item-input[data-id=' + aMoneyTypeList[i].id + ']').val(aMoneyTypeList[i].money);
+		}
+		for(var j in aMoneyOutPutTypeList){
+			$('.J-money-out-put-type-item-input[data-id=' + aMoneyOutPutTypeList[j].id + ']').val(aMoneyOutPutTypeList[j].money);
+		}
 	}
 	
 	$(function(){
@@ -636,6 +640,10 @@ $mUser = Yii::$app->user->getIdentity();
 		initMoneyType();
 		initJiaoShouJinEr();
 		initMoneyOutPutType();
+		<?php if($mUser->cache_data){ ?>
+			var aCacheData = <?php echo json_encode($mUser->cache_data); ?>;
+			updatePageStatisticData(aCacheData);
+		<?php } ?>
 		refreshUnJiaoBanPaijuTotalStatistic();
 	});
 </script>

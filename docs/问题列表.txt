@@ -72,6 +72,9 @@ CREATE TABLE `agent_qinzhang_record` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 
+ALTER TABLE `user` ADD `cache_data` text NOT NULL COMMENT '数据缓存' AFTER `active_time`;
+
+
 优先
 1.添加日志记录
 2.添加一键清楚数据 不可恢复（需要输入安全密码）
