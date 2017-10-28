@@ -7,7 +7,7 @@
 					html += '<div class="panel-heading">';
 						html += ' <h3 class="panel-title" style="text-align:center;">代理清账</h3>';
 					html += '</div>';
-					html += '<div class="panel-body" style="padding:0px;">';
+					html += '<div class="panel-body" style="padding:0px 10px;">';
 						html += '<div class="h10"></div>';
 						html += '<div class="alert alert-info">请选择以下方式对代理（' + agentName + '）的账单进行处理。&nbsp;&nbsp;<strong>分成总额</strong>：<font class="J-select-total-fencheng-val" style="color:#ff5722;">' + selectTotalFencheng + '</font></div>';
 						
