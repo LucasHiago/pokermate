@@ -102,15 +102,16 @@ class Calculate extends \yii\base\Object{
 	}
 	
 	/**
-	 *	计算牌局记录实际抽水 	公式：实际抽水=抽水数-联盟补贴-桌子费
+	 *	计算牌局记录实际抽水 	公式：实际抽水=抽水数+台费-联盟补贴-桌子费
 	 *	$choushuiValue	抽水数
 	 *	$lianmengButie	联盟补贴
 	 *	$paijuFee		桌子费
+	 *	$taifee		台费
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
 	 *	$returnInt	是否取整返回
 	 */
-	public static function calculateShijiChouShuiValue($choushuiValue, $lianmengButie, $paijuFee, $choushuiShuanfa = 0, $returnInt = true){
-		$shijiChouShuiValue = $choushuiValue - $lianmengButie - $paijuFee;
+	public static function calculateShijiChouShuiValue($choushuiValue, $lianmengButie, $paijuFee, $taifee, $choushuiShuanfa = 0, $returnInt = true){
+		$shijiChouShuiValue = $choushuiValue + $taifee - $lianmengButie - $paijuFee;
 		if(!$returnInt){
 			return $shijiChouShuiValue;
 		}

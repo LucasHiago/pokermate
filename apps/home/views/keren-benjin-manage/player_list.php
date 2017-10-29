@@ -50,6 +50,8 @@ $this->setTitle('会员管理');
 					'player_id'	=>	['title' => '玩家ID'],
 					'ying_chou'	=>	['title' => '赢抽点数'],
 					'shu_fan'	=>	['title' => '输返点数'],
+					'ying_fee'	=>	['title' => '赢收台费'],
+					'shu_fee'	=>	['title' => '输返台费'],
 					'agent_id'	=>	['title' => '代理人ID', 'class' => 'col-sm-1'],
 					'agent_name'	=>	[
 						'title' => '代理人',
@@ -118,7 +120,7 @@ $this->setTitle('会员管理');
 	}
 	
 	function showEditPlayer(o, playerId){
-		var aPlayerKeyMap = ['keren_bianhao', 'benjin', 'player_name', 'player_id', 'ying_chou', 'shu_fan', 'agent_id', 'agent_name', 'remark'];
+		var aPlayerKeyMap = ['keren_bianhao', 'benjin', 'player_name', 'player_id', 'ying_chou', 'shu_fan', 'ying_fee', 'shu_fee', 'agent_id', 'agent_name', 'remark'];
 		var i = 0;
 		$(o).parent().parent().find('td').each(function(){
 			var tdTxt = $(this).text();
@@ -191,6 +193,8 @@ $this->setTitle('会员管理');
 			playerId : $(o).parent().parent().find('input[data-type="player_id"]').val(),
 			yingChou : $(o).parent().parent().find('input[data-type="ying_chou"]').val(),
 			shuFan : $(o).parent().parent().find('input[data-type="shu_fan"]').val(),
+			yingFee : $(o).parent().parent().find('input[data-type="ying_fee"]').val(),
+			shuFee : $(o).parent().parent().find('input[data-type="shu_fee"]').val(),
 			agentId : $(o).parent().parent().find('select[data-type="agent_id"]').val(),
 			remark : $(o).parent().parent().find('input[data-type="remark"]').val()
 		};

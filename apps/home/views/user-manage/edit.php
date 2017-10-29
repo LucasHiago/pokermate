@@ -54,6 +54,10 @@ if(!Yii::$app->user->getIdentity()->isManager()){
 			<input style="width:300px;" class="J-qibu-choushui form-control" value="<?php echo $aUser ? $aUser['qibu_choushui'] : ''; ?>">
 		</div>
 		<div class="form-group">
+			<label>台费起步</label>
+			<input style="width:300px;" class="J-qibu-taifee form-control" value="<?php echo $aUser ? $aUser['qibu_taifee'] : ''; ?>">
+		</div>
+		<div class="form-group">
 			<label>	抽水算法</label>
 			<select class="J-choushui-shuanfa form-control" style="width:300px;">
 				<option value="<?php echo User::CHOUSHUI_SHUANFA_YUSHUMOLIN; ?>">余数抹零</option>
@@ -79,6 +83,7 @@ if(!Yii::$app->user->getIdentity()->isManager()){
 			vipLevel : $('.J-vip-level').val(),
 			vipExpireTime : $('.J-vip-expire-time').val(),
 			qibuChoushui : $('.J-qibu-choushui').val(),
+			qibuTaifee : $('.J-qibu-taifee').val(),
 			choushuiShuanfa : $('.J-choushui-shuanfa').val()
 		};
 		

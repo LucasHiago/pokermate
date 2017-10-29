@@ -563,7 +563,11 @@ if($mUser->cache_data){
 					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);*/
 					
 					if(aResult.data.isReloadPage == 1){
-						location.href = Tools.url('home', 'index/index');
+						refreshUnJiaoBanPaijuTotalStatistic();
+						UBox.show(aResult.msg, aResult.status, function(){
+							location.href = Tools.url('home', 'index/index');
+						}, 2);
+						return;
 					}else{
 						refreshUnJiaoBanPaijuTotalStatistic();
 					}
@@ -612,7 +616,11 @@ if($mUser->cache_data){
 					$('.J-krsy').text(aResult.data.aUnJiaoBanPaijuTotalStatistic.kerenTotalShuYin);*/
 					
 					if(aResult.data.isReloadPage == 1){
-						location.href = Tools.url('home', 'index/index');
+						refreshUnJiaoBanPaijuTotalStatistic();
+						UBox.show(aResult.msg, aResult.status, function(){
+							location.href = Tools.url('home', 'index/index');
+						}, 2);
+						return;
 					}else{
 						refreshUnJiaoBanPaijuTotalStatistic();
 					}

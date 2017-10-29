@@ -85,6 +85,8 @@ class KerenBenjinManageController extends Controller{
 		$yingChou = (int)Yii::$app->request->post('yingChou');
 		$shuFan = (int)Yii::$app->request->post('shuFan');
 		$agentId = (int)Yii::$app->request->post('agentId');
+		$yingFee = (int)Yii::$app->request->post('yingFee');
+		$shuFee = (int)Yii::$app->request->post('shuFee');
 		$remark = (string)Yii::$app->request->post('remark');
 		
 		if(!$id){
@@ -135,6 +137,8 @@ class KerenBenjinManageController extends Controller{
 		$mKerenBenjin->set('benjin', $benjin);
 		$mKerenBenjin->set('ying_chou', $yingChou);
 		$mKerenBenjin->set('shu_fan', $shuFan);
+		$mKerenBenjin->set('ying_fee', $yingFee);
+		$mKerenBenjin->set('shu_fee', $shuFee);
 		$mKerenBenjin->set('agent_id', $agentId);
 		$mKerenBenjin->set('remark', $remark);
 		$mKerenBenjin->save();
@@ -149,6 +153,12 @@ class KerenBenjinManageController extends Controller{
 		if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
 			$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		}
+		if($aOldRecord['ying_fee'] != $aNewRecord['ying_fee']){
+			$mUser->operateLog(41, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($aOldRecord['shu_fee'] != $aNewRecord['shu_fee']){
+			$mUser->operateLog(42, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
 		
 		return new Response('保存成功', 1);
 	}
@@ -159,6 +169,8 @@ class KerenBenjinManageController extends Controller{
 		$benjin = (int)Yii::$app->request->post('benjin');
 		$yingChou = (int)Yii::$app->request->post('yingChou');
 		$shuFan = (int)Yii::$app->request->post('shuFan');
+		$yingFee = (int)Yii::$app->request->post('yingFee');
+		$shuFee = (int)Yii::$app->request->post('shuFee');
 		$agentId = (int)Yii::$app->request->post('agentId');
 		$remark = (string)Yii::$app->request->post('remark');
 		$playerName = (string)Yii::$app->request->post('playerName');
@@ -208,6 +220,8 @@ class KerenBenjinManageController extends Controller{
 						}
 						$mTempKerenBenjin->set('ying_chou', $yingChou);
 						$mTempKerenBenjin->set('shu_fan', $shuFan);
+						$mTempKerenBenjin->set('ying_fee', $yingFee);
+						$mTempKerenBenjin->set('shu_fee', $shuFee);
 						if($agentId){
 							$mTempKerenBenjin->set('agent_id', $agentId);
 						}
@@ -246,6 +260,8 @@ class KerenBenjinManageController extends Controller{
 			$mKerenBenjin->set('benjin', $benjin);
 			$mKerenBenjin->set('ying_chou', $yingChou);
 			$mKerenBenjin->set('shu_fan', $shuFan);
+			$mKerenBenjin->set('ying_fee', $yingFee);
+			$mKerenBenjin->set('shu_fee', $shuFee);
 			$mKerenBenjin->set('agent_id', $agentId);
 			$mKerenBenjin->set('remark', $remark);
 			$mKerenBenjin->save();
@@ -259,6 +275,12 @@ class KerenBenjinManageController extends Controller{
 			}
 			if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
 				$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['ying_fee'] != $aNewRecord['ying_fee']){
+				$mUser->operateLog(41, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+			if($aOldRecord['shu_fee'] != $aNewRecord['shu_fee']){
+				$mUser->operateLog(42, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 			}
 			$aOldPlayer = $mPlayer->toArray();
 			$mPlayer->set('player_id', $playerId);

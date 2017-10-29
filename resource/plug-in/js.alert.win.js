@@ -1226,7 +1226,7 @@
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-chousui-list-table table table-hover table-striped">';
-							html += '<tr><th>牌局名</th><th>战绩</th><th>抽水</th><th style="display:none;">桌子费</th><th>联盟补贴</th><th>实际抽水</th></tr>';
+							html += '<tr><th>牌局名</th><th>战绩</th><th>抽水</th><th style="display:none;">桌子费</th><th>台费</th><th>联盟补贴</th><th>实际抽水</th></tr>';
 							html += '</table>';
 						html += '</div>';
 					html += '</div>';
@@ -1243,6 +1243,7 @@
 						listHtml += '<td>' + aData.zhanji + '</td>';
 						listHtml += '<td>' + aData.choushui_value + '</td>';
 						listHtml += '<td style="display:none;">' + aData.paiju_fee + '</td>';
+						listHtml += '<td>' + aData.taifee + '</td>';
 						listHtml += '<td>' + aData.lianmeng_butie + '</td>';
 						listHtml += '<td>' + aData.shiji_choushui_value + '</td>';
 					listHtml += '</tr>';
@@ -1939,13 +1940,15 @@
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-keren-list-table table table-hover table-striped">';
-							html += '<tr><th>客人编号</th><th>本金</th><th>游戏名字</th><th>赢抽点数</th><th>输返点数</th><th>代理人</th><th>玩家ID</th><th>操作</th></tr>';
+							html += '<tr><th>客人编号</th><th>本金</th><th>游戏名字</th><th>赢抽点数</th><th>输返点数</th><th>赢收台费</th><th>输返台费</th><th>代理人</th><th>玩家ID</th><th>操作</th></tr>';
 							html += '<tr>';
 								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="benjin" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="player_name" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="ying_chou" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="shu_fan" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="ying_fee" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="shu_fee" /></td>';
 								var agentListHtml = '';
 								agentListHtml += '<select class="J-agent-select-change form-control" style="min-width:120px;">';
 								agentListHtml += '<option value="0">请选择</option>';
@@ -1977,6 +1980,8 @@
 							playerName : $(o).parent().parent().find('input[data-type=player_name]').val(),
 							yingChou : $(o).parent().parent().find('input[data-type=ying_chou]').val(),
 							shuFan : $(o).parent().parent().find('input[data-type=shu_fan]').val(),
+							yingFee : $(o).parent().parent().find('input[data-type=ying_fee]').val(),
+							shuFee : $(o).parent().parent().find('input[data-type=shu_fee]').val(),
 							agentId : $(o).parent().parent().find('.J-agent-select-change').val(),
 							playerId : $(o).parent().parent().find('input[data-type=play_id]').val()
 						},
@@ -2016,7 +2021,7 @@
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-keren-list-table table table-hover table-striped">';
-							html += '<tr><th class="J-krbh-sort" style="cursor:pointer;">客人编号</th><th class="J-bj-sort" style="cursor:pointer;">本金</th><th>游戏名字</th><th>赢抽点数</th><th>输返点数</th><th>代理人</th><th>备注</th><th>操作</th></tr>';
+							html += '<tr><th class="J-krbh-sort" style="cursor:pointer;">客人编号</th><th class="J-bj-sort" style="cursor:pointer;">本金</th><th>游戏名字</th><th>赢抽点数</th><th>输返点数</th><th>赢收台费</th><th>输返台费</th><th>代理人</th><th>备注</th><th>操作</th></tr>';
 							html += '</table>';
 						html += '</div>';
 					html += '</div>';

@@ -84,6 +84,7 @@ class UserManageController extends Controller{
 		$vipLevel = (int)Yii::$app->request->post('vipLevel');
 		$vipExpireTime = (string)Yii::$app->request->post('vipExpireTime');
 		$qibuChoushui = (int)Yii::$app->request->post('qibuChoushui');
+		$qibuTaifee = (int)Yii::$app->request->post('qibuTaifee');
 		$choushuiShuanfa = (int)Yii::$app->request->post('choushuiShuanfa');
 		
 		if(!$name || StringHelper::getStringLength($name) > 20){
@@ -104,6 +105,9 @@ class UserManageController extends Controller{
 		if($qibuChoushui < 0){
 			return new Response('起步抽水不能小于0', -1);
 		}
+		if($qibuTaifee < 0){
+			return new Response('台费起步不能小于0', -1);
+		}
 		if(!in_array($choushuiShuanfa, [User::CHOUSHUI_SHUANFA_YUSHUMOLIN, User::CHOUSHUI_SHUANFA_SISHIWURU])){
 			return new Response('抽水算法不正确', -1);
 		}
@@ -123,6 +127,7 @@ class UserManageController extends Controller{
 			$mUser->set('type', $type);
 			$mUser->set('name', $name);
 			$mUser->set('qibu_choushui', $qibuChoushui);
+			$mUser->set('qibu_taifee', $qibuTaifee);
 			$mUser->set('choushui_shuanfa', $choushuiShuanfa);
 			$mUser->set('vip_level', $vipLevel);
 			//$mUser->set('vip_expire_time', strtotime($vipExpireTime));
@@ -145,6 +150,7 @@ class UserManageController extends Controller{
 				'name' => $name,
 				'password' => $password,
 				'qibu_choushui' => $qibuChoushui,
+				'qibu_taifee' => $qibuTaifee,
 				'choushui_shuanfa' => $choushuiShuanfa,
 				'vip_level' => $vipLevel,
 				'vip_expire_time' => (((int)$vipExpireTime) * 86400 + NOW_TIME),

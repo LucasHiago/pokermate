@@ -99,6 +99,10 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   【修改玩家ID】玩家名称：' . $aData['data_json']['aOldPlayer']['player_name'] . ' 玩家ID：' . $aData['data_json']['aOldPlayer']['player_id'] . '  修改后玩家ID：' . $aData['data_json']['aNewPlayer']['player_id'];
 							}elseif($aData['type'] == 40){
 								$log = date('Y.m.d', $aData['create_time']) . '   【修改玩家名称】玩家名称：' . $aData['data_json']['aOldPlayer']['player_name'] . '  修改后玩家名称：' . $aData['data_json']['aNewPlayer']['player_name'];
+							}elseif($aData['type'] == 41){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 赢收台费：' . $aData['data_json']['aOldRecord']['ying_fee'] . '   【修改后】赢收台费：' . $aData['data_json']['aNewRecord']['ying_fee'];
+							}elseif($aData['type'] == 42){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 输返台费：' . $aData['data_json']['aOldRecord']['shu_fee'] . '   【修改后】输返台费：' . $aData['data_json']['aNewRecord']['shu_fee'];
 							}
 							return $log;
 						}

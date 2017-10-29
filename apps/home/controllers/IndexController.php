@@ -382,6 +382,24 @@ class IndexController extends Controller{
 			if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
 				$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 			}
+		}elseif($type == 'ying_fee'){
+			$aOldRecord = $mKerenBenjin->toArray();
+			$mKerenBenjin->set('ying_fee', (int)$value);
+			$mKerenBenjin->save();
+			$aNewRecord = $mKerenBenjin->toArray();
+			$mUser = Yii::$app->user->getIdentity();
+			if($aOldRecord['ying_fee'] != $aNewRecord['ying_fee']){
+				$mUser->operateLog(41, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
+		}elseif($type == 'shu_fee'){
+			$aOldRecord = $mKerenBenjin->toArray();
+			$mKerenBenjin->set('shu_fee', (int)$value);
+			$mKerenBenjin->save();
+			$aNewRecord = $mKerenBenjin->toArray();
+			$mUser = Yii::$app->user->getIdentity();
+			if($aOldRecord['shu_fee'] != $aNewRecord['shu_fee']){
+				$mUser->operateLog(42, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+			}
 		}elseif($type == 'remark'){
 			$mKerenBenjin->set('remark', $value);
 			$mKerenBenjin->save();
@@ -456,6 +474,8 @@ class IndexController extends Controller{
 		$playerName = (string)Yii::$app->request->post('playerName');
 		$yingChou = (float)Yii::$app->request->post('yingChou');
 		$shuFan = (float)Yii::$app->request->post('shuFan');
+		$yingFee = (int)Yii::$app->request->post('yingFee');
+		$shuFee = (int)Yii::$app->request->post('shuFee');
 		$agentId = (int)Yii::$app->request->post('agentId');
 		$playerId = (int)Yii::$app->request->post('playerId');
 		$remark = (string)Yii::$app->request->post('remark');
@@ -488,6 +508,8 @@ class IndexController extends Controller{
 				'benjin' => $benjin, 
 				'ying_chou' => $yingChou, 
 				'shu_fan' => $shuFan, 
+				'ying_fee' => $yingFee, 
+				'shu_fee' => $shuFee, 
 				'agent_id' => $agentId, 
 				'remark' => $remark, 
 				'create_time' => NOW_TIME
@@ -520,6 +542,8 @@ class IndexController extends Controller{
 		$mKerenBenjin->set('benjin', $benjin);
 		$mKerenBenjin->set('ying_chou', $yingChou);
 		$mKerenBenjin->set('shu_fan', $shuFan);
+		$mKerenBenjin->set('ying_fee', $yingFee);
+		$mKerenBenjin->set('shu_fee', $shuFee);
 		if($agentId){
 			$mKerenBenjin->set('agent_id', $agentId);
 		}
@@ -535,6 +559,12 @@ class IndexController extends Controller{
 		}
 		if($aOldRecord['shu_fan'] != $aNewRecord['shu_fan']){
 			$mUser->operateLog(4, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($aOldRecord['ying_fee'] != $aNewRecord['ying_fee']){
+			$mUser->operateLog(41, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
+		}
+		if($aOldRecord['shu_fee'] != $aNewRecord['shu_fee']){
+			$mUser->operateLog(42, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		}
 		$mPlayer = Player::findOne($isSuccess);
 		$aPlayer = $mPlayer->toArray();

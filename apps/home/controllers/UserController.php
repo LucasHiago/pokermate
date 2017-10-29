@@ -101,6 +101,7 @@ class UserController extends Controller{
 				'int_float_shiji_choushui_value' => 0,
 				'lianmeng_butie' => 0,
 				'paiju_fee' => 0,
+				'taifee' => 0,
 				'paiju_id' => 0,
 				'paiju_name' => '(' . $aAgentQinzhangRecord['agent_info']['agent_name'] . ')清账',
 				'shiji_choushui_value' => $aAgentQinzhangRecord['qinzhang_value'],
