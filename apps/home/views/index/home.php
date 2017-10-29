@@ -4,6 +4,35 @@ $this->setTitle('');
 $this->registerJsFile('@r.js.paiju.list');
 $this->registerJsFile('@r.js.keren.list');
 $mUser = Yii::$app->user->getIdentity();
+$imbCss = '';
+$imbalanceMoney = 0;
+$shijiChouShui = 0;
+$zhongBaoXian = 0;
+$shangZhuoRenShu = 0;
+$jiaoBanZhuanChuMoney = 0;
+$kerenTotalBenjinMoney = 0;
+$zhengKerenTotalBenjinMoney = 0;
+$kerenTotalQianKuanMoney = 0;
+$kerenTotalShuYin = 0;
+$moneyTypeTotalMoney = 0;
+$moneyOutPutTypeTotalMoney = 0;
+if($mUser->cache_data){
+	$aCacheData = $mUser->cache_data;
+	$imbalanceMoney = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['imbalanceMoney'];
+	if(abs($imbalanceMoney) > 1){
+		$imbCss = 'fu';
+	}
+	$shijiChouShui = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['shijiChouShui'];
+	$zhongBaoXian = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['zhongBaoXian'];
+	$shangZhuoRenShu = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['shangZhuoRenShu'];
+	$jiaoBanZhuanChuMoney = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['jiaoBanZhuanChuMoney'];
+	$kerenTotalBenjinMoney = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['kerenTotalBenjinMoney'];
+	$zhengKerenTotalBenjinMoney = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['zhengKerenTotalBenjinMoney'];
+	$kerenTotalQianKuanMoney = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['kerenTotalQianKuanMoney'];
+	$kerenTotalShuYin = $aCacheData['aUnJiaoBanPaijuTotalStatistic']['kerenTotalShuYin'];
+	$moneyTypeTotalMoney = $aCacheData['moneyTypeTotalMoney'];
+	$moneyOutPutTypeTotalMoney = $aCacheData['moneyOutPutTypeTotalMoney'];
+}
 ?>
 <div class="c-body-wrap">
 	<div class="c-b-list">
@@ -84,7 +113,7 @@ $mUser = Yii::$app->user->getIdentity();
 		</div>
 		<div class="c-b-c-center">
 			<a href="javascript:;" class="chaer btn btn-sm btn-info" style="cursor:default;">核算差额</a>
-			<a href="javascript:;" class="J-imbalance-money btn btn-lg btn-success ball" style="cursor:default;">0</a>
+			<a href="javascript:;" class="J-imbalance-money btn btn-lg btn-success ball <?php echo $imbCss; ?>" style="cursor:default;"><?php echo $imbalanceMoney; ?></a>
 			<?php if(!$mUser->is_active){ ?>
 			<a href="javascript:;" class="lmzz btn btn-lg btn-primary" onclick="UBox.show('提示:您的账号还没开始启用！', -1);">联盟总账</a>
 			<a href="javascript:;" class="krxx btn btn-lg btn-primary" onclick="UBox.show('提示:您的账号还没开始启用！', -1);">客人信息</a>
@@ -95,18 +124,18 @@ $mUser = Yii::$app->user->getIdentity();
 			<a href="javascript:;" class="lspj btn btn-lg btn-primary" onclick="AlertWin.showPaijuList({isHistory : 1});">历史牌局</a>
 			<?php } ?>
 			<a href="javascript:;" class="jbzc btn btn-sm btn-info" style="cursor:default;">当班收益</a>
-			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money btn btn-lg btn-success ball" style="cursor:default;">0</a>
+			<a href="javascript:;" class="J-jiao-ban-zhuan-chu-money btn btn-lg btn-success ball" style="cursor:default;"><?php echo $jiaoBanZhuanChuMoney; ?></a>
 		</div>
 		<div class="c-b-c-right">
 			<div class="c-b-c-r-head">
 			<?php if(!$mUser->is_active){ ?>
-				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>总抽水：</strong><font class="J-h-zcs">0</font></div>
-				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>总保险：</strong><font class="J-h-zbx">0</font></div>
-				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>上桌人数：</strong><font class="J-h-szrs">0</font></div>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>总抽水：</strong><font class="J-h-zcs"><?php echo $shijiChouShui; ?></font></div>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>总保险：</strong><font class="J-h-zbx"><?php echo $zhongBaoXian; ?></font></div>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="UBox.show('提示:您的账号还没开始启用！', -1);"><strong>上桌人数：</strong><font class="J-h-szrs"><?php echo $shangZhuoRenShu; ?></font></div>
 			<?php }else{ ?>
-				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;cursor:pointer;" onclick="AlertWin.showChouShuiList();"><strong>总抽水：</strong><font class="J-h-zcs">0</font></div>
-				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="AlertWin.showZhongBaoXianList();"><strong>总保险：</strong><font class="J-h-zbx">0</font></div>
-				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="AlertWin.showShanZhuoRenShuList();"><strong>上桌人数：</strong><font class="J-h-szrs">0</font></div>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;cursor:pointer;" onclick="AlertWin.showChouShuiList();"><strong>总抽水：</strong><font class="J-h-zcs"><?php echo $shijiChouShui; ?></font></div>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="AlertWin.showZhongBaoXianList();"><strong>总保险：</strong><font class="J-h-zbx"><?php echo $zhongBaoXian; ?></font></div>
+				<div class="alert alert-danger" style="float: left;width:177px;margin-bottom:0px;margin-left:4px;cursor:pointer;" onclick="AlertWin.showShanZhuoRenShuList();"><strong>上桌人数：</strong><font class="J-h-szrs"><?php echo $shangZhuoRenShu; ?></font></div>
 			<?php } ?>
 			</div>
 			<div class="c-b-c-r-center">
@@ -131,7 +160,7 @@ $mUser = Yii::$app->user->getIdentity();
 			<div class="c-b-c-r-bottom">
 				<div class="panel panel-info" style="float:left;width:180px;margin-right:4px;min-height: 400px;">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>资金</strong>（<font class="J-money-type-total-money" style="color: #3c763d;">0</font>）</h3>
+						<h3 class="panel-title"><strong>资金</strong>（<font class="J-money-type-total-money" style="color: #3c763d;"><?php echo $moneyTypeTotalMoney; ?></font>）</h3>
 					</div>
 					<div class="panel-body">
 					<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
@@ -150,7 +179,7 @@ $mUser = Yii::$app->user->getIdentity();
 				</div>
 				<div class="panel panel-info" style="float:left;width:180px;margin-right:4px;min-height: 400px;">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>支出</strong>（<font class="J-money-out-put-type-total-money" style="color: #3c763d;">0</font>）</h3>
+						<h3 class="panel-title"><strong>支出</strong>（<font class="J-money-out-put-type-total-money" style="color: #3c763d;"><?php echo $moneyOutPutTypeTotalMoney; ?></font>）</h3>
 					</div>
 					<div class="panel-body">
 						<?php foreach($aMoneyOutPutTypeList as $aMoneyType){ ?>
@@ -174,19 +203,19 @@ $mUser = Yii::$app->user->getIdentity();
 					<div class="panel-body">
 						<div class="form-group">
 							<label>客人总本金</label>
-							<div class="J-krzbj" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
+							<div class="J-krzbj" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;"><?php echo $kerenTotalBenjinMoney; ?></div>
 						</div>
 						<div class="form-group">
 							<label>客人正本金</label>
-							<div class="J-zkrzbj" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
+							<div class="J-zkrzbj" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;"><?php echo $zhengKerenTotalBenjinMoney; ?></div>
 						</div>
 						<div class="form-group">
 							<label>客人欠款</label>
-							<div class="J-krqk " style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
+							<div class="J-krqk " style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;"><?php echo $kerenTotalQianKuanMoney; ?></div>
 						</div>
 						<div class="form-group">
 							<label>客人输赢</label>
-							<div class="J-krsy" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;">0</div>
+							<div class="J-krsy" style="height:30px;line-height:30px;background:#f5f5f5;border:1px solid #ddd;border-radius:15px;text-align: right;padding-right: 20px;"><?php echo $kerenTotalShuYin; ?></div>
 						</div>
 					</div>
 				</div>
