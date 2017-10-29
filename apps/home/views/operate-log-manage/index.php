@@ -144,14 +144,14 @@ $this->setTitle('操作日志');
 					html += '<div class="h10"></div>';
 					html += '<div class="table-responsive" style="padding:0px 10px;">';
 						html += '<table class="J-lmzddd-list-table table table-hover table-striped">';
-						html += '<tr><th>牌局名</th><th>战绩</th><th>保险</th><th>桌子费</th><th>保险被抽</th><th>当局账单</th></tr>';
+						html += '<tr><th>牌局名</th><th>战绩</th><th>保险</th><th style="display:none;">桌子费</th><th>保险被抽</th><th>当局账单</th></tr>';
 						for(var i in aDataList){
 							var aData = aDataList[i];
 							html += '<tr>';
 								html += '<td>' + aData.paiju_name + '</td>';
 								html += '<td>' + aData.zhanji + '</td>';
 								html += '<td>' + aData.fu_baoxian_heji + '</td>';
-								html += '<td>' + aData.paiju_fee + '</td>';
+								html += '<td style="display:none;">' + aData.paiju_fee + '</td>';
 								html += '<td>' + aData.baoxian_beichou + '</td>';
 								html += '<td>' + aData.zhang_dan + '</td>';
 							html += '</tr>';

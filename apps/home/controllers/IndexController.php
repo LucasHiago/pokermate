@@ -50,8 +50,8 @@ class IndexController extends Controller{
 			'order_by' => ['status' => SORT_ASC, 'end_time' => SORT_DESC],
 			'width_hedui_shuzi' => true,
 		];
-		$aLastPaijuList = Paiju::getPaijuList($aCondition, $aControl);
-		//$aLastPaijuList = $mUser->getLastPaijuList(1, 6, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], ['`t1`.`status`' => SORT_ASC, '`t1`.`end_time`' => SORT_DESC]);
+		//$aLastPaijuList = Paiju::getPaijuList($aCondition, $aControl);
+		$aLastPaijuList = $mUser->getLastPaijuList(1, 6, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], ['`t1`.`status`' => SORT_ASC, '`t1`.`end_time`' => SORT_DESC]);
 		/*if(!$paijuId && $aLastPaijuList){
 			$aCurrentPaiju = $aLastPaijuList[0];
 			$paijuId = $aCurrentPaiju['id'];
@@ -135,7 +135,7 @@ class IndexController extends Controller{
 		$aList = [];
 		$count = [];
 		if($isHistory){
-			$aCondition = [
+			/*$aCondition = [
 				'user_id' => $mUser->id,
 				'status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE, Paiju::STATUS_FINISH],
 			];
@@ -146,12 +146,12 @@ class IndexController extends Controller{
 				'width_hedui_shuzi' => true,
 			];
 			$aList = Paiju::getPaijuList($aCondition, $aControl);
-			$count = Paiju::getPaijuCount($aCondition);
-			/*$aOrder = ['`t1`.`end_time`' => SORT_DESC];
+			$count = Paiju::getPaijuCount($aCondition);*/
+			$aOrder = ['`t1`.`end_time`' => SORT_DESC];
 			$aList = $mUser->getLastPaijuList($page, $pageSize, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE, Paiju::STATUS_FINISH]], $aOrder);
-			$count = $mUser->getLastPaijuListCount(['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE, Paiju::STATUS_FINISH]], $aOrder);*/
+			$count = $mUser->getLastPaijuListCount(['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE, Paiju::STATUS_FINISH]], $aOrder);
 		}else{
-			$aCondition = [
+			/*$aCondition = [
 				'user_id' => $mUser->id,
 				'status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE],
 			];
@@ -162,10 +162,10 @@ class IndexController extends Controller{
 				'width_hedui_shuzi' => true,
 			];
 			$aList = Paiju::getPaijuList($aCondition, $aControl);
-			$count = Paiju::getPaijuCount($aCondition);
-			/*$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`end_time`' => SORT_DESC];
+			$count = Paiju::getPaijuCount($aCondition);*/
+			$aOrder = ['`t1`.`status`' => SORT_ASC, '`t1`.`end_time`' => SORT_DESC];
 			$aList = $mUser->getLastPaijuList($page, $pageSize, ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);
-			$count = $mUser->getLastPaijuListCount(['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);*/
+			$count = $mUser->getLastPaijuListCount(['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder);
 		}
 		
 		return new Response('', 1, [

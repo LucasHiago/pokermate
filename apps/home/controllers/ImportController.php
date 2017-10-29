@@ -279,7 +279,7 @@ class ImportController extends Controller{
 		if(!$id){
 			return new Response('缺少ID', 0);
 		}
-		$mPaiju =Paiju::findOne($id);
+		$mPaiju = Paiju::findOne($id);
 		if(!$mPaiju){
 			return new Response('记录不存在', 0);
 		}

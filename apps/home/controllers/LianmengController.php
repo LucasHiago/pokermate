@@ -32,12 +32,14 @@ class LianmengController extends Controller{
 		}else{
 			$id = $mUser->getDefaultLianmengId();
 		}
+		$mLianmeng = Lianmeng::findOne($id);
 		$aLianmengHostDuizhang = $mUser->getLianmengHostDuizhang($id);
 		
 		return $this->render('lianmeng_host_duizhang', [
 			'aLianmengList' => $aLianmengList,
 			'aLianmengHostDuizhang' => $aLianmengHostDuizhang,
 			'lianmengId' => $id,
+			'aCurrentLianmeng' => $mLianmeng->toArray(),
 		]);
 	}
 	
@@ -215,7 +217,7 @@ class LianmengController extends Controller{
 		$value = Yii::$app->request->post('value');
 		
 		$mUser = Yii::$app->user->getIdentity();
-		if(!in_array($type, ['name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng', 'paiju_creater'])){
+		if(!in_array($type, ['name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng', 'paiju_creater', 'lmzj_paiju_creater'])){
 			return new Response('出错啦', 0);
 		}
 		if($type == 'paiju_creater'){
@@ -226,7 +228,7 @@ class LianmengController extends Controller{
 				}
 			}
 		}
-		if($type == 'name' || $type == 'paiju_creater'){
+		if($type == 'name' || $type == 'paiju_creater' || $type == 'lmzj_paiju_creater'){
 			$value = (string)$value;
 		}else{
 			$value = (int)$value;
@@ -255,7 +257,7 @@ class LianmengController extends Controller{
 			$mUser->operateLog(24, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 		}
 		
-		return new Response('更新成功', 1);
+		return new Response('保存成功', 1);
 	}
 	
 	public function actionDelete(){

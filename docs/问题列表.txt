@@ -74,6 +74,8 @@ CREATE TABLE `agent_qinzhang_record` (
 
 ALTER TABLE `user` ADD `cache_data` text NOT NULL COMMENT '数据缓存' AFTER `active_time`;
 
+ALTER TABLE `lianmeng` ADD `lmzj_paiju_creater` varchar(50) NOT NULL COMMENT '联盟主机建局者昵称' AFTER `paiju_creater`;
+
 
 优先
 1.添加日志记录
