@@ -287,11 +287,13 @@ class ImportData extends \common\lib\DbOrmModel{
 		
 		$aKerenBenjinList = [];
 		$qibuChoushui = 0;
+		$qibuTaifee = 0;
 		$choushuiShuanfa = User::CHOUSHUI_SHUANFA_YUSHUMOLIN;
 		if(isset($aCondition['user_id']) && isset($aControl['with_keren_benjin_info']) && $aControl['with_keren_benjin_info']){
 			$mUser = User::findOne($aCondition['user_id']);
 			if($mUser){
 				$qibuChoushui = $mUser->qibu_choushui;
+				$qibuTaifee = $mUser->qibu_taifee;
 				$choushuiShuanfa = $mUser->choushui_shuanfa;
 			}
 			$aPlayerId = ArrayHelper::getColumn($aList, 'player_id');
@@ -304,10 +306,12 @@ class ImportData extends \common\lib\DbOrmModel{
 				if($value['player_id'] == $aKerenBenjin['player_id']){
 					$aList[$key]['keren_benjin_info'] = $aKerenBenjin;
 					$taifee = 0;
-					if($value['zhanji'] > 0){
-						$taifee = $aKerenBenjin['ying_fee'];
-					}else{
-						$taifee = -$aKerenBenjin['shu_fee'];
+					if(abs($value['zhanji']) >= $qibuTaifee){
+						if($value['zhanji'] > 0){
+							$taifee = $aKerenBenjin['ying_fee'];
+						}else{
+							$taifee = -$aKerenBenjin['shu_fee'];
+						}
 					}
 					$aList[$key]['jiesuan_value'] = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $aKerenBenjin['ying_chou'], $aKerenBenjin['shu_fan'], $qibuChoushui, $choushuiShuanfa) - $taifee;
 					$aList[$key]['float_jiesuan_value'] = Calculate::paijuPlayerJiesuanValue($value['zhanji'], $aKerenBenjin['ying_chou'], $aKerenBenjin['shu_fan'], $qibuChoushui, $choushuiShuanfa, false) - $taifee;
@@ -442,10 +446,12 @@ class ImportData extends \common\lib\DbOrmModel{
 		}
 		//4.更新客人钱包
 		$taifee = 0;
-		if($this->zhanji > 0){
-			$taifee = $mKerenBenjin->ying_fee;
-		}else{
-			$taifee = -$mKerenBenjin->shu_fee;
+		if(abs($this->zhanji) >= $mUser->qibu_taifee){
+			if($this->zhanji > 0){
+				$taifee = $mKerenBenjin->ying_fee;
+			}else{
+				$taifee = -$mKerenBenjin->shu_fee;
+			}
 		}
 		$mKerenBenjin->set('benjin', ['add', $this->zhanji - ($this->choushui_value + $taifee)]);
 		$mKerenBenjin->save();

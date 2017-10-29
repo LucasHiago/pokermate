@@ -732,10 +732,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		
 		foreach($aResult as $value){
 			$taifee = 0;
-			if($value['zhanji'] > 0){
-				$taifee = $value['ying_fee'];
-			}else{
-				$taifee = -$value['shu_fee'];
+			if(abs($value['zhanji']) >= $this->qibu_taifee){
+				if($value['zhanji'] > 0){
+					$taifee = $value['ying_fee'];
+				}else{
+					$taifee = -$value['shu_fee'];
+				}
 			}
 			if(!isset($aReturnList[$value['paiju_id']])){
 				$aReturnList[$value['paiju_id']] = [
