@@ -14,7 +14,7 @@ class SiteController extends Controller{
 	}
 
 	public function actionTest(){
-		$sql = "SELECT * from lianmeng where lmzj_paiju_creater!=''";
+		/*$sql = "SELECT * from lianmeng where lmzj_paiju_creater!=''";
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 		debug($aResult);
 		foreach($aResult as $value){
@@ -24,6 +24,6 @@ class SiteController extends Controller{
 			$mLianmeng->set('lmzj_paiju_creater', [$name]);
 			$mLianmeng->save();
 		}
-		debug('ok');
+		debug('ok');*/
 	}
 }

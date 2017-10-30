@@ -86,32 +86,6 @@
 				 oHtml.find('.J-lmzjpjcat-addbtn').click(function(){
 					 addItem(this);
 				 });
-				 oHtml.find('.J-lmzjpjcat-btn').click(function(){
-					 var o = this;
-					 ajax({
-						url : Tools.url('home', 'lianmeng/update-lianmeng-info'),
-						data : {
-							id : lianmengId,
-							type : 'lmzj_paiju_creater',
-							value : $(o).prev().val(),
-						},
-						beforeSend : function(){
-							$(o).attr('disabled', 'disabled');
-						},
-						complete : function(){
-							$(o).attr('disabled', false);
-						},
-						success : function(aResult){
-							if(aResult.status == 1){
-								UBox.show(aResult.msg, aResult.status, function(){
-									location.reload();
-								}, 1);
-							}else{
-								UBox.show(aResult.msg, aResult.status);
-							}
-						}
-					});
-				 });
 			});	
 		},
 		
