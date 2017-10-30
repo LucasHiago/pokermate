@@ -6,6 +6,7 @@ use umeworld\lib\Query;
 use yii\helpers\ArrayHelper;
 
 class Lianmeng extends \common\lib\DbOrmModel{
+	protected $_aEncodeFields = ['lmzj_paiju_creater' => 'json'];
 	//对账方法（1：0.975 2：无水账单）
 	const DUIZHANGFANGFA_LINDIANJIUQIWU = 1;
 	const DUIZHANGFANGFA_WUSHUIDUIZHANG = 2;

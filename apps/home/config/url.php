@@ -133,6 +133,7 @@ return [
 		'operate-log-manage/index.html'											=> 'operate-log-manage/index',
 		
 		
+		'test.html'																=> 'site/test',
 		''																		=> 'site/index',
 		'<lang:.*>'																=> 'site/index',
 		

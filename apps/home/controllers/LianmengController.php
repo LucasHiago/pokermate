@@ -228,8 +228,10 @@ class LianmengController extends Controller{
 				}
 			}
 		}
-		if($type == 'name' || $type == 'paiju_creater' || $type == 'lmzj_paiju_creater'){
+		if($type == 'name' || $type == 'paiju_creater'){
 			$value = (string)$value;
+		}elseif($type == 'lmzj_paiju_creater'){
+			$value = (array)$value;
 		}else{
 			$value = (int)$value;
 		}

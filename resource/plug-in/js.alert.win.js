@@ -1,17 +1,23 @@
 (function(container, $){
 	container.AlertWin = {
-		showLianmengLmzjPaijuCreater : function(lianmengId, lmzjPaijuCreater){
+		showLianmengLmzjPaijuCreater : function(lianmengId, aLmzjPaijuCreater){
+			isCloseWinRefresh = true;
 			var html = '';
-			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:600px;">';
+			html += '<div class="J-data-list-win" style="width:600px;">';
 				html += '<div class="panel panel-primary">';
 					html += '<div class="panel-heading">';
 						html += ' <h3 class="panel-title" style="text-align:center;">开桌人设置</h3>';
 					html += '</div>';
 					html += '<div class="panel-body" style="padding:0px 10px;">';
 						html += '<div class="h20"></div>';
-						html += '<div class="form-group" style="float:left;margin-left:170px;">';
-							html += '<input type="text" class="J-kzrmc-val form-control" style="float:left;width:150px;" placeholder="请输入开桌人名称" value="' + lmzjPaijuCreater + '" />';
-							html += '<button class="J-lmzjpjcat-btn btn btn-sm btn-primary" style="float:left;margin-left:20px;margin-top: 2px;">保存</button>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-lmzjpjc-list-table table table-hover table-striped">';
+							html += '<tr><th>开桌人名称</th><th>操作</th></tr>';
+							for(var i in aLmzjPaijuCreater){
+								html += '<tr><td><input type="text" class="J-kzrmc-val form-control" style="width:100%;text-align:left;" placeholder="请输入开桌人名称" value="' + aLmzjPaijuCreater[i] + '" /></td><td><button class="J-lmzjpjcat-delbtn btn btn-sm btn-danger">删除</button></td></tr>';
+							}
+							html += '<tr><td><input type="text" class="J-kzrmc-val form-control" style="width:100%;text-align:left;" placeholder="请输入开桌人名称" /></td><td><button class="J-lmzjpjcat-addbtn btn btn-sm btn-primary">添加</button></td></tr>';
+							html += '</table>';
 						html += '</div>';
 						html += '<div class="h20"></div>';
 					html += '</div>';
@@ -20,6 +26,66 @@
 			var oHtml = $(html);
 			
 			showAlertWin(oHtml, function(){
+				 function deleteItem(o){
+					 setTimeout(function(){
+						$(o).parent().parent().remove();
+					 }, 100);
+				 }
+				 function addItem(o){
+					 if($(o).parent().parent().find('input').val() == ''){
+						 UBox.show('请输入开桌人名称', -1);
+						 return;
+					 }
+					 $(o).text('删除');
+					 $(o).removeClass('J-lmzjpjcat-addbtn');
+					 $(o).removeClass('btn-primary');
+					 $(o).addClass('J-lmzjpjcat-delbtn');
+					 $(o).addClass('btn-danger');
+					 var oTr = $('<tr><td><input type="text" class="J-kzrmc-val form-control" style="width:100%;text-align:left;" placeholder="请输入开桌人名称" /></td><td><button class="J-lmzjpjcat-addbtn btn btn-sm btn-primary">添加</button></td></tr>');
+					 $('.J-lmzjpjc-list-table').append(oTr);
+					 oHtml.find('.J-lmzjpjcat-delbtn').unbind();
+					 oHtml.find('.J-lmzjpjcat-delbtn').click(function(){
+						 deleteItem(this);
+					 });
+					 oHtml.find('.J-lmzjpjcat-addbtn').unbind();
+					 oHtml.find('.J-lmzjpjcat-addbtn').click(function(){
+						 addItem(this);
+					 });
+					 var aDataList = [];
+					 $(o).parent().parent().parent().find('.J-lmzjpjcat-delbtn').each(function(){
+						 var val = $(this).parent().parent().find('input').val();
+						 if(val != ''){
+							 aDataList.push(val);
+						 }
+					 });
+					 ajax({
+						url : Tools.url('home', 'lianmeng/update-lianmeng-info'),
+						data : {
+							id : lianmengId,
+							type : 'lmzj_paiju_creater',
+							value : aDataList,
+						},
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								UBox.show(aResult.msg, aResult.status);
+							}else{
+								UBox.show(aResult.msg, aResult.status);
+							}
+						}
+					});
+				 }
+				 oHtml.find('.J-lmzjpjcat-delbtn').click(function(){
+					 deleteItem(this);
+				 });
+				 oHtml.find('.J-lmzjpjcat-addbtn').click(function(){
+					 addItem(this);
+				 });
 				 oHtml.find('.J-lmzjpjcat-btn').click(function(){
 					 var o = this;
 					 ajax({

@@ -24,7 +24,7 @@ $pageCount = 8;
 		<div class="h-right">
 			<div class="J-club-qin-zhang btn btn-primary" style="float:right;margin-right:45px;margin-top: 8px;">清账</div>
 			<div class="btn btn-primary" style="float:right;margin-right:10px;margin-top: 8px;" onclick="AlertWin.showLianmengClubSetting(<?php echo $lianmengId; ?>);">联盟设置</div>
-			<div class="btn btn-primary" style="float:right;margin-right:10px;margin-top: 8px;" onclick="AlertWin.showLianmengLmzjPaijuCreater(<?php echo $lianmengId; ?>, '<?php echo $aCurrentLianmeng ? $aCurrentLianmeng['lmzj_paiju_creater'] : ''; ?>');">开桌人设置</div>
+			<div class="btn btn-primary" style="float:right;margin-right:10px;margin-top: 8px;" onclick='AlertWin.showLianmengLmzjPaijuCreater(<?php echo $lianmengId; ?>, <?php echo $aCurrentLianmeng ? json_encode($aCurrentLianmeng['lmzj_paiju_creater']) : '[]'; ?>);'>开桌人设置</div>
 		</div>
 	</div>
 	<div class="lmzj-content-wrap">
