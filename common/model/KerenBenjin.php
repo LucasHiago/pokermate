@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 class KerenBenjin extends \common\lib\DbOrmModel{
 	const YING_CHOU_DEFAULT = 5;
 	const SHU_FAN_DEFAULT = 0;
-	const YING_FEE_DEFAULT = 10;
+	const YING_FEE_DEFAULT = 0;
 	
 	public static function tableName(){
 		return Yii::$app->db->parseTable('_@keren_benjin');
