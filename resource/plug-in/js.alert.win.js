@@ -1947,7 +1947,7 @@
 								html += '<td><input type="text" class="form-control" data-type="player_name" placeholder="游戏名字" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="ying_chou" placeholder="赢抽点数" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="shu_fan" placeholder="输返点数" /></td>';
-								html += '<td><input type="text" class="form-control" data-type="ying_fee" placeholder="赢收台费" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="ying_fee" value="10" placeholder="赢收台费" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="shu_fee" placeholder="输返台费" /></td>';
 								var agentListHtml = '';
 								agentListHtml += '<select class="J-agent-select-change form-control" style="min-width:120px;">';
