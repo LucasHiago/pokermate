@@ -79,6 +79,7 @@ ALTER TABLE `keren_benjin` ADD `shu_fee` int(11) NOT NULL COMMENT '输返台费' AFT
 ALTER TABLE `keren_benjin` ADD `ying_fee` int(11) NOT NULL COMMENT '赢收台费' AFTER `shu_fan`;
 ALTER TABLE `user` ADD `qibu_taifee` int(11) NOT NULL COMMENT '起步台费' AFTER `qibu_choushui`;
 
+ALTER TABLE `import_data` ADD `taifee` int(11) NOT NULL COMMENT '台费' AFTER `club_is_clean`;
 
 优先
 1.添加日志记录
