@@ -749,7 +749,7 @@
 					html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-jlbzd-list-table table table-hover table-striped">';
-							html += '<tr><th>牌局名</th><th>战绩</th><th>保险</th><th>桌子费</th><th>保险被抽</th><th>当局账单</th></tr>';
+							html += '<tr><th>牌局名</th><th>战绩</th><th>保险</th><th style="display:none;">桌子费</th><th>保险被抽</th><th>当局账单</th></tr>';
 							html += '</table>';
 						html += '</div>';
 					html += '</div>';
@@ -766,7 +766,7 @@
 						listHtml += '<td>' + aData.paiju_name + '</td>';
 						listHtml += '<td>' + aData.zhanji + '</td>';
 						listHtml += '<td>' + aData.baoxian_heji + '</td>';
-						listHtml += '<td>' + aData.paiju_fee + '</td>';
+						listHtml += '<td style="display:none;">' + aData.paiju_fee + '</td>';
 						listHtml += '<td>' + aData.baoxian_beichou + '</td>';
 						listHtml += '<td>' + aData.zhang_dan + '</td>';
 					listHtml += '</tr>';
