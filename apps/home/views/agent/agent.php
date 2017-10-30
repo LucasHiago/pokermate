@@ -23,7 +23,7 @@ if($aCurrentAgent){
 						<?php foreach($aAgentList as $aAgent){ ?>
 							<tr style="<?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'background:#f5f5f5;' : '' ?>"><td style="padding-top:0px;padding-bottom:0px;"><a href="<?php echo Url::to('home', 'agent/index'); ?>?agentId=<?php echo $aAgent['id']; ?>" style="display:block;width:100%;height:45px;line-height:45px;"><?php echo $aAgent['agent_name']; ?></a></td><td style="width:62px;"><button class="btn btn-sm btn-danger" onclick="delAgent(this, <?php echo $aAgent['id']; ?>);">删除</button></td></tr>
 						<?php } ?>
-							<tr><td><input type="text" class="form-control" /></td><td style="width:62px;"><button class="btn btn-sm btn-primary" onclick="addAgent(this);">添加</button></td></tr>
+							<tr><td><input type="text" class="form-control" placeholder="请输入代理名称" /></td><td style="width:62px;"><button class="btn btn-sm btn-primary" onclick="addAgent(this);">添加</button></td></tr>
 						</table>
 					</div>
 				</div>

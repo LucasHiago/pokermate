@@ -180,12 +180,12 @@
 						html += '<div style="height:52px;margin-bottom: 20px;">';
 							html += '<div class="alert alert-success" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">增加金额</div>';
 							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">+</div>';
-							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" /></div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" placeholder="请输入金额" /></div>';
 						html += '</div>';
 						html += '<div style="height:52px;margin-bottom: 20px;">';
 							html += '<div class="alert alert-danger" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">减少金额</div>';
 							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">-</div>';
-							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" /></div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" placeholder="请输入金额" /></div>';
 						html += '</div>';
 							
 						html += '<div class="h20"></div>';
@@ -245,12 +245,12 @@
 						html += '<div style="height:52px;margin-bottom: 20px;">';
 							html += '<div class="alert alert-success" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">增加金额</div>';
 							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">+</div>';
-							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" /></div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" placeholder="请输入金额" /></div>';
 						html += '</div>';
 						html += '<div style="height:52px;margin-bottom: 20px;">';
 							html += '<div class="alert alert-danger" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">减少金额</div>';
 							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">-</div>';
-							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" /></div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" placeholder="请输入金额" /></div>';
 						html += '</div>';
 							
 						html += '<div class="h20"></div>';
@@ -310,12 +310,12 @@
 						html += '<div style="height:52px;margin-bottom: 20px;">';
 							html += '<div class="alert alert-success" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">存入金额</div>';
 							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">+</div>';
-							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" /></div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="add" style="height:100%;text-align: center;" placeholder="请输入金额" /></div>';
 						html += '</div>';
 						html += '<div style="height:52px;margin-bottom: 20px;">';
 							html += '<div class="alert alert-danger" style="float:left;width:90px;height:100%;margin-left:90px;margin-bottom: 0px;">转出金额</div>';
 							html += '<div style="float:left;width:50px;height:100%;line-height: 52px;text-align: center;font-size: 32px;">-</div>';
-							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" /></div>';
+							html += '<div style="float:left;width:150px;height:100%;"><input type="text" class="form-control" data-type="sub" style="height:100%;text-align: center;" placeholder="请输入金额" /></div>';
 						html += '</div>';
 							
 						html += '<div class="h20"></div>';
@@ -1508,7 +1508,7 @@
 						listHtml += '<td>' + aData.lianmeng_name + '</td>';
 						listHtml += '<td>' + aData.int_float_lianmeng_zhong_zhang + '</td>';
 						listHtml += '<td>' + aData.lianmeng_shang_zhuo_ren_shu + '</td>';
-						listHtml += '<td><input type="text" class="form-control" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;text-align:right;width:100px;" /><span class="i-edit"></span></td>';
+						listHtml += '<td><input type="text" class="form-control" data-id="' + aData.lianmeng_id + '" data-type="qian_zhang" value="' + aData.lianmeng_qian_zhang + '" style="float:left;text-align:right;width:100px;" placeholder="联盟旧账" /><span class="i-edit"></span></td>';
 						listHtml += '<td>' + aData.lianmeng_zhang_dan + '</td>';
 						listHtml += '<td class="J-detail-btn" data-id="' + aData.lianmeng_id + '"><button class="btn btn-sm btn-warning" style="width:100%;">账单详情</button></td>';
 						listHtml += '<td class="J-qin-zhang" data-id="' + aData.lianmeng_id + '"><button class="btn btn-sm btn-danger" style="width:100%;">清账</button></td>';
@@ -1942,13 +1942,13 @@
 							html += '<table class="J-keren-list-table table table-hover table-striped">';
 							html += '<tr><th>客人编号</th><th>本金</th><th>游戏名字</th><th>赢抽点数</th><th>输返点数</th><th>赢收台费</th><th>输返台费</th><th>代理人</th><th>玩家ID</th><th>操作</th></tr>';
 							html += '<tr>';
-								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" /></td>';
-								html += '<td><input type="text" class="form-control" data-type="benjin" /></td>';
-								html += '<td><input type="text" class="form-control" data-type="player_name" /></td>';
-								html += '<td><input type="text" class="form-control" data-type="ying_chou" /></td>';
-								html += '<td><input type="text" class="form-control" data-type="shu_fan" /></td>';
-								html += '<td><input type="text" class="form-control" data-type="ying_fee" /></td>';
-								html += '<td><input type="text" class="form-control" data-type="shu_fee" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" placeholder="客人编号" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="benjin" placeholder="本金" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="player_name" placeholder="游戏名字" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="ying_chou" placeholder="赢抽点数" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="shu_fan" placeholder="输返点数" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="ying_fee" placeholder="赢收台费" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="shu_fee" placeholder="输返台费" /></td>';
 								var agentListHtml = '';
 								agentListHtml += '<select class="J-agent-select-change form-control" style="min-width:120px;">';
 								agentListHtml += '<option value="0">请选择</option>';
@@ -1957,7 +1957,7 @@
 								}
 								agentListHtml += '</select>';
 								html += '<td>' + agentListHtml + '</td>';
-								html += '<td><input type="text" class="form-control" data-type="play_id" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="play_id" placeholder="玩家ID" /></td>';
 								html += '<td><a class="J-add-btn btn btn-sm btn-primary">添加</a></td>';
 							html += '</tr>';
 							html += '</table>';

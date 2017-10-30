@@ -76,8 +76,8 @@
 					fontColorGreen = ' color:#0000ff; ';
 				}
 				html += '<tr class="J-kr-row">';
-					html += '<td><input type="text" class="form-control" data-type="keren_bianhao" data-record-id="' + aData[i].id + '" value="' + aData[i].keren_bianhao + '" style="' + fontColorGreen + '" /></td>';
-					html += '<td><input type="text" class="form-control" data-type="benjin" data-record-id="' + aData[i].id + '" value="' + aData[i].benjin + '" style="' + fontColorGreen + '" /></td>';
+					html += '<td><input type="text" class="form-control" data-type="keren_bianhao" data-record-id="' + aData[i].id + '" value="' + aData[i].keren_bianhao + '" style="' + fontColorGreen + '" placeholder="客人编号" /></td>';
+					html += '<td><input type="text" class="form-control" data-type="benjin" data-record-id="' + aData[i].id + '" value="' + aData[i].benjin + '" style="' + fontColorGreen + '" placeholder="本金" /></td>';
 					var playerListHtml = '';
 					playerListHtml += '<select class="J-player-select-change form-control" data-record-id="' + aData[i].id + '" style="min-width:180px;' + fontColorGreen + '">';
 					for(var j in aData[i].player_list){
@@ -85,10 +85,10 @@
 					}
 					playerListHtml += '</select>';
 					html += '<td style="cursor:pointer;" class="J-select-play" data-id="' + (aData[i].player_list.length != 0 ? aData[i].player_list[0].id : 0) + '">' + playerListHtml + '</td>';
-					html += '<td><div style="float:left;height:32px;"><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_chou" value="' + aData[i].ying_chou + '" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
-					html += '<td><div style="float:left;height:32px;"><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="shu_fan" value="' + aData[i].shu_fan + '" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
-					html += '<td><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_fee" value="' + aData[i].ying_fee + '" /></td>';
-					html += '<td><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="shu_fee" value="' + aData[i].shu_fee + '" /></td>';
+					html += '<td><div style="float:left;height:32px;"><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_chou" value="' + aData[i].ying_chou + '" placeholder="赢抽点数" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
+					html += '<td><div style="float:left;height:32px;"><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="shu_fan" value="' + aData[i].shu_fan + '" placeholder="输返点数" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
+					html += '<td><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_fee" value="' + aData[i].ying_fee + '" placeholder="赢收台费" /></td>';
+					html += '<td><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="shu_fee" value="' + aData[i].shu_fee + '" placeholder="输返台费" /></td>';
 					var agentListHtml = '';
 					agentListHtml += '<select class="J-agent-select-change form-control" data-init-id="' + aData[i].agent_id + '" data-record-id="' + aData[i].id + '" style="min-width:150px;' + fontColorGreen + '">';
 					agentListHtml += '<option value="0">请选择</option>';
@@ -97,7 +97,7 @@
 					}
 					agentListHtml += '</select>';
 					html += '<td class="J-select-play" data-id="' + aData[i].agent_id + '">' + agentListHtml + '</td>';
-					html += '<td><input type="text" class="form-control" data-type="remark" data-record-id="' + aData[i].id + '" value="' + aData[i].remark + '" style="' + fontColorGreen + '" /></td>';
+					html += '<td><input type="text" class="form-control" data-type="remark" data-record-id="' + aData[i].id + '" value="' + aData[i].remark + '" style="' + fontColorGreen + '" placeholder="备注" /></td>';
 					html += '<td><a class="J-del-btn btn btn-sm btn-danger" data-record-id="' + aData[i].id + '">删除</a></td>';
 				html += '</tr>';
 			}

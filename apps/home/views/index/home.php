@@ -141,11 +141,11 @@ if($mUser->cache_data){
 			<div class="c-b-c-r-center">
 				<div class="form-group" style="float:left;width:140px;margin:15px;margin-left:26px;">
 					<label>客人编号</label>
-					<input type="text" class="J-search-keren-bianhao form-control" value="" />
+					<input type="text" class="J-search-keren-bianhao form-control" value="" placeholder="请输入客人编号" />
 				</div>
 				<div class="form-group" style="float:left;width:140px;margin:15px;">
 					<label>本金</label>
-					<input type="text" class="J-search-benjin form-control" value="0" />
+					<input type="text" class="J-search-benjin form-control" value="0" placeholder="请输入本金" />
 				</div>
 				<div class="form-group" style="float:left;width:150px;margin:15px;">
 					<label>资金流向</label>
@@ -166,7 +166,7 @@ if($mUser->cache_data){
 					<?php foreach($aMoneyTypeList as $aMoneyType){ ?>
 						<div class="form-group" style="margin-bottom:5px;">
 							<label style="margin-bottom:2px;"><?php echo $aMoneyType['pay_type']; ?></label>
-							<input type="text" class="J-money-type-item-input form-control" data-id="<?php echo $aMoneyType['id']; ?>" value="<?php echo $aMoneyType['money']; ?>" style="height:25px;" />
+							<input type="text" class="J-money-type-item-input form-control" data-id="<?php echo $aMoneyType['id']; ?>" value="<?php echo $aMoneyType['money']; ?>" style="height:25px;" placeholder="请输入金额" />
 							<i class="fa fa-pencil" style="position: relative;float: right;top: -25px;right: 2px;cursor: pointer;height: 25px;line-height: 25px;"></i>
 						</div>
 					<?php } ?>
@@ -185,7 +185,7 @@ if($mUser->cache_data){
 						<?php foreach($aMoneyOutPutTypeList as $aMoneyType){ ?>
 						<div class="form-group" style="margin-bottom:5px;">
 							<label style="margin-bottom:2px;"><?php echo $aMoneyType['out_put_type']; ?></label>
-							<input type="text" class="J-money-out-put-type-item-input form-control" data-id="<?php echo $aMoneyType['id']; ?>" value="<?php echo $aMoneyType['money']; ?>" style="height:25px;" />
+							<input type="text" class="J-money-out-put-type-item-input form-control" data-id="<?php echo $aMoneyType['id']; ?>" value="<?php echo $aMoneyType['money']; ?>" style="height:25px;" placeholder="请输入金额" />
 							<i class="fa fa-pencil" style="position: relative;float: right;top: -25px;right: 2px;cursor: pointer;height: 25px;line-height: 25px;"></i>
 						</div>
 					<?php } ?>
@@ -269,9 +269,9 @@ if($mUser->cache_data){
 				<?php } ?>
 				var oTxt = $(this).prev();
 				var txt = oTxt.val();
-				oTxt.val('');
-				oTxt.focus();
-				oTxt.val(txt);
+				//oTxt.val('');
+				//oTxt.focus();
+				//oTxt.val(txt);
 				AlertWin.showMoneyOutPutTypeWin(oTxt.attr('data-id'), $(this).prev().prev().text());
 			});
 			
@@ -353,9 +353,9 @@ if($mUser->cache_data){
 				<?php } ?>
 				var oTxt = $(this).prev();
 				var txt = oTxt.val();
-				oTxt.val('');
-				oTxt.focus();
-				oTxt.val(txt);
+				//oTxt.val('');
+				//oTxt.focus();
+				//oTxt.val(txt);
 				AlertWin.showMoneyTypeWin(oTxt.attr('data-id'), $(this).prev().prev().text());
 			});
 			
