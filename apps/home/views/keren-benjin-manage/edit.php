@@ -43,6 +43,14 @@ $this->setTitle($aKerenBenjin ? '编辑会员' : '新增会员');
 			<input style="width:300px;" class="J-shu-fan form-control" value="<?php echo $aKerenBenjin ? $aKerenBenjin['shu_fan'] : ''; ?>"><span style="position: relative; top: -26px; left: 310px;">%</span>
 		</div>
 		<div class="form-group">
+			<label>赢收台费</label>
+			<input style="width:300px;" class="J-ying-fee form-control" value="<?php echo $aKerenBenjin ? $aKerenBenjin['ying_fee'] : ''; ?>">
+		</div>
+		<div class="form-group">
+			<label>输返台费</label>
+			<input style="width:300px;" class="J-shu-fee form-control" value="<?php echo $aKerenBenjin ? $aKerenBenjin['shu_fee'] : ''; ?>">
+		</div>
+		<div class="form-group">
 			<label>代理人</label>
 			<select class="J-agent-id form-control" style="width:300px;">
 			<?php foreach($aAgentList as $aAgent){ ?>
@@ -98,6 +106,8 @@ $this->setTitle($aKerenBenjin ? '编辑会员' : '新增会员');
 			benjin : $('.J-benjin').val(),
 			yingChou : $('.J-ying-chou').val(),
 			shuFan : $('.J-shu-fan').val(),
+			yingFee : $('.J-ying-fee').val(),
+			shuFee : $('.J-shu-fee').val(),
 			agentId : $('.J-agent-id').val(),
 			remark : $('.J-remark').val()
 		};

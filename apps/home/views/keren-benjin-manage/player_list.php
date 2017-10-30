@@ -4,7 +4,9 @@ use home\widgets\Table;
 use yii\widgets\LinkPager;
 $this->setTitle('会员管理');
 ?>
-
+<style type="text/css">
+	.J-play-list .hideColumn{display:none;}
+</style>
 <div class="row">
 	<a style="float:left;" href="<?php echo Url::to('home', 'keren-benjin-manage/show-edit', ['id' => 0]); ?>" type="button" class="btn btn-primary">新增会员</a>
 	<a style="float:left;margin-left: 15px;" href="<?php echo Url::to('home', 'keren-benjin-manage/export-list'); ?>" type="button" class="btn btn-primary" onclick="exportExcel(this);">导出列表</a>
@@ -33,7 +35,7 @@ $this->setTitle('会员管理');
 </div>
 <br />
 
-<div class="row">
+<div class="J-play-list row">
 	<div class="table-responsive">
 		<?php
 			echo Table::widget([
@@ -48,14 +50,14 @@ $this->setTitle('会员管理');
 						}
 					],
 					'player_id'	=>	['title' => '玩家ID'],
-					'ying_chou'	=>	['title' => '赢抽点数'],
-					'shu_fan'	=>	['title' => '输返点数'],
-					'ying_fee'	=>	['title' => '赢收台费'],
-					'shu_fee'	=>	['title' => '输返台费'],
-					'agent_id'	=>	['title' => '代理人ID', 'class' => 'col-sm-1'],
+					'ying_chou'	=>	['title' => '赢抽点数', 'class' => 'hideColumn'],
+					'shu_fan'	=>	['title' => '输返点数', 'class' => 'hideColumn'],
+					'ying_fee'	=>	['title' => '赢收台费', 'class' => 'hideColumn'],
+					'shu_fee'	=>	['title' => '输返台费', 'class' => 'hideColumn'],
+					'agent_id'	=>	['title' => '代理人ID', 'class' => 'hideColumn col-sm-1'],
 					'agent_name'	=>	[
 						'title' => '代理人',
-						'class' => 'col-sm-1',
+						'class' => 'hideColumn col-sm-1',
 						'content' => function($aData){
 							return isset($aData['agent_info']['agent_name']) ? $aData['agent_info']['agent_name'] : '';
 						}
@@ -64,13 +66,13 @@ $this->setTitle('会员管理');
 					
 					'operate'	=>	[
 						'title' => '操作',
-						'class' => 'col-sm-3',
+						'class' => 'col-sm-2',
 						'content' => function($aData){
 							$str = '';
 							//$str .= '<a href="' . Url::to('home', 'keren-benjin-manage/show-edit', ['id' => $aData['keren_bianhao']]) . '" type="button" class="btn btn-primary">修改</a>&nbsp;&nbsp;';
 							$str .= '<a href="javascript:;" type="button" class="btn btn-primary" onclick="showEditPlayer(this, ' . $aData['id'] . ');">修改</a>&nbsp;&nbsp;';
 							$str .= '<a href="javascript:;" type="button" class="btn btn-danger" onclick="setDeletePlayer(this, ' . $aData['id'] . ', 1);">删除</a>&nbsp;&nbsp;';
-							$str .= '<a href="' . Url::to('home', 'keren-benjin-manage/export-player-last-paiju-data') . '?id=' . $aData['id'] . '" type="button" class="btn btn-primary">导出记录</a>';
+							//$str .= '<a href="' . Url::to('home', 'keren-benjin-manage/export-player-last-paiju-data') . '?id=' . $aData['id'] . '" type="button" class="btn btn-primary">导出记录</a>';
 							return $str;
 						}
 					],
@@ -204,5 +206,14 @@ $this->setTitle('会员管理');
 	
 	$(function(){
 		//showJumpPage();
+		$('.J-play-list .J-row').each(function(){
+			var i = 0;
+			$(this).find('td').each(function(){
+				if(Tools.inArray(i, [4, 5, 6, 7, 8, 9])){
+					$(this).hide();
+				}
+				i++;
+			});
+		});
 	});
 </script>

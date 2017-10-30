@@ -1974,7 +1974,7 @@
 			html += '<div class="J-data-list-win" style="float:left;width:1200px;min-height:423px;">';
 				html += '<div class="panel panel-primary">';
 					html += '<div class="panel-heading">';
-						html += ' <h3 class="panel-title" style="text-align:center;">添加新客户</h3>';
+						html += ' <h3 class="panel-title" style="text-align:center;">新增会员</h3>';
 					html += '</div>';
 					html += '<div class="panel-body" style="padding:0px;">';
 						html += '<div class="h10"></div>';
@@ -2044,18 +2044,276 @@
 				});
 			});
 		},
+
+		showTinnyPlayerList : function(){
+			var aAgentList = [];
+			var html = '';
+			html += '<div class="J-data-list-win" style="width:860px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">会员列表</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px 0px;">';
+							html += '<div style="height: 32px; width: 100%;">';
+								html += '<div class="form-group">';
+									html += '<div class="col-sm-2" style="width:210px;">';
+										html += '<button type="button" class="btn btn-primary" onclick="AlertWin.showAddPlayer();">新增会员</button>';
+										html += '&nbsp;<a href="' + Tools.url('home', 'keren-benjin-manage/export-list') + '" class="btn btn-primary">导出列表</a>';
+									html += '</div>';
+								html += '</div>';
+								
+								html += '<label class="control-label" style="float:left;line-height: 32px;">玩家名字</label>';
+								html += '<div class="col-sm-2" style="width:160px;">';
+									html += '<input type="text" class="J-search-player-name form-control" placeholder="请输入玩家名字" />';
+								html += '</div>';
+								
+								html += '<label class="control-label" style="float:left;line-height: 32px;">玩家ID</label>';
+								html += '<div class="col-sm-2" style="width:160px;">';
+									html += '<input type="text" class="J-search-player-id form-control" placeholder="请输入玩家ID" />';
+								html += '</div>';
+								
+								html += '<div class="form-group">';
+									html += '<div class="col-sm-2" style="width:90px;">';
+										html += '<button type="button" class="J-search-playerlist btn btn-primary">搜索</button>';
+									html += '</div>';
+								html += '</div>';
+								
+								html += '<div class="form-group" style="float: right;">';
+									html += '<div class="col-sm-2" style="width:90px;">';
+										html += '<button type="button" class="J-goback-playerlist btn btn-primary">返回</button>';
+									html += '</div>';
+								html += '</div>';
+							html += '</div>';
+						html += '<div class="h20"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-keren-player-list-table table table-hover table-striped">';
+							html += '<tr><th>客人编号</th><th>本金</th><th>玩家名字</th><th>玩家ID</th><th style="display:none;">赢抽点数</th><th style="display:none;">输返点数</th><th style="display:none;">赢收台费</th><th style="display:none;">输返台费</th><th style="display:none;">代理人ID</th><th style="display:none;">代理人</th><th>备注</th><th>操作</th></tr>';
+							html += '</table>';
+						html += '</div>';
+						html += '<div class="h20"></div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+			
+			function appendPlayerItemHtml(aDataList){
+				var listHtml = '';
+				for(var i in aDataList){
+					var aData = aDataList[i];
+					listHtml += '<tr class="J-krlp-row">';
+						listHtml += '<td style="min-width:120px;">' + aData.keren_bianhao + '</td>';
+						listHtml += '<td style="min-width:120px;">' + aData.benjin + '</td>';
+						listHtml += '<td style="min-width:120px;">' + aData.player_name + '</td>';
+						listHtml += '<td style="min-width:120px;">' + aData.player_id + '</td>';
+						listHtml += '<td style="display:none;">' + aData.ying_chou + '</td>';
+						listHtml += '<td style="display:none;">' + aData.shu_fan + '</td>';
+						listHtml += '<td style="display:none;">' + aData.ying_fee + '</td>';
+						listHtml += '<td style="display:none;">' + aData.shu_fee + '</td>';
+						listHtml += '<td style="display:none;">' + aData.agent_id + '</td>';
+						listHtml += '<td style="display:none;">' + (typeof(aData.agent_info.agent_name) == 'undefined' ? '' : aData.agent_info.agent_name) + '</td>';
+						listHtml += '<td style="min-width:120px;">' + aData.remark + '</td>';
+						listHtml += '<td style="min-width:150px;">';
+							listHtml += '<a href="javascript:;" type="button" class="J-edit-kerenplayer btn btn-primary" data-id="' + aData.id + '">修改</a>&nbsp;&nbsp;';
+							listHtml += '<a href="javascript:;" type="button" class="J-del-kerenplayer btn btn-danger" data-id="' + aData.id + '">删除</a>';
+						listHtml += '</td>';
+					listHtml += '</tr>';
+				}
+				var oListHtml = $(listHtml);
+				oHtml.find('.J-keren-player-list-table').append(oListHtml);
+				
+				oHtml.find('.J-edit-kerenplayer').unbind();
+				oHtml.find('.J-edit-kerenplayer').click(function(){
+					showEditPlayer(this, $(this).attr('data-id'));
+				});
+				oHtml.find('.J-del-kerenplayer').unbind();
+				oHtml.find('.J-del-kerenplayer').click(function(){
+					setDeletePlayer(this, $(this).attr('data-id'), 1);
+				});
+				
+				return oListHtml;
+			}
+			
+			function _loadList(playerId, playerName){
+				var aDataParam = {};
+				if(playerId){
+					aDataParam.playerId = playerId;
+				}
+				if(playerName){
+					aDataParam.playerName = playerName;
+				}
+				ajax({
+					url : Tools.url('home', 'keren-benjin-manage/get-player-list'),
+					data : aDataParam,
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							oHtml.find('.J-krlp-row').remove();
+							if(aResult.data.length != 0){
+								aAgentList = aResult.data.aAgentList;
+								appendPlayerItemHtml(aResult.data.list);
+							}
+						}
+					}
+				});
+			}
+			
+			function setDeletePlayer(o, id, status){
+				var tips = '删除用户将清空该用户在代理中的结算记录，是否确认删除？';
+				if(status == 0){
+					tips = '确定启用？';
+				}
+				if(confirm(tips)){
+					ajax({
+						url : Tools.url('home', 'keren-benjin-manage/delete-player'),
+						data : {
+							id : id,
+							status : status
+						},
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								UBox.show(aResult.msg, aResult.status);
+								 setTimeout(function(){
+									$(o).parent().parent().remove();
+								 }, 100);
+							}else{
+								UBox.show(aResult.msg, aResult.status);
+							}
+						}
+					});
+				}
+			}
+	
+			function showEditPlayer(o, playerId){
+				var aPlayerKeyMap = ['keren_bianhao', 'benjin', 'player_name', 'player_id', 'ying_chou', 'shu_fan', 'ying_fee', 'shu_fee', 'agent_id', 'agent_name', 'remark'];
+				var i = 0;
+				$(o).parent().parent().find('td').each(function(){
+					var tdTxt = $(this).text();
+					if(typeof(aPlayerKeyMap[i]) != 'undefined'){
+						if(aPlayerKeyMap[i] == 'agent_id'){
+							var agSelHtml = '<select data-type="' + aPlayerKeyMap[i] + '" class="form-control" style="width:100%;" >';
+							agSelHtml += '<option value="0">请选择</option>';
+							for(var tt in aAgentList){
+								agSelHtml += '<option value="' + aAgentList[tt].id + '">' + aAgentList[tt].agent_name + '</option>';
+							}
+							agSelHtml += '</select>';
+							$(this).html(agSelHtml);
+							if(tdTxt != 0){
+								$(this).find('select').val(tdTxt);
+							}
+							$(this).find('select').on('change', function(){
+								if($(this).val() != 0){
+									$(this).parent().parent().find('input[data-type="agent_name"]').val($(this).parent().parent().find("option:selected").text());
+								}
+							});
+						}else if(aPlayerKeyMap[i] == 'agent_name'){
+							$(this).html('<input class="form-control" style="width:100%;" type="text" data-type="' + aPlayerKeyMap[i] + '" value="' + tdTxt + '" disabled />');
+						}else{
+							$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" value="' + tdTxt + '" />');
+						}
+					}
+					i++;
+				});
+				$(o).removeClass('btn-primary');
+				$(o).addClass('btn-success');
+				$(o).text('保存');
+				$(o).unbind();
+				$(o).click(function(){
+					savePlayer(this, playerId);
+				});
+				//$(o).attr('onclick', 'savePlayer(this, ' + playerId + ');');
+			}
+			
+			function _goSavePlayer(o, aData){
+				ajax({
+					url : Tools.url('home', 'keren-benjin-manage/edit-player'),
+					data : aData,
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 2){
+							if(confirm(aResult.msg)){
+								aData.isMerge = 1;
+								_goSavePlayer(o, aData);
+							}
+							return;
+						}
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status);
+							/*UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 1);*/
+							$(o).removeClass('btn-success');
+							$(o).addClass('btn-primary');
+							$(o).text('修改');
+							$(o).unbind();
+							$(o).click(function(){
+								showEditPlayer(this, $(this).attr('data-id'));
+							});
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			}
+
+			function savePlayer(o, id){
+				var aData = {
+					id : id,
+					kerenBianhao : $(o).parent().parent().find('input[data-type="keren_bianhao"]').val(),
+					benjin : $(o).parent().parent().find('input[data-type="benjin"]').val(),
+					playerName : $(o).parent().parent().find('input[data-type="player_name"]').val(),
+					playerId : $(o).parent().parent().find('input[data-type="player_id"]').val(),
+					yingChou : $(o).parent().parent().find('input[data-type="ying_chou"]').val(),
+					shuFan : $(o).parent().parent().find('input[data-type="shu_fan"]').val(),
+					yingFee : $(o).parent().parent().find('input[data-type="ying_fee"]').val(),
+					shuFee : $(o).parent().parent().find('input[data-type="shu_fee"]').val(),
+					agentId : $(o).parent().parent().find('select[data-type="agent_id"]').val(),
+					remark : $(o).parent().parent().find('input[data-type="remark"]').val()
+				};
+				
+				_goSavePlayer(o, aData);
+			}
+			
+			showAlertWin(oHtml, function(){
+				_loadList();
+				oHtml.find('.J-goback-playerlist').click(function(){
+					setTimeout(function(){
+						oHtml.parent().remove();
+					}, 100);
+				});
+				oHtml.find('.J-search-playerlist').click(function(){
+					_loadList(oHtml.find('.J-search-player-id').val(), oHtml.find('.J-search-player-name').val());
+				});
+			});
+		},
 		
 		showPlayerList : function(){
 			var html = '';
-			html += '<div class="J-data-list-win" style="float:left;width:1200px;min-height:423px;">';
+			html += '<div class="J-data-list-win" style="float:left;width:1300px;min-height:423px;">';
 				html += '<div class="panel panel-primary">';
 					html += '<div class="panel-heading">';
-						html += ' <h3 class="panel-title" style="text-align:center;">客人详情</h3>';
+						html += ' <h3 class="panel-title" style="text-align:center;">客人信息</h3>';
 					html += '</div>';
 					html += '<div class="panel-body" style="padding:0px;">';
 						html += '<div class="h10"></div>';
 						html += '<div class="h30">';
-							html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showAddPlayer();" style="float:right;margin-right:10px;">添加新客户</button>';
+							html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showAddPlayer();" style="float:left;margin-left:10px;">新增会员</button>';
+							html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showTinnyPlayerList();" style="float:left;margin-left:10px;">会员列表</button>';
 							html += '<input type="text" class="J-search-krbh form-control" style="float:right;width:150px;margin-right:10px;" placeholder="请输入客人编号" />';
 						html += '</div>';
 						html += '<div class="h10"></div>';

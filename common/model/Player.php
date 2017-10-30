@@ -146,7 +146,7 @@ class Player extends \common\lib\DbOrmModel{
 		return $aWhere;
 	}
 	
-	public function getLastPaijuData($page = 1, $pageSize = 10){
+	public function getLastPaijuData($page = 1, $pageSize = 30){
 		$offset = ($page - 1) * $pageSize;
 		$sql = 'SELECT `paiju_name`,`mangzhu`,`player_name`,`zhanji`,`jiesuan_value` FROM ' . ImportData::tableName() . ' WHERE `player_id`=' . $this->player_id . ' ORDER BY `end_time` DESC LIMIT ' . $offset . ',' . $pageSize;
 		

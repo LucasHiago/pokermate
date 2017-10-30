@@ -79,7 +79,7 @@
 					html += '<td><input type="text" class="form-control" data-type="keren_bianhao" data-record-id="' + aData[i].id + '" value="' + aData[i].keren_bianhao + '" style="' + fontColorGreen + '" placeholder="客人编号" /></td>';
 					html += '<td><input type="text" class="form-control" data-type="benjin" data-record-id="' + aData[i].id + '" value="' + aData[i].benjin + '" style="' + fontColorGreen + '" placeholder="本金" /></td>';
 					var playerListHtml = '';
-					playerListHtml += '<select class="J-player-select-change form-control" data-record-id="' + aData[i].id + '" style="min-width:180px;' + fontColorGreen + '">';
+					playerListHtml += '<select class="J-player-select-change form-control" data-record-id="' + aData[i].id + '" style="min-width:160px;' + fontColorGreen + '">';
 					for(var j in aData[i].player_list){
 						playerListHtml += '<option value="' + aData[i].player_list[j].id + '">' + aData[i].player_list[j].player_name + '</option>';
 					}
@@ -90,7 +90,7 @@
 					html += '<td><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="ying_fee" value="' + aData[i].ying_fee + '" placeholder="赢收台费" /></td>';
 					html += '<td><input type="text" class="form-control" style="max-width: 100px;' + fontColorGreen + '" data-record-id="' + aData[i].id + '" data-type="shu_fee" value="' + aData[i].shu_fee + '" placeholder="输返台费" /></td>';
 					var agentListHtml = '';
-					agentListHtml += '<select class="J-agent-select-change form-control" data-init-id="' + aData[i].agent_id + '" data-record-id="' + aData[i].id + '" style="min-width:150px;' + fontColorGreen + '">';
+					agentListHtml += '<select class="J-agent-select-change form-control" data-init-id="' + aData[i].agent_id + '" data-record-id="' + aData[i].id + '" style="min-width:130px;' + fontColorGreen + '">';
 					agentListHtml += '<option value="0">请选择</option>';
 					for(var k in aAgentList){
 						agentListHtml += '<option value="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</option>';
@@ -98,7 +98,7 @@
 					agentListHtml += '</select>';
 					html += '<td class="J-select-play" data-id="' + aData[i].agent_id + '">' + agentListHtml + '</td>';
 					html += '<td><input type="text" class="form-control" data-type="remark" data-record-id="' + aData[i].id + '" value="' + aData[i].remark + '" style="' + fontColorGreen + '" placeholder="备注" /></td>';
-					html += '<td><a class="J-del-btn btn btn-sm btn-danger" data-record-id="' + aData[i].id + '">删除</a></td>';
+					html += '<td style="width:150px;"><a class="J-del-btn btn btn-sm btn-danger" data-record-id="' + aData[i].id + '">删除</a>&nbsp;<a href="' + Tools.url('home', 'keren-benjin-manage/export-keren-last-paiju-data') + '?kerenBianhao=' + aData[i].keren_bianhao + '" class="btn btn-sm btn-primary">导出记录</a></td>';
 				html += '</tr>';
 			}
 			var oHtml = $(html);

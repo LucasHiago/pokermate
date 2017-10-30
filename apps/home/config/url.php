@@ -120,6 +120,7 @@ return [
 		
 		'keren-benjin-manage/index.html'										=> 'keren-benjin-manage/index',
 		'keren-benjin-manage/player-list.html'									=> 'keren-benjin-manage/player-list',
+		'keren-benjin-manage/player-list.json'									=> 'keren-benjin-manage/get-player-list',
 		'keren-benjin-manage/set-delete.json'									=> 'keren-benjin-manage/set-delete',
 		'keren-benjin-manage/edit/<id:.*>.html'									=> 'keren-benjin-manage/show-edit',
 		'keren-benjin-manage/edit.json'											=> 'keren-benjin-manage/edit',
@@ -128,6 +129,7 @@ return [
 		'keren-benjin-manage/export-player-list.html'							=> 'keren-benjin-manage/export-player-list',
 		'keren-benjin-manage/delete-player.json'								=> 'keren-benjin-manage/delete-player',
 		'keren-benjin-manage/export-player-last-paiju-data.html'				=> 'keren-benjin-manage/export-player-last-paiju-data',
+		'keren-benjin-manage/export-keren-last-paiju-data.html'					=> 'keren-benjin-manage/export-keren-last-paiju-data',
 		
 		
 		'operate-log-manage/index.html'											=> 'operate-log-manage/index',

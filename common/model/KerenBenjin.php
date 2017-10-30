@@ -308,4 +308,15 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		$this->save();
 	}
 	
+	public function getLastPaijuData($page = 1, $pageSize = 30){
+		$aPlayerList = $this->getPlayerList();
+		if(!$aPlayerList){
+			return [];
+		}
+		$aPlayerId = ArrayHelper::getColumn($aPlayerList, 'player_id');;
+		$offset = ($page - 1) * $pageSize;
+		$sql = 'SELECT `paiju_name`,`mangzhu`,`player_name`,`zhanji`,`jiesuan_value` FROM ' . ImportData::tableName() . ' WHERE `player_id` IN(' . implode(',', $aPlayerId) . ') ORDER BY `end_time` DESC LIMIT ' . $offset . ',' . $pageSize;
+		
+		return Yii::$app->db->createCommand($sql)->queryAll();
+	}
 }
