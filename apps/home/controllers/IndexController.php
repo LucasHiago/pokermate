@@ -479,6 +479,7 @@ class IndexController extends Controller{
 		$agentId = (int)Yii::$app->request->post('agentId');
 		$playerId = (int)Yii::$app->request->post('playerId');
 		$remark = (string)Yii::$app->request->post('remark');
+		$isAddPlayer = (int)Yii::$app->request->post('isAddPlayer');
 		
 		if(!$kerenBianhao){
 			return new Response('请输入客人编号', -1);
@@ -486,11 +487,15 @@ class IndexController extends Controller{
 		if(!KerenBenjin::checkKerenbianhao($kerenBianhao)){
 			return new Response('客人编号范围有误', -1);
 		}
+		
 		if(!$playerId){
-			return new Response('请输入玩家ID', -1);
+			//return new Response('请输入玩家ID', -1);
 		}
 		$mPlayer = Player::findOne(['user_id' => Yii::$app->user->id, 'player_id' => $playerId, 'is_delete' => 0]);
-		if($mPlayer){
+		/*if($mPlayer){
+			return new Response('玩家ID已存在', -1);
+		}*/
+		if($mPlayer && $playerId){
 			return new Response('玩家ID已存在', -1);
 		}
 		if($agentId){
@@ -522,11 +527,21 @@ class IndexController extends Controller{
 		}
 		$mPlayer = Player::findOne(['user_id' => Yii::$app->user->id, 'player_id' => $playerId, 'is_delete' => 1]);
 		$isSuccess = 0;
-		if($mPlayer){
-			$isSuccess = $mPlayer->id;
-			$mPlayer->set('keren_bianhao', $kerenBianhao);
-			$mPlayer->set('is_delete', 0);
-			$mPlayer->save();
+		if($playerId){
+			if($mPlayer){
+				$isSuccess = $mPlayer->id;
+				$mPlayer->set('keren_bianhao', $kerenBianhao);
+				$mPlayer->set('is_delete', 0);
+				$mPlayer->save();
+			}else{
+				$isSuccess = Player::addRecord([
+					'user_id' => Yii::$app->user->id,
+					'keren_bianhao' => $kerenBianhao,
+					'player_id' => $playerId,
+					'player_name' => $playerName,
+					'create_time' => NOW_TIME,
+				]);
+			}
 		}else{
 			$isSuccess = Player::addRecord([
 				'user_id' => Yii::$app->user->id,
@@ -539,15 +554,17 @@ class IndexController extends Controller{
 		ImportData::addEmptyDataRecord(Yii::$app->user->id, $playerId, $playerName);
 		
 		$aOldRecord = $mKerenBenjin->toArray();
-		$mKerenBenjin->set('benjin', $benjin);
-		$mKerenBenjin->set('ying_chou', $yingChou);
-		$mKerenBenjin->set('shu_fan', $shuFan);
-		$mKerenBenjin->set('ying_fee', $yingFee);
-		$mKerenBenjin->set('shu_fee', $shuFee);
-		if($agentId){
-			$mKerenBenjin->set('agent_id', $agentId);
+		if(!$isAddPlayer){
+			$mKerenBenjin->set('benjin', $benjin);
+			$mKerenBenjin->set('ying_chou', $yingChou);
+			$mKerenBenjin->set('shu_fan', $shuFan);
+			$mKerenBenjin->set('ying_fee', $yingFee);
+			$mKerenBenjin->set('shu_fee', $shuFee);
+			$mKerenBenjin->set('remark', $remark);
+			if($agentId){
+				$mKerenBenjin->set('agent_id', $agentId);
+			}
 		}
-		$mKerenBenjin->set('remark', $remark);
 		$mKerenBenjin->save();
 		$aNewRecord = $mKerenBenjin->toArray();
 		$mUser = Yii::$app->user->getIdentity();

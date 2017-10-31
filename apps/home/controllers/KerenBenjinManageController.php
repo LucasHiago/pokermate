@@ -12,6 +12,7 @@ use common\model\form\PlayerListForm;
 use common\model\KerenBenjin;
 use common\model\Player;
 use common\model\Agent;
+use common\model\ImportData;
 
 class KerenBenjinManageController extends Controller{
 	public $layout = 'manage';
@@ -297,6 +298,9 @@ class KerenBenjinManageController extends Controller{
 				$mUser->operateLog(42, ['aOldRecord' => $aOldRecord, 'aNewRecord' => $aNewRecord]);
 			}
 			$aOldPlayer = $mPlayer->toArray();
+			if(!$mPlayer->player_id && $playerId){
+				ImportData::addEmptyDataRecord(Yii::$app->user->id, $playerId, $playerName);
+			}
 			$mPlayer->set('player_id', $playerId);
 			$mPlayer->set('player_name', $playerName);
 			$mPlayer->save();
