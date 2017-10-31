@@ -2293,9 +2293,11 @@
 			showAlertWin(oHtml, function(){
 				_loadList();
 				oHtml.find('.J-goback-playerlist').click(function(){
-					setTimeout(function(){
+					$(document).click();
+					AlertWin.showPlayerList();
+					/*setTimeout(function(){
 						oHtml.parent().remove();
-					}, 100);
+					}, 100);*/
 				});
 				oHtml.find('.J-search-playerlist').click(function(){
 					_loadList(oHtml.find('.J-search-player-id').val(), oHtml.find('.J-search-player-name').val());
