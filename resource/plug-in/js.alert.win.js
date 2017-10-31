@@ -2264,6 +2264,7 @@
 							$(o).click(function(){
 								showEditPlayer(this, $(this).attr('data-id'));
 							});
+							_loadList(oHtml.find('.J-search-player-id').val(), oHtml.find('.J-search-player-name').val());
 						}else{
 							UBox.show(aResult.msg, aResult.status);
 						}
