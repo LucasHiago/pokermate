@@ -20,7 +20,8 @@ $pageCount = 8;
 			<div class="h-text-bg h-l-div" style="background:none;width:58px;min-width:58px;"><div class="J-club-qin-zhang btn btn-primary">清账</div></div>
 			<div class="h-text-bg h-l-div"><b>差额盈利：</b><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
 			<div class="h-text-bg h-l-div"><b>总局数：</b><?php echo isset($aLianmengHostDuizhang['totalPaijuCount']) ? $aLianmengHostDuizhang['totalPaijuCount'] : 0; ?></div>
-			<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuziPaijuCount']) ? $aLianmengHostDuizhang['totalHeduishuziPaijuCount'] : 0; ?></div>
+			<!--<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuziPaijuCount']) ? $aLianmengHostDuizhang['totalHeduishuziPaijuCount'] : 0; ?></div>-->
+			<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalBaoXianChouCheng']) ? $aLianmengHostDuizhang['totalBaoXianChouCheng'] : 0; ?></div>
 			<div class="h-text-bg h-l-div"><b>牌局误差值总和：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuzi']) ? $aLianmengHostDuizhang['totalHeduishuzi'] : 0; ?></div>
 		</div>
 		<div class="h-right">
@@ -60,8 +61,8 @@ $pageCount = 8;
 			</div>
 			<div class="row-item">
 				<div class="col-item thh" style="border-right: 128px solid transparent; border-bottom: 40px solid transparent;">
-					<span style="position: relative; float: left; width: 63px; height: 0px; top: 8px; left: 0px; font-size: 12px;">桌子名称</span>
-					<span style="position: relative; float: right; width: 74px; height: 0px; top: -9px; right: -128px; font-size: 12px;">俱乐部名称</span>
+					<span style="position: relative; float: left; width: 63px; height: 0px; top: 8px; left: 0px; font-size: 14px;">牌局</span>
+					<span style="position: relative; float: right; width: 74px; height: 0px; top: -9px; right: -132px; font-size: 14px;">俱乐部</span>
 					<i style="float: left;height: 1px; width: 132px; position: relative; display: block; background: #ffffff; transform: rotate(17deg); -webkit-transform: rotate(17deg); top: 20px; left: -2px;"></i>
 				</div>
 				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
@@ -114,8 +115,8 @@ $pageCount = 8;
 			</div>
 			<div class="row-item">
 				<div class="col-item thh" style="border-right: 128px solid transparent; border-bottom: 40px solid transparent;">
-					<span style="position: relative; float: left; width: 63px; height: 0px; top: 8px; left: 0px; font-size: 12px;">桌子名称</span>
-					<span style="position: relative; float: right; width: 74px; height: 0px; top: -9px; right: -128px; font-size: 12px;">俱乐部名称</span>
+					<span style="position: relative; float: left; width: 63px; height: 0px; top: 8px; left: 0px; font-size: 14px;">牌局</span>
+					<span style="position: relative; float: right; width: 74px; height: 0px; top: -9px; right: -132px; font-size: 14px;">俱乐部</span>
 					<i style="float: left;height: 1px; width: 132px; position: relative; display: block; background: #ffffff; transform: rotate(17deg); -webkit-transform: rotate(17deg); top: 20px; left: -2px;"></i>
 				</div>
 			</div>

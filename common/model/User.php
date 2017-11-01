@@ -1807,6 +1807,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'hui_zhong' => 0,
 				'club_zhang_dan_list' => [],
 			];
+			$totalBaoXianChouCheng = 0;
 			foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $v){
 				if(!isset($aClubZhangDanList[$aClub['club_id']])){
 					$aClubZhangDanList[$aClub['club_id']] = [
@@ -1848,9 +1849,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'] += $v['zhanji'];
 				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'] += $v['baoxian_heji'];
 				///
-				
-				$baoxianBeichou = Calculate::calculateBaoxianBeichou($v['baoxian_heji'], $v['float_baoxian_beichou'], $this->choushui_shuanfa);
-				$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($v['baoxian_heji'], $v['float_baoxian_beichou'], $this->choushui_shuanfa, false);
+				$totalBaoXianChouCheng += $v['baoxian_choucheng'];
+				$baoxianBeichou = Calculate::calculateBaoxianBeichou($v['baoxian_heji'], $v['baoxian_choucheng'], $this->choushui_shuanfa);
+				$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($v['baoxian_heji'], $v['baoxian_choucheng'], $this->choushui_shuanfa, false);
 				
 				////
 				//$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
@@ -1926,6 +1927,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			'totalZhanDan' => $totalZhanDan,
 			'aClubZhangDanList' => $aClubZhangDanList,
 			'aPaijuZhangDanList' => $aPaijuZhangDanList,
+			'totalBaoXianChouCheng' => $totalBaoXianChouCheng,
 		];
 	}
 	
