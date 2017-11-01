@@ -557,6 +557,23 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return Lianmeng::findAll(['user_id' => $this->id, 'is_delete' => 0]);
 	}
 	
+	public function getDefaultHostLianmengId(){
+		$mLianmeng = HostLianmeng::findOne(['user_id' => $this->id, 'is_delete' => 0]);
+		if(!$mLianmeng){
+			return 0;
+			/*return Lianmeng::addRecord([
+				'user_id' => $this->id,
+				'name' => '默认联盟',
+				'create_time' => NOW_TIME,
+			]);*/
+		}
+		return $mLianmeng->id;
+	}
+	
+	public function getHostLianmengList(){
+		return HostLianmeng::findAll(['user_id' => $this->id, 'is_delete' => 0]);
+	}
+	
 	public function checkIsJieShuanAllPaijuRecord($paijuId){
 		$flag = true;
 		$aPaijuDataList = $this->getPaijuDataList($paijuId);
@@ -1299,7 +1316,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	/**
 	 *	获取联盟主机对账列表
 	 */
-	public function getLianmengHostDuizhang($lianmengId){
+	public function getLianmengHostDuizhangOld($lianmengId){
 		set_time_limit(0);
 		$mLianmeng = Lianmeng::findOne($lianmengId);
 		if(!$mLianmeng){
@@ -1597,6 +1614,322 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	}
 	
 	/**
+	 *	获取联盟主机对账列表
+	 */
+	public function getLianmengHostDuizhang($lianmengId){
+		set_time_limit(0);
+		$mLianmeng = HostLianmeng::findOne($lianmengId);
+		if(!$mLianmeng){
+			return [];
+		}
+		$clubIdWhere = '';
+		$aClubId = [];
+		$aClubList = $mLianmeng->getLianmengClubList();
+		if($aClubList){
+			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}else{
+			//return [];
+		}
+		$aClubList = ArrayHelper::index($aClubList, 'club_id');
+		if($aClubId){
+			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
+		}
+		$lianmengIdWhere = '';
+		if($lianmengId){
+			//$lianmengIdWhere = ' AND `t2`.`lianmeng_id`=' . $lianmengId;	//旧的方法
+			$aLmzjPaijuCreater = $mLianmeng->lmzj_paiju_creater;
+			if(!$aLmzjPaijuCreater){
+				//$aLmzjPaijuCreater = ['D_D'];
+				$aLmzjPaijuCreater = 'D_D';
+			}
+			//$lianmengIdWhere = ' AND `t1`.`paiju_creater` IN("' . implode('","', $mLianmeng->lmzj_paiju_creater) . '")';	//新的方法
+			$lianmengIdWhere = ' AND `t1`.`paiju_creater`="' . $mLianmeng->lmzj_paiju_creater . '"';	//新的方法
+		}
+		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . '' . $lianmengIdWhere . $clubIdWhere;
+		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`>=1' . $lianmengIdWhere . $clubIdWhere;
+		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t2`.`status`>=1' . $lianmengIdWhere;
+		
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		$totalHeduishuzi = 0;
+		$totalPaijuCount = 0;
+		$totalHeduishuziPaijuCount = 0;
+		$aPaijuList = [];
+		//补上未添加到联盟的俱乐部的牌局
+		if($aResult){
+			$aPaijuId = array_unique(ArrayHelper::getColumn($aResult, 'paiju_id'));
+			$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t2`.`status`>=1' . $lianmengIdWhere . ' AND `t1`.paiju_id IN(' . implode(',', $aPaijuId) . ')';
+			//$aOtherClubResult = Yii::$app->db->createCommand($sql)->queryAll();
+			$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+			
+			$aPaijuList = Paiju::getPaijuList(['id' => $aPaijuId], ['width_hedui_shuzi' => true]);
+			$totalPaijuCount = count($aPaijuList);
+			foreach($aPaijuList as $aPaiju){
+				$totalHeduishuzi += $aPaiju['hedui_shuzi'];
+				if($aPaiju['hedui_shuzi']){
+					$totalHeduishuziPaijuCount += 1;
+				}
+			}
+		}
+		
+		$aPaijuDataZhangDanList = [];
+		$aPaijuZhangDanList = [];
+		$totalZhanDan = 0;
+		$aTotalClubList = $aClubList;
+		$aClubIds = array_keys($aClubList);
+		foreach($aResult as $value){
+			if(!isset($aTotalClubList[$value['club_id']])){
+				$aTotalClubList[$value['club_id']] = [
+					'id' => 0,
+					'club_id' => $value['club_id'],
+					'club_name' => $value['club_name'],
+					'qianzhang' => 0,
+					'duizhangfangfa' => Lianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU,
+					'paiju_fee' => 0,
+					'baoxian_choucheng' => 0,
+				];
+			}
+			//$baoxianChoucheng = $value['baoxian_choucheng'];
+			$baoxianChoucheng = 0;
+			//$paijuFee = $value['paiju_fee'];
+			$paijuFee = 0;
+			//$duizhangfangfa = $value['duizhangfangfa'];
+			$duizhangfangfa = Lianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU;
+			
+			$aPaijuZhangDanList[$value['paiju_id']] = [
+				'paiju_id' => $value['paiju_id'],
+				'paiju_name' => $value['paiju_name'],
+				'club_is_clean' => $value['club_is_clean'],
+			];
+			$aTemp = [
+				'paiju_id' => $value['paiju_id'],
+				'paiju_name' => $value['paiju_name'],
+				'club_id' => $value['club_id'],
+				'paiju_fee' => $paijuFee,
+				'duizhangfangfa' => $duizhangfangfa,
+				'baoxian_choucheng' => $baoxianChoucheng,
+				'zhang_dan' => 0,
+				'float_zhang_dan' => 0,
+				'zhanji' => $value['zhanji'],
+				'baoxian_heji' => $value['baoxian_heji'],
+				'baoxian_beichou' => 0,
+				'float_baoxian_beichou' => 0,
+				'club_is_clean' => $value['club_is_clean'],
+			];
+			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $baoxianChoucheng, $this->choushui_shuanfa);
+			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $baoxianChoucheng, $this->choushui_shuanfa, false);
+			$aTemp['baoxian_beichou'] = $baoxianBeichou;
+			$aTemp['float_baoxian_beichou'] = $floatBaoxianBeichou;
+			$aPaijuDataZhangDanList[] = $aTemp;
+		}
+		$aClubPaijuDataZhangDanList = [];
+		foreach($aPaijuDataZhangDanList as $value){
+			if(!isset($aClubPaijuDataZhangDanList[$value['club_id']])){
+				$aClubPaijuDataZhangDanList[$value['club_id']] = [];
+			}
+			$aClubPaijuDataZhangDanList[$value['club_id']][] = $value;
+		}
+		///////////////////////////////////////这里好操蛋/////////////////////////////////////////////
+		//俱乐部没有牌局记录，则制造假记录，即使俱乐部没有牌局数据也要算上桌子费
+		foreach($aTotalClubList as $aClub){
+			if(!isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
+				$aClubPaijuDataZhangDanList[$aClub['club_id']] = [];
+				//确保有俱乐部的记录,因为要计桌子费用，不然联盟 吃什么
+				foreach($aPaijuZhangDanList as $mm){
+					$aTempData = [
+						'paiju_id' => $mm['paiju_id'],
+						'paiju_name' => $mm['paiju_name'],
+						'club_id' => $aClub['club_id'],
+						'paiju_fee' => $aClub['paiju_fee'],
+						'duizhangfangfa' => $aClub['duizhangfangfa'],
+						'baoxian_choucheng' => $aClub['baoxian_choucheng'],
+						'zhang_dan' => 0,
+						'float_zhang_dan' => 0,
+						'zhanji' => 0,
+						'baoxian_heji' => 0,
+						'baoxian_beichou' => 0,
+						'float_baoxian_beichou' => 0,
+						'club_is_clean' => $mm['club_is_clean'],
+					];
+					$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
+					array_push($aPaijuDataZhangDanList, $aTempData);
+				}
+			}else{
+				//把所有牌局都检查一下，确保有俱乐部的记录,因为要计桌子费用，不然联盟 吃什么
+				foreach($aPaijuZhangDanList as $mm){
+					$isFind = false;
+					foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $nn){
+						if($mm['paiju_id'] == $nn['paiju_id']){
+							$isFind = true;
+							break;
+						}
+					}
+					if(!$isFind){
+						$aTempData = [
+							'paiju_id' => $mm['paiju_id'],
+							'paiju_name' => $mm['paiju_name'],
+							'club_id' => $aClub['club_id'],
+							'paiju_fee' => $aClub['paiju_fee'],
+							'duizhangfangfa' => $aClub['duizhangfangfa'],
+							'baoxian_choucheng' => $aClub['baoxian_choucheng'],
+							'zhang_dan' => 0,
+							'float_zhang_dan' => 0,
+							'zhanji' => 0,
+							'baoxian_heji' => 0,
+							'baoxian_beichou' => 0,
+							'float_baoxian_beichou' => 0,
+							'club_is_clean' => $mm['club_is_clean'],
+						];
+						$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
+						array_push($aPaijuDataZhangDanList, $aTempData);
+					}
+				}
+			}
+		}
+		///////////////////////////////////////这里好操蛋/////////////////////////////////////////////
+		$aClubZhangDanList = [];
+		
+		foreach($aTotalClubList as $aClub){
+			$aClubZhangDanList[$aClub['club_id']] = [
+				'lianmeng_club_id' => $aClub['id'],
+				'club_id' => $aClub['club_id'],
+				'club_name' => $aClub['club_name'],
+				'qianzhang' => $aClub['qianzhang'],
+				'duizhangfangfa' => $aClub['duizhangfangfa'],
+				'baoxian_choucheng' => $aClub['baoxian_choucheng'],
+				'paiju_fee' => $aClub['paiju_fee'],
+				'club_is_clean' => 0,
+				'zhang_dan' => 0,
+				'float_zhang_dan' => 0,
+				'zhanji' => 0,
+				'baoxian_heji' => 0,
+				'baoxian_beichou' => 0,
+				'float_baoxian_beichou' => 0,
+				'hui_zhong' => 0,
+				'club_zhang_dan_list' => [],
+			];
+			foreach($aClubPaijuDataZhangDanList[$aClub['club_id']] as $v){
+				if(!isset($aClubZhangDanList[$aClub['club_id']])){
+					$aClubZhangDanList[$aClub['club_id']] = [
+						'lianmeng_club_id' => $aClub['id'],
+						'club_id' => $aClub['club_id'],
+						'club_name' => $aClub['club_name'],
+						'qianzhang' => $aClub['qianzhang'],
+						'duizhangfangfa' => $aClub['duizhangfangfa'],
+						'baoxian_choucheng' => $aClub['baoxian_choucheng'],
+						'paiju_fee' => $aClub['paiju_fee'],
+						'club_is_clean' => 0,
+						'zhang_dan' => 0,
+						'float_zhang_dan' => 0,
+						'zhanji' => 0,
+						'baoxian_heji' => 0,
+						'baoxian_beichou' => 0,
+						'float_baoxian_beichou' => 0,
+						'hui_zhong' => 0,
+						'club_zhang_dan_list' => [],
+					];
+				}
+				if(!isset($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']])){
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']] = [
+						'paiju_id' => $v['paiju_id'],
+						'paiju_name' => $v['paiju_name'],
+						'club_id' => $v['club_id'],
+						'paiju_fee' => $v['paiju_fee'],
+						'club_is_clean' => $v['club_is_clean'],
+						'duizhangfangfa' => $aClub['duizhangfangfa'],
+						'baoxian_choucheng' => $aClub['baoxian_choucheng'],
+						'zhang_dan' => 0,
+						'float_zhang_dan' => 0,
+						'zhanji' => 0,
+						'baoxian_heji' => 0,
+						'baoxian_beichou' => 0,
+						'float_baoxian_beichou' => 0,
+					];
+				}
+				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'] += $v['zhanji'];
+				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'] += $v['baoxian_heji'];
+				///
+				
+				$baoxianBeichou = Calculate::calculateBaoxianBeichou($v['baoxian_heji'], $v['float_baoxian_beichou'], $this->choushui_shuanfa);
+				$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($v['baoxian_heji'], $v['float_baoxian_beichou'], $this->choushui_shuanfa, false);
+				
+				////
+				//$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
+				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_beichou'] += $baoxianBeichou;
+				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['float_baoxian_beichou'] += $floatBaoxianBeichou;
+				$aClubZhangDanList[$aClub['club_id']]['club_is_clean'] = $v['club_is_clean'];
+				$aClubZhangDanList[$aClub['club_id']]['zhanji'] += $v['zhanji'];
+				$aClubZhangDanList[$aClub['club_id']]['baoxian_heji'] += $v['baoxian_heji'];
+				//$aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'] += $v['baoxian_beichou'];
+				$aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'] += $baoxianBeichou;
+				$aClubZhangDanList[$aClub['club_id']]['float_baoxian_beichou'] += $floatBaoxianBeichou;
+			}
+			if(!$aClubZhangDanList[$aClub['club_id']]['club_is_clean']){
+				$hasClubZhangDan = false;
+				foreach($aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'] as $kk => $vv){
+					$hasClubZhangDan = true;
+					//账单值与自己俱乐部联盟账单值相反
+					//$zhandan = -Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa);
+					$floatZhandan = Calculate::calculateZhangDan($vv['zhanji'], $vv['baoxian_heji'], $vv['paiju_fee'], $vv['baoxian_beichou'], $vv['duizhangfangfa'], $this->choushui_shuanfa, false);
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($floatZhandan, $this->choushui_shuanfa);
+					$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$kk]['float_zhang_dan'] = $floatZhandan;
+					//$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] += $zhandan;
+					//$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] += $floatZhandan;
+				}
+				if($hasClubZhangDan){
+					$clubFloatZhandan = Calculate::calculateZhangDan($aClubZhangDanList[$aClub['club_id']]['zhanji'], $aClubZhangDanList[$aClub['club_id']]['baoxian_heji'], $aClubZhangDanList[$aClub['club_id']]['paiju_fee'], $aClubZhangDanList[$aClub['club_id']]['baoxian_beichou'], $aClubZhangDanList[$aClub['club_id']]['duizhangfangfa'], $this->choushui_shuanfa, false);
+					$aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] = $clubFloatZhandan;
+					$aClubZhangDanList[$aClub['club_id']]['zhang_dan'] = Calculate::getIntValueByChoushuiShuanfa($clubFloatZhandan, $this->choushui_shuanfa);
+				}
+			}
+			
+			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = $aClubZhangDanList[$aClub['club_id']]['float_zhang_dan'] + $aClubZhangDanList[$aClub['club_id']]['qianzhang'];
+			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
+			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = Calculate::getIntValueByChoushuiShuanfa($aClubZhangDanList[$aClub['club_id']]['hui_zhong'], $this->choushui_shuanfa);
+		}
+		$totalZhanDan = Calculate::getIntValueByChoushuiShuanfa($totalZhanDan, $this->choushui_shuanfa);
+		//如果没有新账单就不显示牌局记录列表了
+		$hasUncleanZhangDan = false;
+		if($aPaijuZhangDanList){
+			foreach($aPaijuZhangDanList as $aPaijuZhangDan){
+				if(!$aPaijuZhangDan['club_is_clean']){
+					$hasUncleanZhangDan = true;
+					break;
+				}
+			}
+		}
+		if(!$hasUncleanZhangDan && $aTotalClubList){
+			$aPaijuZhangDanList = [];
+			//$totalZhanDan = 0;
+		}
+		foreach($aPaijuZhangDanList as $k => $v){
+			foreach($aPaijuList as $aPaiju){
+				if($aPaiju['id'] == $v['paiju_id']){
+					$aPaijuZhangDanList[$k]['hedui_shuzi'] = $aPaiju['hedui_shuzi'];
+					break;
+				}
+			}
+		}
+		//排序
+		if($aPaijuZhangDanList){
+			$aPaijuId = array_keys($aPaijuZhangDanList);
+			$aPaijuList = Paiju::findAll(['id' => $aPaijuId], ['id', 'end_time'], 0, 0, ['end_time' => SORT_DESC]);
+			$aSortList = [];
+			foreach($aPaijuList as $aPaiju){
+				$aSortList[] = $aPaijuZhangDanList[$aPaiju['id']];
+			}
+			$aPaijuZhangDanList = $aSortList;
+		}
+		return [
+			'totalPaijuCount' => $totalPaijuCount,
+			'totalHeduishuziPaijuCount' => $totalHeduishuziPaijuCount,
+			'totalHeduishuzi' => $totalHeduishuzi,
+			'totalZhanDan' => $totalZhanDan,
+			'aClubZhangDanList' => $aClubZhangDanList,
+			'aPaijuZhangDanList' => $aPaijuZhangDanList,
+		];
+	}
+	
+	/**
 	 *	联盟俱乐部清账
 	 */
 	public function clubQinZhang($mLianmeng, $aZhangDan, $aLianmengHostDuizhang){
@@ -1616,7 +1949,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			//$sql = 'UPDATE ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . LianmengClub::tableName() . ' AS `t2` ON `t1`.`club_id`=`t2`.`club_id` SET `t1`.`club_is_clean`=1 WHERE `t1`.`user_id`=' . $this->id . ' AND `t1`.`club_id`=' . $value['club_id'] . ' AND `t1`.`club_is_clean`=0 AND `t2`.`lianmeng_id`=' . $mLianmeng->id . ' AND `t2`.`is_delete`=0';
 			//Yii::$app->db->createCommand($sql)->execute();
 			//更新俱乐部欠账
-			$mLianmengClub = LianmengClub::findOne(['user_id' => $this->id, 'lianmeng_id' => $mLianmeng->id, 'club_id' => $value['club_id']]);
+			$mLianmengClub = HostLianmengClub::findOne(['user_id' => $this->id, 'lianmeng_id' => $mLianmeng->id, 'club_id' => $value['club_id']]);
 			if(!$mLianmengClub){
 				continue;
 			}

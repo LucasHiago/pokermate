@@ -75,6 +75,23 @@ return [
 		'lianmeng/lianmeng-club-qin-zhang.json'									=> 'lianmeng/lianmeng-club-qin-zhang',
 		
 		
+		
+		'host-lianmeng/add-lianmeng.json'										=> 'host-lianmeng/add-lianmeng',
+		'host-lianmeng/save-lianmeng.json'										=> 'host-lianmeng/save-lianmeng',
+		'host-lianmeng/list.json'												=> 'host-lianmeng/get-list',
+		'host-lianmeng/update-lianmeng-info.json'								=> 'host-lianmeng/update-lianmeng-info',
+		'host-lianmeng/delete.json'												=> 'host-lianmeng/delete',
+		'host-lianmeng/lianmeng-host-duizhang.html'								=> 'host-lianmeng/lianmeng-host-duizhang',
+		'host-lianmeng/lianmeng-zhang-dan-detail-list.json'						=> 'host-lianmeng/get-lianmeng-zhang-dan-detail-list',
+		'host-lianmeng/lianmeng-zhong-zhang-list.json'							=> 'host-lianmeng/get-lianmeng-zhong-zhang-list',
+		'host-lianmeng/qin-zhang.json'											=> 'host-lianmeng/qin-zhang',
+		'host-lianmeng/add-lianmeng-club.json'									=> 'host-lianmeng/add-lianmeng-club',
+		'host-lianmeng/club-list.json'											=> 'host-lianmeng/get-club-list',
+		'host-lianmeng/update-lianmeng-club-info.json'							=> 'host-lianmeng/update-lianmeng-club-info',
+		'host-lianmeng/delete-club.json'										=> 'host-lianmeng/delete-club',
+		'host-lianmeng/lianmeng-club-qin-zhang.json'							=> 'host-lianmeng/lianmeng-club-qin-zhang',
+		
+		
 		'paiju/chang-paiju-lianmeng.json'										=> 'paiju/chang-paiju-lianmeng',
 		
 		

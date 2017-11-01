@@ -1,22 +1,19 @@
 (function(container, $){
 	container.AlertWin = {
-		showLianmengLmzjPaijuCreater : function(lianmengId, aLmzjPaijuCreater){
+		showLianmengLmzjPaijuCreater : function(){
 			isCloseWinRefresh = true;
 			var html = '';
 			html += '<div class="J-data-list-win" style="width:600px;">';
 				html += '<div class="panel panel-primary">';
 					html += '<div class="panel-heading">';
-						html += ' <h3 class="panel-title" style="text-align:center;">开桌人设置</h3>';
+						html += ' <h3 class="panel-title" style="text-align:center;">联盟设置</h3>';
 					html += '</div>';
 					html += '<div class="panel-body" style="padding:0px 10px;">';
 						html += '<div class="h20"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-lmzjpjc-list-table table table-hover table-striped">';
-							html += '<tr><th>开桌人名称</th><th>操作</th></tr>';
-							for(var i in aLmzjPaijuCreater){
-								html += '<tr><td><input type="text" class="J-kzrmc-val form-control" style="width:100%;text-align:left;" placeholder="请输入开桌人名称" value="' + aLmzjPaijuCreater[i] + '" /></td><td><button class="J-lmzjpjcat-delbtn btn btn-sm btn-danger">删除</button></td></tr>';
-							}
-							html += '<tr><td><input type="text" class="J-kzrmc-val form-control" style="width:100%;text-align:left;" placeholder="请输入开桌人名称" /></td><td><button class="J-lmzjpjcat-addbtn btn btn-sm btn-primary">添加</button></td></tr>';
+							html += '<tr><th>联盟名称</th><th>开桌人名称</th><th>操作</th></tr>';
+							
 							html += '</table>';
 						html += '</div>';
 						html += '<div class="h20"></div>';
@@ -25,45 +22,62 @@
 			html += '</div>';
 			var oHtml = $(html);
 			
-			showAlertWin(oHtml, function(){
-				 function deleteItem(o){
-					 setTimeout(function(){
-						$(o).parent().parent().remove();
-					 }, 100);
-				 }
-				 function addItem(o){
-					 if($(o).parent().parent().find('input').val() == ''){
-						 UBox.show('请输入开桌人名称', -1);
-						 return;
-					 }
-					 $(o).text('删除');
-					 $(o).removeClass('J-lmzjpjcat-addbtn');
-					 $(o).removeClass('btn-primary');
-					 $(o).addClass('J-lmzjpjcat-delbtn');
-					 $(o).addClass('btn-danger');
-					 var oTr = $('<tr><td><input type="text" class="J-kzrmc-val form-control" style="width:100%;text-align:left;" placeholder="请输入开桌人名称" /></td><td><button class="J-lmzjpjcat-addbtn btn btn-sm btn-primary">添加</button></td></tr>');
-					 $('.J-lmzjpjc-list-table').append(oTr);
-					 oHtml.find('.J-lmzjpjcat-delbtn').unbind();
-					 oHtml.find('.J-lmzjpjcat-delbtn').click(function(){
-						 deleteItem(this);
-					 });
-					 oHtml.find('.J-lmzjpjcat-addbtn').unbind();
-					 oHtml.find('.J-lmzjpjcat-addbtn').click(function(){
-						 addItem(this);
-					 });
-					 var aDataList = [];
-					 $(o).parent().parent().parent().find('.J-lmzjpjcat-delbtn').each(function(){
-						 var val = $(this).parent().parent().find('input').val();
-						 if(val != ''){
-							 aDataList.push(val);
-						 }
-					 });
-					 ajax({
-						url : Tools.url('home', 'lianmeng/update-lianmeng-info'),
+			function appendLmList(aData){
+				var html = '';
+				for(var i in aData){
+					html += '<tr>';
+						html += '<td><input type="text" class="J-commit-input J-lmname-val form-control" style="width:100%;text-align:left;" placeholder="请输入联盟名称" value="' + aData[i].name + '" data-type="name" data-id="' + aData[i].id + '" /></td>';
+						html += '<td><input type="text" class="J-commit-input J-lmpjcreater-val form-control" style="width:100%;text-align:left;" placeholder="请输入开桌人名称" value="' + aData[i].lmzj_paiju_creater + '" data-type="lmzj_paiju_creater" data-id="' + aData[i].id + '" /></td>';
+						html += '<td><button class="J-lmzjpjcat-delbtn btn btn-sm btn-danger" data-id="' + aData[i].id + '">删除</button></td>';
+					html += '</tr>';
+				}
+				html += '<tr>';
+					html += '<td><input type="text" class="J-lmname-val form-control" style="width:100%;text-align:left;" placeholder="请输入联盟名称" /></td>';
+					html += '<td><input type="text" class="J-lmpjcreater-val form-control" style="width:100%;text-align:left;" placeholder="请输入开桌人名称" /></td>';
+					html += '<td><button class="J-lmzjpjcat-addbtn btn btn-sm btn-primary">添加</button></td>';
+				html += '</tr>';
+				
+				var oHtml = $(html);
+				
+				$('.J-lmzjpjc-list-table').append(oHtml);
+				
+				oHtml.find('.J-commit-input').keyup(function(e){
+					if(e.keyCode == 13){
+						if($(this).attr('data-id') == 0){
+							return;
+						}
+						var o = this;
+						ajax({
+							url : Tools.url('home', 'host-lianmeng/update-lianmeng-info'),
+							data : {
+								id : $(this).attr('data-id'),
+								type : $(this).attr('data-type'),
+								value : $(this).val()
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									UBox.show(aResult.msg, aResult.status);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
+								}
+							}
+						});
+						
+					}
+				});
+				oHtml.find('.J-lmzjpjcat-addbtn').click(function(){
+					var o = this;
+					ajax({
+						url : Tools.url('home', 'host-lianmeng/add-lianmeng'),
 						data : {
-							id : lianmengId,
-							type : 'lmzj_paiju_creater',
-							value : aDataList,
+							name : $(o).parent().parent().find('.J-lmname-val').val(),
+							lmzjPaijuCreater : $(o).parent().parent().find('.J-lmpjcreater-val').val()
 						},
 						beforeSend : function(){
 							$(o).attr('disabled', 'disabled');
@@ -73,19 +87,66 @@
 						},
 						success : function(aResult){
 							if(aResult.status == 1){
-								UBox.show(aResult.msg, aResult.status);
+								isCloseWinRefresh = false;
+								$(document).click();
+								AlertWin.showLianmengLmzjPaijuCreater();
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
 						}
 					});
-				 }
-				 oHtml.find('.J-lmzjpjcat-delbtn').click(function(){
-					 deleteItem(this);
-				 });
-				 oHtml.find('.J-lmzjpjcat-addbtn').click(function(){
-					 addItem(this);
-				 });
+				});
+				oHtml.find('.J-lmzjpjcat-delbtn').click(function(){
+					var o = this;
+					if(confirm('确定删除？')){
+						ajax({
+							url : Tools.url('home', 'host-lianmeng/delete'),
+							data : {
+								id : $(o).attr('data-id')
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									isCloseWinRefresh = false;
+									$(document).click();
+									AlertWin.showLianmengLmzjPaijuCreater();
+								}else{
+									UBox.show(aResult.msg, aResult.status);
+								}
+							}
+						});
+					}
+				});
+			}
+			
+			function _loadList(){
+				ajax({
+					url : Tools.url('home', 'host-lianmeng/get-list'),
+					data : {},
+					beforeSend : function(){
+						//$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						//$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							appendLmList(aResult.data);
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			}
+			
+			showAlertWin(oHtml, function(){
+				_loadList();
+				
 			});	
 		},
 		
@@ -815,7 +876,7 @@
 			
 			function commitLianmengClubChange(o , aData){
 				ajax({
-					url : Tools.url('home', 'lianmeng/update-lianmeng-club-info'),
+					url : Tools.url('home', 'host-lianmeng/update-lianmeng-club-info'),
 					data : aData,
 					beforeSend : function(){
 						$(o).attr('disabled', 'disabled');
@@ -835,6 +896,9 @@
 				});
 				oHtml.find('.J-commit-input').keyup(function(e){
 					if(e.keyCode == 13){
+						if($(this).attr('data-id') == 0){
+							return;
+						}
 						commitLianmengClubChange(this, {
 							id : $(this).attr('data-id'),
 							type : $(this).attr('data-type'),
@@ -856,7 +920,7 @@
 					var o = this;
 					if(confirm('确定删除？')){
 						ajax({
-							url : Tools.url('home', 'lianmeng/delete-club'),
+							url : Tools.url('home', 'host-lianmeng/delete-club'),
 							data : {id : $(o).attr('data-id')},
 							beforeSend : function(){
 								$(o).attr('disabled', 'disabled');
@@ -877,7 +941,7 @@
 				oHtml.find('.J-la-add-btn').click(function(){
 					var o = this;
 					ajax({
-						url : Tools.url('home', 'lianmeng/add-lianmeng-club'),
+						url : Tools.url('home', 'host-lianmeng/add-lianmeng-club'),
 						data : {
 							id : lianmengId,
 							clubName : $(o).parent().parent().find('input[data-type=club_name]').val(),
@@ -923,11 +987,11 @@
 					listHtml += '</tr>';
 				}
 				listHtml += '<tr>';
-					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_name" value="" /></td>';
-					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_id" value="" /></td>';
+					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_name" data-id="0" value="" /></td>';
+					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_id" data-id="0" value="" /></td>';
 					listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="0" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option></select></td>';
-					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="paiju_fee" value="0" /></td>';
-					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="baoxian_choucheng" value="0" /></td>';
+					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="paiju_fee" data-id="0" value="0" /></td>';
+					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="baoxian_choucheng" data-id="0" value="0" /></td>';
 					listHtml += '<td class="J-lianmeng-name">&nbsp;</td>';
 					listHtml += '<td><div class="J-la-add-btn btn btn-sm btn-primary" data-id="0">添加</div></td>';
 				listHtml += '</tr>';
@@ -939,7 +1003,7 @@
 			
 			function _loadLianmengClubList(){
 				ajax({
-					url : Tools.url('home', 'lianmeng/get-club-list'),
+					url : Tools.url('home', 'host-lianmeng/get-club-list'),
 					data : {id : lianmengId},
 					beforeSend : function(){
 						//$(o).attr('disabled', 'disabled');

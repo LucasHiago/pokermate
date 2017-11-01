@@ -242,7 +242,7 @@ if($mUser){
 									<?php if(!$mUser->hasLianmengHostDuiZhangFunction()){ ?>
 									<li class="J-c-h-t-menu-m3"><a href="javascript:;" onclick="UBox.show('提示:需要黑金会员才能开通此功能！', -1);" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
 									<?php }else{ ?>
-									<li class="J-c-h-t-menu-m3"><a href="<?php echo Url::to('home', 'lianmeng/lianmeng-host-duizhang'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
+									<li class="J-c-h-t-menu-m3"><a href="<?php echo Url::to('home', 'host-lianmeng/lianmeng-host-duizhang'); ?>" style="width:150px;text-align:center;font-weight:bold;font-size:18px;">联盟主机对账</a></li>
 									<?php } ?>
 								<?php } ?>
 							</ul>
