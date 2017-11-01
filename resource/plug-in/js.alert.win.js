@@ -2033,7 +2033,7 @@
 		},
 		
 		showAddPlayer : function(){
-			$(document).click();
+			//$(document).click();
 			var html = '';
 			html += '<div class="J-data-list-win" style="float:left;width:1200px;min-height:423px;">';
 				html += '<div class="panel panel-primary">';
@@ -2097,9 +2097,12 @@
 						},
 						success : function(aResult){
 							if(aResult.status == 1){
-								UBox.show(aResult.msg, aResult.status, function(){
+								UBox.show(aResult.msg, aResult.status);
+								$(document).click();
+								AlertWin.showPlayerList();
+								/*UBox.show(aResult.msg, aResult.status, function(){
 									location.reload();
-								}, 1);
+								}, 1);*/
 							}else{
 								UBox.show(aResult.msg, aResult.status);
 							}
@@ -2115,18 +2118,18 @@
 			html += '<div class="J-data-list-win" style="width:860px;">';
 				html += '<div class="panel panel-primary">';
 					html += '<div class="panel-heading">';
-						html += ' <h3 class="panel-title" style="text-align:center;">会员列表</h3>';
+						html += ' <h3 class="panel-title" style="text-align:center;">游戏名字管理</h3>';
 					html += '</div>';
 					html += '<div class="panel-body" style="padding:0px 0px;">';
 							html += '<div style="height: 32px; width: 100%;">';
-								html += '<div class="form-group">';
+								/*html += '<div class="form-group">';
 									html += '<div class="col-sm-2" style="width:210px;">';
 										html += '<button type="button" class="btn btn-primary" onclick="AlertWin.showAddPlayer();">新增会员</button>';
 										html += '&nbsp;<a href="' + Tools.url('home', 'keren-benjin-manage/export-list') + '" class="btn btn-primary">导出列表</a>';
 									html += '</div>';
-								html += '</div>';
+								html += '</div>';*/
 								
-								html += '<label class="control-label" style="float:left;line-height: 32px;">玩家名字</label>';
+								html += '<label class="control-label" style="float:left;line-height: 32px;margin-left:20px;">玩家名字</label>';
 								html += '<div class="col-sm-2" style="width:160px;">';
 									html += '<input type="text" class="J-search-player-name form-control" placeholder="请输入玩家名字" />';
 								html += '</div>';
@@ -2151,7 +2154,13 @@
 						html += '<div class="h20"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-keren-player-list-table table table-hover table-striped">';
-							html += '<tr><th>客人编号</th><th>本金</th><th>玩家名字</th><th>玩家ID</th><th style="display:none;">赢抽点数</th><th style="display:none;">输返点数</th><th style="display:none;">赢收台费</th><th style="display:none;">输返台费</th><th style="display:none;">代理人ID</th><th style="display:none;">代理人</th><th>备注</th><th>操作</th></tr>';
+							html += '<tr><th>客人编号</th><th style="display:none;">本金</th><th>玩家名字</th><th>玩家ID</th><th style="display:none;">赢抽点数</th><th style="display:none;">输返点数</th><th style="display:none;">赢收台费</th><th style="display:none;">输返台费</th><th style="display:none;">代理人ID</th><th style="display:none;">代理人</th><th style="display:none;">备注</th><th>操作</th></tr>';
+							html += '<tr class="J-add-keren-row">';
+								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" placeholder="请输入客人编号" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="player_name" placeholder="请输入玩家名字" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="player_id" placeholder="请输入玩家ID" /></td>';
+								html += '<td><a class="J-addkeren-btn btn btn-sm btn-primary">添加</a></td>';
+							html += '</tr>';
 							html += '</table>';
 						html += '</div>';
 						html += '<div class="h20"></div>';
@@ -2165,17 +2174,17 @@
 				for(var i in aDataList){
 					var aData = aDataList[i];
 					listHtml += '<tr class="J-krlp-row">';
-						listHtml += '<td style="min-width:120px;">' + aData.keren_bianhao + '</td>';
-						listHtml += '<td style="min-width:120px;">' + aData.benjin + '</td>';
-						listHtml += '<td style="min-width:120px;">' + aData.player_name + '</td>';
-						listHtml += '<td style="min-width:120px;">' + aData.player_id + '</td>';
+						listHtml += '<td style="min-width:200px;">' + aData.keren_bianhao + '</td>';
+						listHtml += '<td style="min-width:120px;display:none;">' + aData.benjin + '</td>';
+						listHtml += '<td style="min-width:200px;">' + aData.player_name + '</td>';
+						listHtml += '<td style="min-width:200px;">' + (aData.player_id == 0 ? '' : aData.player_id) + '</td>';
 						listHtml += '<td style="display:none;">' + aData.ying_chou + '</td>';
 						listHtml += '<td style="display:none;">' + aData.shu_fan + '</td>';
 						listHtml += '<td style="display:none;">' + aData.ying_fee + '</td>';
 						listHtml += '<td style="display:none;">' + aData.shu_fee + '</td>';
 						listHtml += '<td style="display:none;">' + aData.agent_id + '</td>';
 						listHtml += '<td style="display:none;">' + (typeof(aData.agent_info.agent_name) == 'undefined' ? '' : aData.agent_info.agent_name) + '</td>';
-						listHtml += '<td style="min-width:120px;">' + aData.remark + '</td>';
+						listHtml += '<td style="min-width:120px;display:none;">' + aData.remark + '</td>';
 						listHtml += '<td style="min-width:150px;">';
 							listHtml += '<a href="javascript:;" type="button" class="J-edit-kerenplayer btn btn-primary" data-id="' + aData.id + '">修改</a>&nbsp;&nbsp;';
 							listHtml += '<a href="javascript:;" type="button" class="J-del-kerenplayer btn btn-danger" data-id="' + aData.id + '">删除</a>';
@@ -2260,6 +2269,7 @@
 	
 			function showEditPlayer(o, playerId){
 				var aPlayerKeyMap = ['keren_bianhao', 'benjin', 'player_name', 'player_id', 'ying_chou', 'shu_fan', 'ying_fee', 'shu_fee', 'agent_id', 'agent_name', 'remark'];
+				var aPlayerKeyNameMap = ['客人编号', '本金', '玩家名字', '玩家ID', '赢抽点数', '输返点数', '赢收台费', '输返台费', '代理ID', '代理名字', '备注'];
 				var i = 0;
 				$(o).parent().parent().find('td').each(function(){
 					var tdTxt = $(this).text();
@@ -2281,9 +2291,9 @@
 								}
 							});
 						}else if(aPlayerKeyMap[i] == 'agent_name'){
-							$(this).html('<input class="form-control" style="width:100%;" type="text" data-type="' + aPlayerKeyMap[i] + '" value="' + tdTxt + '" disabled />');
+							$(this).html('<input class="form-control" style="width:100%;" type="text" data-type="' + aPlayerKeyMap[i] + '" placeholder="请输入' + aPlayerKeyNameMap[i] + '" value="' + tdTxt + '" disabled />');
 						}else{
-							$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" value="' + tdTxt + '" />');
+							$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" placeholder="请输入' + aPlayerKeyNameMap[i] + '" value="' + tdTxt + '" />');
 						}
 					}
 					i++;
@@ -2366,6 +2376,38 @@
 				oHtml.find('.J-search-playerlist').click(function(){
 					_loadList(oHtml.find('.J-search-player-id').val(), oHtml.find('.J-search-player-name').val());
 				});
+				oHtml.find('.J-addkeren-btn').click(function(){
+					var o = this;
+					ajax({
+						url : Tools.url('home', 'index/add-keren'),
+						data : {
+							isAddPlayer : 1,
+							kerenBianhao : $(o).parent().parent().find('input[data-type=keren_bianhao]').val(),
+							playerName : $(o).parent().parent().find('input[data-type=player_name]').val(),
+							playerId : $(o).parent().parent().find('input[data-type=player_id]').val()
+						},
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								UBox.show(aResult.msg, aResult.status);
+								$(o).parent().parent().find('input[data-type=keren_bianhao]').val('');
+								$(o).parent().parent().find('input[data-type=player_name]').val('');
+								$(o).parent().parent().find('input[data-type=player_id]').val('');
+								_loadList(oHtml.find('.J-search-player-id').val(), oHtml.find('.J-search-player-name').val());
+								/*UBox.show(aResult.msg, aResult.status, function(){
+									location.reload();
+								}, 1);*/
+							}else{
+								UBox.show(aResult.msg, aResult.status);
+							}
+						}
+					});
+				});
 			});
 		},
 		
@@ -2379,14 +2421,33 @@
 					html += '<div class="panel-body" style="padding:0px;">';
 						html += '<div class="h10"></div>';
 						html += '<div class="h30">';
-							html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showAddPlayer();" style="float:left;margin-left:10px;">新增会员</button>';
-							html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showTinnyPlayerList();" style="float:left;margin-left:10px;">会员列表</button>';
+							//html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showAddPlayer();" style="float:left;margin-left:10px;">新增会员</button>';
+							html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showTinnyPlayerList();" style="float:left;margin-left:10px;">游戏名字管理</button>';
 							html += '<input type="text" class="J-search-krbh form-control" style="float:right;width:150px;margin-right:10px;" placeholder="请输入客人编号" />';
 						html += '</div>';
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-keren-list-table table table-hover table-striped">';
 							html += '<tr><th class="J-krbh-sort" style="cursor:pointer;">客人编号</th><th class="J-bj-sort" style="cursor:pointer;">本金</th><th>游戏名字</th><th>赢抽点数</th><th>输返点数</th><th>赢收台费</th><th>输返台费</th><th>代理人</th><th>备注</th><th>操作</th></tr>';
+							html += '<tr class="J-add-keren-row">';
+								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" placeholder="客人编号" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="benjin" placeholder="本金" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="player_name" placeholder="游戏名字" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="ying_chou" placeholder="赢抽点数" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="shu_fan" placeholder="输返点数" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="ying_fee" placeholder="赢收台费" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="shu_fee" placeholder="输返台费" /></td>';
+								var agentListHtml = '';
+								agentListHtml += '<select class="J-agent-select-change form-control" style="min-width:120px;">';
+								agentListHtml += '<option value="0">请选择</option>';
+								for(var k in aAgentList){
+									agentListHtml += '<option value="' + aAgentList[k].id + '">' + aAgentList[k].agent_name + '</option>';
+								}
+								agentListHtml += '</select>';
+								html += '<td>' + agentListHtml + '</td>';
+								html += '<td style="min-width:70px;"><input type="text" class="form-control" data-type="remark" placeholder="备注" /></td>';
+								html += '<td><a class="J-add-keren-btn btn btn-sm btn-primary">添加</a></td>';
+							html += '</tr>';
 							html += '</table>';
 						html += '</div>';
 					html += '</div>';
@@ -2439,6 +2500,42 @@
 						oKerenListObject.aExtentParam.benjinSort = 1;
 					}
 					oKerenListObject.show(1);
+				});
+			});
+			oHtml.find('.J-add-keren-btn').click(function(){
+				var o = this;
+				ajax({
+					url : Tools.url('home', 'index/add-keren'),
+					data : {
+						kerenBianhao : $(o).parent().parent().find('input[data-type=keren_bianhao]').val(),
+						benjin : $(o).parent().parent().find('input[data-type=benjin]').val(),
+						playerName : $(o).parent().parent().find('input[data-type=player_name]').val(),
+						yingChou : $(o).parent().parent().find('input[data-type=ying_chou]').val(),
+						shuFan : $(o).parent().parent().find('input[data-type=shu_fan]').val(),
+						yingFee : $(o).parent().parent().find('input[data-type=ying_fee]').val(),
+						shuFee : $(o).parent().parent().find('input[data-type=shu_fee]').val(),
+						agentId : $(o).parent().parent().find('.J-agent-select-change').val(),
+						playerId : 0,
+						remark : $(o).parent().parent().find('input[data-type=remark]').val()
+					},
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						if(aResult.status == 1){
+							UBox.show(aResult.msg, aResult.status);
+							$(document).click();
+							AlertWin.showPlayerList();
+							/*UBox.show(aResult.msg, aResult.status, function(){
+								location.reload();
+							}, 1);*/
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
 				});
 			});
 		},
