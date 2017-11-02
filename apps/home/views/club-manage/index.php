@@ -19,7 +19,7 @@ $this->setTitle('俱乐部管理');
 					'club_name'	=>	['title' => '俱乐部名称','class' => 'col-sm-2'],
 					'club_id'	=>	['title' => '俱乐部ID','class' => 'col-sm-2'],
 					'club_login_name'	=>	['title' => '登录账户','class' => 'col-sm-2'],
-					'club_login_password'	=>	['title' => '登录密码','class' => 'col-sm-2'],
+					//'club_login_password'	=>	['title' => '登录密码','class' => 'col-sm-2'],
 					'operate'	=>	[
 						'title' => '操作',
 						'class' => 'col-sm-2',

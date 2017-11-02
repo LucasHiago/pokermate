@@ -10,12 +10,27 @@ use umeworld\lib\Response;
 use yii\validators\EmailValidator;
 use umeworld\lib\PhoneValidator;
 use common\model\User;
+use umeworld\lib\CaptchaAction;
 
 class LoginController extends Controller{
 	
+	public function actions(){
+		return [
+			'error' => [
+				'class' => 'umeworld\lib\ErrorAction',
+			],
+			'captcha' => [
+				'class' => 'umeworld\lib\CaptchaAction',
+				'minLength' => 5,
+				'maxLength' => 5,
+			],
+		];
+	}
+		
 	public function actionLogin(){
 		$account = trim(strip_tags((string)Yii::$app->request->post('account')));
 		$password = trim((string)Yii::$app->request->post('password'));
+		$captcha = trim((string)Yii::$app->request->post('captcha'));
 		
 		$isEmail = (new EmailValidator())->validate($account);
 		$isMobile = (new PhoneValidator())->validate($account);
@@ -24,6 +39,12 @@ class LoginController extends Controller{
 		}
 		if(!$password || strlen($password) < 6 || strlen($password) > 20){
 			return new Response('密码长度为6~20个字符', -1);
+		}
+		if(!$captcha){
+			return new Response('请输入验证码', -1);
+		}
+		if(!CaptchaAction::validateCaptcha($captcha, 'login/captcha')){
+			return new Response('验证码不正确', -1);
 		}
 		$mUser = false;
 		if($isEmail){

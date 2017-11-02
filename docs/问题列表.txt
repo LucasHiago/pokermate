@@ -112,6 +112,16 @@ CREATE TABLE `host_lianmeng_club` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
+
+
+ALTER TABLE `host_lianmeng` ADD `update_paiju_time` int(11) NOT NULL COMMENT '更新牌局时间' AFTER `is_delete`;
+ALTER TABLE `host_lianmeng` ADD `clean_time` int(11) NOT NULL COMMENT '清账时间' AFTER `is_delete`;
+ALTER TABLE `user` ADD `save_code_remain_times` int(11) NOT NULL COMMENT '安全密码剩余输入次数' AFTER `is_forbidden`;
+ALTER TABLE `user` ADD `login_token` varchar(100) NOT NULL COMMENT '登录token' AFTER `is_forbidden`;
+UPDATE `user` SET `save_code_remain_times`=3;
+
+
+
 优先
 1.添加日志记录
 2.添加一键清楚数据 不可恢复（需要输入安全密码）

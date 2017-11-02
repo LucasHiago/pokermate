@@ -299,6 +299,7 @@ class IndexController extends Controller{
 		$id = (int)Yii::$app->request->post('id');
 		$type = (string)Yii::$app->request->post('type');
 		$value = Yii::$app->request->post('value');
+		$isMergeKerenBianhao = Yii::$app->request->post('isMergeKerenBianhao');
 		
 		$mKerenBenjin = KerenBenjin::findOne(['id' => $id, 'is_delete' => 0]);
 		if(!$mKerenBenjin){
@@ -313,6 +314,9 @@ class IndexController extends Controller{
 			$isMerge = (int)Yii::$app->request->post('isMerge');
 			if($mKerenBenjin->keren_bianhao != $value){
 				$mTempKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $value]);
+				if(!$mTempKerenBenjin && $isMergeKerenBianhao){
+					return new Response('合并目标编号不存在', -1);
+				}
 				if($mTempKerenBenjin){	
 					if($isMerge){
 						$aMergeRecord = $mTempKerenBenjin->toArray();
@@ -505,6 +509,9 @@ class IndexController extends Controller{
 			}
 		}
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
+		if(!$mKerenBenjin && $isAddPlayer){
+			return new Response('插入的编号不存在', -1);
+		}
 		if(!$mKerenBenjin){
 			//return new Response('出错啦', 0);
 			$kerenId = KerenBenjin::addRecord([

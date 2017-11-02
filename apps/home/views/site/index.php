@@ -21,6 +21,10 @@ $this->setTitle('用户登录');
 						<input type="password" id="password" name="password" ng-model="pwd" class="form-control input-lg ng-pristine ng-untouched ng-invalid ng-invalid-required" required placeholder="密码">
 					</div>
 					<div class="form-group">
+						<img id="verifyImg" class="pull-left" style="position: relative; top: -8px;width: 174px; height: 60px;cursor:pointer;" src="<?php echo Url::to('home', 'login/captcha') . '?v=' . NOW_TIME; ?>" alt="" onclick="refreshCaptcha(this);">
+						<input class="form-control input-lg ng-pristine ng-untouched ng-invalid ng-invalid-required" type="text" id="verifycode" name="verifycode" style="width:390px;" placeholder="验证码" />
+					</div>
+					<div class="form-group">
 						<button class="btn btn-primary btn-lg btn-block" id="loginbutton" type="button" onclick="doLogin();">立即登陆</button>
 					</div>
 					<div class="form-group text-center text-danger" id="msg"></div>
@@ -30,6 +34,10 @@ $this->setTitle('用户登录');
 	</div>
 </div>
 <script type="text/javascript">
+	function refreshCaptcha(o){
+		$(o).attr('src', Tools.url('home', 'login/captcha') + '?v=' + Date.parse(new Date()));
+	}
+	
 	function doLogin(o){
 		if($(o).attr('disabled')){
 			return;
@@ -38,7 +46,8 @@ $this->setTitle('用户登录');
 			url : Tools.url('home', 'login/login'),
 			data : {
 				account : $('#username').val(),
-				password : $('#password').val()
+				password : $('#password').val(),
+				captcha : $('#verifycode').val()
 			},
 			beforeSend : function(){
 				$(o).attr('disabled', 'disabled');
@@ -59,6 +68,10 @@ $this->setTitle('用户登录');
 	}
 	
 	$(function(){
-		
+		$('input').keyup(function(e){
+			if(e.keyCode == 13){
+				$('#loginbutton').click();	
+			}
+		});
 	});
 </script>

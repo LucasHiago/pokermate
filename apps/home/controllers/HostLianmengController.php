@@ -12,6 +12,7 @@ use common\model\HostLianmengClub;
 use common\model\Calculate;
 
 class HostLianmengController extends Controller{
+	public $enableCsrfValidation = false;
 	
 	public function actionLianmengHostDuizhang(){
 		$id = (int)Yii::$app->request->get('id');
@@ -436,6 +437,8 @@ class HostLianmengController extends Controller{
 	
 	public function actionLianmengClubQinZhang(){
 		$id = Yii::$app->request->post('id');
+		//$aLianmengHostDuizhang = (string)Yii::$app->request->post('aLianmengHostDuizhang');
+		//$aLianmengHostDuizhang = json_decode($aLianmengHostDuizhang,1);
 		
 		$mLianmeng = HostLianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
 		if(!$mLianmeng){
@@ -460,6 +463,19 @@ class HostLianmengController extends Controller{
 			return new Response('清账失败', 0);
 		}
 		return new Response('清账成功', 1);
+	}
+	
+	public function actionRefreshLianmengPaijuTime(){
+		$id = Yii::$app->request->post('id');
+		
+		$mLianmeng = HostLianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		$mLianmeng->set('update_paiju_time', 0);
+		$mLianmeng->save();
+		
+		return new Response('更新成功', 1);
 	}
 	
 }

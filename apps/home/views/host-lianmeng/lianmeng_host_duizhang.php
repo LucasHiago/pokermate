@@ -17,15 +17,16 @@ $pageCount = 8;
 				</select>
 			</div>
 			<div class="h-text-bg h-l-div" style="background:none;width:100px;min-width:58px;"><div class="btn btn-primary" onclick="AlertWin.showLianmengClubSetting(<?php echo $lianmengId; ?>);">俱乐部设置</div></div>
-			<div class="h-text-bg h-l-div" style="background:none;width:58px;min-width:58px;"><div class="J-club-qin-zhang btn btn-primary">清账</div></div>
+			<div class="h-text-bg h-l-div" style="background:none;width:58px;min-width:85px;"><div class="J-club-qin-zhang btn btn-primary">清理账单</div></div>
 			<div class="h-text-bg h-l-div"><b>差额盈利：</b><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
 			<div class="h-text-bg h-l-div"><b>总局数：</b><?php echo isset($aLianmengHostDuizhang['totalPaijuCount']) ? $aLianmengHostDuizhang['totalPaijuCount'] : 0; ?></div>
 			<!--<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuziPaijuCount']) ? $aLianmengHostDuizhang['totalHeduishuziPaijuCount'] : 0; ?></div>-->
-			<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalBaoXianChouCheng']) ? $aLianmengHostDuizhang['totalBaoXianChouCheng'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalBaoXianBeiChou']) ? $aLianmengHostDuizhang['totalBaoXianBeiChou'] : 0; ?></div>
 			<div class="h-text-bg h-l-div"><b>牌局误差值总和：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuzi']) ? $aLianmengHostDuizhang['totalHeduishuzi'] : 0; ?></div>
 		</div>
 		<div class="h-right">
-			<div class="btn btn-primary" style="float:right;margin-right:45px;margin-top: 8px;" onclick='AlertWin.showLianmengLmzjPaijuCreater();'>联盟设置</div>
+			<div class="btn btn-warning" style="float:right;margin-right:42px;margin-top: 8px;" onclick='AlertWin.showLianmengLmzjPaijuCreater();'>联盟设置</div>
+			<div class="btn btn-warning" style="float:right;margin-right:10px;margin-top: 8px;" onclick='refreshPaijuTime(this);'>更新牌局</div>
 		</div>
 	</div>
 	<div class="lmzj-content-wrap">
@@ -162,7 +163,27 @@ $pageCount = 8;
 			$('.J-go-scroll-right').hide();
 		}
 	}
+	function refreshPaijuTime(o){
+		ajax({
+				url : Tools.url('home', 'host-lianmeng/refresh-lianmeng-paiju-time'),
+				data : {id : <?php echo $lianmengId; ?>},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					if(aResult.status == 1){
+						location.reload();
+					}else{
+						UBox.show(aResult.msg, aResult.status);
+					}
+				}
+			});
+	}
 	$(function(){
+		isHostLianmengPage = true;
 		$('.J-c-h-t-menu-m3').addClass('active');
 		initItemPage();
 		$('.J-lianmeng-selector').val(<?php echo $lianmengId; ?>);
@@ -177,7 +198,7 @@ $pageCount = 8;
 			$(this).prev().focus();
 		});
 		$('.J-club-qin-zhang').click(function(){
-			if(confirm('确定清账？')){
+			if(confirm('清理账单后，已添加的各俱乐部的新账将加到旧账中，同时清理显示的牌局。')){
 				var o = this;
 				ajax({
 					url : Tools.url('home', 'host-lianmeng/lianmeng-club-qin-zhang'),

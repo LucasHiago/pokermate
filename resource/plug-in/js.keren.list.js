@@ -98,7 +98,7 @@
 					agentListHtml += '</select>';
 					html += '<td class="J-select-play" data-id="' + aData[i].agent_id + '">' + agentListHtml + '</td>';
 					html += '<td><input type="text" class="form-control" data-type="remark" data-record-id="' + aData[i].id + '" value="' + aData[i].remark + '" style="' + fontColorGreen + '" placeholder="备注" /></td>';
-					html += '<td style="width:150px;"><a class="J-del-btn btn btn-sm btn-danger" data-record-id="' + aData[i].id + '">删除</a>&nbsp;<a href="' + Tools.url('home', 'keren-benjin-manage/export-keren-last-paiju-data') + '?kerenBianhao=' + aData[i].keren_bianhao + '" class="btn btn-sm btn-primary">导出记录</a></td>';
+					html += '<td style="width:190px;"><a class="J-merge-btn btn btn-sm btn-primary" data-record-id="' + aData[i].id + '" data-keren-bianhao="' + aData[i].keren_bianhao + '">合并</a>&nbsp;<a class="J-del-btn btn btn-sm btn-danger" data-record-id="' + aData[i].id + '">删除</a>&nbsp;<a href="' + Tools.url('home', 'keren-benjin-manage/export-keren-last-paiju-data') + '?kerenBianhao=' + aData[i].keren_bianhao + '" class="btn btn-sm btn-primary">导出记录</a></td>';
 				html += '</tr>';
 			}
 			var oHtml = $(html);
@@ -128,9 +128,15 @@
 					_updateRecordValue(this);
 				}
 			});
+			oHtml.find('.J-merge-btn').click(function(){
+				var o = this;
+				AlertWin.showMergeKeren(o, function(o){
+					_updateRecordValue(o, false, 1);
+				});
+			});
 		}
 		
-		function _updateRecordValue(o, isMerge){
+		function _updateRecordValue(o, isMerge, isMergeKerenBianhao){
 			var aData = {
 				id : $(o).attr('data-record-id'),
 				type : $(o).attr('data-type'),
@@ -138,6 +144,9 @@
 			};
 			if(isMerge){
 				aData.isMerge = 1;
+			}
+			if(isMergeKerenBianhao){
+				aData.isMergeKerenBianhao = 1;
 			}
 			ajax({
 				url : Tools.url('home', 'index/update-keren-info'),
@@ -151,11 +160,16 @@
 				success : function(aResult){
 					if(aResult.status == 2){
 						if(confirm(aResult.msg)){
-							_updateRecordValue(o, 1);
+							_updateRecordValue(o, 1, isMergeKerenBianhao);
 						}
 						return;
 					}
 					if(aResult.status == 1){
+						if(isMergeKerenBianhao){
+							$(document).click();
+							AlertWin.showPlayerList();
+							return;
+						}
 						if(aResult.data == 'reload'){
 							UBox.show(aResult.msg, aResult.status, function(){
 								location.reload();

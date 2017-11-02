@@ -1950,12 +1950,12 @@ input, select{border:none;outline:none;background:none;}
 }
 .lmzj-wrap .h-left, .lmzj-wrap .h-right{
 	display:inline-block;
-	width:1100px;
+	width:1060px;
 	height:100%;
 }
 .lmzj-wrap .h-right{
 	float:right;
-	width:200px;
+	width:250px;
 }
 .lmzj-wrap .h-left .h-l-div, .lmzj-wrap .h-right .h-l-div{
 	float:left;
@@ -1972,7 +1972,7 @@ input, select{border:none;outline:none;background:none;}
 	/*background: url(./../images/304.png) no-repeat center;*/
 }
 .lmzj-wrap .h-l-div.h-text-bg{
-	margin-left:20px;
+	margin-left:10px;
 	width:150px;
 	/*background: url(./../images/sprite.png) no-repeat;
     background-position: -1834px -433px;*/

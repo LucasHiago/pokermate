@@ -86,6 +86,7 @@ class UserManageController extends Controller{
 		$qibuChoushui = (int)Yii::$app->request->post('qibuChoushui');
 		$qibuTaifee = (int)Yii::$app->request->post('qibuTaifee');
 		$choushuiShuanfa = (int)Yii::$app->request->post('choushuiShuanfa');
+		$saveCode = (string)Yii::$app->request->post('saveCode');
 		
 		if(!$name || StringHelper::getStringLength($name) > 20){
 			return new Response('姓名名长度为1~20个字', -1);
@@ -135,6 +136,7 @@ class UserManageController extends Controller{
 			if($password){
 				$mUser->set('password', User::encryptPassword($password));
 			}
+			$mUser->set('save_code', $saveCode);
 			$mUser->save();
 		}else{
 			if(!$loginName || StringHelper::getStringLength($loginName) > 20){
@@ -172,14 +174,27 @@ class UserManageController extends Controller{
 		
 		$mUser = Yii::$app->user->getIdentity();
 		if($mUser->save_code != $saveCode){
-			return new Response('安全码不正确', -1);
+			$resetflag = false;
+			$mUser->set('save_code_remain_times', ['sub', 1]);
+			if(!$mUser->save_code_remain_times){
+				$resetflag = true;
+				$mUser->set('save_code', '');
+				$mUser->set('save_code_remain_times', User::DEFAULT_SAVE_CODE_REMAIN_TIMES);
+			}
+			$mUser->save();
+			if($resetflag){
+				return new Response('输入错误次数大多，请联系管理员获取新的安全密码', 0);
+			}else{
+				return new Response('安全码不正确，连续输入错误' . User::DEFAULT_SAVE_CODE_REMAIN_TIMES . '次后系统会重新生成新的安全密码！', -1);
+			}
 		}
 		if($mUser->type == User::TYPE_MANAGE){
 			return new Response('超级管理员账号不能清除数据', -1);
 		}
 		
 		$mUser->clearUserData();
-		
+		$mUser->set('save_code_remain_times', User::DEFAULT_SAVE_CODE_REMAIN_TIMES);
+		$mUser->save();
 		return new Response('清除数据成功', 1);
 	}
 	

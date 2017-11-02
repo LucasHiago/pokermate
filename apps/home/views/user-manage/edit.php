@@ -64,6 +64,10 @@ if(!Yii::$app->user->getIdentity()->isManager()){
 				<option value="<?php echo User::CHOUSHUI_SHUANFA_SISHIWURU; ?>">四舍五入</option>
 			</select>
 		</div>
+		<div class="form-group" style="<?php echo $cssStyle; ?>">
+			<label>安全密码(不填写则为系统自动生成)</label>
+			<input style="width:300px;" class="J-save-code form-control" value="<?php echo $aUser ? $aUser['save_code'] : ''; ?>">
+		</div>
 		<br />
 		<div class="form-group">
 			<button type="button" class="J-save-btn btn btn-primary" onclick="save(this);">保存</button>
@@ -84,7 +88,8 @@ if(!Yii::$app->user->getIdentity()->isManager()){
 			vipExpireTime : $('.J-vip-expire-time').val(),
 			qibuChoushui : $('.J-qibu-choushui').val(),
 			qibuTaifee : $('.J-qibu-taifee').val(),
-			choushuiShuanfa : $('.J-choushui-shuanfa').val()
+			choushuiShuanfa : $('.J-choushui-shuanfa').val(),
+			saveCode : $('.J-save-code').val()
 		};
 		
 		ajax({

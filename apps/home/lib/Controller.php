@@ -27,4 +27,16 @@ class Controller extends \umeworld\lib\Controller{
 			],
 		];
 	}
+	
+	public function init(){
+		parent::init();
+		
+		$mUser = Yii::$app->user->getIdentity();
+		if($mUser && $mUser->login_token != \common\model\User::getClientLoginToken()){
+			//debug($mUser->login_token);
+			//debug(\common\model\User::getClientLoginToken());
+			Yii::$app->user->logout();
+		}
+	}
+	
 }

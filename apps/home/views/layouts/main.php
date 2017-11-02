@@ -105,7 +105,8 @@ if($mUser){
 		
 		var isCanCloseWin = true;
 		var isCloseWinRefresh = false;
-		function showAlertWin(oDom, callback){
+		var isHostLianmengPage = false;
+		function showAlertWin(oDom, callback, closeWinCallback){
 			var oHtml = $('<div class="J-alert-win-wrap" style="z-index:100;position:fixed;top:0px;left:0px;width:100%;height:100%;overflow-y: scroll;background:rgba(0,0,0,0.8);"></div>');
 			oHtml.append(oDom);
 			$('#framework').append(oHtml);
@@ -118,6 +119,10 @@ if($mUser){
 							clearInterval(tt);
 							oHtml.remove();
 							document.documentElement.style.overflow = '';
+							if(closeWinCallback){
+								closeWinCallback();
+								closeWinCallback = false;
+							}
 							if(isCloseWinRefresh){
 								location.reload();
 							}

@@ -93,12 +93,21 @@ class UserRole extends \yii\web\User{
 		}else{
 			$this->_setLoginSession($userId);
 		}
-
+		
+		$this->_setLoginTokenCookie($userId);
+		
+		$oUser->set('login_token', UserModel::getClientLoginToken());
+		$oUser->save();
+		
 		return true;
 	 }
 	 
-	 private function _setLoginCookie($userId){
+	private function _setLoginCookie($userId){
 		Cookie::setEncrypt('userId', $userId . ':' . NOW_TIME, NOW_TIME + $this->rememberLoginTime);
+	}
+ 
+	private function _setLoginTokenCookie($userId){
+		Cookie::set('login_token', md5($userId . ':' . NOW_TIME), NOW_TIME + $this->rememberLoginTime);
 	}
 
 	private function _getLoginUserIdFromCookie(){
@@ -187,6 +196,7 @@ class UserRole extends \yii\web\User{
 		}
 		//删除客户端保存的令牌
 		Cookie::delete('userId');
+		Cookie::delete('login_token');
 		Yii::$app->session->remove('userId');
 		$this->setIdentity(null);	//清除身份
 		return $this->getIsGuest();

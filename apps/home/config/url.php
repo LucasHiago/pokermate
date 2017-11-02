@@ -15,6 +15,7 @@ return [
 	'baseUrl' => Yii::getAlias('@url.home'),
 	'rules' => [
 	
+		'captcha'																=> 'login/captcha',
 		'login.json'															=> 'login/login',
 		'logout.html'															=> 'login/logout',
 		
@@ -90,6 +91,7 @@ return [
 		'host-lianmeng/update-lianmeng-club-info.json'							=> 'host-lianmeng/update-lianmeng-club-info',
 		'host-lianmeng/delete-club.json'										=> 'host-lianmeng/delete-club',
 		'host-lianmeng/lianmeng-club-qin-zhang.json'							=> 'host-lianmeng/lianmeng-club-qin-zhang',
+		'host-lianmeng/refresh-lianmeng-paiju-time.json'						=> 'host-lianmeng/refresh-lianmeng-paiju-time',
 		
 		
 		'paiju/chang-paiju-lianmeng.json'										=> 'paiju/chang-paiju-lianmeng',

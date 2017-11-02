@@ -21,7 +21,7 @@ $this->setTitle($aClub ? '编辑俱乐部' : '新增俱乐部');
 		</div>
 		<div class="form-group">
 			<label>登录密码</label>
-			<input style="width:300px;" class="J-club-login-password form-control" value="<?php echo $aClub ? $aClub['club_login_password'] : ''; ?>">
+			<input type="password" style="width:300px;" class="J-club-login-password form-control" value="<?php echo $aClub ? $aClub['club_login_password'] : ''; ?>">
 		</div>
 		<br />
 		<div class="form-group">

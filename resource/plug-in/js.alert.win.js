@@ -1,5 +1,39 @@
 (function(container, $){
 	container.AlertWin = {
+		showMergeKeren : function(o, callback){
+			var html = '';
+			html += '<div class="J-data-list-win" style="width:600px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">客人合并</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px 10px;">';
+						html += '<div class="h30"></div>';
+						html += '<div class="form-group">';
+							html += '<div style="height:32px;">';
+								html += '<label style="float:left;line-height:32px;margin-left: 56px;">当前编号：<font style="color:#ff5722;">' + $(o).attr('data-keren-bianhao') + '</font>&nbsp;&nbsp;</label>';
+								html += '<label style="float:left;line-height:32px;">合并目标编号：</label>';
+								html += '<input type="text" class="J-merge-kerenbianhao form-control" placeholder="请输入客人编号" style="float:left;width: 150px;" />';
+								html += '<button type="text" class="J-go-merge btn btn-primary" style="float:left;margin-left: 10px;">合并</button>';
+							html += '</div>';
+						html += '</div>';
+						html += '<div class="h20"></div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			var oHtml = $(html);
+			
+			showAlertWin(oHtml, function(){
+				oHtml.find('.J-go-merge').click(function(){
+					var input = $(o).parent().parent().find('input[data-type=keren_bianhao]');
+					input.val(oHtml.find('.J-merge-kerenbianhao').val());
+					callback(input[0]);
+				});
+			}, function(){
+				AlertWin.showPlayerList();
+			});
+		},
+		
 		showLianmengLmzjPaijuCreater : function(){
 			isCloseWinRefresh = true;
 			var html = '';
@@ -726,14 +760,18 @@
 						if(aResult.status == 1){
 							$(document).click();
 							UBox.show(aResult.msg, aResult.status, function(){
-								location.reload();
+								if(!isHostLianmengPage){
+									location.reload();
+								}
 							}, 1);
 						}else if(aResult.status == 2){
 							if(confirm(aResult.msg)){
 								aData.retry = 1;
 								_doImportPaiju(o, aData);
 							}else{
-								location.reload();
+								if(!isHostLianmengPage){
+									location.reload();
+								}
 							}
 						}else if(aResult.status == 3){
 							$(document).click();
@@ -981,7 +1019,7 @@
 						}
 						listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="' + aData.id + '" data-type="duizhangfangfa">' + opitonHtml + '</select></td>';
 						listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="paiju_fee" value="' + aData.paiju_fee + '" /></td>';
-						listHtml += '<td><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="baoxian_choucheng" value="' + aData.baoxian_choucheng + '" /></td>';
+						listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="baoxian_choucheng" value="' + aData.baoxian_choucheng + '" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
 						listHtml += '<td>' + aData.lianmeng_name + '</td>';
 						listHtml += '<td><div class="J-la-delete-btn btn btn-sm btn-danger" data-id="' + aData.id + '">删除</div></td>';
 					listHtml += '</tr>';
@@ -991,7 +1029,7 @@
 					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_id" data-id="0" value="" /></td>';
 					listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="0" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option></select></td>';
 					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="paiju_fee" data-id="0" value="0" /></td>';
-					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="baoxian_choucheng" data-id="0" value="0" /></td>';
+					listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-type="baoxian_choucheng" data-id="0" value="0" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
 					listHtml += '<td class="J-lianmeng-name">&nbsp;</td>';
 					listHtml += '<td><div class="J-la-add-btn btn btn-sm btn-primary" data-id="0">添加</div></td>';
 				listHtml += '</tr>';
@@ -2159,7 +2197,7 @@
 								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" placeholder="请输入客人编号" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="player_name" placeholder="请输入玩家名字" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="player_id" placeholder="请输入玩家ID" /></td>';
-								html += '<td><a class="J-addkeren-btn btn btn-sm btn-primary">添加</a></td>';
+								html += '<td><a class="J-addkeren-btn btn btn-sm btn-primary">插入玩家</a></td>';
 							html += '</tr>';
 							html += '</table>';
 						html += '</div>';
@@ -2792,7 +2830,7 @@
 						
 						html += '<div class="form-group">';
 							html += '<label>登录密码</label>';
-							html += '<input type="text" class="J-input J-club-login-password form-control" value="" placeholder="请输入登录密码" />';
+							html += '<input type="password" class="J-input J-club-login-password form-control" value="" placeholder="请输入登录密码" />';
 						html += '</div>';
 						html += '<div class="btn btn-sm btn-primary J-new-btn">保存</div>';
 						html += '<div class="h20"></div>';
@@ -2861,7 +2899,7 @@
 						
 						html += '<div class="form-group">';
 							html += '<label>登录密码</label>';
-							html += '<input type="text" class="J-input J-club-login-password form-control" value="' + aClub.club_login_password + '" placeholder="请输入登录密码" />';
+							html += '<input type="password" class="J-input J-club-login-password form-control" value="' + aClub.club_login_password + '" placeholder="请输入登录密码" />';
 						html += '</div>';
 						html += '<div class="btn btn-sm btn-danger J-del-btn">删除</div>';
 						html += '<div class="btn btn-sm btn-primary J-edit-btn" style="margin-left:20px;">保存</div>';
