@@ -173,20 +173,22 @@ class UserManageController extends Controller{
 		}
 		
 		$mUser = Yii::$app->user->getIdentity();
+		if($mUser->last_save_code_error_time && $mUser->last_save_code_error_time + 1800 > NOW_TIME){
+			return new Response('输入错误次数大多，半小时后再试', 0);
+		}
+		if($mUser->last_save_code_error_time && $mUser->last_save_code_error_time + 1800 < NOW_TIME){
+			$mUser->set('last_save_code_error_time', 0);
+			$mUser->set('save_code_remain_times', User::DEFAULT_SAVE_CODE_REMAIN_TIMES);
+			$mUser->save();
+		}
 		if($mUser->save_code != $saveCode){
-			$resetflag = false;
 			$mUser->set('save_code_remain_times', ['sub', 1]);
 			if(!$mUser->save_code_remain_times){
-				$resetflag = true;
-				$mUser->set('save_code', '');
-				$mUser->set('save_code_remain_times', User::DEFAULT_SAVE_CODE_REMAIN_TIMES);
+				$mUser->set('last_save_code_error_time', NOW_TIME);
 			}
 			$mUser->save();
-			if($resetflag){
-				return new Response('输入错误次数大多，请联系管理员获取新的安全密码', 0);
-			}else{
-				return new Response('安全码不正确，连续输入错误' . User::DEFAULT_SAVE_CODE_REMAIN_TIMES . '次后系统会重新生成新的安全密码！', -1);
-			}
+			
+			return new Response('安全码不正确，连续输入错误' . User::DEFAULT_SAVE_CODE_REMAIN_TIMES . '次后则半小时后才能再试！', -1);
 		}
 		if($mUser->type == User::TYPE_MANAGE){
 			return new Response('超级管理员账号不能清除数据', -1);
@@ -196,6 +198,16 @@ class UserManageController extends Controller{
 		$mUser->set('save_code_remain_times', User::DEFAULT_SAVE_CODE_REMAIN_TIMES);
 		$mUser->save();
 		return new Response('清除数据成功', 1);
+	}
+	
+	public function actionClearSaveCodeLimit(){
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$mUser->set('last_save_code_error_time', 0);
+		$mUser->set('save_code_remain_times', User::DEFAULT_SAVE_CODE_REMAIN_TIMES);
+		$mUser->save();
+		
+		return new Response('清除成功', 1);
 	}
 	
 }

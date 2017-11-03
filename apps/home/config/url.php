@@ -129,6 +129,7 @@ return [
 		'user-manage/edit/<id:.*>.html'											=> 'user-manage/show-edit',
 		'user-manage/edit.json'													=> 'user-manage/edit',
 		'user-manage/clear-user-data.json'										=> 'user-manage/clear-user-data',
+		'user-manage/clear-save-code-limit.json'								=> 'user-manage/clear-save-code-limit',
 		
 		
 		

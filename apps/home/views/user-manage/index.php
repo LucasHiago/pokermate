@@ -96,10 +96,11 @@ $this->setTitle('账号管理');
 					],
 					'operate'	=>	[
 						'title' => '操作',
-						'class' => 'col-sm-2',
+						'class' => 'col-sm-3',
 						'content' => function($aData){
 							$str = '';
 							$str .= '<a href="' . Url::to('home', 'user-manage/show-edit', ['id' => $aData['id']]) . '" type="button" class="btn btn-primary">修改</a>&nbsp;&nbsp;';
+							$str .= '<a href="javascript:;" type="button" class="J-clear-save-code-limit btn btn-primary" data-id="' . $aData['id'] . '">清除安全密码输入限制</a>&nbsp;&nbsp;';
 							$str .= '<a href="javascript:;" type="button" class="btn btn-danger" onclick="setDelete(this, ' . $aData['id'] . ', 1);">删除</a>';
 							return $str;
 						}
@@ -151,5 +152,25 @@ $this->setTitle('账号管理');
 	
 	$(function(){
 		//showJumpPage();
+		$('.J-clear-save-code-limit').click(function(){
+			var o = this;
+			ajax({
+				url : '<?php echo Url::to('home', 'user-manage/clear-save-code-limit'); ?>',
+				data : {id : $(o).attr('data-id')},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					if(aResult.status == 1){
+						UBox.show(aResult.msg, aResult.status);
+					}else{
+						UBox.show(aResult.msg, aResult.status);
+					}
+				}
+			});
+		});
 	});
 </script>

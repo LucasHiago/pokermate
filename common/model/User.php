@@ -242,6 +242,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$this->set('agent_fencheng_ajust_value', 0);
 		$this->set('lianmeng_zhongzhang_ajust_value', 0);
 		$this->set('cache_data', '');
+		$this->set('last_save_code_error_time', 0);
+		$this->set('save_code_remain_times', static::DEFAULT_SAVE_CODE_REMAIN_TIMES);
 		$this->set('is_active', 0);
 		//$this->set('active_time', 0);
 		$this->save();
