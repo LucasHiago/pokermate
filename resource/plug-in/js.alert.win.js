@@ -2824,12 +2824,12 @@
 						html += '</div>';
 						
 						html += '<div class="form-group">';
-							html += '<label>登录账户</label>';
+							html += '<label>官网后台账号</label>';
 							html += '<input type="text" class="J-input J-club-login-name form-control" value="" placeholder="请输入登录账户" />';
 						html += '</div>';
 						
 						html += '<div class="form-group">';
-							html += '<label>登录密码</label>';
+							html += '<label>官网后台密码</label>';
 							html += '<input type="password" class="J-input J-club-login-password form-control" value="" placeholder="请输入登录密码" />';
 						html += '</div>';
 						html += '<div class="btn btn-sm btn-primary J-new-btn">保存</div>';
@@ -2893,12 +2893,12 @@
 						html += '</div>';
 						
 						html += '<div class="form-group">';
-							html += '<label>登录账户</label>';
+							html += '<label>官网后台账号</label>';
 							html += '<input type="text" class="J-input J-club-login-name form-control" value="' + aClub.club_login_name + '" placeholder="请输入登录账户" />';
 						html += '</div>';
 						
 						html += '<div class="form-group">';
-							html += '<label>登录密码</label>';
+							html += '<label>官网后台密码</label>';
 							html += '<input type="password" class="J-input J-club-login-password form-control" value="' + aClub.club_login_password + '" placeholder="请输入登录密码" />';
 						html += '</div>';
 						html += '<div class="btn btn-sm btn-danger J-del-btn">删除</div>';

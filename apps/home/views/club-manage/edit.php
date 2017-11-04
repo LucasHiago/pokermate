@@ -16,11 +16,11 @@ $this->setTitle($aClub ? '编辑俱乐部' : '新增俱乐部');
 			<input style="width:300px;" class="J-club-id form-control" value="<?php echo $aClub ? $aClub['club_id'] : ''; ?>">
 		</div>
 		<div class="form-group">
-			<label>登录账号</label>
+			<label>官网后台账号</label>
 			<input style="width:300px;" class="J-club-login-name form-control" value="<?php echo $aClub ? $aClub['club_login_name'] : ''; ?>">
 		</div>
 		<div class="form-group">
-			<label>登录密码</label>
+			<label>官网后台密码</label>
 			<input type="password" style="width:300px;" class="J-club-login-password form-control" value="<?php echo $aClub ? $aClub['club_login_password'] : ''; ?>">
 		</div>
 		<br />

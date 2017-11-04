@@ -18,11 +18,11 @@ $pageCount = 8;
 			</div>
 			<div class="h-text-bg h-l-div" style="background:none;width:100px;min-width:58px;"><div class="btn btn-primary" onclick="AlertWin.showLianmengClubSetting(<?php echo $lianmengId; ?>);">俱乐部设置</div></div>
 			<div class="h-text-bg h-l-div" style="background:none;width:58px;min-width:85px;"><div class="J-club-qin-zhang btn btn-primary">清理账单</div></div>
-			<div class="h-text-bg h-l-div"><b>差额盈利：</b><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
 			<div class="h-text-bg h-l-div"><b>总局数：</b><?php echo isset($aLianmengHostDuizhang['totalPaijuCount']) ? $aLianmengHostDuizhang['totalPaijuCount'] : 0; ?></div>
 			<!--<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuziPaijuCount']) ? $aLianmengHostDuizhang['totalHeduishuziPaijuCount'] : 0; ?></div>-->
-			<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalBaoXianBeiChou']) ? $aLianmengHostDuizhang['totalBaoXianBeiChou'] : 0; ?></div>
-			<div class="h-text-bg h-l-div"><b>牌局误差值总和：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuzi']) ? $aLianmengHostDuizhang['totalHeduishuzi'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>保险抽成：</b><?php echo isset($aLianmengHostDuizhang['totalBaoXianBeiChou']) ? $aLianmengHostDuizhang['totalBaoXianBeiChou'] : 0; ?></div>
+			<div class="h-text-bg h-l-div"><b>误差盈利：</b><?php echo isset($aLianmengHostDuizhang['totalZhanDan']) ? $aLianmengHostDuizhang['totalZhanDan'] : 0; ?></div>
+			<!--<div class="h-text-bg h-l-div"><b>牌局误差值总和：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuzi']) ? $aLianmengHostDuizhang['totalHeduishuzi'] : 0; ?></div>-->
 		</div>
 		<div class="h-right">
 			<div class="btn btn-warning" style="float:right;margin-right:42px;margin-top: 8px;" onclick='AlertWin.showLianmengLmzjPaijuCreater();'>联盟设置</div>
