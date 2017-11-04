@@ -235,6 +235,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		Yii::$app->db->createCommand($sql)->execute();
 		$sql = 'DELETE FROM ' . OperateLog::tableName() . ' WHERE `user_id`=' . $this->id;
 		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . HostLianmeng::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . HostLianmengClub::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
 		/*$sql = 'DELETE FROM ' . User::tableName() . ' WHERE `id`=' . $this->id;
 		Yii::$app->db->createCommand($sql)->execute();*/
 		$this->set('choushui_ajust_value', 0);
@@ -244,6 +248,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$this->set('cache_data', '');
 		$this->set('last_save_code_error_time', 0);
 		$this->set('save_code_remain_times', static::DEFAULT_SAVE_CODE_REMAIN_TIMES);
+		$this->set('qibu_zhanji', 0);
 		$this->set('is_active', 0);
 		//$this->set('active_time', 0);
 		$this->save();
