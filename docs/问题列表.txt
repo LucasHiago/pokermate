@@ -127,7 +127,7 @@ ALTER TABLE `user` ADD `last_save_code_error_time` int(11) NOT NULL COMMENT '×îº
 
 ALTER TABLE `host_lianmeng_club` ADD `qibu_zhanji` int(11) NOT NULL COMMENT 'Æð²½Õ½¼¨' AFTER `baoxian_choucheng`;
 
-
+ALTER TABLE `user` ADD `qibu_zhanji` int(11) NOT NULL COMMENT 'Æð²½Õ½¼¨' AFTER `cache_data`;
 
 ÓÅÏÈ
 1.Ìí¼ÓÈÕÖ¾¼ÇÂ¼

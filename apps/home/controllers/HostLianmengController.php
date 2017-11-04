@@ -50,6 +50,7 @@ class HostLianmengController extends Controller{
 			'aLianmengHostDuizhang' => $aLianmengHostDuizhang,
 			'lianmengId' => $id,
 			'aCurrentLianmeng' => $aCurrentLianmeng,
+			'qibuZhanji' => $mUser->qibu_zhanji,
 		]);
 	}
 	

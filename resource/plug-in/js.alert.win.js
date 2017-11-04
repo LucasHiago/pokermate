@@ -1,6 +1,6 @@
 (function(container, $){
 	container.AlertWin = {
-		showLianmengClubDetail : function(aData){
+		showLianmengClubDetail : function(qibuZhanji, aData){
 			var html = '';
 			html += '<div class="J-data-list-win" style="float:left;width:800px;min-height:423px;">';
 				html += '<div class="panel panel-primary">';
@@ -8,6 +8,12 @@
 						html += ' <h3 class="panel-title" style="text-align:center;">联盟俱乐部详情</h3>';
 					html += '</div>';
 					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="h30 breadcrumb">';
+							html += '<label style="float:right;line-height:30px;margin-right:20px;">计算为1人</label>';
+							html += '<input type="text" class="J-qibu-zhanji form-control" value="' + qibuZhanji + '" style="float:right;width:50px;height:28px;margin:0 5px;text-align:center;" />';
+							html += '<label style="float:right;line-height:30px;">战绩超过</label>';
+						html += '</div>';
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-lmjlbst-list-table table table-hover table-striped">';
@@ -24,7 +30,33 @@
 			var oHtml = $(html);
 			
 			showAlertWin(oHtml, function(){
-				
+				oHtml.find('.J-qibu-zhanji').keyup(function(e){
+					if(e.keyCode == 13){
+						var o = this;
+						ajax({
+							url : Tools.url('home', 'user/update-user-info'),
+							data : {
+								type : 'qibu_zhanji',
+								value : $(o).val()
+							},
+							beforeSend : function(){
+								$(o).attr('disabled', 'disabled');
+							},
+							complete : function(){
+								$(o).attr('disabled', false);
+							},
+							success : function(aResult){
+								if(aResult.status == 1){
+									UBox.show(aResult.msg, aResult.status, function(){
+										location.reload();
+									}, 1);
+								}else{
+									UBox.show(aResult.msg, aResult.status);
+								}
+							}
+						});
+					}
+				});
 			});	
 		},
 		
@@ -931,7 +963,7 @@
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-lmjlbst-list-table table table-hover table-striped">';
-							html += '<tr><th>俱乐部</th><th>俱乐部ID</th><th style="min-width:120px;">对账方法</th><th style="display:none;">桌子费</th><th>保险被抽成</th><th>统计人数设置</th><th style="min-width:120px;">联盟</th><th>操作</th></tr>';
+							html += '<tr><th>俱乐部</th><th>俱乐部ID</th><th style="min-width:120px;">对账方法</th><th style="display:none;">桌子费</th><th>保险被抽成</th><th style="display:none;">统计人数设置</th><th style="min-width:120px;">联盟</th><th>操作</th></tr>';
 							html += '</table>';
 						html += '</div>';
 					html += '</div>';
@@ -1049,7 +1081,7 @@
 						listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="' + aData.id + '" data-type="duizhangfangfa">' + opitonHtml + '</select></td>';
 						listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="paiju_fee" value="' + aData.paiju_fee + '" placeholder="桌子费" /></td>';
 						listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="baoxian_choucheng" value="' + aData.baoxian_choucheng + '" placeholder="保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
-						listHtml += '<td><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="qibu_zhanji" value="' + aData.qibu_zhanji + '" placeholder="统计人数设置" /></td>';
+						listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="qibu_zhanji" value="' + aData.qibu_zhanji + '" placeholder="统计人数设置" /></td>';
 						listHtml += '<td>' + aData.lianmeng_name + '</td>';
 						listHtml += '<td><div class="J-la-delete-btn btn btn-sm btn-danger" data-id="' + aData.id + '">删除</div></td>';
 					listHtml += '</tr>';
@@ -1060,7 +1092,7 @@
 					listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="0" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option></select></td>';
 					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="paiju_fee" data-id="0" value="0" placeholder="桌子费" /></td>';
 					listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-type="baoxian_choucheng" data-id="0" value="0" placeholder="保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
-					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="qibu_zhanji" data-id="0" value="0" placeholder="统计人数设置" /></td>';
+					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="qibu_zhanji" data-id="0" value="0" placeholder="统计人数设置" /></td>';
 					listHtml += '<td class="J-lianmeng-name">&nbsp;</td>';
 					listHtml += '<td><div class="J-la-add-btn btn btn-sm btn-primary" data-id="0">添加</div></td>';
 				listHtml += '</tr>';

@@ -62,7 +62,7 @@ class UserController extends Controller{
 		$type = (string)Yii::$app->request->post('type');
 		$value = Yii::$app->request->post('value');
 		
-		if(!in_array($type, ['choushui_ajust_value', 'baoxian_ajust_value', 'agent_fencheng_ajust_value', 'lianmeng_zhongzhang_ajust_value'])){
+		if(!in_array($type, ['choushui_ajust_value', 'baoxian_ajust_value', 'agent_fencheng_ajust_value', 'lianmeng_zhongzhang_ajust_value', 'qibu_zhanji'])){
 			return new Response('出错了', 0);
 		}
 		$mUser = Yii::$app->user->getIdentity();
@@ -77,6 +77,9 @@ class UserController extends Controller{
 		}
 		if($type == 'lianmeng_zhongzhang_ajust_value'){
 			$mUser->set('lianmeng_zhongzhang_ajust_value', (int)$value);
+		}
+		if($type == 'qibu_zhanji'){
+			$mUser->set('qibu_zhanji', (int)$value);
 		}
 		$mUser->save();
 		

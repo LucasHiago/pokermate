@@ -1760,7 +1760,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'club_zhanji' => 0,
 				'club_baoxian' => 0,
 				'club_shangzuorenshu' => 0,
-				'qibu_zhanji' => $aClub['qibu_zhanji'],
+				'qibu_zhanji' => $this->qibu_zhanji,
 			];
 			if(!isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
 				$aClubPaijuDataZhangDanList[$aClub['club_id']] = [];
