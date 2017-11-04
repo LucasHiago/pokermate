@@ -1274,6 +1274,9 @@
 				var listHtml = '';
 				for(var i in aDataList){
 					var aData = aDataList[i];
+					if(aData.baoxian_heji == 0 && aData.baoxian_beichou == 0 && aData.shiji_baoxian == 0){
+						continue;
+					}
 					listHtml += '<tr>';
 						listHtml += '<td style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(' + i + ');">' + aData.paiju_name + '</td>';
 						listHtml += '<td>' + aData.baoxian_heji + '</td>';
