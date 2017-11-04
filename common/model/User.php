@@ -563,6 +563,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	}
 	
 	public function getLianmengList(){
+		$this->getDefaultLianmengId();
 		return Lianmeng::findAll(['user_id' => $this->id, 'is_delete' => 0]);
 	}
 	
