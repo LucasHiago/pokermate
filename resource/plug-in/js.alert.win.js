@@ -631,7 +631,7 @@
 							trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="2">无水账单</option><option value="1">0.975</option></select></td>';
 						}
 						trHtml += '<td style="display:none;"><input type="text" class="form-control" style="width:100%;" value="' + aData[i].paiju_fee + '" data-type="paiju_fee" placeholder="输入桌子费" /></td>';
-						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].baoxian_choucheng + '" data-type="baoxian_choucheng" placeholder="输入保险被抽成" /></td>';
+						trHtml += '<td><div style="float:left;height:32px;"><input type="text" class="form-control" style="width:100%;" value="' + aData[i].baoxian_choucheng + '" data-type="baoxian_choucheng" placeholder="输入保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].paiju_creater + '" data-type="paiju_creater" placeholder="开桌人游戏名" /></td>';
 						trHtml += '<td><button type="button" class="J-save-lianmeng-item btn btn-sm btn-primary" style="float:right;" data-id="' + aData[i].id + '">保存</button></td>';
 					trHtml += '</tr>';
@@ -716,7 +716,7 @@
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="0" data-type="qianzhang" placeholder="输入欠账" /></td>';
 						trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option></select></td>';
 						trHtml += '<td style="display:none;"><input type="text" class="form-control" style="width:100%;" value="0" data-type="paiju_fee" placeholder="输入桌子费" /></td>';
-						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="0" data-type="baoxian_choucheng" placeholder="输入保险被抽成" /></td>';
+						trHtml += '<td><div style="float:left;height:32px;"><input type="text" class="form-control" style="width:100%;" value="0" data-type="baoxian_choucheng" placeholder="输入保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="" data-type="paiju_creater" placeholder="开桌人游戏名" /></td>';
 						trHtml += '<td><button type="button" class="J-save-lianmeng-item btn btn-sm btn-primary" style="float:right;" data-id="0">保存</button></td>';
 					trHtml += '</tr>';
