@@ -10,9 +10,9 @@
 					html += '<div class="panel-body" style="padding:0px;">';
 						html += '<div class="h10"></div>';
 						html += '<div class="h30 breadcrumb">';
-							html += '<label style="float:right;line-height:30px;margin-right:20px;">计算为1人</label>';
-							html += '<input type="text" class="J-qibu-zhanji form-control" value="' + qibuZhanji + '" style="float:right;width:50px;height:28px;margin:0 5px;text-align:center;" />';
-							html += '<label style="float:right;line-height:30px;">战绩超过</label>';
+							html += '<label style="float:right;line-height:30px;margin-right:20px;">计算入有效上桌人数</label>';
+							html += '<input type="text" class="J-qibu-zhanji form-control" value="' + qibuZhanji + '" style="float:right;width:70px;height:28px;margin:0 5px;text-align:center;" />';
+							html += '<label style="float:right;line-height:30px;">战绩浮动超过</label>';
 						html += '</div>';
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
