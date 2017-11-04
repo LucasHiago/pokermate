@@ -1664,7 +1664,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . '' . $lianmengIdWhere . $clubIdWhere;
 		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id`,`t4`.`name` AS `lianmeng_name`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`>=1' . $lianmengIdWhere . $clubIdWhere;
 		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t2`.`lianmeng_id` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t2`.`status`>=1' . $lianmengIdWhere;
-		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0' . $lianmengIdWhere . $timeWhere;
+		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t1`.`player_id` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0' . $lianmengIdWhere . $timeWhere;
 		
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 		$totalHeduishuzi = 0;
@@ -1675,7 +1675,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		if($aResult){
 			$aPaijuId = array_unique(ArrayHelper::getColumn($aResult, 'paiju_id'));
 			//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0 AND `t2`.`status`>=1' . $lianmengIdWhere . ' AND `t1`.paiju_id IN(' . implode(',', $aPaijuId) . ')';
-			$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0' . $lianmengIdWhere . $timeWhere . ' AND `t1`.paiju_id IN(' . implode(',', $aPaijuId) . ')';
+			$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_id`,`t1`.`club_name`,`t1`.`club_is_clean`,`t1`.`player_id` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`club_is_clean`=0' . $lianmengIdWhere . $timeWhere . ' AND `t1`.paiju_id IN(' . implode(',', $aPaijuId) . ')';
 			//$aOtherClubResult = Yii::$app->db->createCommand($sql)->queryAll();
 			$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 			
@@ -1689,6 +1689,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			}
 		}
 		
+		$aClubDetailList = [];
+		$aClubShangzuorenshuList = [];
 		$aPaijuDataZhangDanList = [];
 		$aPaijuZhangDanList = [];
 		$totalZhanDan = 0;
@@ -1704,6 +1706,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					'duizhangfangfa' => Lianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU,
 					'paiju_fee' => 0,
 					'baoxian_choucheng' => 0,
+					'qibu_zhanji' => 0,
 				];
 			}
 			//$baoxianChoucheng = $value['baoxian_choucheng'];
@@ -1732,6 +1735,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				'baoxian_beichou' => 0,
 				'float_baoxian_beichou' => 0,
 				'club_is_clean' => $value['club_is_clean'],
+				'player_id' => $value['player_id'],
 			];
 			$baoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $baoxianChoucheng, $this->choushui_shuanfa);
 			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($value['baoxian_heji'], $baoxianChoucheng, $this->choushui_shuanfa, false);
@@ -1749,6 +1753,15 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		///////////////////////////////////////这里好操蛋/////////////////////////////////////////////
 		//俱乐部没有牌局记录，则制造假记录，即使俱乐部没有牌局数据也要算上桌子费
 		foreach($aTotalClubList as $aClub){
+			$aClubShangzuorenshuList[$aClub['club_id']] = [];
+			
+			$aClubDetailList[$aClub['club_id']] = [
+				'club_name' => $aClub['club_name'],
+				'club_zhanji' => 0,
+				'club_baoxian' => 0,
+				'club_shangzuorenshu' => 0,
+				'qibu_zhanji' => $aClub['qibu_zhanji'],
+			];
 			if(!isset($aClubPaijuDataZhangDanList[$aClub['club_id']])){
 				$aClubPaijuDataZhangDanList[$aClub['club_id']] = [];
 				//确保有俱乐部的记录,因为要计桌子费用，不然联盟 吃什么
@@ -1767,6 +1780,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 						'baoxian_beichou' => 0,
 						'float_baoxian_beichou' => 0,
 						'club_is_clean' => $mm['club_is_clean'],
+						'player_id' => 0,
 					];
 					$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
 					array_push($aPaijuDataZhangDanList, $aTempData);
@@ -1796,6 +1810,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 							'baoxian_beichou' => 0,
 							'float_baoxian_beichou' => 0,
 							'club_is_clean' => $mm['club_is_clean'],
+							'player_id' => 0,
 						];
 						$aClubPaijuDataZhangDanList[$aClub['club_id']][] = $aTempData;
 						array_push($aPaijuDataZhangDanList, $aTempData);
@@ -1865,6 +1880,14 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 						'float_baoxian_beichou' => 0,
 					];
 				}
+				$aClubDetailList[$aClub['club_id']]['club_zhanji'] += abs($v['zhanji']);
+				$aClubDetailList[$aClub['club_id']]['club_baoxian'] += abs($v['baoxian_heji']);
+				if(abs($v['zhanji']) > $aClubDetailList[$aClub['club_id']]['qibu_zhanji']){
+					if(!in_array($v['player_id'], $aClubShangzuorenshuList[$aClub['club_id']])){
+						array_push($aClubShangzuorenshuList[$aClub['club_id']], $v['player_id']);
+						$aClubDetailList[$aClub['club_id']]['club_shangzuorenshu'] += 1;
+					}
+				}
 				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['zhanji'] += $v['zhanji'];
 				$aClubZhangDanList[$aClub['club_id']]['club_zhang_dan_list'][$v['paiju_id']]['baoxian_heji'] += $v['baoxian_heji'];
 				///
@@ -1906,6 +1929,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$totalZhanDan += $aClubZhangDanList[$aClub['club_id']]['hui_zhong'];
 			$aClubZhangDanList[$aClub['club_id']]['hui_zhong'] = Calculate::getIntValueByChoushuiShuanfa($aClubZhangDanList[$aClub['club_id']]['hui_zhong'], $this->choushui_shuanfa);
 		}
+		unset($aClubShangzuorenshuList);
 		//debug($totalBaoXianBeiChou,11);
 		$totalBaoXianBeiChou = Calculate::getIntValueByChoushuiShuanfa($totalBaoXianBeiChou, $this->choushui_shuanfa);
 		$totalZhanDan = Calculate::getIntValueByChoushuiShuanfa($totalZhanDan * 0.975, $this->choushui_shuanfa);
@@ -1945,6 +1969,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			}
 			$aPaijuZhangDanList = $aSortList;
 		}
+		
 		return [
 			'totalPaijuCount' => $totalPaijuCount,
 			'totalHeduishuziPaijuCount' => $totalHeduishuziPaijuCount,
@@ -1954,6 +1979,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			'aPaijuZhangDanList' => $aPaijuZhangDanList,
 			'totalBaoXianChouCheng' => $totalBaoXianChouCheng,
 			'totalBaoXianBeiChou' => $totalBaoXianBeiChou,
+			'aClubDetailList' => $aClubDetailList,
 		];
 	}
 	

@@ -309,6 +309,7 @@ class HostLianmengController extends Controller{
 		$duizhangfangfa = (int)Yii::$app->request->post('duizhangfangfa');
 		$paijuFee = (int)Yii::$app->request->post('paijuFee');
 		$baoxianChoucheng = (int)Yii::$app->request->post('baoxianChoucheng');
+		$qibuZhanji = (int)Yii::$app->request->post('qibuZhanji');
 		
 		$mLianmeng = HostLianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
 		if(!$mLianmeng){
@@ -334,6 +335,7 @@ class HostLianmengController extends Controller{
 			'duizhangfangfa' => $duizhangfangfa,
 			'paiju_fee' => $paijuFee,
 			'baoxian_choucheng' => $baoxianChoucheng,
+			'qibu_zhanji' => $qibuZhanji,
 			'create_time' => NOW_TIME,
 		]);
 		if(!$isSuccess){
@@ -369,7 +371,7 @@ class HostLianmengController extends Controller{
 		$value = Yii::$app->request->post('value');
 		
 		$mUser = Yii::$app->user->getIdentity();
-		if(!in_array($type, ['club_id', 'club_name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng'])){
+		if(!in_array($type, ['club_id', 'club_name', 'qianzhang', 'duizhangfangfa', 'paiju_fee', 'baoxian_choucheng', 'qibu_zhanji'])){
 			return new Response('出错啦', 0);
 		}
 		if($type == 'club_id'){

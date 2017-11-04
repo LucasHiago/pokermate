@@ -18,6 +18,7 @@ $pageCount = 8;
 			</div>
 			<div class="h-text-bg h-l-div" style="background:none;width:100px;min-width:58px;"><div class="btn btn-primary" onclick="AlertWin.showLianmengClubSetting(<?php echo $lianmengId; ?>);">俱乐部设置</div></div>
 			<div class="h-text-bg h-l-div" style="background:none;width:58px;min-width:85px;"><div class="J-club-qin-zhang btn btn-primary">清理账单</div></div>
+			<div class="h-text-bg h-l-div" style="background:none;width:110px;min-width:85px;"><div class="btn btn-primary" onclick='AlertWin.showLianmengClubDetail(<?php echo isset($aLianmengHostDuizhang['aClubDetailList']) ? json_encode($aLianmengHostDuizhang['aClubDetailList']) : json_encode([]); ?>);'>俱乐部详情</div></div>
 			<div class="h-text-bg h-l-div"><b>总局数：</b><?php echo isset($aLianmengHostDuizhang['totalPaijuCount']) ? $aLianmengHostDuizhang['totalPaijuCount'] : 0; ?></div>
 			<!--<div class="h-text-bg h-l-div"><b>保险盈利：</b><?php echo isset($aLianmengHostDuizhang['totalHeduishuziPaijuCount']) ? $aLianmengHostDuizhang['totalHeduishuziPaijuCount'] : 0; ?></div>-->
 			<div class="h-text-bg h-l-div"><b>保险抽成：</b><?php echo isset($aLianmengHostDuizhang['totalBaoXianBeiChou']) ? $aLianmengHostDuizhang['totalBaoXianBeiChou'] : 0; ?></div>
@@ -67,7 +68,7 @@ $pageCount = 8;
 					<i style="float: left;height: 1px; width: 132px; position: relative; display: block; background: #ffffff; transform: rotate(17deg); -webkit-transform: rotate(17deg); top: 20px; left: -2px;"></i>
 				</div>
 				<?php $itemPage = 1;$index = 1; foreach($aLianmengHostDuizhang['aClubZhangDanList'] as $aClubZhangDan){ ?>
-				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>" style="cursor:pointer;" onclick='AlertWin.showClubZhangDanDetail(<?php echo $lianmengId; ?>, <?php echo json_encode($aClubZhangDan['club_zhang_dan_list']); ?>, "<?php echo $aClubZhangDan['club_name']; ?>");'>
+				<div class="col-item <?php echo 'J-item-page item-page-' . $itemPage; ?>" style="cursor:pointer;" onclick='AlertWin.showClubZhangDanDetail(<?php echo $lianmengId; ?>, <?php echo json_encode($aClubZhangDan['club_zhang_dan_list']); ?>, "<?php echo $aClubZhangDan['club_name']; ?>");' title="<?php echo $aClubZhangDan['club_name']; ?>">
 					<?php if($aClubZhangDan['lianmeng_club_id']){ ?>
 						<?php echo $aClubZhangDan['club_name']; ?>
 					<?php }else{ ?>
@@ -134,6 +135,7 @@ $pageCount = 8;
 <div class="J-go-scroll-right" onclick="showItemNextPage(this);"><i class="fa fa-chevron-right"></i></div>
 <script type="text/javascript">	
 	var currentItemPage = 1;
+	
 	function _showItemPage(){
 		$('.J-item-page').hide();
 		$('.J-item-page.item-page-' + currentItemPage).show();

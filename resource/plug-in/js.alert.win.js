@@ -1,5 +1,33 @@
 (function(container, $){
 	container.AlertWin = {
+		showLianmengClubDetail : function(aData){
+			var html = '';
+			html += '<div class="J-data-list-win" style="float:left;width:800px;min-height:423px;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">联盟俱乐部详情</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;">';
+						html += '<div class="h10"></div>';
+						html += '<div class="table-responsive" style="padding:0px 10px;">';
+							html += '<table class="J-lmjlbst-list-table table table-hover table-striped">';
+							html += '<tr><th>俱乐部名称</th><th>战绩流水</th><th>保险流水</th><th>上桌人数</th></tr>';
+							for(var i in aData){
+								html += '<tr><td>' + aData[i].club_name + '</td><td>' + aData[i].club_zhanji + '</td><td>' + aData[i].club_baoxian + '</td><td>' + aData[i].club_shangzuorenshu + '</td></tr>';
+							}
+							html += '</table>';
+						html += '</div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			
+			showAlertWin(oHtml, function(){
+				
+			});	
+		},
+		
 		showMergeKeren : function(o, callback){
 			var html = '';
 			html += '<div class="J-data-list-win" style="width:600px;">';
@@ -903,7 +931,7 @@
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';
 							html += '<table class="J-lmjlbst-list-table table table-hover table-striped">';
-							html += '<tr><th>俱乐部</th><th>俱乐部ID</th><th style="min-width:120px;">对账方法</th><th style="display:none;">桌子费</th><th>保险被抽成</th><th style="min-width:120px;">联盟</th><th>操作</th></tr>';
+							html += '<tr><th>俱乐部</th><th>俱乐部ID</th><th style="min-width:120px;">对账方法</th><th style="display:none;">桌子费</th><th>保险被抽成</th><th>统计人数设置</th><th style="min-width:120px;">联盟</th><th>操作</th></tr>';
 							html += '</table>';
 						html += '</div>';
 					html += '</div>';
@@ -986,7 +1014,8 @@
 							clubId : $(o).parent().parent().find('input[data-type=club_id]').val(),
 							duizhangfangfa : $(o).parent().parent().find('select[data-type=duizhangfangfa]').val(),
 							paijuFee : $(o).parent().parent().find('input[data-type=paiju_fee]').val(),
-							baoxianChoucheng : $(o).parent().parent().find('input[data-type=baoxian_choucheng]').val()
+							baoxianChoucheng : $(o).parent().parent().find('input[data-type=baoxian_choucheng]').val(),
+							qibuZhanji : $(o).parent().parent().find('input[data-type=qibu_zhanji]').val()
 						},
 						beforeSend : function(){
 							$(o).attr('disabled', 'disabled');
@@ -1009,8 +1038,8 @@
 				for(var i in aDataList){
 					var aData = aDataList[i];
 					listHtml += '<tr>';
-						listHtml += '<td><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="club_name" value="' + aData.club_name + '" /></td>';
-						listHtml += '<td><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="club_id" value="' + aData.club_id + '" /></td>';
+						listHtml += '<td><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="club_name" value="' + aData.club_name + '" placeholder="俱乐部" /></td>';
+						listHtml += '<td><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="club_id" value="' + aData.club_id + '" placeholder="俱乐部ID" /></td>';
 						var opitonHtml = '';
 						if(aData.duizhangfangfa == 1){
 							opitonHtml = '<option value="1">0.975</option><option value="2">无水账单</option>';
@@ -1018,18 +1047,20 @@
 							opitonHtml = '<option value="2">无水账单</option><option value="1">0.975</option>';
 						}
 						listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="' + aData.id + '" data-type="duizhangfangfa">' + opitonHtml + '</select></td>';
-						listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="paiju_fee" value="' + aData.paiju_fee + '" /></td>';
-						listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="baoxian_choucheng" value="' + aData.baoxian_choucheng + '" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
+						listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="paiju_fee" value="' + aData.paiju_fee + '" placeholder="桌子费" /></td>';
+						listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="baoxian_choucheng" value="' + aData.baoxian_choucheng + '" placeholder="保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
+						listHtml += '<td><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="qibu_zhanji" value="' + aData.qibu_zhanji + '" placeholder="统计人数设置" /></td>';
 						listHtml += '<td>' + aData.lianmeng_name + '</td>';
 						listHtml += '<td><div class="J-la-delete-btn btn btn-sm btn-danger" data-id="' + aData.id + '">删除</div></td>';
 					listHtml += '</tr>';
 				}
 				listHtml += '<tr>';
-					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_name" data-id="0" value="" /></td>';
-					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_id" data-id="0" value="" /></td>';
+					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_name" data-id="0" value="" placeholder="俱乐部" /></td>';
+					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_id" data-id="0" value="" placeholder="俱乐部ID" /></td>';
 					listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="0" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option></select></td>';
-					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="paiju_fee" data-id="0" value="0" /></td>';
-					listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-type="baoxian_choucheng" data-id="0" value="0" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
+					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="paiju_fee" data-id="0" value="0" placeholder="桌子费" /></td>';
+					listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-type="baoxian_choucheng" data-id="0" value="0" placeholder="保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
+					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="qibu_zhanji" data-id="0" value="0" placeholder="统计人数设置" /></td>';
 					listHtml += '<td class="J-lianmeng-name">&nbsp;</td>';
 					listHtml += '<td><div class="J-la-add-btn btn btn-sm btn-primary" data-id="0">添加</div></td>';
 				listHtml += '</tr>';
