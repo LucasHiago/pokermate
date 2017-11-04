@@ -306,6 +306,7 @@ class KerenBenjinManageController extends Controller{
 			$mPlayer->save();
 			$aNewPlayer = $mPlayer->toArray();
 			if($aOldPlayer['player_id'] != $aNewPlayer['player_id']){
+				ImportData::addEmptyDataRecord(Yii::$app->user->id, $playerId, $playerName);
 				$mUser->operateLog(39, ['aOldPlayer' => $aOldPlayer, 'aNewPlayer' => $aNewPlayer]);
 			}
 			if($aOldPlayer['player_name'] != $aNewPlayer['player_name']){
