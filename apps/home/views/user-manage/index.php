@@ -101,7 +101,7 @@ $this->setTitle('账号管理');
 							$str = '';
 							$str .= '<a href="' . Url::to('home', 'user-manage/show-edit', ['id' => $aData['id']]) . '" type="button" class="btn btn-primary">修改</a>&nbsp;&nbsp;';
 							$str .= '<a href="javascript:;" type="button" class="J-clear-save-code-limit btn btn-primary" data-id="' . $aData['id'] . '">清除安全密码输入限制</a>&nbsp;&nbsp;';
-							$str .= '<a href="javascript:;" type="button" class="btn btn-danger" onclick="setDelete(this, ' . $aData['id'] . ', 1);">删除</a>';
+							$str .= '<a href="javascript:;" type="button" class="btn btn-danger" onclick="setDelete(this, ' . $aData['id'] . ', 1, \'' . $aData['name'] . '\');">删除</a>';
 							return $str;
 						}
 					],
@@ -119,8 +119,8 @@ $this->setTitle('账号管理');
 		location.href = '<?php echo Url::to('home', 'user-manage/index'); ?>?' + condition;
 	}
 	
-	function setDelete(o, id, status){
-		var tips = '确定删除？';
+	function setDelete(o, id, status, name){
+		var tips = '删除账号提示：' + name;
 		if(status == 0){
 			tips = '确定启用？';
 		}
