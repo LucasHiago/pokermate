@@ -47,6 +47,9 @@ class UserManageController extends Controller{
 		if(!$mUser){
 			return new Response('账号不存在', -1);
 		}
+		if($status){
+			$mUser->clearUserData();
+		}
 		$mUser->set('is_forbidden', $status);
 		$mUser->save();
 		
