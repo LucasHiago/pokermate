@@ -195,7 +195,7 @@ class IndexController extends Controller{
 		if(!$kerenBianhao){
 			return new Response('请输入客人编号', -1);
 		}
-		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
+		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao, 'is_delete' => 0]);
 		if(!$mKerenBenjin){
 			return new Response('客人不存在', 0);
 		}
