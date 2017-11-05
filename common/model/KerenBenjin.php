@@ -287,27 +287,30 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		return false;
 	}
 		
-	public function delete(){
+	public function delete($isHide = true){
 		$this->set('benjin', 0);
 		$this->set('ying_chou', 0);
 		$this->set('shu_fan', 0);
 		$this->set('agent_id', 0);
 		$this->set('remark', '');
 		$this->set('current_player_id', 0);
-		//$this->set('is_delete', 1);
+		if($isHide){
+			$this->set('is_delete', 1);
+		}
 		$this->save();
 		
 		$sql = 'UPDATE ' . Player::tableName() . ' SET `is_delete`=1,`keren_bianhao`=0 WHERE `user_id`=' . $this->user_id . ' AND `keren_bianhao`=' . $this->keren_bianhao;
 		Yii::$app->db->createCommand($sql)->execute();
-		
-		Player::addRecord([
-			'user_id' => $this->user_id,
-			'keren_bianhao' => $this->keren_bianhao,
-			'player_id' => 0,
-			'player_name' => '',
-			'create_time' => NOW_TIME,
-		]);
-		ImportData::addEmptyDataRecord($this->user_id, 0, '');
+		if(!$isHide){
+			Player::addRecord([
+				'user_id' => $this->user_id,
+				'keren_bianhao' => $this->keren_bianhao,
+				'player_id' => 0,
+				'player_name' => '',
+				'create_time' => NOW_TIME,
+			]);
+			ImportData::addEmptyDataRecord($this->user_id, 0, '');
+		}
 	}
 		
 	public function modifyKerenBianhao($kerenBianhao){
