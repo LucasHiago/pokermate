@@ -239,6 +239,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		Yii::$app->db->createCommand($sql)->execute();
 		$sql = 'DELETE FROM ' . HostLianmengClub::tableName() . ' WHERE `user_id`=' . $this->id;
 		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . AgentQinzhangRecord::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
 		/*$sql = 'DELETE FROM ' . User::tableName() . ' WHERE `id`=' . $this->id;
 		Yii::$app->db->createCommand($sql)->execute();*/
 		$this->set('choushui_ajust_value', 0);
