@@ -1308,7 +1308,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`mangzhu`,`t1`.`player_id`,`t1`.`player_name`,`t1`.`zhanji` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t6` ON `t6`.`keren_bianhao`=`t6`.`keren_bianhao` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`status`>=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t1`.`agent_is_clean`=0 AND `t3`.`is_delete`=0 AND `t6`.`agent_id`=' . $agentId . $clubIdWhere;
 		$sql = 'SELECT `t7`.* FROM (SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`mangzhu`,`t1`.`player_id`,`t1`.`player_name`,`t1`.`zhanji`,`t1`.`jiesuan_value`,`t3`.`keren_bianhao` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t3`.`user_id`=' . $this->id . ' AND `t2`.`status`>=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t1`.`agent_is_clean`=0 AND `t1`.`end_time`>' . $lastMaxJiaobanPaijuEndTime . ' AND `t3`.`is_delete`=0 ' . $clubIdWhere . ') AS `t7` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t8` ON `t7`.`keren_bianhao`=`t8`.`keren_bianhao` WHERE `t8`.`agent_id`=' . $agentId;
 		$aResult =  Yii::$app->db->createCommand($sql)->queryAll();
-		
+		if($aResult){
+			Yii::info('agentcleansql:' . $sql);
+			Yii::info('agentcleanData:' . json_encode($aResult));
+		}
 		$aFenchengSetting = ArrayHelper::index($this->getFenchengListSetting($agentId), 'zhuozi_jibie');
 		foreach($aResult as $key => $value){
 			$yinFan = 0;

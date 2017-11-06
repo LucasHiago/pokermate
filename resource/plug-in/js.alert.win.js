@@ -613,7 +613,7 @@
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].club_name + '" data-type="club_name" placeholder="输入名称" /></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].club_id + '" data-type="club_id" placeholder="输入ID" /></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].club_login_name + '" data-type="club_login_name" placeholder="输入账号" /></td>';
-						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].club_login_password + '" data-type="club_login_password" placeholder="输入密码" /></td>';
+						trHtml += '<td><input type="password" class="form-control" style="width:100%;" value="' + aData[i].club_login_password + '" data-type="club_login_password" placeholder="输入密码" /></td>';
 						trHtml += '<td><button type="button" class="J-save-club-item btn btn-sm btn-primary" style="float:right;" data-id="' + aData[i].id + '">保存</button></td>';
 					trHtml += '</tr>';
 				}
@@ -732,7 +732,7 @@
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" data-type="club_name" placeholder="输入名称" /></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" data-type="club_id" placeholder="输入ID" /></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" data-type="club_login_name" placeholder="输入账号" /></td>';
-						trHtml += '<td><input type="text" class="form-control" style="width:100%;" data-type="club_login_password" placeholder="输入密码" /></td>';
+						trHtml += '<td><input type="password" class="form-control" style="width:100%;" data-type="club_login_password" placeholder="输入密码" /></td>';
 						trHtml += '<td><button type="button" class="J-save-club-item btn btn-sm btn-primary" style="float:right;" data-id="0">保存</button></td>';
 					trHtml += '</tr>';
 					var oTrHtml = $(trHtml);
