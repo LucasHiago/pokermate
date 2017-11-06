@@ -62,6 +62,11 @@ $this->setTitle($aClub ? '编辑俱乐部' : '新增俱乐部');
 	}
 	
 	$(function(){
-		
+		<?php if(!$aClub){ ?>
+			setTimeout(function(){
+				$('.J-club-login-name').val('');
+				$('.J-club-login-password').val('');
+			}, 200);
+		<?php } ?>
 	});
 </script>
