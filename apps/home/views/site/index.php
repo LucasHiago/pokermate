@@ -1,6 +1,6 @@
 <?php
 use umeworld\lib\Url;
-$this->setTitle('用户登录');
+$this->setTitle('账号登陆');
 ?>
 <style type="text/css">
 	#loginModal{background:#ffffff;}
