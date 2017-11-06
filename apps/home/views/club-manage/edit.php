@@ -66,12 +66,12 @@ $this->setTitle($aClub ? '编辑俱乐部' : '新增俱乐部');
 			setTimeout(function(){
 				$('.J-club-login-name').val('');
 				$('.J-club-login-password').val('');
-			}, 200);
+			}, 2000);
 		<?php }else{ ?>
 			setTimeout(function(){
 				$('.J-club-login-name').val('<?php echo $aClub['club_login_name']; ?>');
 				$('.J-club-login-password').val('<?php echo $aClub['club_login_password']; ?>');
-			}, 200);
+			}, 2000);
 		<?php } ?>
 	});
 </script>
