@@ -29,6 +29,7 @@ $this->setTitle('用户登录');
 					</div>
 					<div class="form-group text-center text-danger" id="msg"></div>
 				</form>
+				<p class="help-block" style="text-align:center;">建议使用1920*1080分辨率以及Google Chrome浏览器以获得更好的体验</p>
 			</div>
 		</div>
 	</div>
