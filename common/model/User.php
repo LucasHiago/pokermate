@@ -1676,6 +1676,11 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			$lianmengIdWhere = ' AND `t1`.`paiju_creater`="' . $mLianmeng->lmzj_paiju_creater . '"';	//新的方法
 		}
 		$cleanTime = $mLianmeng->clean_time;
+		//没有俱乐部清账记录且注册时间是不只一个星期的,则从最后一次交班后的牌局开始获取数据
+		$mOperateLog = OperateLog::findOne(['user_id' => $this->id, 'type' => 38]);
+		if(!$mOperateLog && $this->create_time < (NOW_TIME - 86400 * 7)){
+			$cleanTime = $this->getLastMaxJiaobanPaijuEndTime();
+		}
 		$updatePaijuTime = $mLianmeng->update_paiju_time;
 		if(!$updatePaijuTime){
 			$updatePaijuTime = NOW_TIME;
