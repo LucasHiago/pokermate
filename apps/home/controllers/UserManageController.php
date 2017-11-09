@@ -16,7 +16,7 @@ class UserManageController extends Controller{
 	public function init(){
 		$mUser = Yii::$app->user->getIdentity();
 		if(!in_array($this->module->requestedRoute, ['user-manage/show-edit', 'user-manage/edit'])){
-			if(!$mUser->isManager()){
+			if($mUser && !$mUser->isManager()){
 				return Yii::$app->response->redirect(Url::to('home', 'club-manage/index'));
 			}
 		}
