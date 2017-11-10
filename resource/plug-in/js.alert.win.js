@@ -71,7 +71,7 @@
 						html += '<div class="h30"></div>';
 						html += '<div class="form-group">';
 							html += '<div style="height:32px;">';
-								html += '<label style="float:left;line-height:32px;margin-left: 56px;">当前编号：<font style="color:#ff5722;">' + $(o).attr('data-keren-bianhao') + '</font>&nbsp;&nbsp;</label>';
+								html += '<label style="float:left;line-height:32px;margin-left: 56px;">当前编号：<font style="color:#ff5722;">' + ($(o).attr('data-is-auto-create') == 1 ? '空' : $(o).attr('data-keren-bianhao')) + '</font>&nbsp;&nbsp;</label>';
 								html += '<label style="float:left;line-height:32px;">合并目标编号：</label>';
 								html += '<input type="text" class="J-merge-kerenbianhao form-control" placeholder="请输入客人编号" style="float:left;width: 150px;" />';
 								html += '<button type="text" class="J-go-merge btn btn-primary" style="float:left;margin-left: 10px;">合并</button>';
@@ -2216,7 +2216,11 @@
 			});
 		},
 
-		showTinnyPlayerList : function(){
+		showTinnyPlayerList : function(targetKerenBianhao){
+			var targetKerenMode = '';
+			if(targetKerenBianhao){
+				targetKerenMode = 'display:none;';
+			}
 			var aAgentList = [];
 			var html = '';
 			html += '<div class="J-data-list-win" style="width:860px;">';
@@ -2233,18 +2237,18 @@
 									html += '</div>';
 								html += '</div>';*/
 								
-								html += '<label class="control-label" style="float:left;line-height: 32px;margin-left:20px;">玩家名字</label>';
-								html += '<div class="col-sm-2" style="width:160px;">';
+								html += '<label class="control-label" style="float:left;line-height: 32px;margin-left:20px;' + targetKerenMode + '">玩家名字</label>';
+								html += '<div class="col-sm-2" style="width:160px;' + targetKerenMode + '">';
 									html += '<input type="text" class="J-search-player-name form-control" placeholder="请输入玩家名字" />';
 								html += '</div>';
 								
-								html += '<label class="control-label" style="float:left;line-height: 32px;">玩家ID</label>';
-								html += '<div class="col-sm-2" style="width:160px;">';
+								html += '<label class="control-label" style="float:left;line-height: 32px;' + targetKerenMode + '">玩家ID</label>';
+								html += '<div class="col-sm-2" style="width:160px;' + targetKerenMode + '">';
 									html += '<input type="text" class="J-search-player-id form-control" placeholder="请输入玩家ID" />';
 								html += '</div>';
 								
 								html += '<div class="form-group">';
-									html += '<div class="col-sm-2" style="width:90px;">';
+									html += '<div class="col-sm-2" style="width:90px;' + targetKerenMode + '">';
 										html += '<button type="button" class="J-search-playerlist btn btn-primary">搜索</button>';
 									html += '</div>';
 								html += '</div>';
@@ -2260,7 +2264,7 @@
 							html += '<table class="J-keren-player-list-table table table-hover table-striped">';
 							html += '<tr><th>客人编号</th><th style="display:none;">本金</th><th>玩家名字</th><th>玩家ID</th><th style="display:none;">赢抽点数</th><th style="display:none;">输返点数</th><th style="display:none;">赢收台费</th><th style="display:none;">输返台费</th><th style="display:none;">代理人ID</th><th style="display:none;">代理人</th><th style="display:none;">备注</th><th>操作</th></tr>';
 							html += '<tr class="J-add-keren-row">';
-								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" placeholder="请输入客人编号" /></td>';
+								html += '<td><input type="text" class="form-control" data-type="keren_bianhao" placeholder="请输入客人编号" value="' + (targetKerenBianhao ? targetKerenBianhao : '') + '" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="player_name" placeholder="请输入玩家名字" /></td>';
 								html += '<td><input type="text" class="form-control" data-type="player_id" placeholder="请输入玩家ID" /></td>';
 								html += '<td><a class="J-addkeren-btn btn btn-sm btn-primary">插入玩家</a></td>';
@@ -2278,7 +2282,11 @@
 				for(var i in aDataList){
 					var aData = aDataList[i];
 					listHtml += '<tr class="J-krlp-row">';
-						listHtml += '<td style="min-width:200px;">' + aData.keren_bianhao + '</td>';
+					if(aData.is_auto_create == 1){
+						listHtml += '<td style="min-width:200px;" data-keren-bianhao="' + aData.keren_bianhao + '" data-is-auto-create="' + aData.is_auto_create + '">（新）请编号</td>';
+					}else{
+						listHtml += '<td style="min-width:200px;" data-keren-bianhao="' + aData.keren_bianhao + '" data-is-auto-create="' + aData.is_auto_create + '">' + aData.keren_bianhao + '</td>';
+					}
 						listHtml += '<td style="min-width:120px;display:none;">' + aData.benjin + '</td>';
 						listHtml += '<td style="min-width:200px;">' + aData.player_name + '</td>';
 						listHtml += '<td style="min-width:200px;">' + (aData.player_id == 0 ? '' : aData.player_id) + '</td>';
@@ -2306,12 +2314,22 @@
 				oHtml.find('.J-del-kerenplayer').click(function(){
 					setDeletePlayer(this, $(this).attr('data-id'), 1);
 				});
+				_setKerenBianHaoDisabled();
 				
 				return oListHtml;
 			}
 			
+			function _setKerenBianHaoDisabled(){
+				if(targetKerenBianhao){
+					oHtml.find('.J-keren-player-list-table').find('input[data-type=keren_bianhao]').attr('disabled', 'disabled');
+				}
+			}
+			
 			function _loadList(playerId, playerName){
 				var aDataParam = {};
+				if(targetKerenBianhao){
+					aDataParam.kerenBianhao = targetKerenBianhao;
+				}
 				if(playerId){
 					aDataParam.playerId = playerId;
 				}
@@ -2397,7 +2415,11 @@
 						}else if(aPlayerKeyMap[i] == 'agent_name'){
 							$(this).html('<input class="form-control" style="width:100%;" type="text" data-type="' + aPlayerKeyMap[i] + '" placeholder="请输入' + aPlayerKeyNameMap[i] + '" value="' + tdTxt + '" disabled />');
 						}else{
-							$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" placeholder="请输入' + aPlayerKeyNameMap[i] + '" value="' + tdTxt + '" />');
+							if(aPlayerKeyMap[i] == 'keren_bianhao' && $(this).attr('data-is-auto-create') == 1){
+								$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" placeholder="（新）请编号" value="" />');
+							}else{
+								$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" placeholder="请输入' + aPlayerKeyNameMap[i] + '" value="' + tdTxt + '" />');
+							}
 						}
 					}
 					i++;
@@ -2410,6 +2432,7 @@
 					savePlayer(this, playerId);
 				});
 				//$(o).attr('onclick', 'savePlayer(this, ' + playerId + ');');
+				_setKerenBianHaoDisabled();
 			}
 			
 			function _goSavePlayer(o, aData){
@@ -2451,6 +2474,11 @@
 			}
 
 			function savePlayer(o, id){
+				var kerenBianhao = $(o).parent().parent().find('input[data-type="keren_bianhao"]').val();
+				if(kerenBianhao == '' || isNaN(kerenBianhao)){
+					UBox.show('请输入正确的客人编号', -1);
+					return;
+				}
 				var aData = {
 					id : id,
 					kerenBianhao : $(o).parent().parent().find('input[data-type="keren_bianhao"]').val(),

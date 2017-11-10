@@ -52,11 +52,12 @@ class KerenBenjinManageController extends Controller{
 	}
 		
 	public function actionGetPlayerList(){
+		$kerenBianhao = (int)Yii::$app->request->post('kerenBianhao');
 		$playerId = (int)Yii::$app->request->post('playerId');
 		$playerName = (string)Yii::$app->request->post('playerName');
 		
 		$mUser = Yii::$app->user->getIdentity();
-		$aList = $mUser->getAllPlayerInfoList($playerId, $playerName);
+		$aList = $mUser->getAllPlayerInfoList($playerId, $playerName, $kerenBianhao);
 		$aAgentList = $mUser->getAgentList();
 		return new Response('', 1, [
 			'aAgentList' => $aAgentList,
@@ -253,7 +254,11 @@ class KerenBenjinManageController extends Controller{
 							}
 						}
 						if(count($aPlayerList) == 1){
-							$mKerenBenjin->delete(false);
+							if($mKerenBenjin->is_auto_create){
+								$mKerenBenjin->delete(true);
+							}else{
+								$mKerenBenjin->delete(false);
+							}
 						}
 						$aNewRecord = $mTempKerenBenjin->toArray();
 						$mUser = Yii::$app->user->getIdentity();

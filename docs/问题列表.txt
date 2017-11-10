@@ -129,6 +129,10 @@ ALTER TABLE `host_lianmeng_club` ADD `qibu_zhanji` int(11) NOT NULL COMMENT 'Æğ²
 
 ALTER TABLE `user` ADD `qibu_zhanji` int(11) NOT NULL COMMENT 'Æğ²½Õ½¼¨' AFTER `cache_data`;
 
+
+ALTER TABLE `keren_benjin` ADD `is_auto_create` tinyint(4) NOT NULL COMMENT 'ÊÇ·ñ½áËãÊ±×Ô¶¯Éú³ÉµÄ¿ÍÈË±àºÅ' AFTER `current_player_id`;
+
+
 ÓÅÏÈ
 1.Ìí¼ÓÈÕÖ¾¼ÇÂ¼
 2.Ìí¼ÓÒ»¼üÇå³şÊı¾İ ²»¿É»Ö¸´£¨ĞèÒªÊäÈë°²È«ÃÜÂë£©

@@ -11,7 +11,7 @@ class Player extends \common\lib\DbOrmModel{
 		return Yii::$app->db->parseTable('_@player');
 	}
 	
-	public static function addRecord($aData){
+	public static function addRecord($aData, $isAutoCreate = 0){
 		$id = static::insert($aData);
 		$mPlayer = parent::findOne($id);
 		if(!$mPlayer->keren_bianhao){
@@ -21,7 +21,7 @@ class Player extends \common\lib\DbOrmModel{
 		}
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao]);
 		if(!$mKerenBenjin){
-			KerenBenjin::addRecord(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao, 'create_time' => NOW_TIME]);
+			KerenBenjin::addRecord(['user_id' => $mPlayer->user_id, 'keren_bianhao' => $mPlayer->keren_bianhao, 'is_auto_create' => $isAutoCreate, 'create_time' => NOW_TIME]);
 		}else{
 			if($mKerenBenjin->is_delete){
 				$mKerenBenjin->set('is_delete', 0);
@@ -31,7 +31,7 @@ class Player extends \common\lib\DbOrmModel{
 		return $id;
 	}
 	
-	public static function checkAddNewPlayer($userId, $aPlayerList){
+	public static function checkAddNewPlayer($userId, $aPlayerList, $isAutoCreate = 0){
 		$aPlayerId = ArrayHelper::getColumn($aPlayerList, 'player_id');
 		$aList = static::findAll(['user_id' => $userId, 'player_id' => $aPlayerId]);
 		$aExistPlayerId = ArrayHelper::getColumn($aList, 'player_id');
@@ -43,7 +43,7 @@ class Player extends \common\lib\DbOrmModel{
 					'player_id' => $aPlayer['player_id'],
 					'player_name' => $aPlayer['player_name'],
 					'create_time' => NOW_TIME,
-				]);
+				], $isAutoCreate);
 			}
 			/*if(!in_array($aPlayer['player_id'], $aExistPlayerId)){
 				static::addRecord([

@@ -40,7 +40,16 @@ $this->setTitle('会员管理');
 		<?php
 			echo Table::widget([
 				'aColumns'	=>	[
-					'keren_bianhao'	=>	['title' => '客人编号'],
+					'keren_bianhao'	=>	[
+						'title' => '客人编号',
+						'content' => function($aData){
+							if($aData['is_auto_create']){
+								return '（新）请编号';
+							}else{
+								return $aData['keren_bianhao'];
+							}
+						},
+					],
 					'benjin'	=>	['title' => '本金'],
 					'player_name'	=>	[
 						'title' => '玩家名字',
@@ -146,7 +155,11 @@ $this->setTitle('会员管理');
 				}else if(aPlayerKeyMap[i] == 'agent_name'){
 					$(this).html('<input class="form-control" style="width:100%;" type="text" data-type="' + aPlayerKeyMap[i] + '" value="' + tdTxt + '" disabled />');
 				}else{
-					$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" value="' + tdTxt + '" />');
+					if(aPlayerKeyMap[i] == 'keren_bianhao' && $(this).text() == '（新）请编号'){
+						$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" placeholder="（新）请编号" value="" />');
+					}else{
+						$(this).html('<input class="form-control" style="width:100%;" type="text"  data-type="' + aPlayerKeyMap[i] + '" value="' + tdTxt + '" />');
+					}
 				}
 			}
 			i++;
@@ -187,6 +200,11 @@ $this->setTitle('会员管理');
 	}
 
 	function savePlayer(o, id){
+		var kerenBianhao = $(o).parent().parent().find('input[data-type="keren_bianhao"]').val();
+		if(kerenBianhao == '' || isNaN(kerenBianhao)){
+			UBox.show('请输入正确的客人编号', -1);
+			return;
+		}
 		var aData = {
 			id : id,
 			kerenBianhao : $(o).parent().parent().find('input[data-type="keren_bianhao"]').val(),

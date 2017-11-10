@@ -93,7 +93,11 @@ if($mUser->cache_data){
 						<?php foreach($aPaijuDataList as $aPaijuData){ ?>
 							<tr class="J-jieshuan-row" data-id="<?php echo $aPaijuData['id']; ?>" data-keren-bian-hao="<?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?>" data-status="<?php echo $aPaijuData['status']; ?>">
 								<td data-type="player_name" title="<?php echo $aPaijuData['player_name']; ?>"><?php echo $aPaijuData['player_name']; ?></td>
+								<?php if($aPaijuData['keren_benjin_info'] && $aPaijuData['keren_benjin_info']['is_auto_create']){ ?>
+								<td data-type="keren_bianhao">（新）请编号</td>
+								<?php }else{ ?>
 								<td data-type="keren_bianhao"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?></td>
+								<?php } ?>
 								<td data-type="benjin"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['benjin'] : 0; ?></td>
 								<td data-type="jiesuan_value"><?php echo $aPaijuData['jiesuan_value']; ?></td>
 								<td data-type="new_benjin"><?php echo $aPaijuData['new_benjin']; ?></td>

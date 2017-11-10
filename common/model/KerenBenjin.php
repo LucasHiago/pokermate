@@ -10,6 +10,8 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 	const SHU_FAN_DEFAULT = 0;
 	const YING_FEE_DEFAULT = 0;
 	
+	public $_isUpdateKerenBianhao = false;
+	
 	public static function tableName(){
 		return Yii::$app->db->parseTable('_@keren_benjin');
 	}
@@ -43,6 +45,32 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		}
 		$id = static::insert($aData);
 		return $id;
+	}
+	
+	public function set($field, $value){
+		if($field == 'keren_bianhao' && $this->keren_bianhao != $value){
+			$this->_isUpdateKerenBianhao = true;
+		}
+		$this->_aSetFields[$field] = $value;
+		if(is_array($value) && isset($value[0]) && ($value[0] === 'add' || $value[0] === 'sub')){
+			if($value[0] === 'add'){
+				$this->$field += $value[1];
+			}else{
+				$this->$field -= $value[1];
+			}
+		}else{
+			$this->$field = $value;
+		}
+	}
+	
+	public function save(){
+		if($this->is_auto_create && $this->_isUpdateKerenBianhao){
+			$this->set('is_auto_create', 0);
+		}
+		if($this->_isUpdateKerenBianhao){
+			$this->_isUpdateKerenBianhao = false;
+		}
+		return parent::save();
 	}
 	
 	public function getPlayerList(){
@@ -105,7 +133,7 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 			$limit = ' LIMIT ' . $offset . ',' . $aControl['page_size'];
 		}
 		
-		$sql = 'SELECT DISTINCT(`k1`.`id`),`k1`.`user_id`,`k1`.`keren_bianhao`,`k1`.`benjin`,`k1`.`ying_chou`,`k1`.`shu_fan`,`k1`.`ying_fee`,`k1`.`shu_fee`,`k1`.`agent_id`,`k1`.`remark`,`k1`.`current_player_id`,`k1`.`is_delete`,`k1`.`create_time` FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT `player_id` FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ') GROUP BY `player_id`) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`) WHERE `k3`.`user_id`=' . $aCondition['`k1`.`user_id`'] . ') AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where . ' ' . $order . ' ' . $limit;
+		$sql = 'SELECT DISTINCT(`k1`.`id`),`k1`.`user_id`,`k1`.`keren_bianhao`,`k1`.`benjin`,`k1`.`ying_chou`,`k1`.`shu_fan`,`k1`.`ying_fee`,`k1`.`shu_fee`,`k1`.`agent_id`,`k1`.`remark`,`k1`.`current_player_id`,`k1`.`is_auto_create`,`k1`.`is_delete`,`k1`.`create_time` FROM ' . KerenBenjin::tableName() . ' AS `k1` RIGHT JOIN (SELECT `k2`.*,`k3`.`keren_bianhao` FROM ((SELECT `player_id` FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $aCondition['`k1`.`user_id`'] . ' AND `club_id` IN(' . implode(',', $aCondition['club_id']) . ') GROUP BY `player_id`) AS `k2` LEFT JOIN ' . Player::tableName() . ' AS `k3` ON `k2`.`player_id`=`k3`.`player_id`) WHERE `k3`.`user_id`=' . $aCondition['`k1`.`user_id`'] . ') AS `k4` ON `k1`.`keren_bianhao`=`k4`.`keren_bianhao` WHERE 1=1 ' . $where . ' ' . $order . ' ' . $limit;
 		
 		$aList = Yii::$app->db->createCommand($sql)->queryAll();
 		if(!$aList){
@@ -294,7 +322,8 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		$this->set('agent_id', 0);
 		$this->set('remark', '');
 		$this->set('current_player_id', 0);
-		if($isHide){
+		$this->set('is_auto_create', 0);
+		if($isHide || $this->is_auto_create){
 			$this->set('is_delete', 1);
 		}
 		$this->save();

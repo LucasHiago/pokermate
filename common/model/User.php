@@ -515,7 +515,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			}
 		}
 		if(!$isAllRecordData && $aPlayerList){
-			Player::checkAddNewPlayer($this->id, $aPlayerList);
+			Player::checkAddNewPlayer($this->id, $aPlayerList, 1);
 		}
 		/********************这里非常重要*********************/
 		$aList = ImportData::getList($aCondition, $aControll);
@@ -2077,7 +2077,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		return true;
 	}
 	
-	public function getAllPlayerInfoList($playerId = '', $playerName = ''){
+	public function getAllPlayerInfoList($playerId = '', $playerName = '', $kerenBianhao = ''){
 		/*$sql = 'SELECT `t1`.*,`t2`.`benjin`,`t2`.`ying_chou`,`t2`.`shu_fan`,`t2`.`agent_id`,`t2`.`remark` FROM ' . Player::tableName() . ' AS `t1` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t2` ON `t1`.`keren_bianhao`=`t2`.`keren_bianhao` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t1`.`is_delete`=0 ORDER BY `t1`.`keren_bianhao` ASC';
 		return Yii::$app->db->createCommand($sql)->queryAll();*/
 		
@@ -2105,6 +2105,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aReturn = [];
 		foreach($aList as $value){
 			foreach($value['player_list'] as $aPlayer){
+				if($kerenBianhao && $kerenBianhao != $aPlayer['keren_bianhao']){
+					continue;
+				}
 				if($playerId && $playerId != $aPlayer['player_id']){
 					continue;
 				}
@@ -2119,6 +2122,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$aTemp['shu_fee'] = $value['shu_fee'];
 				$aTemp['agent_id'] = $value['agent_id'];
 				$aTemp['remark'] = $value['remark'];
+				$aTemp['is_auto_create'] = $value['is_auto_create'];
 				$aTemp['agent_info'] = $value['agent_info'];
 				$aReturn[] = $aTemp;
 			}
