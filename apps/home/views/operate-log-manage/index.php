@@ -66,7 +66,7 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   【修改联盟保险抽成】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 保险抽成：' . $aData['data_json']['aOldRecord']['baoxian_choucheng'] . '  修改后保险抽成：' . $aData['data_json']['aNewRecord']['baoxian_choucheng'];
 							}elseif($aData['type'] == 25){
 								$log = date('Y.m.d', $aData['create_time']) . '   【联盟清账】联盟名称：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_name'] . ' 联盟总账单：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_zhong_zhang'] . ' 联盟旧账：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_qian_zhang'] . ' 新账单累计：' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_zhang_dan'];
-								if(isset($aData['data_json']['aLianmengZhangDanDetailList'])){
+								if(isset($aData['data_json']['aLianmengZhangDanDetailList']) && $aData['data_json']['aLianmengZhangDanDetailList']){
 									$log .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-primary" data-id="' . $aData['id'] . '" onclick="showCleanPaiju(this, \'' . $aData['data_json']['aLianmengZhongZhang']['lianmeng_name'] . '\', ' . $aData['data_json']['aLianmengZhangDanDetailList']['totalZhangDan'] . ');">查看清理牌局</button>';
 								}
 							}elseif($aData['type'] == 26){
