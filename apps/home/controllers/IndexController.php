@@ -29,7 +29,7 @@ class IndexController extends Controller{
 			$aCacheData['aRepeatJieshuangRequest'] = [];
 		}else{
 			foreach($aCacheData['aRepeatJieshuangRequest'] as $pjid => $rtime){
-				if(abs($rtime - NOW_TIME) > 3){
+				if(abs($rtime - NOW_TIME) > 5){
 					unset($aCacheData['aRepeatJieshuangRequest'][$pjid]);
 				}else{
 					if($pjid == $paijuId){
@@ -46,14 +46,14 @@ class IndexController extends Controller{
 		$mUser = null;
 		$aCacheData = null;
 		if($isRepeat){
-			sleep(3);
+			sleep(5);
 		}
 	}
 	
 	public function actionIndex(){
 		$paijuId = (int)Yii::$app->request->get('paijuId');
 		
-		//3秒内重复请求结算页面，则睡3秒
+		//5秒内重复请求结算页面，则睡5秒
 		if($paijuId){
 			$this->_checkRepeatJieshuanRequest($paijuId);
 		}
