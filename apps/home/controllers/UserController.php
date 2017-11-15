@@ -207,13 +207,13 @@ class UserController extends Controller{
 		$aMoneyTypeList = $mUser->getMoneyTypeList();
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
 		
-		$aCacheData = [
-			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
-			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
-			'moneyOutPutTypeTotalMoney' => $moneyOutPutTypeTotalMoney,
-			'aMoneyTypeList' => $aMoneyTypeList,
-			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
-		];
+		$aCacheData = $mUser->cache_data;
+		$aCacheData['aUnJiaoBanPaijuTotalStatistic'] = $aUnJiaoBanPaijuTotalStatistic;
+		$aCacheData['moneyTypeTotalMoney'] = $moneyTypeTotalMoney;
+		$aCacheData['moneyOutPutTypeTotalMoney'] = $moneyOutPutTypeTotalMoney;
+		$aCacheData['aMoneyTypeList'] = $aMoneyTypeList;
+		$aCacheData['aMoneyOutPutTypeList'] = $aMoneyOutPutTypeList;
+		
 		$mUser->set('cache_data', $aCacheData);
 		$mUser->save();
 		

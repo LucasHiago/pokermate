@@ -20,8 +20,43 @@ use common\model\Lianmeng;
 
 class IndexController extends Controller{
 	
+	private function _checkRepeatJieshuanRequest($paijuId){
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aCacheData = $mUser->cache_data;
+		$isRepeat = false;
+		if(!isset($aCacheData['aRepeatJieshuangRequest'])){
+			$aCacheData['aRepeatJieshuangRequest'] = [];
+		}else{
+			foreach($aCacheData['aRepeatJieshuangRequest'] as $pjid => $rtime){
+				if(abs($rtime - NOW_TIME) > 3){
+					unset($aCacheData['aRepeatJieshuangRequest'][$pjid]);
+				}else{
+					if($pjid == $paijuId){
+						$isRepeat = true;
+					}
+				}
+			}
+		}
+		if(!$isRepeat){
+			$aCacheData['aRepeatJieshuangRequest'][$paijuId] = NOW_TIME;
+		}
+		$mUser->set('cache_data', $aCacheData);
+		$mUser->save();
+		$mUser = null;
+		$aCacheData = null;
+		if($isRepeat){
+			sleep(3);
+		}
+	}
+	
 	public function actionIndex(){
 		$paijuId = (int)Yii::$app->request->get('paijuId');
+		
+		//3秒内重复请求结算页面，则睡3秒
+		if($paijuId){
+			$this->_checkRepeatJieshuanRequest($paijuId);
+		}
 		
 		$mUser = Yii::$app->user->getIdentity();
 		/********************这里非常重要*********************/
