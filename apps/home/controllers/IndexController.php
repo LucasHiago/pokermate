@@ -178,7 +178,7 @@ class IndexController extends Controller{
 		$kerenBianhao = (int)Yii::$app->request->post('kerenBianhao');
 		
 		$aKerenBenjin = ['keren_bianhao' => $kerenBianhao, 'benjin' => 0];
-		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
+		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao, 'is_delete' => 0]);
 		
 		if($mKerenBenjin){
 			$aKerenBenjin = $mKerenBenjin->toArray();
@@ -232,7 +232,7 @@ class IndexController extends Controller{
 		$kerenBianhao = (int)Yii::$app->request->post('kerenBianhao');
 		$benjin = (int)Yii::$app->request->post('benjin');
 		
-		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao]);
+		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao, 'is_delete' => 0]);
 		if(!$mKerenBenjin){
 			return new Response('客人不存在', 0);
 		}
