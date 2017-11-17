@@ -481,4 +481,67 @@ class HostLianmengController extends Controller{
 		return new Response('更新成功', 1);
 	}
 	
+	public function actionExportClubPaijuStatistic(){
+		$id = (int)Yii::$app->request->get('id');
+		$clubId = (int)Yii::$app->request->get('clubId');
+		
+		$mLianmeng = HostLianmeng::findOne($id);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		$mLianmengClub = HostLianmengClub::findOne([
+			'user_id' => Yii::$app->user->id,
+			'lianmeng_id' => $id,
+			'club_id' => $clubId,
+		]);
+		if(!$mLianmengClub){
+			return new Response('俱乐部不存在', 0);
+		}
+		
+		$mUser = Yii::$app->user->getIdentity();
+		$aLianmengHostDuizhang = $mUser->getLianmengHostDuizhang($id);
+		
+		$aClubZhangDanList = [];
+		if(isset($aLianmengHostDuizhang['aClubZhangDanList'][$clubId]['club_zhang_dan_list'])){
+			$aClubZhangDanList = array_values($aLianmengHostDuizhang['aClubZhangDanList'][$clubId]['club_zhang_dan_list']);
+		}
+		foreach($aClubZhangDanList as $k => $aClubZhangDan){
+			$aClubZhangDanList[$k]['zhanji_add_baoxian'] = $aClubZhangDan['zhanji'] + $aClubZhangDan['baoxian_heji'];
+			$fanDian = $aClubZhangDanList[$k]['zhanji_add_baoxian'] * (1 - 0.975);
+			$aClubZhangDanList[$k]['fan_dian'] = $fanDian;
+			$aClubZhangDanList[$k]['jie_shuan'] = $aClubZhangDanList[$k]['zhanji_add_baoxian'] - $fanDian - $aClubZhangDanList[$k]['float_baoxian_beichou'];
+		}
+		if(!$aClubZhangDanList){
+			return new Response('暂无数据', 0);
+		}
+		$aDataList = [
+			['牌局名', '战绩', '保险', '合计', '反点', '保险被抽', '结算'],
+		];
+		$totalJieShuan = 0;
+		foreach($aClubZhangDanList as $aClubZhangDan){
+			array_push($aDataList, [
+				$aClubZhangDan['paiju_name'],
+				$aClubZhangDan['zhanji'],
+				$aClubZhangDan['baoxian_heji'],
+				$aClubZhangDan['zhanji_add_baoxian'],
+				$aClubZhangDan['fan_dian'],
+				$aClubZhangDan['float_baoxian_beichou'],
+				$aClubZhangDan['jie_shuan'],
+			]);
+			$totalJieShuan += $aClubZhangDan['jie_shuan'];
+		}
+		array_push($aDataList, [
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			$totalJieShuan,
+			'合计',
+		]);
+		$fileName = '联盟俱乐部数据(' . $mLianmengClub->club_name . ').xlsx';
+		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
+	}
+	
 }

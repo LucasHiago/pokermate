@@ -1083,7 +1083,10 @@
 						listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="baoxian_choucheng" value="' + aData.baoxian_choucheng + '" placeholder="保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
 						listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="qibu_zhanji" value="' + aData.qibu_zhanji + '" placeholder="统计人数设置" /></td>';
 						listHtml += '<td>' + aData.lianmeng_name + '</td>';
-						listHtml += '<td><div class="J-la-delete-btn btn btn-sm btn-danger" data-id="' + aData.id + '">删除</div></td>';
+						listHtml += '<td style="width:145px;">';
+							listHtml += '<div class="J-la-delete-btn btn btn-sm btn-danger" data-id="' + aData.id + '">删除</div>&nbsp;';
+							listHtml += '<a href="' + Tools.url('home', 'host-lianmeng/export-club-paiju-statistic') + '?id=' + aData.lianmeng_id + '&clubId=' + aData.club_id + '" class="btn btn-sm btn-primary">导出数据</a>';
+						listHtml += '</td>';
 					listHtml += '</tr>';
 				}
 				listHtml += '<tr>';

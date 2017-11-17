@@ -92,6 +92,7 @@ return [
 		'host-lianmeng/delete-club.json'										=> 'host-lianmeng/delete-club',
 		'host-lianmeng/lianmeng-club-qin-zhang.json'							=> 'host-lianmeng/lianmeng-club-qin-zhang',
 		'host-lianmeng/refresh-lianmeng-paiju-time.json'						=> 'host-lianmeng/refresh-lianmeng-paiju-time',
+		'host-lianmeng/export-club-paiju-statistic.html'						=> 'host-lianmeng/export-club-paiju-statistic',
 		
 		
 		'paiju/chang-paiju-lianmeng.json'										=> 'paiju/chang-paiju-lianmeng',
