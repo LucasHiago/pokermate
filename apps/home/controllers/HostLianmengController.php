@@ -505,9 +505,11 @@ class HostLianmengController extends Controller{
 		if(isset($aLianmengHostDuizhang['aClubZhangDanList'][$clubId]['club_zhang_dan_list'])){
 			$aClubZhangDanList = array_values($aLianmengHostDuizhang['aClubZhangDanList'][$clubId]['club_zhang_dan_list']);
 		}
+		$xishu = (string)(1 - 0.975);
 		foreach($aClubZhangDanList as $k => $aClubZhangDan){
+			$aClubZhangDanList[$k]['float_baoxian_beichou'] = (string)$aClubZhangDanList[$k]['float_baoxian_beichou'];
 			$aClubZhangDanList[$k]['zhanji_add_baoxian'] = $aClubZhangDan['zhanji'] + $aClubZhangDan['baoxian_heji'];
-			$fanDian = $aClubZhangDanList[$k]['zhanji_add_baoxian'] * (1 - 0.975);
+			$fanDian = $aClubZhangDanList[$k]['zhanji_add_baoxian'] * $xishu;
 			$aClubZhangDanList[$k]['fan_dian'] = $fanDian;
 			$aClubZhangDanList[$k]['jie_shuan'] = $aClubZhangDanList[$k]['zhanji_add_baoxian'] - $fanDian - $aClubZhangDanList[$k]['float_baoxian_beichou'];
 		}
