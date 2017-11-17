@@ -97,7 +97,11 @@ class Excel extends \yii\base\Object{
 		foreach($aData as $value){
 			$col = $startCell[0];
 			foreach($value as $v){
-				$objPHPExcel->getSheet($sheetIndex)->setCellValueExplicit("$col$row", $v, 's');
+				$dataType = 's';
+				if(is_numeric($v)){
+					$dataType = 'n';
+				}
+				$objPHPExcel->getSheet($sheetIndex)->setCellValueExplicit("$col$row", $v, $dataType);
 				$col++;
 			}
 			$row++;
