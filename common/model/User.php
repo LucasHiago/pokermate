@@ -1646,7 +1646,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	/**
 	 *	获取联盟主机对账列表
 	 */
-	public function getLianmengHostDuizhang($lianmengId){
+	public function getLianmengHostDuizhang($lianmengId, $isReturnRecordId = false){
 		set_time_limit(0);
 		$mLianmeng = HostLianmeng::findOne($lianmengId);
 		if(!$mLianmeng){
@@ -1712,6 +1712,10 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 					$totalHeduishuziPaijuCount += 1;
 				}
 			}
+		}
+		
+		if($isReturnRecordId){
+			return ArrayHelper::getColumn($aResult, 'id');
 		}
 		
 		$aClubDetailList = [];

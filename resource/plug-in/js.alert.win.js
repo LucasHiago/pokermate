@@ -1530,7 +1530,7 @@
 		
 		showLianmengZhangDanDetail : function(lianmengId){
 			var html = '';
-			html += '<div class="J-data-list-win" style="float:left;width:650px;min-height:423px;">';
+			html += '<div class="J-data-list-win" style="float:left;width:750px;min-height:423px;">';
 				html += '<div class="panel panel-primary">';
 					html += '<div class="panel-heading">';
 						html += ' <h3 class="panel-title" style="text-align:center;">联盟账单详情</h3>';
@@ -1539,7 +1539,7 @@
 						html += '<div class="h10"></div>';
 						html += '<div class="h30 breadcrumb">';
 							html += '<div style="float:left;width:150px;height:100%;"><div class="lml-select-wrap"><select class="J-lml-select form-control" style="width:120px;margin-left:10px;"></select></div></div>';
-							html += '<div style="float:right;width:480px;height:100%;"><div class="J-s-lms-btn btn btn-sm btn-primary" style="float: right;top:-2px;margin-right: 10px;">联盟设置</div><div class="J-s-qinzhan-btn btn btn-sm btn-danger" style="float: right;top:-2px;margin-right: 10px;" data-id="' + lianmengId + '">清账</div><div class="s-lms-txt" style="right:0px;">新账单累计: <font class="J-total-zhan-dan" style="color:#ff5722;">0</font> 元</div><div class="s-lms-txt" style="right:0px;">桌子费合计: <font class="J-total-zhouzi-fee" style="color:#ff5722;">0</font> 元</div></div>';
+							html += '<div style="float:right;width:570px;height:100%;"><a href="' + Tools.url('home', 'lianmeng/export-lianmeng-zhangdan-detail') + '?lianmengId=' + lianmengId + '" class="btn btn-sm btn-primary" style="float: right;top:-2px;margin-right: 10px;">导出数据</a><div class="J-s-lms-btn btn btn-sm btn-primary" style="float: right;top:-2px;margin-right: 10px;">联盟设置</div><div class="J-s-qinzhan-btn btn btn-sm btn-danger" style="float: right;top:-2px;margin-right: 10px;" data-id="' + lianmengId + '">清账</div><div class="s-lms-txt" style="right:0px;">新账单累计: <font class="J-total-zhan-dan" style="color:#ff5722;">0</font> 元</div><div class="s-lms-txt" style="right:0px;">桌子费合计: <font class="J-total-zhouzi-fee" style="color:#ff5722;">0</font> 元</div></div>';
 						html += '</div>';
 						html += '<div class="h10"></div>';
 						html += '<div class="table-responsive" style="padding:0px 10px;">';

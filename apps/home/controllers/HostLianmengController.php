@@ -10,6 +10,7 @@ use umeworld\lib\Response;
 use common\model\HostLianmeng;
 use common\model\HostLianmengClub;
 use common\model\Calculate;
+use common\model\ImportData;
 
 class HostLianmengController extends Controller{
 	public $enableCsrfValidation = false;
@@ -499,15 +500,26 @@ class HostLianmengController extends Controller{
 		}
 		
 		$mUser = Yii::$app->user->getIdentity();
-		$aLianmengHostDuizhang = $mUser->getLianmengHostDuizhang($id);
+		$aImportDataId = $mUser->getLianmengHostDuizhang($id, true);
+		if(!$aImportDataId){
+			return new Response('暂无数据', 0);
+		}
+		$aClubZhangDanList = ImportData::findAll(
+			['id' => $aImportDataId, 'user_id' => $mUser->id, 'club_id' => $clubId],
+			['id', 'paiju_id', 'paiju_name', 'zhanji', 'choushui_value', 'baoxian_heji', 'club_name', 'mangzhu', 'paizuo', 'player_name']
+		);
+		
+		/*$aLianmengHostDuizhang = $mUser->getLianmengHostDuizhang($id);
 		
 		$aClubZhangDanList = [];
 		if(isset($aLianmengHostDuizhang['aClubZhangDanList'][$clubId]['club_zhang_dan_list'])){
 			$aClubZhangDanList = array_values($aLianmengHostDuizhang['aClubZhangDanList'][$clubId]['club_zhang_dan_list']);
 		}
+		*/
 		$xishu = (string)(1 - 0.975);
 		foreach($aClubZhangDanList as $k => $aClubZhangDan){
-			$aClubZhangDanList[$k]['float_baoxian_beichou'] = (string)$aClubZhangDanList[$k]['float_baoxian_beichou'];
+			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($aClubZhangDan['baoxian_heji'], $mLianmengClub->baoxian_choucheng, $mUser->choushui_shuanfa, false);
+			$aClubZhangDanList[$k]['float_baoxian_beichou'] = (string)$floatBaoxianBeichou;
 			$aClubZhangDanList[$k]['zhanji_add_baoxian'] = $aClubZhangDan['zhanji'] + $aClubZhangDan['baoxian_heji'];
 			$fanDian = $aClubZhangDanList[$k]['zhanji_add_baoxian'] * $xishu;
 			$aClubZhangDanList[$k]['fan_dian'] = $fanDian;
@@ -517,12 +529,16 @@ class HostLianmengController extends Controller{
 			return new Response('暂无数据', 0);
 		}
 		$aDataList = [
-			['牌局名', '战绩', '保险', '合计', '反点', '保险被抽', '结算'],
+			['牌桌', '盲注', '俱乐部名称', '牌局名', '玩家名称', '战绩', '保险', '合计', '反点', '保险被抽', '结算'],
 		];
 		$totalJieShuan = 0;
 		foreach($aClubZhangDanList as $aClubZhangDan){
 			array_push($aDataList, [
+				$aClubZhangDan['paizuo'],
+				$aClubZhangDan['mangzhu'],
+				$aClubZhangDan['club_name'],
 				$aClubZhangDan['paiju_name'],
+				$aClubZhangDan['player_name'],
 				$aClubZhangDan['zhanji'],
 				$aClubZhangDan['baoxian_heji'],
 				$aClubZhangDan['zhanji_add_baoxian'],
@@ -533,6 +549,10 @@ class HostLianmengController extends Controller{
 			$totalJieShuan += $aClubZhangDan['jie_shuan'];
 		}
 		array_push($aDataList, [
+			'',
+			'',
+			'',
+			'',
 			'',
 			'',
 			'',

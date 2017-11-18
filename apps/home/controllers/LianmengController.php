@@ -4,12 +4,14 @@ namespace home\controllers;
 use Yii;
 //use umeworld\lib\Controller;
 use umeworld\lib\StringHelper;
+use yii\helpers\ArrayHelper;
 use umeworld\lib\Url;
 use home\lib\Controller;
 use umeworld\lib\Response;
 use common\model\Lianmeng;
 use common\model\LianmengClub;
 use common\model\Calculate;
+use common\model\ImportData;
 
 class LianmengController extends Controller{
 	
@@ -472,6 +474,81 @@ class LianmengController extends Controller{
 			'list' => $aLianmengZhangDanDetailList,
 			'totalZhangDan' => $totalZhangDan,
 		];
+	}
+	
+	public function actionExportLianmengZhangdanDetail(){
+		$id = Yii::$app->request->get('lianmengId');
+		
+		$mLianmeng = Lianmeng::findOne(['id' => $id, 'user_id' => Yii::$app->user->id, 'is_delete' => 0]);
+		if(!$mLianmeng){
+			return new Response('联盟不存在', 0);
+		}
+		$mUser = Yii::$app->user->getIdentity();
+		$aLianmengList = $mUser->getLianmengList();
+		
+		$aReturn = $this->_getLianmengZhangDanDetailList($id);
+		$aList = [];
+		if(isset($aReturn['list']) && $aReturn['list']){
+			$aList = $aReturn['list'];
+		}
+		$aPaijuId = ArrayHelper::getColumn($aList, 'paiju_id');
+		if(!$aPaijuId){
+			return new Response('暂无数据', 0);
+		}
+		$aZhangDanList = ImportData::findAll(
+			['user_id' => $mUser->id, 'paiju_id' => $aPaijuId],
+			['id', 'paiju_id', 'paiju_name', 'zhanji', 'choushui_value', 'baoxian_heji', 'club_name', 'mangzhu', 'paizuo', 'player_name']
+		);
+		$xishu = (string)(1 - 0.975);
+		foreach($aZhangDanList as $k => $aZhangDan){
+			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($aZhangDan['baoxian_heji'], $mLianmeng->baoxian_choucheng, $mUser->choushui_shuanfa, false);
+			$aZhangDanList[$k]['float_baoxian_beichou'] = (string)$floatBaoxianBeichou;
+			$aZhangDanList[$k]['zhanji_add_baoxian'] = $aZhangDan['zhanji'] + $aZhangDan['baoxian_heji'];
+			$fanDian = $aZhangDanList[$k]['zhanji_add_baoxian'] * $xishu;
+			$aZhangDanList[$k]['fan_dian'] = $fanDian;
+			$aZhangDanList[$k]['jie_shuan'] = $aZhangDanList[$k]['zhanji_add_baoxian'] - $fanDian - $aZhangDanList[$k]['float_baoxian_beichou'];
+		}
+		if(!$aZhangDanList){
+			return new Response('暂无数据', 0);
+		}
+		$aDataList = [
+			['牌桌', '盲注', '俱乐部名称', '牌局名', '玩家名称', '战绩', '保险', '合计', '反点', '保险被抽', '结算'],
+		];
+		$totalJieShuan = 0;
+		foreach($aZhangDanList as $aZhangDan){
+			array_push($aDataList, [
+				$aZhangDan['paizuo'],
+				$aZhangDan['mangzhu'],
+				$aZhangDan['club_name'],
+				$aZhangDan['paiju_name'],
+				$aZhangDan['player_name'],
+				$aZhangDan['zhanji'],
+				$aZhangDan['baoxian_heji'],
+				$aZhangDan['zhanji_add_baoxian'],
+				$aZhangDan['fan_dian'],
+				$aZhangDan['float_baoxian_beichou'],
+				$aZhangDan['jie_shuan'],
+			]);
+			$totalJieShuan += $aZhangDan['jie_shuan'];
+		}
+		array_push($aDataList, [
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			'',
+			$totalJieShuan,
+			'合计',
+		]);
+		$fileName = '联盟账单详情(' . $mLianmeng->name . ').xlsx';
+		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
+		
+		
 	}
 	
 	public function actionQinZhang(){

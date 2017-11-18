@@ -74,6 +74,7 @@ return [
 		'lianmeng/update-lianmeng-club-info.json'								=> 'lianmeng/update-lianmeng-club-info',
 		'lianmeng/delete-club.json'												=> 'lianmeng/delete-club',
 		'lianmeng/lianmeng-club-qin-zhang.json'									=> 'lianmeng/lianmeng-club-qin-zhang',
+		'lianmeng/export-lianmeng-zhangdan-detail.html'							=> 'lianmeng/export-lianmeng-zhangdan-detail',
 		
 		
 		
