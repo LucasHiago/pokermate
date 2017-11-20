@@ -44,8 +44,7 @@ class SiteController extends Controller{
 	}
 
 	public function actionTest(){
-		$sql = 'DELETE FROM ' . \common\model\FenchengSetting::tableName() . ' WHERE `zhuozi_jibie`="4/8"';
-		Yii::$app->db->createCommand($sql)->execute();debug('complete');
+		
 		//$this->_ajustFengChengSettingSort();
 		
 		/*$sql = "SELECT * from lianmeng where lmzj_paiju_creater!=''";
