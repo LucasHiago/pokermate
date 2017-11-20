@@ -143,15 +143,19 @@ if($mUser->cache_data){
 			<?php } ?>
 			</div>
 			<div class="c-b-c-r-center">
-				<div class="form-group" style="float:left;width:140px;margin:15px;margin-left:26px;">
+				<div class="form-group" style="float:left;width:125px;margin:10px;margin-left:17px;">
 					<label>客人编号</label>
 					<input type="text" class="J-search-keren-bianhao form-control" value="" placeholder="请输入客人编号" />
 				</div>
-				<div class="form-group" style="float:left;width:140px;margin:15px;">
-					<label>本金</label>
-					<input type="text" class="J-search-benjin form-control" value="0" placeholder="请输入本金" />
+				<div class="form-group" style="float:left;width:105px;margin:10px;margin-left:10px;">
+					<label>游戏名字</label>
+					<select class="J-search-player-list form-control"></select>
 				</div>
-				<div class="form-group" style="float:left;width:150px;margin:15px;">
+				<div class="form-group" style="float:left;width:105px;margin:10px;">
+					<label>本金</label>
+					<input type="text" class="J-search-benjin form-control" value="0" placeholder="本金" />
+				</div>
+				<div class="form-group" style="float:left;width:105px;margin:10px;">
 					<label>资金流向</label>
 					<select class="J-jsfs form-control">
 					<option value="0">请选择</option>
@@ -419,6 +423,11 @@ if($mUser->cache_data){
 				if(aResult.status == 1){
 					//$(o).val(aResult.data.keren_bianhao);
 					$(o).parent().parent().find('.J-search-benjin').val(aResult.data.benjin);
+					var html = '';
+					for(i in aResult.data.player_list){
+						html += '<option value="' + aResult.data.player_list[i].id + '">' + aResult.data.player_list[i].player_name + '</option>';
+					}
+					$(o).parent().parent().find('.J-search-player-list').html(html);
 				}
 			}
 		});

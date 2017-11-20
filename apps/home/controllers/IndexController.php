@@ -212,11 +212,12 @@ class IndexController extends Controller{
 	public function actionGetKerenBenjin(){
 		$kerenBianhao = (int)Yii::$app->request->post('kerenBianhao');
 		
-		$aKerenBenjin = ['keren_bianhao' => $kerenBianhao, 'benjin' => 0];
+		$aKerenBenjin = ['keren_bianhao' => $kerenBianhao, 'benjin' => 0, 'player_list' => []];
 		$mKerenBenjin = KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $kerenBianhao, 'is_delete' => 0]);
 		
 		if($mKerenBenjin){
 			$aKerenBenjin = $mKerenBenjin->toArray();
+			$aKerenBenjin['player_list'] = $mKerenBenjin->getPlayerList();
 		}
 		
 		return new Response('', 1, $aKerenBenjin);
