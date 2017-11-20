@@ -495,8 +495,17 @@ class LianmengController extends Controller{
 		if(!$aPaijuId){
 			return new Response('暂无数据', 0);
 		}
+		$aClubId = [];
+		$aClubList = $mLianmeng->getLianmengClubList();
+		if($aClubList){
+			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}
+		$aCondition = ['user_id' => $mUser->id, 'paiju_id' => $aPaijuId];
+		if($aClubId){
+			$aCondition['club_id'] = $aClubId;
+		}
 		$aZhangDanList = ImportData::findAll(
-			['user_id' => $mUser->id, 'paiju_id' => $aPaijuId],
+			$aCondition,
 			['id', 'paiju_id', 'paiju_name', 'zhanji', 'choushui_value', 'baoxian_heji', 'club_name', 'mangzhu', 'paizuo', 'player_name']
 		);
 		$xishu = (string)(1 - 0.975);

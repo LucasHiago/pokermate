@@ -154,6 +154,7 @@ if($mUser->cache_data){
 				<div class="form-group" style="float:left;width:105px;margin:10px;">
 					<label>本金</label>
 					<input type="text" class="J-search-benjin form-control" value="0" placeholder="本金" />
+					<i class="J-search-benjin-edit-btn fa fa-pencil" style="position:relative;float:right;top:-24px;right:5px;cursor:pointer;"></i>
 				</div>
 				<div class="form-group" style="float:left;width:105px;margin:10px;">
 					<label>资金流向</label>
@@ -517,6 +518,13 @@ if($mUser->cache_data){
 		});
 		$('.J-search-benjin').blur(function(e){
 			updateBenjin(this);
+		});
+		$('.J-search-benjin-edit-btn').click(function(){
+			var oTxt = $(this).prev();
+			var txt = oTxt.val();
+			oTxt.val('');
+			oTxt.focus();
+			oTxt.val(txt);
 		});
 	}
 	
