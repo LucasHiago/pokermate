@@ -496,18 +496,18 @@ class LianmengController extends Controller{
 			return new Response('暂无数据', 0);
 		}
 		$aClubId = [];
-		$aClubList = $mLianmeng->getLianmengClubList();
+		$aClubList = $mUser->getUserClubList();
 		if($aClubList){
 			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
 		}
 		$aCondition = ['user_id' => $mUser->id, 'paiju_id' => $aPaijuId];
 		if($aClubId){
 			$aCondition['club_id'] = $aClubId;
-		}debug($aCondition);
+		}
 		$aZhangDanList = ImportData::findAll(
 			$aCondition,
 			['id', 'paiju_id', 'paiju_name', 'zhanji', 'choushui_value', 'baoxian_heji', 'club_name', 'mangzhu', 'paizuo', 'player_name']
-		);debug(Yii::$app->db->getLastSqls(5),11);
+		);
 		$xishu = (string)(1 - 0.975);
 		foreach($aZhangDanList as $k => $aZhangDan){
 			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($aZhangDan['baoxian_heji'], $mLianmeng->baoxian_choucheng, $mUser->choushui_shuanfa, false);
