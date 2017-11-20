@@ -237,10 +237,12 @@ class Calculate extends \yii\base\Object{
 		if(!$zhanji){
 			return 0;
 		}
-		$zhanji = abs($zhanji);
+		
 		if($zhanji > 0){
+			$zhanji = abs($zhanji);
 			$fencheng = $zhanji * ($yinFan / 100);
 		}else{
+			$zhanji = abs($zhanji);
 			$fencheng = $zhanji * ($shuFan / 100);
 		}
 		if(!$returnInt){
