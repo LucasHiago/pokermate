@@ -12,7 +12,7 @@ class FenchengSetting extends \common\lib\DbOrmModel{
 	}
 
 	public static function getFenchengConfigList(){
-		return ['1/2', '2/4', '4/8', '5/10', '10/20', '20/40', '25/50', '50/100', '100/200', '200/400', '300/600', '500/1000', '1000/2000'];
+		return ['1/2', '2/4', '5/10', '10/20', '20/40', '25/50', '50/100', '100/200', '200/400', '300/600', '500/1000', '1000/2000'];
 	}
 	
 	public static function bathInsertData($aInsertList){
