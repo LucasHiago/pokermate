@@ -47,7 +47,9 @@ class IndexController extends Controller{
 		$aCacheData = null;
 		if($isRepeat){
 			sleep(5);
+			return false;
 		}
+		return true;
 	}
 	
 	public function actionIndex(){
@@ -56,6 +58,9 @@ class IndexController extends Controller{
 		//5秒内重复请求结算页面，则睡5秒
 		if($paijuId){
 			$this->_checkRepeatJieshuanRequest($paijuId);
+			/*if(!$this->_checkRepeatJieshuanRequest($paijuId)){
+				return new Response('操作过于频繁', 0);
+			}*/
 		}
 		
 		$mUser = Yii::$app->user->getIdentity();
@@ -69,9 +74,9 @@ class IndexController extends Controller{
 		$aMoneyOutPutTypeList = $mUser->getMoneyOutPutTypeList();
 		$moneyTypeTotalMoney = $mUser->getMoneyTypeTotalMoney();
 		$moneyOutPutTypeTotalMoney = $mUser->getMoneyOutPutTypeTotalMoney();
-		$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
-		$imbalanceMoney = $mUser->getImbalanceMoney();
-		$jiaoBanZhuanChuMoney = $mUser->getJiaoBanZhuanChuMoney();
+		//$aUnJiaoBanPaijuTotalStatistic = $mUser->getUnJiaoBanPaijuTotalStatistic();
+		//$imbalanceMoney = $mUser->getImbalanceMoney();
+		//$jiaoBanZhuanChuMoney = $mUser->getJiaoBanZhuanChuMoney();
 		
 		$aCurrentPaiju = [];
 		$currentPaijuLianmengId = 0;
@@ -137,7 +142,7 @@ class IndexController extends Controller{
 		}
 		
 		return $this->render('home', [
-			'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
+			//'aUnJiaoBanPaijuTotalStatistic' => $aUnJiaoBanPaijuTotalStatistic,
 			'aMoneyTypeList' => $aMoneyTypeList,
 			'aMoneyOutPutTypeList' => $aMoneyOutPutTypeList,
 			'moneyTypeTotalMoney' => $moneyTypeTotalMoney,
@@ -148,8 +153,8 @@ class IndexController extends Controller{
 			'aLianmengList' => $aLianmengList,
 			'aCurrentPaiju' => $aCurrentPaiju,
 			'currentPaijuLianmengId' => $currentPaijuLianmengId,
-			'imbalanceMoney' => $imbalanceMoney,
-			'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney,
+			//'imbalanceMoney' => $imbalanceMoney,
+			//'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney,
 		]);
 	}
 	

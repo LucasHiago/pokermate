@@ -133,6 +133,17 @@ ALTER TABLE `user` ADD `qibu_zhanji` int(11) NOT NULL COMMENT '起步战绩' AFTER `
 ALTER TABLE `keren_benjin` ADD `is_auto_create` tinyint(4) NOT NULL COMMENT '是否结算时自动生成的客人编号' AFTER `current_player_id`;
 
 
+
+
+索引
+
+CREATE INDEX `import_data_index` ON `import_data`(`id`, `player_id`, `club_id`, `paiju_id`, `user_id`, `status`, `agent_is_clean`, `club_is_clean`);
+CREATE INDEX `keren_benjin_index` ON `keren_benjin`(`id`, `user_id`, `keren_bianhao`, `agent_id`, `is_delete`);
+CREATE INDEX `lianmeng_index` ON `lianmeng`(`id`, `user_id`, `is_delete`);
+CREATE INDEX `paiju_index` ON `paiju`(`id`, `user_id`, `status`, `lianmeng_id`, `is_clean`);
+CREATE INDEX `player_index` ON `player`(`id`, `user_id`, `keren_bianhao`, `player_id`, `is_delete`);
+
+
 优先
 1.添加日志记录
 2.添加一键清楚数据 不可恢复（需要输入安全密码）

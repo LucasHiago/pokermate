@@ -371,7 +371,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		return $aWhere;
 	}
 	
-	public static function getUserUnJiaoBanPaijuZhongChouShui($userId, $aClubId = []){
+	public static function getUserUnJiaoBanPaijuZhongChouShuiOld($userId, $aClubId = []){
 		$clubIdWhere = '';
 		if($aClubId){
 			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
@@ -383,7 +383,28 @@ class ImportData extends \common\lib\DbOrmModel{
 		return (int)$aResult[0]['sum_choushui_value'];
 	}
 	
-	public static function getUserUnJiaoBanPaijuZhongBaoXian($userId, $aClubId = []){
+	public static function getUserUnJiaoBanPaijuZhongChouShui($userId, $aClubId = []){
+		$clubIdWhere = '';
+		if($aClubId){
+			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
+		}else{
+			return 0;
+		}
+		//*******************//
+		$sql = 'SELECT * FROM ' . Paiju::tableName() . ' WHERE `user_id`=' . $userId . ' AND `status` !=' . Paiju::STATUS_FINISH;
+		$aPaijuList = Yii::$app->db->createCommand($sql)->queryAll();
+		$aPaijuId = ArrayHelper::getColumn($aPaijuList, 'id');
+		$importDataSql = 'SELECT * FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $userId . ' AND `status`=1 AND `choushui_value`>0 AND `club_id` IN(' . implode(',', $aClubId) . ')';
+		if($aPaijuId){
+			$importDataSql .= ' AND `paiju_id` IN(' . implode(',', $aPaijuId) . ')';
+		}
+		//*******************//
+		$sql = 'SELECT SUM(`t1`.`choushui_value`) AS `sum_choushui_value` FROM (' . $importDataSql . ') AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`user_id`=' . $userId . ' AND `t3`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0 AND `t1`.`choushui_value`>0' . $clubIdWhere;
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return (int)$aResult[0]['sum_choushui_value'];
+	}
+	
+	public static function getUserUnJiaoBanPaijuZhongBaoXianOld($userId, $aClubId = []){
 		$clubIdWhere = '';
 		if($aClubId){
 			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
@@ -395,7 +416,28 @@ class ImportData extends \common\lib\DbOrmModel{
 		return (int)$aResult[0]['sum_baoxian_heji'];
 	}
 	
-	public static function getUserUnJiaoBanPaijuShangZhuoRenShu($userId, $aClubId = []){
+	public static function getUserUnJiaoBanPaijuZhongBaoXian($userId, $aClubId = []){
+		$clubIdWhere = '';
+		if($aClubId){
+			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
+		}else{
+			return 0;
+		}
+		//*******************//
+		$sql = 'SELECT * FROM ' . Paiju::tableName() . ' WHERE `user_id`=' . $userId . ' AND `status` !=' . Paiju::STATUS_FINISH;
+		$aPaijuList = Yii::$app->db->createCommand($sql)->queryAll();
+		$aPaijuId = ArrayHelper::getColumn($aPaijuList, 'id');
+		$importDataSql = 'SELECT * FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $userId . ' AND `status`=1 AND `club_id` IN(' . implode(',', $aClubId) . ')';
+		if($aPaijuId){
+			$importDataSql .= ' AND `paiju_id` IN(' . implode(',', $aPaijuId) . ')';
+		}
+		//*******************//
+		$sql = 'SELECT SUM(`t1`.`baoxian_heji`) AS `sum_baoxian_heji` FROM (' . $importDataSql . ') AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`user_id`=' . $userId . ' AND `t3`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0' . $clubIdWhere;
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return (int)$aResult[0]['sum_baoxian_heji'];
+	}
+	
+	public static function getUserUnJiaoBanPaijuShangZhuoRenShuOld($userId, $aClubId = []){
 		$clubIdWhere = '';
 		if($aClubId){
 			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
@@ -403,6 +445,27 @@ class ImportData extends \common\lib\DbOrmModel{
 			return 0;
 		}
 		$sql = 'SELECT COUNT(`t1`.`id`) AS `player_num` FROM ' . static::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`user_id`=' . $userId . ' AND `t3`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0' . $clubIdWhere;
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return (int)$aResult[0]['player_num'];
+	}
+	
+	public static function getUserUnJiaoBanPaijuShangZhuoRenShu($userId, $aClubId = []){
+		$clubIdWhere = '';
+		if($aClubId){
+			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
+		}else{
+			return 0;
+		}
+		//*******************//
+		$sql = 'SELECT * FROM ' . Paiju::tableName() . ' WHERE `user_id`=' . $userId . ' AND `status` !=' . Paiju::STATUS_FINISH;
+		$aPaijuList = Yii::$app->db->createCommand($sql)->queryAll();
+		$aPaijuId = ArrayHelper::getColumn($aPaijuList, 'id');
+		$importDataSql = 'SELECT * FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $userId . ' AND `status`=1 AND `club_id` IN(' . implode(',', $aClubId) . ')';
+		if($aPaijuId){
+			$importDataSql .= ' AND `paiju_id` IN(' . implode(',', $aPaijuId) . ')';
+		}
+		//*******************//
+		$sql = 'SELECT COUNT(`t1`.`id`) AS `player_num` FROM (' . $importDataSql . ') AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $userId . ' AND `t2`.`user_id`=' . $userId . ' AND `t3`.`user_id`=' . $userId . ' AND `t2`.`status`!=' . Paiju::STATUS_FINISH . ' AND `t1`.`status`=1 AND `t3`.is_delete=0' . $clubIdWhere;
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 		return (int)$aResult[0]['player_num'];
 	}
