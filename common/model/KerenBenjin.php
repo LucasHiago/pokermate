@@ -354,9 +354,18 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		if(!$aPlayerList){
 			return [];
 		}
-		$aPlayerId = ArrayHelper::getColumn($aPlayerList, 'player_id');;
+		$mUser = User::findOne($this->user_id);
+		$aClubList = $mUser->getUserClubList();
+		if($aClubList){
+			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}
+		$clubIdWhere = '';
+		if($aClubId){
+			$clubIdWhere = ' AND `club_id` IN(' . implode(',', $aClubId) . ')';
+		}
+		$aPlayerId = ArrayHelper::getColumn($aPlayerList, 'player_id');
 		$offset = ($page - 1) * $pageSize;
-		$sql = 'SELECT `paiju_name`,`mangzhu`,`player_name`,`zhanji`,`jiesuan_value` FROM ' . ImportData::tableName() . ' WHERE `player_id` IN(' . implode(',', $aPlayerId) . ') AND `paiju_id`>0 ORDER BY `end_time` DESC LIMIT ' . $offset . ',' . $pageSize;
+		$sql = 'SELECT `paiju_name`,`mangzhu`,`player_name`,`zhanji`,`jiesuan_value` FROM ' . ImportData::tableName() . ' WHERE `user_id`=' . $this->user_id . ' AND `player_id` IN(' . implode(',', $aPlayerId) . ') AND `paiju_id`>0 ' . $clubIdWhere . ' ORDER BY `end_time` DESC LIMIT ' . $offset . ',' . $pageSize;
 		
 		return Yii::$app->db->createCommand($sql)->queryAll();
 	}
