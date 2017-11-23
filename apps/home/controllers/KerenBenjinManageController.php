@@ -456,4 +456,22 @@ class KerenBenjinManageController extends Controller{
 		Yii::$app->excel->setSheetDataFromArray($fileName, $aDataList, true);
 	}
 	
+	public function actionSetAllBenjinZero(){
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aWhere = [
+			'and',
+			['user_id' => $mUser->id],
+			['!=', 'benjin', 0],
+		];
+		
+		$aList = KerenBenjin::findAll($aWhere);
+		foreach($aList as $aKerenBenjin){
+			$mKerenBenjin = KerenBenjin::toModel($aKerenBenjin);
+			$mKerenBenjin->set('benjin', 0);
+			$mKerenBenjin->save('benjin', 0);
+			$mUser->operateLog(43, ['aOldRecord' => $aKerenBenjin, 'aNewRecord' => $mKerenBenjin->toArray()]);
+		}
+		return new Response('清理完毕', 1);
+	}
 }

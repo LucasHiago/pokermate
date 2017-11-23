@@ -103,6 +103,8 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 赢收台费：' . $aData['data_json']['aOldRecord']['ying_fee'] . '   【修改后】赢收台费：' . $aData['data_json']['aNewRecord']['ying_fee'];
 							}elseif($aData['type'] == 42){
 								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 输返台费：' . $aData['data_json']['aOldRecord']['shu_fee'] . '   【修改后】输返台费：' . $aData['data_json']['aNewRecord']['shu_fee'];
+							}elseif($aData['type'] == 43){
+								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 本金：' . $aData['data_json']['aOldRecord']['benjin'] . '   一键清零';
 							}
 							return $log;
 						}

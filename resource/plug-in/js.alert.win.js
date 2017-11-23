@@ -2558,6 +2558,7 @@
 						html += '<div class="h30">';
 							//html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showAddPlayer();" style="float:left;margin-left:10px;">新增会员</button>';
 							html += '<button class="btn btn-primary J-add-player" onclick="AlertWin.showTinnyPlayerList();" style="float:left;margin-left:10px;">游戏名字管理</button>';
+							html += '<button class="btn btn-danger J-clean-kerenbenjin" style="float:left;margin-left:10px;">一键清除本金</button>';
 							html += '<input type="text" class="J-search-krbh form-control" style="float:right;width:150px;margin-right:10px;" placeholder="请输入客人编号" />';
 						html += '</div>';
 						html += '<div class="h10"></div>';
@@ -2672,6 +2673,30 @@
 						}
 					}
 				});
+			});
+			oHtml.find('.J-clean-kerenbenjin').click(function(){
+				if(confirm('是否确认把所有客人本金清0')){
+					var o = this;
+					ajax({
+						url : Tools.url('home', 'keren-benjin-manage/set-all-benjin-zero'),
+						data : {},
+						beforeSend : function(){
+							$(o).attr('disabled', 'disabled');
+						},
+						complete : function(){
+							$(o).attr('disabled', false);
+						},
+						success : function(aResult){
+							if(aResult.status == 1){
+								UBox.show(aResult.msg, aResult.status, function(){
+									location.reload();
+								}, 1);
+							}else{
+								UBox.show(aResult.msg, aResult.status);
+							}
+						}
+					});
+				}
 			});
 		},
 		

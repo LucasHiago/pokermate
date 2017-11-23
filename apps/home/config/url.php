@@ -152,6 +152,7 @@ return [
 		'keren-benjin-manage/delete-player.json'								=> 'keren-benjin-manage/delete-player',
 		'keren-benjin-manage/export-player-last-paiju-data.html'				=> 'keren-benjin-manage/export-player-last-paiju-data',
 		'keren-benjin-manage/export-keren-last-paiju-data.html'					=> 'keren-benjin-manage/export-keren-last-paiju-data',
+		'keren-benjin-manage/set-all-benjin-zero.json'							=> 'keren-benjin-manage/set-all-benjin-zero',
 		
 		
 		'operate-log-manage/index.html'											=> 'operate-log-manage/index',
