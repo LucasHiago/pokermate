@@ -23,6 +23,7 @@ return [
 		'home.html'																=> 'index/index',
 		'paiju-list.json'														=> 'index/get-paiju-list',
 		'keren-benjin.json'														=> 'index/get-keren-benjin',
+		'search-keren-benjin.json'												=> 'index/search-keren-benjin',
 		'jiaoshou-jiner.json'													=> 'index/jiaoshou-jiner',
 		'update-benjin.json'													=> 'index/update-benjin',
 		'keren-list.json'														=> 'index/get-keren-list',

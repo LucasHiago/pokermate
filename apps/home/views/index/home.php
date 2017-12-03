@@ -143,20 +143,24 @@ if($mUser->cache_data){
 			<?php } ?>
 			</div>
 			<div class="c-b-c-r-center">
-				<div class="form-group" style="float:left;width:125px;margin:10px;margin-left:17px;">
-					<label>客人编号</label>
-					<input type="text" class="J-search-keren-bianhao form-control" value="" placeholder="请输入客人编号" />
+				<div class="form-group" style="float:left;width:112px;margin:10px;margin-left:10px;margin-right:5px;">
+					<label>搜索</label>
+					<input type="text" class="J-search-val form-control" value="" placeholder="搜编号或名字" />
 				</div>
-				<div class="form-group" style="float:left;width:105px;margin:10px;margin-left:10px;">
+				<div class="form-group" style="float:left;width:86px;margin:10px;margin-left:0px;margin-right:5px;">
+					<label>客人编号</label>
+					<input type="text" class="J-search-keren-bianhao form-control" value="" placeholder="客人编号" />
+				</div>
+				<div class="form-group" style="float:left;width:105px;margin:10px;margin-left:0px;margin-right:5px;">
 					<label>游戏名字</label>
 					<select class="J-search-player-list form-control"></select>
 				</div>
-				<div class="form-group" style="float:left;width:105px;margin:10px;">
+				<div class="form-group" style="float:left;width:86px;margin:10px;margin-left:0px;margin-right:5px;">
 					<label>本金</label>
 					<input type="text" class="J-search-benjin form-control" value="0" placeholder="本金" />
 					<i class="J-search-benjin-edit-btn fa fa-pencil" style="position:relative;float:right;top:-24px;right:5px;cursor:pointer;"></i>
 				</div>
-				<div class="form-group" style="float:left;width:105px;margin:10px;">
+				<div class="form-group" style="float:left;width:105px;margin:10px;margin-left:0px;margin-right:0px;">
 					<label>资金流向</label>
 					<select class="J-jsfs form-control">
 					<option value="0">请选择</option>
@@ -404,6 +408,50 @@ if($mUser->cache_data){
 		});
 	}
 	
+	function selectSearchItem(o, kerenBianhao){
+		$('.J-search-val').val($(o).text());
+		$('.J-search-keren-bianhao').val(kerenBianhao);
+		getKerenBenjin($('.J-search-keren-bianhao')[0], kerenBianhao);
+	}
+	
+	function showSearchList(o, aList){
+		$('.J-float-search-list-wrap').remove();
+		var html = '<div class="J-float-search-list-wrap list-group" style="position:absolute;min-width: 112px;">';
+		for(var i in aList){
+			var aTemp = aList[i];
+			html += '<a href="javascript:;" class="list-group-item" data-kerenbianhao="' + aTemp.keren_bianhao + '" onclick="selectSearchItem(this, ' + aTemp.keren_bianhao + ');">' + (typeof(aTemp.player_name) != 'undefined' ? aTemp.player_name : aTemp.keren_bianhao) + '</a>';
+		}
+		html += '</div>';
+		
+		var oHtml = $(html);
+		$('#pageWraper').append(oHtml);
+		oHtml.css({top : $(o).offset().top + 33, left : $(o).offset().left});
+	}
+	
+	function searchKerenBenjin(o, searchValue){
+		<?php if(!$mUser->is_active){ ?>
+			UBox.show('提示:您的账号还没开始启用！', -1);
+			return;
+		<?php } ?>
+		ajax({
+			url : Tools.url('home', 'index/search-keren-benjin') + '?r=' + Math.random(),
+			data : {
+				searchValue : searchValue
+			},
+			beforeSend : function(){
+				//$(o).attr('disabled', 'disabled');
+			},
+			complete : function(){
+				//$(o).attr('disabled', false);
+			},
+			success : function(aResult){
+				if(aResult.status == 1){
+					showSearchList(o, aResult.data);
+				}
+			}
+		});
+	}
+	
 	function getKerenBenjin(o, kerenBianhao){
 		<?php if(!$mUser->is_active){ ?>
 			UBox.show('提示:您的账号还没开始启用！', -1);
@@ -469,9 +517,24 @@ if($mUser->cache_data){
 	}
 	
 	function initJiaoShouJinEr(){
-		/*$('.J-search-keren-bianhao, .J-search-benjin, .J-search-jsjer').bind('input propertychange', function() {  
-			setInputInterval(this);
-		}); */
+		var tts = '';
+		$('.J-search-val').bind('input propertychange', function(){
+			var o = this;
+			clearTimeout(tts);
+			tts = setTimeout(function(){
+				searchKerenBenjin(o, $(o).val());
+			}, 500);
+		}); 
+		$('.J-search-val').blur(function(){
+			setTimeout(function(){
+				if($('.J-float-search-list-wrap .list-group-item').length == 1){
+					if($('.J-float-search-list-wrap .list-group-item').attr('data-kerenbianhao') == $('.J-search-val').val()){
+						$('.J-float-search-list-wrap .list-group-item').click();
+					}
+				}
+				$('.J-float-search-list-wrap').remove();
+			}, 300);
+		}); 	
 		var tt = '';
 		$('.J-search-keren-bianhao').bind('input propertychange', function(){
 			var o = this;

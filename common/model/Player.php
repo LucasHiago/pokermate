@@ -153,4 +153,11 @@ class Player extends \common\lib\DbOrmModel{
 		return Yii::$app->db->createCommand($sql)->queryAll();
 	}
 	
+	public static function searchPlayerByPlayerName($userId, $playerName, $page = 1, $pageSize = 10){
+		$offset = ($page - 1) * $pageSize;
+		$sql = 'SELECT `keren_bianhao`,`player_name` FROM ' . static::tableName() . ' WHERE `user_id`=' . $userId . ' AND `is_delete`=0 AND `player_name` LIKE "%' . $playerName . '%" LIMIT ' . $offset . ',' . $pageSize;
+		
+		return Yii::$app->db->createCommand($sql)->queryAll();
+	}
+	
 }

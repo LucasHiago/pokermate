@@ -369,4 +369,12 @@ class KerenBenjin extends \common\lib\DbOrmModel{
 		
 		return Yii::$app->db->createCommand($sql)->queryAll();
 	}
+	
+	public static function searchKerenByKerenBianhao($userId, $kerenBianhao, $page = 1, $pageSize = 10){
+		$offset = ($page - 1) * $pageSize;
+		$sql = 'SELECT `keren_bianhao` FROM ' . static::tableName() . ' WHERE `user_id`=' . $userId . ' AND `is_delete`=0 AND `keren_bianhao` LIKE "%' . $kerenBianhao . '%" LIMIT ' . $offset . ',' . $pageSize;
+		
+		return Yii::$app->db->createCommand($sql)->queryAll();
+	}
+	
 }

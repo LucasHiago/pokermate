@@ -228,6 +228,25 @@ class IndexController extends Controller{
 		return new Response('', 1, $aKerenBenjin);
 	}
 	
+	public function actionSearchKerenBenjin(){
+		$searchValue = Yii::$app->request->post('searchValue');
+		
+		if(!$searchValue){
+			return new Response('', 1, []);
+		}
+		
+		$mUser = Yii::$app->user->getIdentity();
+		
+		$aList = [];
+		if(is_numeric($searchValue)){
+			$aList = KerenBenjin::searchKerenByKerenBianhao($mUser->id, $searchValue, 1, 5);
+		}else{
+			$aList = Player::searchPlayerByPlayerName($mUser->id, $searchValue, 1, 5);;
+		}
+		
+		return new Response('', 1, $aList);
+	}
+	
 	public function actionJiaoshouJiner(){
 		$kerenBianhao = (int)Yii::$app->request->post('kerenBianhao');
 		$payType = (int)Yii::$app->request->post('payType');
