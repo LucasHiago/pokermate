@@ -1,16 +1,16 @@
 <?php
 use umeworld\lib\Url;
-$this->setTitle('代理抽水分成');
+$this->setTitle('代理保险分成');
 $aFenchengListSetting = [];
 if($aCurrentAgent){
-	$aFenchengListSetting = $aCurrentAgent['fencheng_setting'];
+	$aFenchengListSetting = $aCurrentAgent['baoxian_fencheng_setting'];
 }
 ?>
 <div class="c-body-wrap">
 	<div style="height: 30px; width: 100%;">
-		<a href="<?php echo Url::to('home', 'agent/index'); ?>" class="btn btn-sm btn-default" style="display: block; float: left;left:35px; position: relative; background:#868686;">抽水分成</a>
-		<a href="<?php echo Url::to('home', 'agent/baoxian'); ?>" class="btn btn-sm btn-default" style="display: block; float: left;left:50px; position: relative; ">保险分成</a>
-		<a style="display: block; float: right; width: 200px; height: 30px; line-height: 30px; position: relative; background: #eeeeee; border-radius: 20px; text-align: center; right: 25px; font-weight: bold;">代理抽水分成总和：<font class="J-all-agent-total-fencheng">0</font></a>
+		<a href="<?php echo Url::to('home', 'agent/index'); ?>" class="btn btn-sm btn-default" style="display: block; float: left;left:35px; position: relative;">抽水分成</a>
+		<a href="<?php echo Url::to('home', 'agent/baoxian'); ?>" class="btn btn-sm btn-default" style="display: block; float: left;left:50px; position: relative;  background:#868686;">保险分成</a>
+		<a style="display: block; float: right; width: 200px; height: 30px; line-height: 30px; position: relative; background: #eeeeee; border-radius: 20px; text-align: center; right: 25px; font-weight: bold;">代理保险分成总和：<font class="J-all-agent-total-fencheng">0</font></a>
 	</div>
 	<div class="ag-bg" style="margin-top: 5px;">
 		<div class="ag-left">
@@ -23,7 +23,7 @@ if($aCurrentAgent){
 						<table class="J-agent-list-table table table-hover">
 							<tr><th>代理名称</th><th>操作</th></tr>
 						<?php foreach($aAgentList as $aAgent){ ?>
-							<tr style="<?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'background:#f5f5f5;' : '' ?>"><td style="padding-top:0px;padding-bottom:0px;"><a href="<?php echo Url::to('home', 'agent/index'); ?>?agentId=<?php echo $aAgent['id']; ?>" style="display:block;width:100%;height:45px;line-height:45px;"><?php echo $aAgent['agent_name']; ?></a></td><td style="width:62px;"><button class="btn btn-sm btn-danger" onclick="delAgent(this, <?php echo $aAgent['id']; ?>);">删除</button></td></tr>
+							<tr style="<?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'background:#f5f5f5;' : '' ?>"><td style="padding-top:0px;padding-bottom:0px;"><a href="<?php echo Url::to('home', 'agent/baoxian'); ?>?agentId=<?php echo $aAgent['id']; ?>" style="display:block;width:100%;height:45px;line-height:45px;"><?php echo $aAgent['agent_name']; ?></a></td><td style="width:62px;"><button class="btn btn-sm btn-danger" onclick="delAgent(this, <?php echo $aAgent['id']; ?>);">删除</button></td></tr>
 						<?php } ?>
 							<tr><td><input type="text" class="form-control" placeholder="请输入代理名称" /></td><td style="width:62px;"><button class="btn btn-sm btn-primary" onclick="addAgent(this);">添加</button></td></tr>
 						</table>
@@ -34,7 +34,7 @@ if($aCurrentAgent){
 		<div class="ag-center">
 			<div class="panel panel-info" style="float:left;width:297px;min-height: 817px;">
 				<div class="panel-heading">
-					<h3 class="panel-title"><strong>抽水分成设置</strong></h3>
+					<h3 class="panel-title"><strong>保险分成设置</strong></h3>
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive" style="padding:0px;">
@@ -65,33 +65,33 @@ if($aCurrentAgent){
 		<div class="ag-right">
 			<div class="panel panel-info" style="float:left;width:631px;min-height: 817px;">
 				<div class="panel-heading">
-					<h3 class="panel-title"><strong>抽水分成信息</strong></h3>
+					<h3 class="panel-title"><strong>保险分成信息</strong></h3>
 				</div>
 				<div class="panel-body">
 					<div class="h10"></div>
 					<div class="row h30">
 						<div class="form-group" style="position:relative;top:-10px;">
 							<label style="float:left;line-height:32px;">分成微调：</label>
-							<input type="text" class="J-agent-fencheng-ajust-value form-control" value="<?php echo $agentFenchengAjustValue; ?>" style="float:left;width:90px;">
+							<input type="text" class="J-agent-fencheng-ajust-value form-control" value="<?php echo $agentBaoxianFenchengAjustValue; ?>" style="float:left;width:90px;">
 							<label style="float:left;line-height:32px;margin-left:20px;">总分成：<font style="color:#ff5722;"><?php echo $totalFenCheng; ?></font></label>
 							<label style="float:left;line-height:32px;margin-left:20px;">牌局总数：<font style="color:#ff5722;"><?php echo count($aAgentUnCleanFenChengList); ?></font></label>
 							<button class="btn btn-sm btn-primary" onclick="cleanAgentFencheng(this);" style="float:right;margin-left: 10px;">清账</button>
 							<?php if($aCurrentAgent){ ?>
-							<a class="btn btn-sm btn-primary" href="<?php echo Url::to('home', 'agent/export'); ?>?agentId=<?php echo $aCurrentAgent['id']; ?>" style="float:right;">导出代理数据</a>
+							<a class="btn btn-sm btn-primary" href="<?php echo Url::to('home', 'agent/export-baoxian'); ?>?agentId=<?php echo $aCurrentAgent['id']; ?>" style="float:right;">导出代理数据</a>
 							<?php } ?>
 						</div>
 					</div>
 					<div class="h10"></div>
 					<div class="table-responsive" style="padding:0px;">
 						<table class="J-agent-info-table table table-hover">
-							<tr><th><input type="checkbox" class="J-ag-r-select-all" style="cursor:pointer;" /></th><th>牌局名</th><th>桌子级别</th><th>玩家名</th><th>战绩</th><th>分成</th></tr>
+							<tr><th><input type="checkbox" class="J-ag-r-select-all" style="cursor:pointer;" /></th><th>牌局名</th><th>桌子级别</th><th>玩家名</th><th>保险</th><th>分成</th></tr>
 						<?php foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){ ?>
 							<tr>
 								<td><input type="checkbox" class="J-ag-r-select" data-id="<?php echo $aAgentUnCleanFenCheng['id']; ?>" style="cursor:pointer;" /></td>
 								<td><?php echo $aAgentUnCleanFenCheng['paiju_name']; ?></td>
 								<td><?php echo $aAgentUnCleanFenCheng['mangzhu']; ?></td>
 								<td><?php echo $aAgentUnCleanFenCheng['player_name']; ?></td>
-								<td><?php echo $aAgentUnCleanFenCheng['zhanji']; ?></td>
+								<td><?php echo $aAgentUnCleanFenCheng['baoxian_heji']; ?></td>
 								<td class="J-ag-paiju-fc"><?php echo $aAgentUnCleanFenCheng['fencheng']; ?></td>
 							</tr>
 						<?php } ?>
@@ -163,7 +163,7 @@ if($aCurrentAgent){
 			var shufan = $(this).parent().parent().parent().find('input[data-type=shufan]').val();
 			if(e.keyCode == 13){
 				ajax({
-					url : Tools.url('home', 'agent/save-setting'),
+					url : Tools.url('home', 'agent/save-baoxian-setting'),
 					data : {
 						id : id,
 						yingfan : parseFloat(yingfan),
@@ -190,7 +190,7 @@ if($aCurrentAgent){
 		
 		function oneKeySaveSetting(o, aData){
 			ajax({
-				url : Tools.url('home', 'agent/one-key-save-setting'),
+				url : Tools.url('home', 'agent/one-key-save-baoxian-setting'),
 				data : aData,
 				beforeSend : function(){
 					$(o).attr('disabled', 'disabled');
@@ -248,7 +248,7 @@ if($aCurrentAgent){
 				ajax({
 					url : Tools.url('home', 'user/update-user-info'),
 					data : {
-						type : 'agent_fencheng_ajust_value',
+						type : 'agent_baoxian_fencheng_ajust_value',
 						value : $(o).val()
 					},
 					beforeSend : function(){
@@ -282,11 +282,11 @@ if($aCurrentAgent){
 			UBox.show('请选择要清账的记录', -1);
 			return;
 		}
-		AlertWin.showAgentClean(<?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, '<?php echo $aCurrentAgent ? $aCurrentAgent['agent_name'] : '' ?>', aId, selectTotalFencheng, <?php echo json_encode($aMoneyTypeList); ?>);
+		AlertWin.showAgentClean(<?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, '<?php echo $aCurrentAgent ? $aCurrentAgent['agent_name'] : '' ?>', aId, selectTotalFencheng, <?php echo json_encode($aMoneyTypeList); ?>, true);
 		return;
 		if(confirm('确定要清账？')){
 			ajax({
-				url : Tools.url('home', 'agent/clean'),
+				url : Tools.url('home', 'agent/clean-baoxian'),
 				data : {
 					agentId : <?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, 
 					aId : aId
@@ -312,7 +312,7 @@ if($aCurrentAgent){
 	
 	function getAllAgentTotalFencheng(){
 		ajax({
-			url : Tools.url('home', 'agent/get-all-agent-total-fencheng'),
+			url : Tools.url('home', 'agent/get-all-agent-total-baoxian-fencheng'),
 			data : {},
 			success : function(aResult){
 				if(aResult.status == 1){

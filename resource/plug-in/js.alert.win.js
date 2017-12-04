@@ -244,7 +244,7 @@
 			});	
 		},
 		
-		showAgentClean : function(agentId, agentName, aId, selectTotalFencheng, aMoneyTypeList){
+		showAgentClean : function(agentId, agentName, aId, selectTotalFencheng, aMoneyTypeList, isCleanBaoxian){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:600px;">';
 				html += '<div class="panel panel-primary">';
@@ -317,8 +317,12 @@
 					}else if(type == 2){
 						aDataParam.kerenBianhao = $(o).parent().find('.J-keren-bianhao-val').val();
 					}
+					var urlStr = Tools.url('home', 'agent/clean');
+					if(isCleanBaoxian){
+						urlStr = Tools.url('home', 'agent/clean-baoxian');
+					}
 					ajax({
-						url : Tools.url('home', 'agent/clean'),
+						url : urlStr,
 						data : aDataParam,
 						beforeSend : function(){
 							$(o).attr('disabled', 'disabled');
@@ -1344,7 +1348,7 @@
 						continue;
 					}
 					listHtml += '<tr>';
-						listHtml += '<td style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(' + i + ');">' + aData.paiju_name + '</td>';
+						listHtml += '<td style="cursor:pointer;" onclick="AlertWin.showPaijuDataList(' + aData.paiju_id + ');">' + aData.paiju_name + '</td>';
 						listHtml += '<td>' + aData.baoxian_heji + '</td>';
 						listHtml += '<td>' + aData.baoxian_beichou + '</td>';
 						listHtml += '<td>' + aData.shiji_baoxian + '</td>';

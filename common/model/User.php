@@ -241,11 +241,16 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		Yii::$app->db->createCommand($sql)->execute();
 		$sql = 'DELETE FROM ' . AgentQinzhangRecord::tableName() . ' WHERE `user_id`=' . $this->id;
 		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . AgentBaoxianQinzhangRecord::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . BaoxianFenchengSetting::tableName() . ' WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
 		/*$sql = 'DELETE FROM ' . User::tableName() . ' WHERE `id`=' . $this->id;
 		Yii::$app->db->createCommand($sql)->execute();*/
 		$this->set('choushui_ajust_value', 0);
 		$this->set('baoxian_ajust_value', 0);
 		$this->set('agent_fencheng_ajust_value', 0);
+		$this->set('agent_baoxian_fencheng_ajust_value', 0);
 		$this->set('lianmeng_zhongzhang_ajust_value', 0);
 		$this->set('cache_data', '');
 		$this->set('last_save_code_error_time', 0);
@@ -411,6 +416,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aList = Agent::getList(['user_id' => $this->id, 'is_delete' => 0]);
 		foreach($aList as $key => $value){
 			$aList[$key]['fencheng_setting'] = $this->getFenchengListSetting($value['id']);
+			$aList[$key]['baoxian_fencheng_setting'] = $this->getBaoxianFenchengListSetting($value['id']);
 		}
 		return $aList;
 	}
@@ -441,6 +447,34 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			FenchengSetting::bathInsertData($aInsertList);
 		}
 		return FenchengSetting::findAll(['user_id' => $this->id, 'agent_id' => $agentId, 'zhuozi_jibie' => $aFenchengConfigList]);
+	}
+	
+	public function getBaoxianFenchengListSetting($agentId){
+		$aFenchengConfigList = BaoxianFenchengSetting::getFenchengConfigList();
+		$aList = BaoxianFenchengSetting::findAll(['user_id' => $this->id, 'agent_id' => $agentId, 'zhuozi_jibie' => $aFenchengConfigList]);
+		$aInsertList = [];
+		foreach($aFenchengConfigList as $zhuoziJibie){
+			$flag = false;
+			foreach($aList as $value){
+				if($value['zhuozi_jibie'] == $zhuoziJibie){
+					$flag = true;
+					break;
+				}
+			}
+			if(!$flag){
+				array_push($aInsertList, [
+					'user_id' => $this->id,
+					'agent_id' => $agentId,
+					'zhuozi_jibie' => $zhuoziJibie,
+					'yingfan' => 0,
+					'shufan' => 0,
+				]);
+			}
+		}
+		if($aInsertList){
+			BaoxianFenchengSetting::bathInsertData($aInsertList);
+		}
+		return BaoxianFenchengSetting::findAll(['user_id' => $this->id, 'agent_id' => $agentId, 'zhuozi_jibie' => $aFenchengConfigList]);
 	}
 	
 	public function getLastPaijuList($page = 1, $pageSize = 0, $aParam = ['status' => [Paiju::STATUS_UNDO, Paiju::STATUS_DONE]], $aOrder = ['`t1`.`end_time`' => SORT_DESC]){
@@ -647,6 +681,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$zhongChouShui = ImportData::getUserUnJiaoBanPaijuZhongChouShui($this->id, $aClubId) + $this->choushui_ajust_value;
 		//获取总保险
 		$zhongBaoXian = -ImportData::getUserUnJiaoBanPaijuZhongBaoXian($this->id, $aClubId) + $this->baoxian_ajust_value;
+		//总保险减去代理清账额
+		$totalQinzhangValue = $this->getTotalAgentBaoxianQinzhangValue();
+		$zhongBaoXian -= $totalQinzhangValue;
 		//上桌人数
 		$shangZhuoRenShu = ImportData::getUserUnJiaoBanPaijuShangZhuoRenShu($this->id, $aClubId);
 		//实际抽水
@@ -683,6 +720,15 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	 */
 	public function getTotalAgentQinzhangValue(){
 		$sql = 'SELECT SUM(`qinzhang_value`) AS `total_qinzhang_value` from ' . AgentQinzhangRecord::tableName() . ' where `user_id`=' . $this->id . ' AND `is_show`=1';
+		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
+		return (int)$aResult[0]['total_qinzhang_value'];
+	}
+	
+	/**
+	 *	统计未交班代理保险清账总额
+	 */
+	public function getTotalAgentBaoxianQinzhangValue(){
+		$sql = 'SELECT SUM(`qinzhang_value`) AS `total_qinzhang_value` from ' . AgentBaoxianQinzhangRecord::tableName() . ' where `user_id`=' . $this->id . ' AND `is_show`=1';
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
 		return (int)$aResult[0]['total_qinzhang_value'];
 	}
@@ -1370,6 +1416,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		//6.将代理清账记录设置为不可见
 		$sql = 'UPDATE ' . AgentQinzhangRecord::tableName() . ' SET `is_show`=0 WHERE `user_id`=' . $this->id;
 		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'UPDATE ' . AgentBaoxianQinzhangRecord::tableName() . ' SET `is_show`=0 WHERE `user_id`=' . $this->id;
+		Yii::$app->db->createCommand($sql)->execute();
 		//7.记录资金修改日志
 		$aMoneyType = $mMoneyType->toArray();
 		$this->operateLog(26, ['aMoneyType' => $aMoneyType, 'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney, 'aJiaoBanZhuanChuDetail' => $aJiaoBanZhuanChuDetail]);
@@ -1427,6 +1475,45 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 	}
 	
 	/**
+	 *	获取代理未清账保险分成列表
+	 */
+	public function getAgentUnCleanBaoxianFenChengList($agentId){
+		$lastMaxJiaobanPaijuEndTime = $this->getLastMaxJiaobanPaijuEndTime();
+		$clubIdWhere = '';
+		$aClubId = [];
+		$aClubList = $this->getUserClubList();
+		if($aClubList){
+			$aClubId = ArrayHelper::getColumn($aClubList, 'club_id');
+		}else{
+			return [];
+		}
+		if($aClubId){
+			$clubIdWhere = ' AND `t1`.`club_id` IN(' . implode(',', $aClubId) . ')';
+		}
+		$sql = 'SELECT `t7`.* FROM (SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`mangzhu`,`t1`.`player_id`,`t1`.`player_name`,`t1`.`zhanji`,`t1`.`baoxian_heji`,`t1`.`jiesuan_value`,`t3`.`keren_bianhao` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t3`.`user_id`=' . $this->id . ' AND `t2`.`status`>=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t1`.`agent_baoxian_is_clean`=0 AND `t1`.`end_time`>' . $lastMaxJiaobanPaijuEndTime . ' AND `t3`.`is_delete`=0 ' . $clubIdWhere . ') AS `t7` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t8` ON `t7`.`keren_bianhao`=`t8`.`keren_bianhao` WHERE `t7`.`baoxian_heji`!=0 AND `t8`.`agent_id`=' . $agentId;
+		$aResult =  Yii::$app->db->createCommand($sql)->queryAll();
+		if($aResult){
+			Yii::info('agentbaoxiancleansql:' . $sql);
+			Yii::info('agentbaoxiancleanData:' . json_encode($aResult));
+		}
+		$aFenchengSetting = ArrayHelper::index($this->getBaoxianFenchengListSetting($agentId), 'zhuozi_jibie');
+		foreach($aResult as $key => $value){
+			$yinFan = 0;
+			$shuFan = 0;
+			if(isset($aFenchengSetting[$value['mangzhu']])){
+				$yinFan = (float)$aFenchengSetting[$value['mangzhu']]['yingfan'];
+				$shuFan = (float)$aFenchengSetting[$value['mangzhu']]['shufan'];
+			}
+			$aResult[$key]['yingfan'] = $yinFan;
+			$aResult[$key]['shufan'] = $shuFan;
+			$aResult[$key]['fencheng'] = Calculate::calculateBaoxianFenchengMoney($value['baoxian_heji'], $yinFan, $shuFan, $this->choushui_shuanfa);
+			$aResult[$key]['float_fencheng'] = Calculate::calculateBaoxianFenchengMoney($value['baoxian_heji'], $yinFan, $shuFan, $this->choushui_shuanfa, false);
+		}
+		
+		return $aResult;
+	}
+	
+	/**
 	 *	代理清账
 	 */
 	public function agentQinZhang($aImportDataId){
@@ -1435,6 +1522,20 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		
 		$sql = 'UPDATE ' . ImportData::tableName() . ' SET `agent_is_clean`=1 WHERE `id` IN(' . implode(',', $aImportDataId) . ')';
+		Yii::$app->db->createCommand($sql)->execute();
+		
+		return true;
+	}
+	
+	/**
+	 *	代理保险清账
+	 */
+	public function agentBaoxianQinZhang($aImportDataId){
+		if(!$aImportDataId){
+			return false;
+		}
+		
+		$sql = 'UPDATE ' . ImportData::tableName() . ' SET `agent_baoxian_is_clean`=1 WHERE `id` IN(' . implode(',', $aImportDataId) . ')';
 		Yii::$app->db->createCommand($sql)->execute();
 		
 		return true;

@@ -255,4 +255,33 @@ class Calculate extends \yii\base\Object{
 		}
 	}
 	
+	/**
+	 *	计算代理保险分成 	保险合计*赢返
+	 *	$baoxianHeji		保险合计
+	 *	$yinFan				赢返
+	 *	$shuFan				输返
+	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
+	 *	$returnInt	是否取整返回
+	 */
+	public static function calculateBaoxianFenchengMoney($baoxianHeji = 0, $yinFan = 0, $shuFan = 0, $choushuiShuanfa = 0, $returnInt = true){
+		$fencheng = 0;
+		if(!$baoxianHeji){
+			return 0;
+		}
+		
+		if($baoxianHeji > 0){
+			$fencheng = $baoxianHeji * ($yinFan / 100);
+		}else{
+			$fencheng = $baoxianHeji * ($shuFan / 100);
+		}
+		if(!$returnInt){
+			return $fencheng;
+		}
+		if($choushuiShuanfa){
+			return static::getIntValueByChoushuiShuanfa($fencheng, $choushuiShuanfa);
+		}else{
+			return static::getIntValueByChoushuiShuanfa($fencheng);
+		}
+	}
+	
 }

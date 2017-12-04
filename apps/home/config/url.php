@@ -103,13 +103,19 @@ return [
 		
 		
 		'agent/index.html'														=> 'agent/index',
+		'agent/baoxian.html'													=> 'agent/baoxian',
 		'agent/add.json'														=> 'agent/add',
 		'agent/delete.json'														=> 'agent/delete',
 		'agent/save-setting.json'												=> 'agent/save-setting',
+		'agent/save-baoxian-setting.json'										=> 'agent/save-baoxian-setting',
 		'agent/one-key-save-setting.json'										=> 'agent/one-key-save-setting',
+		'agent/one-key-save-baoxian-setting.json'								=> 'agent/one-key-save-baoxian-setting',
 		'agent/clean.json'														=> 'agent/clean',
+		'agent/clean-baoxian.json'												=> 'agent/clean-baoxian',
 		'agent/export.html'														=> 'agent/export',
+		'agent/export-baoxian.html'												=> 'agent/export-baoxian',
 		'agent/all-agent-total-fencheng.json'									=> 'agent/get-all-agent-total-fencheng',
+		'agent/all-agent-total-baoxian-fencheng.json'							=> 'agent/get-all-agent-total-baoxian-fencheng',
 		
 		
 		'import/index.html'														=> 'import/index',

@@ -10,6 +10,7 @@ use umeworld\lib\Response;
 use common\model\User;
 use common\model\MoneyType;
 use common\model\AgentQinzhangRecord;
+use common\model\AgentBaoxianQinzhangRecord;
 use common\model\Lianmeng;
 
 class UserController extends Controller{
@@ -62,7 +63,7 @@ class UserController extends Controller{
 		$type = (string)Yii::$app->request->post('type');
 		$value = Yii::$app->request->post('value');
 		
-		if(!in_array($type, ['choushui_ajust_value', 'baoxian_ajust_value', 'agent_fencheng_ajust_value', 'lianmeng_zhongzhang_ajust_value', 'qibu_zhanji'])){
+		if(!in_array($type, ['choushui_ajust_value', 'baoxian_ajust_value', 'agent_fencheng_ajust_value', 'agent_baoxian_fencheng_ajust_value', 'lianmeng_zhongzhang_ajust_value', 'qibu_zhanji'])){
 			return new Response('出错了', 0);
 		}
 		$mUser = Yii::$app->user->getIdentity();
@@ -74,6 +75,9 @@ class UserController extends Controller{
 		}
 		if($type == 'agent_fencheng_ajust_value'){
 			$mUser->set('agent_fencheng_ajust_value', (int)$value);
+		}
+		if($type == 'agent_baoxian_fencheng_ajust_value'){
+			$mUser->set('agent_baoxian_fencheng_ajust_value', (int)$value);
 		}
 		if($type == 'lianmeng_zhongzhang_ajust_value'){
 			$mUser->set('lianmeng_zhongzhang_ajust_value', (int)$value);
@@ -134,14 +138,34 @@ class UserController extends Controller{
 		$mUser = Yii::$app->user->getIdentity();
 		
 		$aBaoXianList = $mUser->getUnJiaoBanPaijuBaoXianList();
+		$aAgentQinzhangRecordList = AgentBaoxianQinzhangRecord::getList(['user_id' => $mUser->id, 'is_show' => 1], ['width_agent_info' => true]);
+		
+		$aReturnBaoXianList = [];
+		$totalQinzhangValue = 0;
+		foreach($aAgentQinzhangRecordList as $aAgentQinzhangRecord){
+			$totalQinzhangValue += $aAgentQinzhangRecord['qinzhang_value'];
+			array_push($aReturnBaoXianList, [
+				'paiju_id' => 0,
+				'baoxian_beichou' => 0,
+				'float_baoxian_beichou' => 0,
+				'baoxian_heji' => 0,
+				'float_shiji_baoxian' => 0,
+				'shiji_baoxian' => $aAgentQinzhangRecord['qinzhang_value'],
+				'paiju_name' => '(' . $aAgentQinzhangRecord['agent_info']['agent_name'] . ')清账',
+			]);
+		}
+		foreach($aBaoXianList as $paijuId => $aBaoXian){
+			$aBaoXian['paiju_id'] = $paijuId;
+			array_push($aReturnBaoXianList, $aBaoXian);
+		}
 		
 		$totalBaoXian = $mUser->baoxian_ajust_value;
 		foreach($aBaoXianList as $aBaoXian){
 			$totalBaoXian += $aBaoXian['baoxian_heji'];
 		}
 		$aData = [
-			'list' => $aBaoXianList,
-			'totalBaoXian' => $totalBaoXian,
+			'list' => $aReturnBaoXianList,
+			'totalBaoXian' => $totalBaoXian - $totalQinzhangValue,
 			'baoxianAjustValue' => $mUser->baoxian_ajust_value,
 		];
 		return new Response('', 1, $aData);

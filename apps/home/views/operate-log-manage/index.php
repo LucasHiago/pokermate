@@ -105,6 +105,8 @@ $this->setTitle('操作日志');
 								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 输返台费：' . $aData['data_json']['aOldRecord']['shu_fee'] . '   【修改后】输返台费：' . $aData['data_json']['aNewRecord']['shu_fee'];
 							}elseif($aData['type'] == 43){
 								$log = date('Y.m.d', $aData['create_time']) . '   客人编号：' . $aData['data_json']['aNewRecord']['keren_bianhao'] . ' 本金：' . $aData['data_json']['aOldRecord']['benjin'] . '   一键清零';
+							}elseif($aData['type'] == 44){
+								$log = date('Y.m.d', $aData['create_time']) . '   【代理保险清账】代理名称：' . $aData['data_json']['aAgent']['agent_name'] . '  总分成：' . $aData['data_json']['totalFenCheng'];
 							}
 							return $log;
 						}
