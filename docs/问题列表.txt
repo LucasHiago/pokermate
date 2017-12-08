@@ -159,6 +159,8 @@ CREATE TABLE `agent_baoxian_qinzhang_record` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 
+ALTER TABLE `user` ADD `user_setting` text NOT NULL COMMENT '用户设置' AFTER `cache_data`;
+UPDATE `user` SET `user_setting`="[]";
 
 
 索引

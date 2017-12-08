@@ -50,6 +50,16 @@ $this->setTitle('账号管理');
 							return $aData['name'];
 						}
 					],
+					'user_setting'	=>	[
+						'title' => '获取时间显示',
+						'content' => function($aData){
+							if(isset($aData['user_setting']['is_show_get_paiju_time_select']) && $aData['user_setting']['is_show_get_paiju_time_select']){
+								return '<div style="width:100%;height:100%;text-align:center;"><input type="checkbox" class="J-is-show-get-paiju-time-select" data-id="' . $aData['id'] . '" style="cursor:pointer;" checked /></div>';
+							}else{
+								return '<div style="width:100%;height:100%;text-align:center;"><input type="checkbox" class="J-is-show-get-paiju-time-select" data-id="' . $aData['id'] . '" style="cursor:pointer;" /></div>';
+							}
+						}
+					],
 					'vip_level'	=>	[
 						'title' => 'vip等级',
 						'class' => 'col-sm-1',
@@ -156,6 +166,26 @@ $this->setTitle('账号管理');
 			var o = this;
 			ajax({
 				url : '<?php echo Url::to('home', 'user-manage/clear-save-code-limit'); ?>',
+				data : {id : $(o).attr('data-id')},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					if(aResult.status == 1){
+						UBox.show(aResult.msg, aResult.status);
+					}else{
+						UBox.show(aResult.msg, aResult.status);
+					}
+				}
+			});
+		});
+		$('.J-is-show-get-paiju-time-select').click(function(){
+			var o = this;
+			ajax({
+				url : '<?php echo Url::to('home', 'user-manage/set-is-show-get-paiju-time-select'); ?>',
 				data : {id : $(o).attr('data-id')},
 				beforeSend : function(){
 					$(o).attr('disabled', 'disabled');

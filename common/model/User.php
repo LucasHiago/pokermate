@@ -8,7 +8,7 @@ use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 
 class User extends \common\lib\DbOrmModel implements IdentityInterface{
-	protected $_aEncodeFields = ['cache_data' => 'json'];
+	protected $_aEncodeFields = ['cache_data' => 'json', 'user_setting' => 'json'];
 	//用户类型：0普通用户1后台用户2微信用户3QQ用户4微博用户5支付宝用户
 	const TYPE_NORMAL = 0;
 	const TYPE_MANAGE = 1;
@@ -292,6 +292,12 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 			return [];
 		}
 		foreach($aList as $key => $value){
+			if(isset($value['user_setting'])){
+				$aList[$key]['user_setting'] = json_decode($value['user_setting'], true);
+			}
+			if(isset($value['cache_data'])){
+				$aList[$key]['cache_data'] = json_decode($value['cache_data'], true);
+			}
 			if(isset($value['save_code']) && !$value['save_code']){
 				$saveCode = static::createSaveCode();
 				$aList[$key]['save_code'] = $saveCode;

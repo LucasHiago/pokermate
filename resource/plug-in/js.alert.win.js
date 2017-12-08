@@ -801,13 +801,19 @@
 						html += '<img class="img-thumbnail" style="float: left; position: relative; top: 63px; border-radius: 5px; left: 150px; width: 120px; height: 48px;border:1px solid #ccc;" />';
 						html += '<input type="text" class="form-control save-code" style="text-align: center; border-radius: 5px;float: left; position: relative; top: 63px; left: 160px; width: 120px; height: 48px; line-height: 48px; font-size: 20px;" />';
 						html += '<a class="btn btn-lg btn-primary commit-save-code">确定</a>';
-						html += '<div class="J-select-time"><input type="text" class="st" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /><span style="float: left; width: 28px; text-align: center;">至</span><input type="text" class="et" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /></div>';
+						html += '<div class="J-select-time"><input type="text" class="form-control st" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /><span style="float: left; width: 28px; text-align: center;color: #333;">至</span><input type="text" class="form-control et" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /></div>';
 						html += '<div class="J-wait-tip" style="background:#ffffff;float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: -120px;color:#333;display:none;">正在获取牌局，请稍等...</div>';
 					html += '</div>';
 				html += '</div>';
 			html += '</div>';
 			
 			var oHtml = $(html);
+			
+			if(typeof(App.oCurrentUser.user_setting.is_show_get_paiju_time_select) != 'undefined' && App.oCurrentUser.user_setting.is_show_get_paiju_time_select == 1){
+				oHtml.find('.J-select-time').show();
+			}else{
+				oHtml.find('.J-select-time').hide();
+			}
 			
 			function _doImportPaiju(o, aData){
 				ajax({

@@ -205,13 +205,38 @@ class UserManageController extends Controller{
 	}
 	
 	public function actionClearSaveCodeLimit(){
-		$mUser = Yii::$app->user->getIdentity();
+		$id = (int)Yii::$app->request->post('id');
+		
+		$mUser = User::findOne($id);
+		if(!$mUser){
+			return new Response('账号不存在', 0);
+		}
 		
 		$mUser->set('last_save_code_error_time', 0);
 		$mUser->set('save_code_remain_times', User::DEFAULT_SAVE_CODE_REMAIN_TIMES);
 		$mUser->save();
 		
 		return new Response('清除成功', 1);
+	}
+	
+	public function actionSetIsShowGetPaijuTimeSelect(){
+		$id = (int)Yii::$app->request->post('id');
+		
+		$mUser = User::findOne($id);
+		if(!$mUser){
+			return new Response('账号不存在', 0);
+		}
+		
+		$aUserSetting = $mUser->user_setting;
+		if(isset($aUserSetting['is_show_get_paiju_time_select']) && $aUserSetting['is_show_get_paiju_time_select']){
+			$aUserSetting['is_show_get_paiju_time_select'] = 0;
+		}else{
+			$aUserSetting['is_show_get_paiju_time_select'] = 1;
+		}
+		$mUser->set('user_setting', $aUserSetting);
+		$mUser->save();
+		
+		return new Response('设置成功', 1);
 	}
 	
 }

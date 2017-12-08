@@ -2077,7 +2077,6 @@ input, select{border:none;outline:none;background:none;}
     background-position: -1913px -372px;*/
 }
 .J-save-code-win .J-select-time{
-	display:none;
 	float: left;
     position: relative;
     top: 127px;
@@ -2091,7 +2090,7 @@ input, select{border:none;outline:none;background:none;}
 	float: left;
     height:100%;
 	width:110px;
-	background:#181326;
+	/*background:#181326;*/
 	border-radius:5px;
 	text-align:center;
 	cursor:pointer;
