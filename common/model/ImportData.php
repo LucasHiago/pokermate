@@ -161,6 +161,11 @@ class ImportData extends \common\lib\DbOrmModel{
 		$aUniquePaijuList = null;
 		$aImportDataList = null;
 		if($aInserDataList){
+			foreach($aInserDataList as $kk => $vv){
+				$aInserDataList[$kk][12] = (int)$aInserDataList[$kk][12];
+				$aInserDataList[$kk][18] = (int)$aInserDataList[$kk][18];
+				$aInserDataList[$kk][22] = (int)$aInserDataList[$kk][22];
+			}
 			//Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 			static::bathInsertData($aInserDataList);
 			//快速插入的后果可能有重复数据，要检查删了start
