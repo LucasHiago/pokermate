@@ -162,6 +162,8 @@ CREATE TABLE `agent_baoxian_qinzhang_record` (
 ALTER TABLE `user` ADD `user_setting` text NOT NULL COMMENT '用户设置' AFTER `cache_data`;
 UPDATE `user` SET `user_setting`="[]";
 
+ALTER TABLE `import_data` ADD `jiesuan_time` int(11) NOT NULL COMMENT '结算时间';
+
 
 索引
 
