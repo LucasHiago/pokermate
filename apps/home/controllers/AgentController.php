@@ -63,6 +63,7 @@ class AgentController extends Controller{
 			'agentFenchengAjustValue' => $mUser->agent_fencheng_ajust_value,
 			'totalFenCheng' => $totalFenCheng,
 			'floatTotalFenCheng' => Calculate::getIntValueByChoushuiShuanfa($floatTotalFenCheng, $mUser->choushui_shuanfa),
+			//'st' => $st ? date('Y-m-d H:i:s', $st) : NOW_TIME - 2 * 86400,
 			'st' => date('Y-m-d H:i:s', $st),
 		]);
 	}
@@ -111,6 +112,7 @@ class AgentController extends Controller{
 			'agentBaoxianFenchengAjustValue' => $mUser->agent_baoxian_fencheng_ajust_value,
 			'totalFenCheng' => $totalFenCheng,
 			'floatTotalFenCheng' => Calculate::getIntValueByChoushuiShuanfa($floatTotalFenCheng, $mUser->choushui_shuanfa),
+			//'st' => $st ? date('Y-m-d H:i:s', $st) : NOW_TIME - 2 * 86400,
 			'st' => date('Y-m-d H:i:s', $st),
 		]);
 	}
