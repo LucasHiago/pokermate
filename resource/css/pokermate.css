@@ -2166,4 +2166,23 @@ input, select{border:none;outline:none;background:none;}
     font-size: 12px;
 }
 
+.J-agseltime-wrap{
+	position:relative;
+	float:right;
+	top: -5px;
+	width:300px;
+}
+.J-agseltime-wrap label{
+	float:right;
+	color:#333;
+	font-weight: normal;
+	height: 28px;
+	line-height: 28px;
+}
+.J-agseltime-wrap input{
+	float:right;
+	width:160px;
+	height: 28px;
+	line-height: 28px;
+}
 /*background:rgba(0,0,0,0.2);*/

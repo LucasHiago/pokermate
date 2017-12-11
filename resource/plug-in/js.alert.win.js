@@ -244,7 +244,7 @@
 			});	
 		},
 		
-		showAgentClean : function(agentId, agentName, aId, selectTotalFencheng, aMoneyTypeList, isCleanBaoxian){
+		showAgentClean : function(agentId, agentName, aId, selectTotalFencheng, aMoneyTypeList, st, isCleanBaoxian){
 			var html = '';
 			html += '<div class="J-data-list-win J-lianmeng-setting-win" style="width:600px;">';
 				html += '<div class="panel panel-primary">';
@@ -310,7 +310,8 @@
 						agentId : agentId, 
 						aId : aId,
 						qinzhangValue : oHtml.find('.J-select-total-fencheng-val').text(),
-						type : type
+						type : type,
+						st : st
 					};
 					if(type == 1){
 						aDataParam.moneyTypeId = $(o).parent().find('.J-money-type-val').val();

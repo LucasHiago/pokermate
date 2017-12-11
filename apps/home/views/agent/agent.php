@@ -23,7 +23,7 @@ if($aCurrentAgent){
 						<table class="J-agent-list-table table table-hover">
 							<tr><th>代理名称</th><th>操作</th></tr>
 						<?php foreach($aAgentList as $aAgent){ ?>
-							<tr style="<?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'background:#f5f5f5;' : '' ?>"><td style="padding-top:0px;padding-bottom:0px;"><a href="<?php echo Url::to('home', 'agent/index'); ?>?agentId=<?php echo $aAgent['id']; ?>" style="display:block;width:100%;height:45px;line-height:45px;"><?php echo $aAgent['agent_name']; ?></a></td><td style="width:62px;"><button class="btn btn-sm btn-danger" onclick="delAgent(this, <?php echo $aAgent['id']; ?>);">删除</button></td></tr>
+							<tr style="<?php echo $aCurrentAgent && $aCurrentAgent['id'] == $aAgent['id'] ? 'background:#f5f5f5;' : '' ?>"><td style="padding-top:0px;padding-bottom:0px;"><a href="<?php echo Url::to('home', 'agent/index'); ?>?agentId=<?php echo $aAgent['id']; ?>&st=<?php echo $st; ?>" style="display:block;width:100%;height:45px;line-height:45px;"><?php echo $aAgent['agent_name']; ?></a></td><td style="width:62px;"><button class="btn btn-sm btn-danger" onclick="delAgent(this, <?php echo $aAgent['id']; ?>);">删除</button></td></tr>
 						<?php } ?>
 							<tr><td><input type="text" class="form-control" placeholder="请输入代理名称" /></td><td style="width:62px;"><button class="btn btn-sm btn-primary" onclick="addAgent(this);">添加</button></td></tr>
 						</table>
@@ -65,7 +65,13 @@ if($aCurrentAgent){
 		<div class="ag-right">
 			<div class="panel panel-info" style="float:left;width:631px;min-height: 817px;">
 				<div class="panel-heading">
-					<h3 class="panel-title"><strong>抽水分成信息</strong></h3>
+					<h3 class="panel-title">
+						<strong>抽水分成信息</strong>
+						<div class="J-agseltime-wrap">
+							<input type="text" class="J-agseltime-val form-control" onclick="WdatePicker({dateFmt : 'yyyy-MM-dd HH:mm:ss', onpicked : function(dp){selectTimeEvent();}});" value="<?php echo $st; ?>" />
+							<label>起始时间：</label>
+						</div>
+					</h3>
 				</div>
 				<div class="panel-body">
 					<div class="h10"></div>
@@ -77,7 +83,7 @@ if($aCurrentAgent){
 							<label style="float:left;line-height:32px;margin-left:20px;">牌局总数：<font style="color:#ff5722;"><?php echo count($aAgentUnCleanFenChengList); ?></font></label>
 							<button class="btn btn-sm btn-primary" onclick="cleanAgentFencheng(this);" style="float:right;margin-left: 10px;">清账</button>
 							<?php if($aCurrentAgent){ ?>
-							<a class="btn btn-sm btn-primary" href="<?php echo Url::to('home', 'agent/export'); ?>?agentId=<?php echo $aCurrentAgent['id']; ?>" style="float:right;">导出代理数据</a>
+							<a class="btn btn-sm btn-primary" href="<?php echo Url::to('home', 'agent/export'); ?>?agentId=<?php echo $aCurrentAgent['id']; ?>&st=<?php echo $st; ?>" style="float:right;">导出代理数据</a>
 							<?php } ?>
 						</div>
 					</div>
@@ -282,7 +288,7 @@ if($aCurrentAgent){
 			UBox.show('请选择要清账的记录', -1);
 			return;
 		}
-		AlertWin.showAgentClean(<?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, '<?php echo $aCurrentAgent ? $aCurrentAgent['agent_name'] : '' ?>', aId, selectTotalFencheng, <?php echo json_encode($aMoneyTypeList); ?>);
+		AlertWin.showAgentClean(<?php echo $aCurrentAgent ? $aCurrentAgent['id'] : 0 ?>, '<?php echo $aCurrentAgent ? $aCurrentAgent['agent_name'] : '' ?>', aId, selectTotalFencheng, <?php echo json_encode($aMoneyTypeList); ?>, '<?php echo $st; ?>');
 		return;
 		if(confirm('确定要清账？')){
 			ajax({
@@ -313,13 +319,21 @@ if($aCurrentAgent){
 	function getAllAgentTotalFencheng(){
 		ajax({
 			url : Tools.url('home', 'agent/get-all-agent-total-fencheng'),
-			data : {},
+			data : {st : '<?php echo $st; ?>'},
 			success : function(aResult){
 				if(aResult.status == 1){
 					$('.J-all-agent-total-fencheng').text(aResult.data);
 				}
 			}
 		});
+	}
+	
+	function selectTimeEvent(){
+		<?php if($aCurrentAgent){ ?>
+			location.href = Tools.url('home', 'agent/index') + '?agentId=<?php echo $aCurrentAgent['id']; ?>' + '&st=' + $('.J-agseltime-val').val();
+		<?php }else{ ?>
+			location.href = Tools.url('home', 'agent/index') + '?st=' + $('.J-agseltime-val').val();
+		<?php } ?>
 	}
 	
 	$(function(){

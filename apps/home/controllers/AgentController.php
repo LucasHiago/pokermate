@@ -21,10 +21,16 @@ class AgentController extends Controller{
 	
 	public function actionIndex(){
 		$agentId = (int)Yii::$app->request->get('agentId');
+		$st = (string)Yii::$app->request->get('st');
 		
 		$mUser = Yii::$app->user->getIdentity();
 		if(!$mUser->is_active){
 			return new Response('提示:您的账号还没开始启用！', 0);
+		}
+		if(!$st){
+			$st = $mUser->getLastMaxJiaobanPaijuEndTime();
+		}else{
+			$st = strtotime($st);
 		}
 		$aAgentList = $mUser->getAgentList();
 		$aCurrentAgent = [];
@@ -39,7 +45,7 @@ class AgentController extends Controller{
 		}
 		$aAgentUnCleanFenChengList = [];
 		if($aCurrentAgent){
-			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($aCurrentAgent['id']);
+			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($aCurrentAgent['id'], $st);
 		}
 		$totalFenCheng = $mUser->agent_fencheng_ajust_value;
 		$floatTotalFenCheng = $mUser->agent_fencheng_ajust_value;
@@ -57,15 +63,22 @@ class AgentController extends Controller{
 			'agentFenchengAjustValue' => $mUser->agent_fencheng_ajust_value,
 			'totalFenCheng' => $totalFenCheng,
 			'floatTotalFenCheng' => Calculate::getIntValueByChoushuiShuanfa($floatTotalFenCheng, $mUser->choushui_shuanfa),
+			'st' => date('Y-m-d H:i:s', $st),
 		]);
 	}
 	
 	public function actionBaoxian(){
 		$agentId = (int)Yii::$app->request->get('agentId');
+		$st = (string)Yii::$app->request->get('st');
 		
 		$mUser = Yii::$app->user->getIdentity();
 		if(!$mUser->is_active){
 			return new Response('提示:您的账号还没开始启用！', 0);
+		}
+		if(!$st){
+			$st = $mUser->getLastMaxJiaobanPaijuEndTime();
+		}else{
+			$st = strtotime($st);
 		}
 		$aAgentList = $mUser->getAgentList();
 		$aCurrentAgent = [];
@@ -80,7 +93,7 @@ class AgentController extends Controller{
 		}
 		$aAgentUnCleanFenChengList = [];
 		if($aCurrentAgent){
-			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanBaoxianFenChengList($aCurrentAgent['id']);
+			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanBaoxianFenChengList($aCurrentAgent['id'], $st);
 		}
 		$totalFenCheng = $mUser->agent_baoxian_fencheng_ajust_value;
 		$floatTotalFenCheng = $mUser->agent_baoxian_fencheng_ajust_value;
@@ -98,6 +111,7 @@ class AgentController extends Controller{
 			'agentBaoxianFenchengAjustValue' => $mUser->agent_baoxian_fencheng_ajust_value,
 			'totalFenCheng' => $totalFenCheng,
 			'floatTotalFenCheng' => Calculate::getIntValueByChoushuiShuanfa($floatTotalFenCheng, $mUser->choushui_shuanfa),
+			'st' => date('Y-m-d H:i:s', $st),
 		]);
 	}
 	
@@ -219,6 +233,7 @@ class AgentController extends Controller{
 		$aId = (array)Yii::$app->request->post('aId');
 		$type = (int)Yii::$app->request->post('type');
 		$qinzhangValue = (int)Yii::$app->request->post('qinzhangValue');
+		$st = (string)Yii::$app->request->post('st');
 		
 		$mAgent = Agent::findOne($agentId);
 		if(!$mAgent){
@@ -228,7 +243,12 @@ class AgentController extends Controller{
 			return new Response('请选择要清账的记录', -1);
 		}
 		$mUser = Yii::$app->user->getIdentity();
-		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId);
+		if(!$st){
+			$st = $mUser->getLastMaxJiaobanPaijuEndTime();
+		}else{
+			$st = strtotime($st);
+		}
+		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId, $st);
 		$aUpdateId = [];
 		$totalFenCheng = $mUser->agent_fencheng_ajust_value;
 		$floatTotalFenCheng = $mUser->agent_fencheng_ajust_value;
@@ -292,6 +312,7 @@ class AgentController extends Controller{
 		$aId = (array)Yii::$app->request->post('aId');
 		$type = (int)Yii::$app->request->post('type');
 		$qinzhangValue = (int)Yii::$app->request->post('qinzhangValue');
+		$st = (string)Yii::$app->request->post('st');
 		
 		$mAgent = Agent::findOne($agentId);
 		if(!$mAgent){
@@ -301,7 +322,12 @@ class AgentController extends Controller{
 			return new Response('请选择要清账的记录', -1);
 		}
 		$mUser = Yii::$app->user->getIdentity();
-		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanBaoxianFenChengList($agentId);
+		if(!$st){
+			$st = $mUser->getLastMaxJiaobanPaijuEndTime();
+		}else{
+			$st = strtotime($st);
+		}
+		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanBaoxianFenChengList($agentId, $st);
 		$aUpdateId = [];
 		$totalFenCheng = $mUser->agent_baoxian_fencheng_ajust_value;
 		$floatTotalFenCheng = $mUser->agent_baoxian_fencheng_ajust_value;
@@ -362,13 +388,19 @@ class AgentController extends Controller{
 	
 	public function actionExportBaoxian(){
 		$agentId = (int)Yii::$app->request->get('agentId');
+		$st = (string)Yii::$app->request->get('st');
 		
 		$mAgent = Agent::findOne($agentId);
 		if(!$mAgent){
 			return new Response('代理不存在', 0);
 		}
 		$mUser = Yii::$app->user->getIdentity();
-		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanBaoxianFenChengList($agentId);
+		if(!$st){
+			$st = $mUser->getLastMaxJiaobanPaijuEndTime();
+		}else{
+			$st = strtotime($st);
+		}
+		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanBaoxianFenChengList($agentId, $st);
 		$aDataList = [
 			['牌局名', '桌子级别', '玩家名', '保险', '分成比例', '分成'],
 		];
@@ -409,13 +441,19 @@ class AgentController extends Controller{
 	
 	public function actionExport(){
 		$agentId = (int)Yii::$app->request->get('agentId');
+		$st = (string)Yii::$app->request->get('st');
 		
 		$mAgent = Agent::findOne($agentId);
 		if(!$mAgent){
 			return new Response('代理不存在', 0);
 		}
 		$mUser = Yii::$app->user->getIdentity();
-		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId);
+		if(!$st){
+			$st = $mUser->getLastMaxJiaobanPaijuEndTime();
+		}else{
+			$st = strtotime($st);
+		}
+		$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($agentId, $st);
 		$aDataList = [
 			['牌局名', '桌子级别', '玩家名', '战绩', '结算', '分成比例', '分成'],
 		];
@@ -475,13 +513,20 @@ class AgentController extends Controller{
 	}
 	
 	public function actionGetAllAgentTotalFencheng(){
+		$st = (string)Yii::$app->request->post('st');
+		
 		$mUser = Yii::$app->user->getIdentity();
+		if(!$st){
+			$st = $mUser->getLastMaxJiaobanPaijuEndTime();
+		}else{
+			$st = strtotime($st);
+		}
 		$aAgentList = $mUser->getAgentList();
 		
 		$totalFenCheng = $mUser->agent_fencheng_ajust_value;
 		//$floatTotalFenCheng = $mUser->agent_fencheng_ajust_value;
 		foreach($aAgentList as $aCurrentAgent){
-			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($aCurrentAgent['id']);
+			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanFenChengList($aCurrentAgent['id'], $st);
 			foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
 				$totalFenCheng += $aAgentUnCleanFenCheng['fencheng'];
 				//$floatTotalFenCheng += $aAgentUnCleanFenCheng['float_fencheng'];
@@ -492,13 +537,20 @@ class AgentController extends Controller{
 	}
 	
 	public function actionGetAllAgentTotalBaoxianFencheng(){
+		$st = (string)Yii::$app->request->post('st');
+		
 		$mUser = Yii::$app->user->getIdentity();
+		if(!$st){
+			$st = $mUser->getLastMaxJiaobanPaijuEndTime();
+		}else{
+			$st = strtotime($st);
+		}
 		$aAgentList = $mUser->getAgentList();
 		
 		$totalFenCheng = $mUser->agent_baoxian_fencheng_ajust_value;
 		//$floatTotalFenCheng = $mUser->agent_baoxian_fencheng_ajust_value;
 		foreach($aAgentList as $aCurrentAgent){
-			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanBaoxianFenChengList($aCurrentAgent['id']);
+			$aAgentUnCleanFenChengList = $mUser->getAgentUnCleanBaoxianFenChengList($aCurrentAgent['id'], $st);
 			foreach($aAgentUnCleanFenChengList as $aAgentUnCleanFenCheng){
 				$totalFenCheng += $aAgentUnCleanFenCheng['fencheng'];
 				//$floatTotalFenCheng += $aAgentUnCleanFenCheng['float_fencheng'];
