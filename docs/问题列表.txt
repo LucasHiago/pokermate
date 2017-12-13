@@ -165,6 +165,16 @@ UPDATE `user` SET `user_setting`="[]";
 ALTER TABLE `import_data` ADD `jiesuan_time` int(11) NOT NULL COMMENT '结算时间';
 
 
+
+alter table `host_lianmeng_club` modify column `club_id` bigint(20) NOT NULL COMMENT '俱乐部ID';
+alter table `club` modify column `club_id` bigint(20) NOT NULL COMMENT '俱乐部ID';
+alter table `import_data` modify column `club_id` bigint(20) NOT NULL COMMENT '俱乐部ID';
+alter table `lianmeng_club` modify column `club_id` bigint(20) NOT NULL COMMENT '俱乐部ID';
+alter table `import_data` modify column `player_id` bigint(20) NOT NULL COMMENT '玩家ID';
+alter table `player` modify column `player_id` bigint(20) NOT NULL COMMENT '玩家ID';
+alter table `keren_benjin` modify column `current_player_id` bigint(20) NOT NULL COMMENT '当前玩家ID';
+
+
 索引
 
 CREATE INDEX `import_data_index` ON `import_data`(`id`, `player_id`, `club_id`, `paiju_id`, `user_id`, `status`, `agent_is_clean`, `club_is_clean`);
