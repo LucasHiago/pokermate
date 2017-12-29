@@ -72,8 +72,6 @@ class LoginController extends Controller{
 			return new Response('登录失败', 0);
 		}
 		
-		\common\model\ImportData::deleteAweekAgoData();
-		
 		return new Response('登录成功', 1, Url::to('home', 'index/index'));
 	}
 	
