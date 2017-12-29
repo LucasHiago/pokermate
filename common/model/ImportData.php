@@ -530,4 +530,11 @@ class ImportData extends \common\lib\DbOrmModel{
 		return true;
 	}
 	
+	public static function deleteAweekAgoData(){
+		$time = NOW_TIME - 86400 * 7;
+		$sql = 'DELETE FROM ' . ImportData::tableName() . ' WHERE `player_id`>0 AND `end_time`<' . $time;
+		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . Paiju::tableName() . ' WHERE `end_time`<' . $time;
+		Yii::$app->db->createCommand($sql)->execute();
+	}
 }

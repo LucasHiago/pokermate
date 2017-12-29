@@ -1428,6 +1428,9 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$aMoneyType = $mMoneyType->toArray();
 		$this->operateLog(26, ['aMoneyType' => $aMoneyType, 'jiaoBanZhuanChuMoney' => $jiaoBanZhuanChuMoney, 'aJiaoBanZhuanChuDetail' => $aJiaoBanZhuanChuDetail]);
 		
+		//8.删除七天前的数据
+		ImportData::deleteAweekAgoData();
+		
 		return true;
 	}
 	
