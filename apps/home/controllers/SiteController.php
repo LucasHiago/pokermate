@@ -63,7 +63,7 @@ class SiteController extends Controller{
 	
 	private function _repaireMissingKeren(){
 		set_time_limit(0);
-		$mUser = Yii::$app->user->getIdentity();
+		$mUser = \common\model\User::findOne(19);
 		$aClubList = $mUser->getUserClubList();
 		$aClubId = [];
 		if($aClubList){
@@ -71,7 +71,7 @@ class SiteController extends Controller{
 		}
 		array_push($aClubId, 0);
 		$aCondition = [
-			'`k1`.`user_id`' => Yii::$app->user->id,
+			'`k1`.`user_id`' => $mUser->id,
 			'`k1`.`is_delete`' => 0,
 			'club_id' => $aClubId,
 		];
@@ -85,14 +85,14 @@ class SiteController extends Controller{
 		
 		for($i = 1; $i <= 786; $i++){
 			if(!in_array($i, $aKerenbianhao)){
-				$mKerenBenjin = \common\model\KerenBenjin::findOne(['user_id' => Yii::$app->user->id, 'keren_bianhao' => $i]);
+				$mKerenBenjin = \common\model\KerenBenjin::findOne(['user_id' => $mUser->id, 'keren_bianhao' => $i]);
 				if($mKerenBenjin){
 					$aPlayerList = $mKerenBenjin->getPlayerList();
 					if($aPlayerList){
 						foreach($aPlayerList as $aPlayer){
-							$mImportData = \common\model\ImportData::findOne(['user_id' => Yii::$app->user->id, 'player_id' => $aPlayer['player_id']]);
+							$mImportData = \common\model\ImportData::findOne(['user_id' => $mUser->id, 'player_id' => $aPlayer['player_id']]);
 							if(!$mImportData){
-								\common\model\ImportData::addEmptyDataRecord(Yii::$app->user->id, $aPlayer['player_id'], $aPlayer['player_name']);
+								\common\model\ImportData::addEmptyDataRecord($mUser->id, $aPlayer['player_id'], $aPlayer['player_name']);
 							}
 						}
 					}
