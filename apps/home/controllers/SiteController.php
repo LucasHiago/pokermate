@@ -45,7 +45,7 @@ class SiteController extends Controller{
 	}
 
 	public function actionTest(){
-		$this->_repaireMissingKeren();
+		//$this->_repaireMissingKeren();
 		//$this->_ajustFengChengSettingSort();
 		
 		/*$sql = "SELECT * from lianmeng where lmzj_paiju_creater!=''";
