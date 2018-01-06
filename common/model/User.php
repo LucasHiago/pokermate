@@ -2172,7 +2172,11 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		unset($aClubShangzuorenshuList);
 		//debug($totalBaoXianBeiChou,11);
 		$totalBaoXianBeiChou = Calculate::getIntValueByChoushuiShuanfa($totalBaoXianBeiChou, $this->choushui_shuanfa);
-		$totalZhanDan = Calculate::getIntValueByChoushuiShuanfa($totalZhanDan * 0.975, $this->choushui_shuanfa);
+		$xishu = 0.975;
+		if($mLianmeng->duizhangfangfa == Lianmeng::DUIZHANGFANGFA_LINDIANJIUBAWU){
+			$xishu = 0.985;
+		}
+		$totalZhanDan = Calculate::getIntValueByChoushuiShuanfa($totalZhanDan * $xishu, $this->choushui_shuanfa);
 		//如果没有新账单就不显示牌局记录列表了
 		$hasUncleanZhangDan = false;
 		if($aPaijuZhangDanList){

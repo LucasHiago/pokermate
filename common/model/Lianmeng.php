@@ -7,14 +7,16 @@ use yii\helpers\ArrayHelper;
 
 class Lianmeng extends \common\lib\DbOrmModel{
 	protected $_aEncodeFields = ['lmzj_paiju_creater' => 'json'];
-	//对账方法（1：0.975 2：无水账单）
+	//对账方法（1：0.975 2：无水账单 3：0.985）
 	const DUIZHANGFANGFA_LINDIANJIUQIWU = 1;
 	const DUIZHANGFANGFA_WUSHUIDUIZHANG = 2;
+	const DUIZHANGFANGFA_LINDIANJIUBAWU = 3;
 	
 	public static function getDuizhangfangfaList(){
 		return [
 			static::DUIZHANGFANGFA_LINDIANJIUQIWU => 0.975,
 			static::DUIZHANGFANGFA_WUSHUIDUIZHANG => 1,
+			static::DUIZHANGFANGFA_LINDIANJIUBAWU => 0.985,
 		];
 	}
 	

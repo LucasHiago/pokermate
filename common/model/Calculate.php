@@ -63,7 +63,7 @@ class Calculate extends \yii\base\Object{
 	 *	计算牌局记录抽水联盟补贴 	公式：（战绩+保险）*(1-对账系数)
 	 *	$zhanji			战绩
 	 *	$baoxianHeji	保险合计
-	 *	$duizhangfangfa	对账方法（1：0.975 2：无水账单）
+	 *	$duizhangfangfa	对账方法（1：0.975 2：无水账单 3：0.985）
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
 	 *	$returnInt	是否取整返回
 	 */
@@ -165,7 +165,7 @@ class Calculate extends \yii\base\Object{
 	 *	$baoxianHeji		保险合计
 	 *	$paijuFee			桌子费
 	 *	$baoxianBeichou		保险被抽
-	 *	$duizhangfangfa	对账方法（1：0.975 2：无水账单）
+	 *	$duizhangfangfa	对账方法（1：0.975 2：无水账单 3：0.985）
 	 *	$choushuiShuanfa	抽水算法：1四舍五入2余数抹零
 	 *	$returnInt	是否取整返回
 	 */

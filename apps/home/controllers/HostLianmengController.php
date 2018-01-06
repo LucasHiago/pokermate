@@ -70,7 +70,7 @@ class HostLianmengController extends Controller{
 		if(!$duizhangfangfa){
 			$duizhangfangfa = HostLianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU;
 		}
-		if(!in_array($duizhangfangfa, [HostLianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, HostLianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG])){
+		if(!in_array($duizhangfangfa, [HostLianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, HostLianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG, HostLianmeng::DUIZHANGFANGFA_LINDIANJIUBAWU])){
 			return new Response('对账方法有误', -1);
 		}
 		$mUser = Yii::$app->user->getIdentity();
@@ -124,7 +124,7 @@ class HostLianmengController extends Controller{
 		if(!$name){
 			return new Response('请输入联盟名称', -1);
 		}
-		if(!in_array($duizhangfangfa, [HostLianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, HostLianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG])){
+		if(!in_array($duizhangfangfa, [HostLianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, HostLianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG, HostLianmeng::DUIZHANGFANGFA_LINDIANJIUBAWU])){
 			return new Response('对账方法有误', -1);
 		}
 		if($paijuCreater){
@@ -320,7 +320,7 @@ class HostLianmengController extends Controller{
 		if(!$clubId){
 			return new Response('请输入俱乐部ID', -1);
 		}
-		if(!in_array($duizhangfangfa, [HostLianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, HostLianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG])){
+		if(!in_array($duizhangfangfa, [HostLianmeng::DUIZHANGFANGFA_LINDIANJIUQIWU, HostLianmeng::DUIZHANGFANGFA_WUSHUIDUIZHANG, HostLianmeng::DUIZHANGFANGFA_LINDIANJIUBAWU])){
 			return new Response('对账方法有误', -1);
 		}
 		$mUser = Yii::$app->user->getIdentity();
@@ -517,6 +517,9 @@ class HostLianmengController extends Controller{
 		}
 		*/
 		$xishu = (string)(1 - 0.975);
+		if($mLianmengClub->duizhangfangfa == HostLianmeng::DUIZHANGFANGFA_LINDIANJIUBAWU){
+			$xishu = (string)(1 - 0.985);
+		}
 		foreach($aClubZhangDanList as $k => $aClubZhangDan){
 			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($aClubZhangDan['baoxian_heji'], $mLianmengClub->baoxian_choucheng, $mUser->choushui_shuanfa, false);
 			$aClubZhangDanList[$k]['float_baoxian_beichou'] = (string)$floatBaoxianBeichou;
