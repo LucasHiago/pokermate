@@ -804,9 +804,28 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		}
 		//*******************//
 		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`float_choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t2`.`lianmeng_id`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM ' . ImportData::tableName() . ' AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t3`.`user_id`=' . $this->id . ' AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t3`.`is_delete`=0' . $clubIdWhere;
-		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`float_choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t2`.`lianmeng_id`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng`,`t5`.`ying_fee`,`t5`.`shu_fee` FROM (' . $importDataSql . ') AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t5` ON `t3`.`keren_bianhao`=`t5`.`keren_bianhao` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t3`.`user_id`=' . $this->id . ' AND `t4`.`user_id`=' . $this->id . ' AND `t5`.`user_id`=' . $this->id . ' AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t3`.`is_delete`=0' . $clubIdWhere;
+		//$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`float_choushui_value`,`t1`.`baoxian_heji`,`t1`.`club_baoxian`,`t1`.`baoxian`,`t2`.`lianmeng_id`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng`,`t5`.`ying_fee`,`t5`.`shu_fee` FROM (' . $importDataSql . ') AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t1`.`player_id`=`t3`.`player_id` LEFT JOIN ' . KerenBenjin::tableName() . ' AS `t5` ON `t3`.`keren_bianhao`=`t5`.`keren_bianhao` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t3`.`user_id`=' . $this->id . ' AND `t4`.`user_id`=' . $this->id . ' AND `t5`.`user_id`=' . $this->id . ' AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 AND `t3`.`is_delete`=0' . $clubIdWhere;
+		$sql = 'SELECT distinct(`t1`.`id`),`t1`.`paiju_id`,`t1`.`paiju_name`,`t1`.`zhanji`,`t1`.`choushui_value`,`t1`.`float_choushui_value`,`t1`.`baoxian_heji`,`t1`.`player_id`,`t2`.`lianmeng_id`,`t4`.`qianzhang`,`t4`.`duizhangfangfa`,`t4`.`paiju_fee`,`t4`.`baoxian_choucheng` FROM (' . $importDataSql . ') AS `t1` LEFT JOIN ' . Paiju::tableName() . ' AS `t2` ON `t1`.`paiju_id`=`t2`.`id` LEFT JOIN ' . Lianmeng::tableName() . ' AS `t4` ON `t2`.`lianmeng_id`=`t4`.`id` WHERE `t1`.`user_id`=' . $this->id . ' AND `t2`.`user_id`=' . $this->id . ' AND `t4`.`user_id`=' . $this->id . ' AND `t2`.`status`=' . Paiju::STATUS_DONE . ' AND `t1`.`status`=1 ' . $clubIdWhere;
 		
 		$aList = Yii::$app->db->createCommand($sql)->queryAll();
+		
+		$aId = ArrayHelper::getColumn($aList, 'id');
+		$sql = 'SELECT `player_id` FROM ' . ImportData::tableName() . ' WHERE `id` IN(' . implode(',', $aId) . ')';
+		$aPlayerIdList = Yii::$app->db->createCommand($sql)->queryAll();
+		$aPlayerId = ArrayHelper::getColumn($aPlayerIdList, 'player_id');
+		$sql = 'SELECT `t3`.`player_id`,`t5`.`ying_fee`,`t5`.`shu_fee` FROM ' . KerenBenjin::tableName() . ' AS `t5` LEFT JOIN ' . Player::tableName() . ' AS `t3` ON `t3`.`keren_bianhao`=`t5`.`keren_bianhao` WHERE `t3`.`user_id`=' . $this->id . ' AND `t5`.`user_id`=' . $this->id . ' AND `t3`.`is_delete`=0 AND `t5`.`is_delete`=0 AND `t3`.`player_id` IN(' . implode(',', $aPlayerId) . ')';
+		$aKerenInfoList = Yii::$app->db->createCommand($sql)->queryAll();
+		foreach($aList as $k => $v){
+			$aList[$k]['ying_fee'] = 0;
+			$aList[$k]['shu_fee'] = 0;
+			foreach($aKerenInfoList as $aKerenInfo){
+				if($aKerenInfo['player_id'] == $v['player_id']){
+					$aList[$k]['ying_fee'] = $aKerenInfo['ying_fee'];
+					$aList[$k]['shu_fee'] = $aKerenInfo['shu_fee'];
+					break;
+				}
+			}
+		}
 		
 		return $aList;
 		
