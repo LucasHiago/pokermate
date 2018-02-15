@@ -85,8 +85,9 @@ class ClubController extends Controller{
 		if($mClub->user_id != Yii::$app->user->id){
 			return new Response('出错了', 0);
 		}
-		$mClub->set('is_delete', 1);
-		$mClub->save();
+		//$mClub->set('is_delete', 1);
+		//$mClub->save();
+		$mClub->delete();
 		return new Response('删除成功', 1);
 	}
 }
