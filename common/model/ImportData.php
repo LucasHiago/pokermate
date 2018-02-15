@@ -162,10 +162,31 @@ class ImportData extends \common\lib\DbOrmModel{
 		$aImportDataList = null;
 		if($aInserDataList){
 			foreach($aInserDataList as $kk => $vv){
+				$aInserDataList[$kk][0] = (string)$aInserDataList[$kk][0];
+				$aInserDataList[$kk][1] = (string)$aInserDataList[$kk][1];
+				$aInserDataList[$kk][2] = (string)$aInserDataList[$kk][2];
+				$aInserDataList[$kk][3] = (string)$aInserDataList[$kk][3];
+				$aInserDataList[$kk][4] = (string)$aInserDataList[$kk][4];
+				$aInserDataList[$kk][5] = (string)$aInserDataList[$kk][5];
+				$aInserDataList[$kk][6] = (int)$aInserDataList[$kk][6];
+				$aInserDataList[$kk][7] = (string)$aInserDataList[$kk][7];
+				$aInserDataList[$kk][8] = (string)$aInserDataList[$kk][8];
+				$aInserDataList[$kk][9] = (string)$aInserDataList[$kk][9];
+				$aInserDataList[$kk][10] = (string)$aInserDataList[$kk][10];
+				$aInserDataList[$kk][11] = (int)$aInserDataList[$kk][11];
 				$aInserDataList[$kk][12] = (int)$aInserDataList[$kk][12];
+				$aInserDataList[$kk][13] = (int)$aInserDataList[$kk][13];
+				$aInserDataList[$kk][14] = (int)$aInserDataList[$kk][14];
+				$aInserDataList[$kk][15] = (int)$aInserDataList[$kk][15];
 				$aInserDataList[$kk][16] = (int)$aInserDataList[$kk][16];
+				$aInserDataList[$kk][17] = (int)$aInserDataList[$kk][17];
 				$aInserDataList[$kk][18] = (int)$aInserDataList[$kk][18];
+				$aInserDataList[$kk][19] = (string)$aInserDataList[$kk][19];
+				$aInserDataList[$kk][20] = (int)$aInserDataList[$kk][20];
+				$aInserDataList[$kk][21] = (int)$aInserDataList[$kk][21];
 				$aInserDataList[$kk][22] = (int)$aInserDataList[$kk][22];
+				$aInserDataList[$kk][23] = (int)$aInserDataList[$kk][23];
+				$aInserDataList[$kk][24] = (int)$aInserDataList[$kk][24];
 			}
 			//Player::checkAddNewPlayer($mUser->id, $aPlayerList);
 			static::bathInsertData($aInserDataList);
