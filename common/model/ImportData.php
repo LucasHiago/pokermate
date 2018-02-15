@@ -163,6 +163,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		if($aInserDataList){
 			foreach($aInserDataList as $kk => $vv){
 				$aInserDataList[$kk][12] = (int)$aInserDataList[$kk][12];
+				$aInserDataList[$kk][16] = (int)$aInserDataList[$kk][16];
 				$aInserDataList[$kk][18] = (int)$aInserDataList[$kk][18];
 				$aInserDataList[$kk][22] = (int)$aInserDataList[$kk][22];
 			}
