@@ -1536,6 +1536,7 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 				$yinFan = (float)$aFenchengSetting[$value['mangzhu']]['yingfan'];
 				$shuFan = (float)$aFenchengSetting[$value['mangzhu']]['shufan'];
 			}
+			$aResult[$key]['baoxian_heji'] = -$value['baoxian_heji'];
 			$aResult[$key]['yingfan'] = $yinFan;
 			$aResult[$key]['shufan'] = $shuFan;
 			$aResult[$key]['fencheng'] = Calculate::calculateBaoxianFenchengMoney($value['baoxian_heji'], $yinFan, $shuFan, $this->choushui_shuanfa);
