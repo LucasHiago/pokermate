@@ -61,6 +61,7 @@ class DownLoadExcel extends \yii\base\Object{
 			'modulusValue' => $modulusValue,
 			'exponentValue' => $exponentValue,
 			'returnString' => $returnString,
+			'loginPageUrl' => $this->loginPageUrl,
 		];
 	}
 	
