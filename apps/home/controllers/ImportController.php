@@ -307,11 +307,11 @@ class ImportController extends Controller{
 		}
 		$aData = Yii::$app->downLoadExcel->getModulusAndExponentValueValue();
 		if(!$aData || !$aData['modulusValue'] || !$aData['exponentValue']){
-			return new Response('获取验证码失败', 0);
+			return new Response('获取验证码失败1', 0,$aData);
 		}
 		$savePathName = Yii::$app->downLoadExcel->downSaveCode($mClub->club_id);
 		if(!$savePathName){
-			return new Response('获取验证码失败', 0);
+			return new Response('获取验证码失败2', 0,$aData);
 		}
 		$startTime = date('Y-m-d', NOW_TIME - 86400);
 		$endTime = date('Y-m-d');
