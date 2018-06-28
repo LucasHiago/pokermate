@@ -561,5 +561,7 @@ class ImportData extends \common\lib\DbOrmModel{
 		Yii::$app->db->createCommand($sql)->execute();
 		$sql = 'DELETE FROM ' . Paiju::tableName() . ' WHERE `end_time`<' . $time;
 		Yii::$app->db->createCommand($sql)->execute();
+		$sql = 'DELETE FROM ' . OperateLog::tableName() . ' WHERE `create_time`<' . $time;
+		Yii::$app->db->createCommand($sql)->execute();
 	}
 }
