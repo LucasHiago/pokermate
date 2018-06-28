@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)http://cms.pokermanager.club/cms-web/cmsLogin.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title class="i18n" name="login">首页</title>
+    <link href="./loginpage_files/reset.css" type="text/css" rel="stylesheet">
+    <link href="./loginpage_files/login.css" type="text/css" rel="stylesheet">
+</head>
+<body class="loginBody" style="min-height: 414px;">
+<div class="loginBox">
+
+    <img src="./loginpage_files/warm.png" class="warmTip usernameWarm">
+    <img src="./loginpage_files/warm.png" class="warmTip passwordWarm">
+    <img src="./loginpage_files/warm.png" class="warmTip verifyWarm">
+    <ul>
+        <li>
+            <div class="loginTitle">
+                <img src="./loginpage_files/loginTitle_en.png" class="chgeLanImg">
+            </div>
+            <div class="changeLanguage fr">
+                <select id="language" class="selectRestyle fr">
+                    <option value="zh" selected="selected">中文简体</option>
+                    <option value="en">English</option>
+                </select> 
+                <span class="languageTitle">Language</span>
+            </div>
+        </li>
+        <li class="loginList">
+            <input type="text" class="userName loginInput i18n-input" selectattr="placeholder" selectname="login_account" id="str_login_username" placeholder="账户">
+        </li>
+        <li class="loginList">
+            <input type="password" class="password loginInput i18n-input" selectattr="placeholder" selectname="login_password" id="str_login_password" placeholder="密码">
+        </li>
+        <li class="loginList">
+            <input type="text" class="verifyCode loginInput fl i18n-input" selectattr="placeholder" selectname="login_verification" id="str_login_verity" placeholder="验证码">
+            <div class="verifyPic fl">
+                <img class="verifyImg" src="data:image/jpg;base64,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">
+                <img class="refresh cursor" src="./loginpage_files/refresh.png">
+            </div>
+        </li>
+        <li class="loginList">
+            <button class="goLogin btn i18n" id="str_login" name="login_login_now">立即登陆</button>
+        </li>
+        <li>
+            <p class="loginExplain i18n" name="login_resolution_tip">请使用1920*1080分辨率，以获得更好的体验</p>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="./loginpage_files/jquery.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/jquery.i18n.properties.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/jquery.cookie.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/md5.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/unicodeandansi.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/jsbn.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/jsbn2.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/prng4.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/rng.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/rsa.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/rsa2.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/rsa-async.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/base64.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/asn1-1.0.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/hex.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/base64.js(1).下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/asn1.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/jsencrypt.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/jquery.base64.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/language.js.下载" rel=""></script>
+<script type="text/javascript" src="./loginpage_files/login.js.下载" rel=""></script>
+</body></html>
+<script type="text/javascript"> 
+	$(function(){
+		var token = '305c300d06092a864886f70d0101010500034b003048024100b1a59f37217338eeca562bf77a2fe935fcd6f1a8564e9af274b40db2244852c6a3bbb59e87fa3cba1095427e731a719e304c36acb4c6527f97ef6292d3c1bda50203010001';
+		var account = '13612646126';
+		var pwd = '123456789';
+		var md5pwd = hex_md5(pwd);
+
+		var encrypt = new JSEncrypt();
+
+	
+		encrypt.setPublicKey(token);
+
+		var userstr = account+','+md5pwd;
+
+		var data =  encrypt.encrypt(userstr);
+		console.log(data);
+	});
+</script>

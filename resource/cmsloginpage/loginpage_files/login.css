@@ -1,0 +1,130 @@
+.loginBody{
+    background:#ecf0f3;
+}
+.loginBox{
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-top:-215px;
+    margin-left:-241px;
+    width:430px;
+    height:430px; 
+    color:#666;
+    padding-left: 26px;
+}
+.loginBox > ul > li:first-child{
+    height:135px;
+    margin-bottom:10px;
+}
+.loginTitle{
+    width: 233px;
+    height: 61px;
+    margin:0 auto;
+}
+.chgeLanImg{
+    height:100%;
+}
+.warmTip{
+    width:18px;
+    height:18px;
+    position: absolute;
+    top: 160px;
+    left: 0;
+    display: none;
+}
+.passwordWarm{
+    top:226px;
+}
+.verifyWarm{
+    top:292px;
+}
+.changeLanguage{
+    
+    position:relative;
+    margin:47px 0 6px 0;
+}
+.languageTitle{
+    display: inline-block;
+    float: right;
+    height: 30px;
+    line-height: 30px;
+    font-family: "Arial";
+    font-size: 16px;
+}
+.selectRestyle{
+    width: 90px;
+    height: 23px;
+    margin-top: 3px;
+    padding-left: 10px; 
+    border: 1px solid #F7F7F7;
+    background: #fff url(../../img/login/iconselect.png) no-repeat 73px center;
+    font-size: 14px ;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.chooseLanBox{
+    position: absolute;
+    right: 0;
+    top: 30px;
+    display: none;
+    width: 80px;
+    height: 55px;
+    padding: 10px;
+    background: url(../../img/login/chgLanBg.png) no-repeat;
+    background-size: 100%;
+    text-align: center;
+    font-size: 14px ;
+}
+.chooseLanBox li:first-child{
+    border-bottom:2px solid #eee;
+}
+.chooseLanBox li a{
+    display:block;
+    width:80px;
+    height:32px;
+    line-height: 32px;
+    text-align: center;
+    color:#666;
+}
+.chooseLanBox li a:hover{
+    color:#666;
+}
+.loginInput{
+    width:408px;
+    height:44px;
+    border:1px solid #eee;
+    padding-left:20px;
+    border-radius:4px;
+    font-size: 14px;
+    font-family:arial, "微软雅黑";
+    color: #666;
+}
+.inputLightHeight{
+    border:1px solid #2f313c;
+}
+.loginList{
+    margin-bottom:20px;
+}
+.verifyCode{
+    width:  180px;
+}
+.verifyImg{
+    width:134px;
+    height:42px;
+    margin:0 28px;
+}
+.refresh{
+    width:32px;
+    height:26px;
+    margin-top: 10px;
+}
+.goLogin{
+    width:100%;
+    height:46px;
+    margin-top:20px;
+}
+.loginExplain{
+    text-align:center;
+    font-size:14px ;
+    color:#666;
+}

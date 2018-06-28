@@ -1,0 +1,155 @@
+var login = {
+    init : function () {return;
+            var _this = this;
+             var src = "http://cms.pokermanager.club/cms-api";
+            _this.getToken.call(_this,src);
+            _this.commenSetting.call();
+            $(".refresh").click(function(){
+                _this.getToken.call(_this,src);
+            }) ;
+    //        是否记住用户名
+        if ($.cookie("userName") == "true"){
+            $(".userName").val($.cookie("userName"));
+            $(".password").val($.cookie("password"));
+        };
+
+        var cmsloginsrc = getCookie("userLanguage");
+
+
+    } ,
+    getToken : function(src){
+        var _this = this;
+        _this.ajaxreq( src + "/token/generateCaptchaToken","",function(r){
+
+            var token = r.result;
+
+             _this.getVerifyCode.call(_this, token,src);
+            $(".goLogin").unbind().bind("click",function(){
+                    _this.login.call(_this, token,src);
+            });
+            $("body").unbind().bind("keydown",function(){
+                if (event.keyCode == "13"){
+                    $(".goLogin").click();
+                }
+            });
+        });
+    }   ,
+    getVerifyCode : function(token,src){
+        var _this = this;
+        var perem = {
+            token : token
+        };
+        _this.ajaxreq(src + "/captcha",perem, function(r){
+
+                var verifyImg = r.result;
+                $(".verifyImg").attr("src",'data:image/jpg;base64,'+ verifyImg);
+
+        })  ;
+    }   ,
+    login : function(token,src){
+        var _this = this;
+        var account =   $(".userName").val();
+        var pwd =  $(".password").val();
+        var  verifyCode =   $(".verifyCode").val();
+        if (!account){  $(".usernameWarm").show(); return}
+        if ( !pwd ){  $(".passwordWarm").show(); return}
+        if (  !verifyCode){  $(".verifyWarm").show(); return}
+
+
+        //    验证码字母与数字 5位
+        var reg = /^[a-z0-9A-Z]{4}$/;
+        if (reg.test(verifyCode)){
+            $(".verifyWarm").hide();
+        }else{
+            $(".verifyWarm").show();
+            return;
+        }
+        var locale = $("#language option:selected").attr("value");
+
+      getCookie("userLanguage",locale,{
+        expires: 30,
+        path:'/'
+      });
+
+      var md5pwd = hex_md5(pwd);
+
+      var encrypt = new JSEncrypt();
+
+
+      encrypt.setPublicKey(token);
+
+      var userstr = account+','+md5pwd;
+
+     var data =  encrypt.encrypt(userstr);
+
+
+         var perem = {
+             token : token,
+             data : data,
+             safeCode :  verifyCode,
+             locale : locale
+         } ;
+         _this.ajaxreq(src +"/login",perem, function(r){
+           console.log(r);
+           console.log(r.iErrCode);
+           var arr = r.iErrCode*1;
+           console.log(arr);
+           if(arr == 1000){
+             console.log("token不合法");
+           }else if(arr == 1101){
+             console.log(111);
+             $(".usernameWarm").show();
+             $(".passwordWarm").show();
+           }else if(arr == 1103){
+             $(".verifyWarm").show();
+           }else if(arr == 1){
+             console.log("接口异常");
+           }else if(arr == 0){
+             $(".warmTip").hide();
+             var key = r.result;
+             sessionStorage.setItem("key",key);
+             window.location.href = "index.html";
+           }else{
+             console.log("未知错误");
+           }
+
+         });
+    }   ,
+    commenSetting : function(){
+    //    input focus
+        $(".loginInput").focus(function(){
+            $(".loginInput").removeClass("inputLightHeight");
+            // $(this).addClass("inputLightHeight").val("");
+            $(".chooseLanBox").hide();
+        }).blur(function(){
+            $(".loginInput").removeClass("inputLightHeight");
+        }) ;
+        $(".selectRestyle").click(function(){
+            $(".chooseLanBox").show();
+        });
+    //    min-height
+        var bodyHeight = $(window).height();
+        $(".loginBody").css("min-height",bodyHeight);
+    },
+    //公共ajax请求
+    ajaxreq : function (url,data,callback){
+        $.ajax({
+            type : "post",
+            url : url,
+            data :  data,
+            dataType : "json",
+            success :function (r) {
+                if (r.iErrCode == 1){
+                    console.log(url + "接口异常");
+                }  else if (r.iErrCode == 1000){
+                    console.log("接口异常");
+                }
+                else{
+                    callback(r);
+                }
+
+            }
+        }) ;
+    }
+}  ;
+login.init();

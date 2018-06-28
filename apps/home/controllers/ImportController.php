@@ -390,6 +390,106 @@ class ImportController extends Controller{
 		return new Response('获取成功', 1);
 	}
 	
+	public function actionGetDownloadSaveCode1(){
+		$clubId = (int)Yii::$app->request->post('clubId');
+		$token = (string)Yii::$app->request->post('token');
+		
+		$mClub = Club::findOne($clubId);
+		if(!$mClub){
+			return new Response('俱乐部不存在', 0);
+		}
+		/*$aData = Yii::$app->downLoadExcel->getModulusAndExponentValueValue();
+		if(!$aData || !$aData['modulusValue'] || !$aData['exponentValue']){
+			return new Response('获取验证码失败', 0);
+		}*/
+		$token = Yii::$app->downLoadExcel->getLoginToken($mClub->club_id);
+		if(!$token){
+			return new Response('获取验证码失败', 0);
+		}
+		$savePathName = Yii::$app->downLoadExcel->downSaveCode1($mClub->club_id, $token);
+		if(!$savePathName){
+			return new Response('获取验证码失败', 0);
+		}
+		$startTime = date('Y-m-d', NOW_TIME - 86400);
+		$endTime = date('Y-m-d');
+		$nowHour = date('G', NOW_TIME);
+		if(in_array($nowHour, [0, 1, 2, 3, 4])){
+			$startTime = date('Y-m-d', NOW_TIME - 86400);
+			$endTime = date('Y-m-d', NOW_TIME);
+		}else{
+			$startTime = date('Y-m-d', NOW_TIME);
+			$endTime = date('Y-m-d', NOW_TIME);
+		}
+		$aData = [
+			'modulusValue' => '',
+			'exponentValue' => '',
+			'token' => $token,
+			'path' => $savePathName,
+			'club_login_name' => $mClub->club_login_name,
+			'club_login_password' => $mClub->club_login_password,
+			'start_time' => $startTime,
+			'end_time' => $endTime,
+		];
+		
+		return new Response('', 1, $aData);
+	}
+	
+	public function actionDoImportPaiju1(){
+		$clubId = (int)Yii::$app->request->post('clubId');
+		$safecode = (string)Yii::$app->request->post('safecode');
+		$token = (string)Yii::$app->request->post('token');
+		$data = (string)Yii::$app->request->post('data');
+		$skey = (string)Yii::$app->request->post('skey');
+		$startTime = strtotime((string)Yii::$app->request->post('startTime'));
+		$endTime = strtotime((string)Yii::$app->request->post('endTime'));
+		$retry = (int)Yii::$app->request->post('retry');
+		
+		$mUser = Yii::$app->user->getIdentity();
+		$mClub = Club::findOne($clubId);
+		if(!$mClub){
+			return new Response('俱乐部不存在', 0);
+		}
+		/*if($retry){
+			//重新请求完成时，先将已下载的Excel文件导入数据库
+			$this->_importDownloadExcelFiles($mUser, $mClub->club_id);
+		}*/
+		
+		if($startTime && $endTime){
+			if($startTime > $endTime){
+				return new Response('开始时间不能大于结束时间', 0);
+			}
+			/*if($startTime < $mUser->active_time - 86400){
+				return new Response('开始时间不能小于启用时间' . date('Y-m-d', $mUser->active_time), 0);
+			}*/
+			if($endTime > NOW_TIME){
+				//return new Response('结束时间不能大于今天', 0);
+			}
+			/*if(intval(($endTime - $startTime) / 86400) > 4){
+				return new Response('时间范围不能超过5天', 0);
+			}*/
+		}else{
+			return new Response('请选择时间范围', 0);
+		}
+		//$isSuccess = Yii::$app->downLoadExcel->goLoginAndDownloadExcel($mClub, $skey, $safecode, $retry, date('Y-m-d', $startTime), date('Y-m-d', $endTime));
+		$isSuccess = Yii::$app->downLoadExcel->goLoginAndDownloadExcel1($mClub, $token, $data, $safecode, $retry, date('Y-m-d', $startTime), date('Y-m-d', $startTime + 86400));
+		if(!$isSuccess){
+			if(Yii::$app->downLoadExcel->getMessage() == 'login_fail'){
+				return new Response('验证码或账号不正确', 3);
+			}
+			return new Response('服务器连接中断，是否继续请求完成？', 2);
+		}
+		if($startTime != $endTime){
+			return new Response('继续下一天', 100, date('Y-m-d', $startTime + 86400));
+		}
+		//导入下载的Excel文件
+		/*$isSuccess = $this->_importDownloadExcelFiles($mUser, $mClub->club_id);
+		if(!$isSuccess){
+			return new Response('导入Excel文件数据失败', 0);
+		}*/
+		
+		return new Response('获取成功', 1);
+	}
+	
 	private  function _importDownloadExcelFiles($mUser, $clubId){
 		$isSuccess = ImportData::importDownloadExcelFiles($mUser, $clubId);
 		return $isSuccess;

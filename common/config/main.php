@@ -233,12 +233,16 @@ return [
 		'downLoadExcel' => [
 			'class' => 'common\model\DownLoadExcel',	
 			'savecodeUrl' => 'http://cms.pokermanager.club/cms/servlet/safecode',//验证码
+			'savecodeUrl1' => 'http://cms.pokermanager.club/cms-api/captcha',//验证码
 			'loginPageUrl' => 'http://cms.pokermanager.club/cms/',//用户登录页面
 			'loginUrl' => 'http://cms.pokermanager.club/cms/user/login',//用户登录
+			'loginUrl1' => 'http://cms.pokermanager.club/cms-api/login',//用户登录
 			'selectClubUrl' => 'http://cms.pokermanager.club/cms/club/clubInfo?clubId=',//选择俱乐部	
 			'historyExportUrl' => 'http://cms.pokermanager.club/cms/club/historyExport',//导出战绩列表页面
 			'exportRoomUrl' => 'http://cms.pokermanager.club/cms/club/exportRoom',//下载Excel
 			'exportUrl' => 'http://cms.pokermanager.club/cms/club/export',//下载Excel
+			'tokenUrl' => 'http://cms.pokermanager.club/cms-api/token/generateCaptchaToken',//token
+			'selectClubUrl1' => 'http://cms.pokermanager.club/cms-web/basicMsg.html',//选择俱乐部
 		],
 		
     ],

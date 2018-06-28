@@ -792,6 +792,140 @@
 			});	
 		},
 		
+		showFillSavecode1 : function(oo, clubId){
+			var aData = {};
+			var exponent = '';
+			var modulus = '';
+			var token = '';
+			var club_login_name = '';
+			var club_login_password = '';
+			var html = '';
+			html += '<div class="J-data-list-win J-save-code-win" style="background:none;">';
+				html += '<div class="panel panel-primary">';
+					html += '<div class="panel-heading">';
+						html += ' <h3 class="panel-title" style="text-align:center;">获取牌局</h3>';
+					html += '</div>';
+					html += '<div class="panel-body" style="padding:0px;min-height:182px;">';
+						html += '<img class="img-thumbnail" style="float: left; position: relative; top: 63px; border-radius: 5px; left: 150px; width: 120px; height: 48px;border:1px solid #ccc;" />';
+						html += '<input type="text" class="form-control save-code" style="text-align: center; border-radius: 5px;float: left; position: relative; top: 63px; left: 160px; width: 120px; height: 48px; line-height: 48px; font-size: 20px;" />';
+						html += '<a class="btn btn-lg btn-primary commit-save-code">确定</a>';
+						html += '<div class="J-select-time"><input type="text" class="form-control st" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /><span style="float: left; width: 28px; text-align: center;color: #333;">至</span><input type="text" class="form-control et" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'});" /></div>';
+						html += '<div class="J-wait-tip" style="background:#ffffff;float: left; position: relative;text-align:center; line-height: 100px; height: 120px; width: 400px; top: -4px; left: -120px;color:#333;display:none;">正在获取牌局，请稍等...</div>';
+					html += '</div>';
+				html += '</div>';
+			html += '</div>';
+			
+			var oHtml = $(html);
+			
+			if(typeof(App.oCurrentUser.user_setting.is_show_get_paiju_time_select) != 'undefined' && App.oCurrentUser.user_setting.is_show_get_paiju_time_select == 1){
+				oHtml.find('.J-select-time').show();
+			}else{
+				oHtml.find('.J-select-time').hide();
+			}
+			
+			function _doImportPaiju(o, aData){
+				ajax({
+					url : Tools.url('home', 'import/do-import-paiju1'),
+					data : aData,
+					beforeSend : function(){
+						$(o).attr('disabled', 'disabled');
+					},
+					complete : function(){
+						$(o).attr('disabled', false);
+					},
+					success : function(aResult){
+						isCanCloseWin = true;
+						if(aResult.status == 1){
+							$(document).click();
+							UBox.show(aResult.msg, aResult.status, function(){
+								if(!isHostLianmengPage){
+									location.reload();
+								}
+							}, 1);
+						}else if(aResult.status == 2){
+							if(confirm(aResult.msg)){
+								aData.retry = 1;
+								_doImportPaiju(o, aData);
+							}else{
+								if(!isHostLianmengPage){
+									location.reload();
+								}
+							}
+						}else if(aResult.status == 3){
+							$(document).click();
+							$(oo).click();
+							UBox.show(aResult.msg, aResult.status);
+						}else if(aResult.status == 100){
+							aData.retry = 1;
+							aData.startTime = aResult.data;
+							_doImportPaiju(o, aData);
+						}else{
+							oHtml.find('.J-wait-tip').hide();
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			}
+			oHtml.find('.commit-save-code').click(function(){
+				var o = this;
+				var safecode = $(o).prev().val();
+				var startTime = $(o).parent().find('.st').val();
+				var endTime = $(o).parent().find('.et').val();
+				//var skey = RSAUtils.encryptedString(RSAUtils.getKeyPair(exponent, '', modulus), "name=" + aData.club_login_name + "&pwd=" + hex_md5(aData.club_login_password));
+				var skey = '';
+				if($(o).prev().val().length != 4){
+					UBox.show('验证码不正确', -1);
+					return;
+				}
+				aData.safecode = safecode;
+				aData.skey = skey;
+				oHtml.find('.J-wait-tip').show();
+				isCanCloseWin = false;
+				
+				var md5pwd = hex_md5(club_login_password);
+
+				var encrypt = new JSEncrypt();
+				
+				encrypt.setPublicKey(token);
+
+				var userstr = club_login_name + ',' + md5pwd;
+
+				var dataEncrypt =  encrypt.encrypt(userstr);
+				_doImportPaiju(o, {
+					clubId : clubId,
+					safecode : aData.safecode,
+					token : token,
+					data : dataEncrypt,
+					skey : aData.skey,
+					startTime : startTime,
+					endTime : endTime
+				});
+			});
+			
+			showAlertWin(oHtml, function(){
+				ajax({
+					url : Tools.url('home', 'import/get-download-save-code1'),
+					data : {clubId : clubId},
+					success : function(aResult){
+						if(aResult.status == 1){
+							aData = aResult.data;
+							exponent = aResult.data.exponentValue;
+							modulus = aResult.data.modulusValue;
+							token = aResult.data.token;
+							club_login_name = aResult.data.club_login_name;
+							club_login_password = aResult.data.club_login_password;
+							oHtml.find('img').attr('src', aResult.data.path);
+							oHtml.find('.st').val(aResult.data.start_time);
+							oHtml.find('.et').val(aResult.data.end_time);
+							oHtml.find('.save-code').focus();
+						}else{
+							UBox.show(aResult.msg, aResult.status);
+						}
+					}
+				});
+			});
+		},
+		
 		showFillSavecode : function(oo, clubId){
 			var aData = {};
 			var exponent = '';

@@ -208,7 +208,7 @@ if($mUser){
 										<h3 class="panel-title" style="text-align:center;" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></h3>
 									</div>
 									<div class="panel-body" style="text-align:center;">
-										<a href="javascript:;" class="btn btn-primary" style="color: #fff; margin-top: -7px;" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);">获取牌局</a>
+										<a href="javascript:;" class="btn btn-primary" style="color: #fff; margin-top: -7px;" onclick="AlertWin.showFillSavecode1(this, <?php echo $aClub['id']; ?>);">获取牌局</a>
 									</div>
 								</div>
 							</div>
@@ -325,6 +325,22 @@ if($mUser){
 			});
 		});
 	</script>
+	
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/unicodeandansi.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/jsbn.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/jsbn2.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/prng4.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/rng.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/rsa.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/rsa2.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/rsa-async.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/base64.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/asn1-1.0.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/hex.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/base64.js(1)" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/asn1.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/jsencrypt.js" rel=""></script>
+	<script type="text/javascript" src="./resource/cmsloginpage/loginpage_files/jquery.base64.js" rel=""></script>
 </body>
 </html>
 <?php $this->endPage();
