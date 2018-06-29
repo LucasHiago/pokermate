@@ -249,11 +249,6 @@ class DownLoadExcel extends \yii\base\Object{
 		//检查文件是否下载正常
 		try{
 			$aDataList = Yii::$app->excel->getSheetDataInArray($saveName);
-			foreach($aDataList as $k => $v){
-				unset($aDataList[$k][2]);
-				unset($aDataList[$k][5]);
-				$aDataList[$k] = array_values($aDataList[$k]);
-			}
 			$mUser = User::findOne($mClub->user_id);
 			$isSuccess = ImportData::importFromExcelDataList($mUser, $aDataList);
 			$aDataList = null;

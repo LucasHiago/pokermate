@@ -77,6 +77,15 @@ class ImportData extends \common\lib\DbOrmModel{
 	}
 	
 	public static function importFromExcelDataList($mUser, $aDataList){
+		//旧版本的是只有20列，新版的有22列，所以要删除
+		foreach($aDataList as $k => $v){
+			if(isset($aDataList[$k][20])){
+				unset($aDataList[$k][2]);
+				unset($aDataList[$k][5]);
+				$aDataList[$k] = array_values($aDataList[$k]);
+			}
+		}
+			
 		$lianmengId = $mUser->getDefaultLianmengId();
 		
 		if(!$aDataList){
