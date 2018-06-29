@@ -76,8 +76,8 @@ class SiteController extends Controller{
 
 	public function actionTest(){
 		//$this->_repaireMissingKeren();
-		$this->_ajustFengChengSettingSort();
-		$this->_ajustBaoxianFengChengSettingSort();
+		//$this->_ajustFengChengSettingSort();
+		//$this->_ajustBaoxianFengChengSettingSort();
 		
 		/*$sql = "SELECT * from lianmeng where lmzj_paiju_creater!=''";
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
