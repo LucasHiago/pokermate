@@ -237,8 +237,8 @@ class DownLoadExcel extends \yii\base\Object{
 	
 	private function _newDownLoadExcel($mClub, $startDay, $endDay, $gameType, $token){
 		$downloadUrl = 'http://cms.pokermanager.club/cms-api/game/exportGameResultList?clubId=' . $mClub->club_id . '&startTime=' . strtotime($startDay) . '000&endTime=' . strtotime($endDay) . '000&gameName=&order=-1&gameType=' . $gameType . '&token=' . $token;
-		$returnString = file_get_contents($downloadUrl);
-		//$returnString = $this->_doHttpResponsePost($downloadUrl);
+		//$returnString = file_get_contents($downloadUrl);
+		$returnString = $this->_doHttpResponsePost($downloadUrl);
 		$dir = Yii::getAlias('@p.import') . '/' . date('Ymd');
 		if(!is_dir(Yii::getAlias('@p.resource') . '/' . $dir)){
 			mkdir(Yii::getAlias('@p.resource') . '/' . $dir);
