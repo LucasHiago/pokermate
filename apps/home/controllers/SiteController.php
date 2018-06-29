@@ -44,9 +44,40 @@ class SiteController extends Controller{
 		debug('complete');
 	}
 
+	private function _ajustBaoxianFengChengSettingSort(){
+		set_time_limit(0);
+		$aUserList = \common\model\User::findAll();
+		$aFenchengSetting = \common\model\BaoxianFenchengSetting::getFenchengConfigList();
+		foreach($aUserList as $aUser){
+			$mUser = \common\model\User::toModel($aUser);
+			$aAgentList = $mUser->getAgentList();
+			foreach($aAgentList as $aAgent){
+				$aFcsting = $mUser->getBaoxianFenchengListSetting($aAgent['id']);
+				$aFcstingCp = $aFcsting;
+				
+				foreach($aFenchengSetting as $i => $aFencheng){
+					$mFenchengSetting = \common\model\BaoxianFenchengSetting::toModel($aFcsting[$i]);
+					$mFenchengSetting->set('zhuozi_jibie', $aFencheng);
+					foreach($aFcstingCp as $acp){
+						if($acp['zhuozi_jibie'] == $aFencheng){
+							$mFenchengSetting->set('yingfan', $acp['yingfan']);
+							$mFenchengSetting->set('shufan', $acp['shufan']);
+							break;
+						}
+					}
+					$mFenchengSetting->save();
+				}
+			}
+			
+		}
+		
+		debug('complete');
+	}
+
 	public function actionTest(){
 		//$this->_repaireMissingKeren();
-		//$this->_ajustFengChengSettingSort();
+		$this->_ajustFengChengSettingSort();
+		$this->_ajustBaoxianFengChengSettingSort();
 		
 		/*$sql = "SELECT * from lianmeng where lmzj_paiju_creater!=''";
 		$aResult = Yii::$app->db->createCommand($sql)->queryAll();
