@@ -183,7 +183,7 @@ class DownLoadExcel extends \yii\base\Object{
 		if(!$retry){
 			//登录请求
 			$returnString = $this->_doHttpResponsePost($this->loginUrl1, $aParam);
-			$aData = json_decode($returnString, 1);print_r($aData);exit;
+			$aData = json_decode($returnString, 1);print_r($this->loginUrl1);print_r($aParam);print_r($aData);exit;
 			if(!isset($aData['iErrCode']) || $aData['iErrCode']){
 				$this->_message = 'login_fail';
 				return false;
