@@ -208,7 +208,7 @@ if($mUser){
 										<h3 class="panel-title" style="text-align:center;" onclick='AlertWin.showEditClub(<?php echo json_encode($aClub); ?>);'><?php echo $aClub['club_name']; ?></h3>
 									</div>
 									<div class="panel-body" style="text-align:center;">
-										<a href="javascript:;" class="btn btn-primary" style="color: #fff; margin-top: -7px;" onclick="AlertWin.showFillSavecode1(this, <?php echo $aClub['id']; ?>);">获取牌局</a>
+										<a href="javascript:;" class="btn btn-primary" style="color: #fff; margin-top: -7px;" onclick="AlertWin.showFillSavecode(this, <?php echo $aClub['id']; ?>);">获取牌局</a>
 									</div>
 								</div>
 							</div>
