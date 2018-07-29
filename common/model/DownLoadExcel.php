@@ -181,13 +181,22 @@ class DownLoadExcel extends \yii\base\Object{
 		$aParam = ['token' => $token, 'data' => $data, 'safeCode' => $safecode, 'locale' => 'zh'];
 		
 		if(!$retry){
+			$aRequestHeaders = [
+				'Accept:application/json, text/javascript, */*; q=0.01',
+				'Accept-Encoding:gzip, deflate',
+				'Accept-Language:zh-CN,zh;q=0.9,en;q=0.8,fr;q=0.7',
+				'Content-Type:application/x-www-form-urlencoded; charset=UTF-8',
+				'Referer:http://cms.pokermanager.club/cms-web/cmsLogin.html',
+				'X-Requested-With:XMLHttpRequest',
+				'User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36',
+			];
 			//登录请求
-			$returnString = $this->_doHttpResponsePost($this->loginUrl1, $aParam);
+			$returnString = $this->_doHttpResponsePost($this->loginUrl1, $aParam, $aRequestHeaders);
 			$aData = json_decode($returnString, 1);
-			/*if(!isset($aData['iErrCode']) || $aData['iErrCode']){
+			if(!isset($aData['iErrCode']) || $aData['iErrCode']){
 				$this->_message = 'login_fail';
 				return false;
-			}*/
+			}
 			/*if($returnString){
 				$this->_message = 'login_fail';
 				return false;
