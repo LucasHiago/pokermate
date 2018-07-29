@@ -183,11 +183,11 @@ class DownLoadExcel extends \yii\base\Object{
 		if(!$retry){
 			//登录请求
 			$returnString = $this->_doHttpResponsePost($this->loginUrl1, $aParam);
-			$aData = json_decode($returnString, 1);print_r($this->loginUrl1);print_r($aParam);print_r($aData);exit;
-			if(!isset($aData['iErrCode']) || $aData['iErrCode']){
+			$aData = json_decode($returnString, 1);//print_r($this->loginUrl1);print_r($aParam);print_r($aData);exit;
+			/*if(!isset($aData['iErrCode']) || $aData['iErrCode']){
 				$this->_message = 'login_fail';
 				return false;
-			}
+			}*/
 			/*if($returnString){
 				$this->_message = 'login_fail';
 				return false;
@@ -195,7 +195,7 @@ class DownLoadExcel extends \yii\base\Object{
 			//选择俱乐部页面请求
 			$returnString = $this->_doHttpResponsePost($this->selectClubUrl1, [], ['token:' . $token]);
 			$returnString1 = $this->_doHttpResponsePost('http://cms.pokermanager.club/cms-api/user/getCurrentUserInfo', [], ['token:' . $token]);
-			$aUserData = json_decode($returnString1, 1);
+			$aUserData = json_decode($returnString1, 1);print_r($aUserData);exit;
 			$returnString = $this->_doHttpResponsePost('http://cms.pokermanager.club/cms-api/resource/getMenuList', ['clubId' => $clubId, 'uuid' => $aUserData['result']['uuid']], ['token:' . $token]);
 			$returnString = $this->_doHttpResponsePost('http://cms.pokermanager.club/cms-api/notice/getNotice', [], ['token:' . $token]);
 			$returnString = $this->_doHttpResponsePost('http://cms.pokermanager.club/cms-api/resource/checkPermission', ['clubId' => $clubId, 'resourceId' => 21], ['token:' . $token]);
