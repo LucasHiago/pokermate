@@ -252,7 +252,7 @@ class DownLoadExcel extends \yii\base\Object{
 		if(!is_dir(Yii::getAlias('@p.resource') . '/' . $dir)){
 			mkdir(Yii::getAlias('@p.resource') . '/' . $dir);
 		}
-		$fileName = $dir . '/' . $mClub->club_id . '_' . $startDay . '_' . $gameType . '.xls';
+		$fileName = $dir . '/' . date('YmdHis') . '_' . $mClub->club_id . '_' . $startDay . '_' . $gameType . '.xls';
 		$saveName = Yii::getAlias('@p.resource') . '/' . $fileName;
 		file_put_contents($saveName, $returnString);
 		//检查文件是否下载正常
