@@ -83,6 +83,13 @@ class ImportData extends \common\lib\DbOrmModel{
 				unset($aDataList[$k][2]);
 				unset($aDataList[$k][5]);
 				$aDataList[$k] = array_values($aDataList[$k]);
+				if(isset($aDataList[$k][20])){
+					unset($aDataList[$k][20]);
+				}
+				if(isset($aDataList[$k][21])){
+					unset($aDataList[$k][21]);
+				}
+				$aDataList[$k] = array_values($aDataList[$k]);
 			}
 		}
 			
