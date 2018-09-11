@@ -42,21 +42,31 @@ $this->setTitle('账号管理');
 		<?php
 			echo Table::widget([
 				'aColumns'	=>	[
-					'login_name'	=>	['title' => '账号名','class' => 'col-sm-2'],
+					'login_name'	=>	['title' => '账号名','class' => 'col-sm-1'],
 					'name'	=>	[
 						'title' => '姓名',
-						'class' => 'col-sm-2',
+						'class' => 'col-sm-1',
 						'content' => function($aData){
 							return $aData['name'];
 						}
 					],
-					'user_setting'	=>	[
+					'is_show_get_paiju_time_select'	=>	[
 						'title' => '获取时间显示',
 						'content' => function($aData){
 							if(isset($aData['user_setting']['is_show_get_paiju_time_select']) && $aData['user_setting']['is_show_get_paiju_time_select']){
 								return '<div style="width:100%;height:100%;text-align:center;"><input type="checkbox" class="J-is-show-get-paiju-time-select" data-id="' . $aData['id'] . '" style="cursor:pointer;" checked /></div>';
 							}else{
 								return '<div style="width:100%;height:100%;text-align:center;"><input type="checkbox" class="J-is-show-get-paiju-time-select" data-id="' . $aData['id'] . '" style="cursor:pointer;" /></div>';
+							}
+						}
+					],
+					'user_setting_is_show_dangjujieshuan'	=>	[
+						'title' => '当局结算显示',
+						'content' => function($aData){
+							if(isset($aData['user_setting']['is_show_dangjujieshuan']) && $aData['user_setting']['is_show_dangjujieshuan']){
+								return '<div style="width:100%;height:100%;text-align:center;"><input type="checkbox" class="J-is-show-dangjujieshuan" data-id="' . $aData['id'] . '" style="cursor:pointer;" checked /></div>';
+							}else{
+								return '<div style="width:100%;height:100%;text-align:center;"><input type="checkbox" class="J-is-show-dangjujieshuan" data-id="' . $aData['id'] . '" style="cursor:pointer;" /></div>';
 							}
 						}
 					],
@@ -186,6 +196,26 @@ $this->setTitle('账号管理');
 			var o = this;
 			ajax({
 				url : '<?php echo Url::to('home', 'user-manage/set-is-show-get-paiju-time-select'); ?>',
+				data : {id : $(o).attr('data-id')},
+				beforeSend : function(){
+					$(o).attr('disabled', 'disabled');
+				},
+				complete : function(){
+					$(o).attr('disabled', false);
+				},
+				success : function(aResult){
+					if(aResult.status == 1){
+						UBox.show(aResult.msg, aResult.status);
+					}else{
+						UBox.show(aResult.msg, aResult.status);
+					}
+				}
+			});
+		});
+		$('.J-is-show-dangjujieshuan').click(function(){
+			var o = this;
+			ajax({
+				url : '<?php echo Url::to('home', 'user-manage/set-is-show-dangjujieshuan'); ?>',
 				data : {id : $(o).attr('data-id')},
 				beforeSend : function(){
 					$(o).attr('disabled', 'disabled');

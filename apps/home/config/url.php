@@ -142,6 +142,7 @@ return [
 		'user-manage/clear-user-data.json'										=> 'user-manage/clear-user-data',
 		'user-manage/clear-save-code-limit.json'								=> 'user-manage/clear-save-code-limit',
 		'user-manage/set-is-show-get-paiju-time-select.json'					=> 'user-manage/set-is-show-get-paiju-time-select',
+		'user-manage/set-is-show-dangjujieshuan.json'							=> 'user-manage/set-is-show-dangjujieshuan',
 		
 		
 		

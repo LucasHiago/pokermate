@@ -537,6 +537,7 @@ class ImportData extends \common\lib\DbOrmModel{
 	public function doJieShuan(){
 		$mUser = $this->getMUser();
 		$mKerenBenjin = $this->getMPlayer()->getMKerenBenjin();
+		$oldBenjin = $mKerenBenjin->benjin;
 		//计算台费
 		$taifee = 0;
 		if(abs($this->zhanji) >= $mUser->qibu_taifee){
@@ -567,6 +568,8 @@ class ImportData extends \common\lib\DbOrmModel{
 		$mKerenBenjin->set('benjin', ['add', $this->zhanji - ($this->choushui_value + $taifee)]);
 		$mKerenBenjin->save();
 		
+		//5.日志
+		$mUser->operateLog(45, ['keren_bianhao' => $mKerenBenjin->keren_bianhao, 'paiju_name' => $this->paiju_name, 'player_name' => $this->player_name, 'jiesuanValue' => $jiesuanValue, 'oldBenjin' => $oldBenjin, 'benjin' => $mKerenBenjin->benjin, 'dangjujieshuan' => $this->mairu + $jiesuanValue]);
 		return true;
 	}
 	

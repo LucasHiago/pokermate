@@ -33,6 +33,10 @@ if($mUser->cache_data){
 	$moneyTypeTotalMoney = $aCacheData['moneyTypeTotalMoney'];
 	$moneyOutPutTypeTotalMoney = $aCacheData['moneyOutPutTypeTotalMoney'];
 }
+$is_show_dangjujieshuan = 0;
+if(isset($mUser->user_setting['is_show_dangjujieshuan'])){
+	$is_show_dangjujieshuan = $mUser->user_setting['is_show_dangjujieshuan'];
+}
 ?>
 <div class="c-body-wrap">
 	<div class="c-b-list">
@@ -86,9 +90,9 @@ if($mUser->cache_data){
 				<div class="c-b-c-left-wrap">
 					<div class="table-responsive">
 						<table class="J-jlbzd-list-table table table-hover table-striped">
-						<tr><th>游戏名</th><th>客人编号</th><th>本金</th><th>结算</th><th>新本金</th><th>操作</th></tr>
+						<tr><th>游戏名</th><th>客人编号</th><th>本金</th><th>结算</th><th>新本金</th><?php echo $is_show_dangjujieshuan ? '<th>当桌结算</th>' : ''; ?><th>操作</th></tr>
 						<?php if(!$aPaijuDataList && $aCurrentPaiju){ ?>
-							<tr style="background:#ffffff;"><td></td><td></td><td>空账单</td><td></td><td></td><td><button class="btn btn-sm btn-warning" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);" style="width:58px;">结算</button></td></tr>
+							<tr style="background:#ffffff;"><td></td><td></td><td>空账单</td><td></td><td><?php echo $is_show_dangjujieshuan ? '<td></td>' : ''; ?></td><td><button class="btn btn-sm btn-warning" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);" style="width:58px;">结算</button></td></tr>
 						<?php } ?>
 						<?php foreach($aPaijuDataList as $aPaijuData){ ?>
 							<tr class="J-jieshuan-row" data-id="<?php echo $aPaijuData['id']; ?>" data-keren-bian-hao="<?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['keren_bianhao'] : 0; ?>" data-status="<?php echo $aPaijuData['status']; ?>">
@@ -101,6 +105,7 @@ if($mUser->cache_data){
 								<td data-type="benjin"><?php echo $aPaijuData['keren_benjin_info'] ? $aPaijuData['keren_benjin_info']['benjin'] : 0; ?></td>
 								<td data-type="jiesuan_value"><?php echo $aPaijuData['jiesuan_value']; ?></td>
 								<td data-type="new_benjin"><?php echo $aPaijuData['new_benjin']; ?></td>
+								<?php echo $is_show_dangjujieshuan ? '<td data-type="dangjujieshuan">' . ($aPaijuData['mairu'] + $aPaijuData['jiesuan_value']) . '</td>' : ''; ?>
 								<td>
 									<?php if($aPaijuData['status']){ ?>
 										<button class="btn btn-sm btn-success" style="cursor:default;">已结算</button>

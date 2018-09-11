@@ -239,4 +239,24 @@ class UserManageController extends Controller{
 		return new Response('设置成功', 1);
 	}
 	
+	public function actionSetIsShowDangjujieshuan(){
+		$id = (int)Yii::$app->request->post('id');
+		
+		$mUser = User::findOne($id);
+		if(!$mUser){
+			return new Response('账号不存在', 0);
+		}
+		
+		$aUserSetting = $mUser->user_setting;
+		if(isset($aUserSetting['is_show_dangjujieshuan']) && $aUserSetting['is_show_dangjujieshuan']){
+			$aUserSetting['is_show_dangjujieshuan'] = 0;
+		}else{
+			$aUserSetting['is_show_dangjujieshuan'] = 1;
+		}
+		$mUser->set('user_setting', $aUserSetting);
+		$mUser->save();
+		
+		return new Response('设置成功', 1);
+	}
+	
 }
