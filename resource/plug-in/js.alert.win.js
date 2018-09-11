@@ -663,12 +663,14 @@
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].name + '" data-type="name" placeholder="输入名称" /></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="' + aData[i].qianzhang + '" data-type="qianzhang" placeholder="输入欠账" /></td>';
 						if(aData[i].duizhangfangfa == 1){
-							trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option></select></td>';
+							trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option><option value="4">0.95</option></select></td>';
 						}else{
 							if(aData[i].duizhangfangfa == 2){
-								trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option></select></td>';
+								trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option><option value="4">0.95</option></select></td>';
 							}else if(aData[i].duizhangfangfa == 3){
-								trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="3">0.985</option><option value="2">无水账单</option><option value="1">0.975</option></select></td>';
+								trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="3">0.985</option><option value="2">无水账单</option><option value="1">0.975</option><option value="4">0.95</option></select></td>';
+							}else if(aData[i].duizhangfangfa == 4){
+								trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="4">0.95</option><option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option></select></td>';
 							}
 						}
 						trHtml += '<td style="display:none;"><input type="text" class="form-control" style="width:100%;" value="' + aData[i].paiju_fee + '" data-type="paiju_fee" placeholder="输入桌子费" /></td>';
@@ -755,7 +757,7 @@
 					var trHtml = '<tr>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="" data-type="name" placeholder="输入名称" /></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="0" data-type="qianzhang" placeholder="输入欠账" /></td>';
-						trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option></select></td>';
+						trHtml += '<td><select class="form-control" style="width:100%;" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option><option value="4">0.95</option></select></td>';
 						trHtml += '<td style="display:none;"><input type="text" class="form-control" style="width:100%;" value="0" data-type="paiju_fee" placeholder="输入桌子费" /></td>';
 						trHtml += '<td><div style="float:left;height:32px;"><input type="text" class="form-control" style="width:100%;" value="0" data-type="baoxian_choucheng" placeholder="输入保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
 						trHtml += '<td><input type="text" class="form-control" style="width:100%;" value="" data-type="paiju_creater" placeholder="开桌人游戏名" /></td>';
@@ -1227,12 +1229,14 @@
 						listHtml += '<td><input type="text" class="J-commit-input form-control" data-id="' + aData.id + '" data-type="club_id" value="' + aData.club_id + '" placeholder="俱乐部ID" /></td>';
 						var opitonHtml = '';
 						if(aData.duizhangfangfa == 1){
-							opitonHtml = '<option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option>';
+							opitonHtml = '<option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option><option value="4">0.95</option>';
 						}else{
 							if(aData.duizhangfangfa == 2){
-								opitonHtml = '<option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option>';
+								opitonHtml = '<option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option><option value="4">0.95</option>';
 							}else if(aData.duizhangfangfa == 3){
-								opitonHtml = '<option value="3">0.985</option><option value="2">无水账单</option><option value="1">0.975</option>';
+								opitonHtml = '<option value="3">0.985</option><option value="2">无水账单</option><option value="1">0.975</option><option value="4">0.95</option>';
+							}else if(aData.duizhangfangfa == 4){
+								opitonHtml = '<option value="4">0.95</option><option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option>';
 							}
 						}
 						listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="' + aData.id + '" data-type="duizhangfangfa">' + opitonHtml + '</select></td>';
@@ -1249,7 +1253,7 @@
 				listHtml += '<tr>';
 					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_name" data-id="0" value="" placeholder="俱乐部" /></td>';
 					listHtml += '<td><input type="text" class="J-commit-input form-control" data-type="club_id" data-id="0" value="" placeholder="俱乐部ID" /></td>';
-					listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="0" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option></select></td>';
+					listHtml += '<td><select class="J-commit-input J-ls-t-select form-control" data-id="0" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option><option value="4">0.95</option></select></td>';
 					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="paiju_fee" data-id="0" value="0" placeholder="桌子费" /></td>';
 					listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="J-commit-input form-control" data-type="baoxian_choucheng" data-id="0" value="0" placeholder="保险被抽成" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
 					listHtml += '<td style="display:none;"><input type="text" class="J-commit-input form-control" data-type="qibu_zhanji" data-id="0" value="0" placeholder="统计人数设置" /></td>';
@@ -2142,12 +2146,14 @@
 						//listHtml += '<td><div class="t-type">r</div><a class="i-select"></a></td>';
 						var opitonHtml = '';
 						if(aData.duizhangfangfa == 1){
-							opitonHtml = '<option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option>';
+							opitonHtml = '<option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option><option value="4">0.95</option>';
 						}else{
 							if(aData.duizhangfangfa == 2){
-								opitonHtml = '<option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option>';
+								opitonHtml = '<option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option><option value="4">0.95</option>';
 							}else if(aData.duizhangfangfa == 3){
-								opitonHtml = '<option value="3">0.985</option><option value="2">无水账单</option><option value="1">0.975</option>';
+								opitonHtml = '<option value="3">0.985</option><option value="2">无水账单</option><option value="1">0.975</option><option value="4">0.95</option>';
+							}else if(aData.duizhangfangfa == 4){
+								opitonHtml = '<option value="4">0.95</option><option value="2">无水账单</option><option value="1">0.975</option><option value="3">0.985</option>';
 							}
 						}
 						listHtml += '<td><select class="J-commit-input ls-t-select form-control" data-id="' + aData.id + '" data-type="duizhangfangfa">' + opitonHtml + '</select></td>';
@@ -2160,7 +2166,7 @@
 				listHtml += '<tr>';
 					listHtml += '<td><input type="text" class="form-control" data-type="name" /></td>';
 					listHtml += '<td><input type="text" class="form-control" data-type="qianzhang" value="0" /></td>';
-					listHtml += '<td style="min-width:120px;"><select class="ls-t-select form-control" data-id="0" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option></select></td>';
+					listHtml += '<td style="min-width:120px;"><select class="ls-t-select form-control" data-id="0" data-type="duizhangfangfa"><option value="1">0.975</option><option value="2">无水账单</option><option value="3">0.985</option><option value="4">0.95</option></select></td>';
 					listHtml += '<td style="display:none;"><input type="text" class="form-control" data-type="paiju_fee" value="0" /></td>';
 					listHtml += '<td><div style="float:left;height:32px;"><input type="text" class="form-control" data-type="baoxian_choucheng" value="0" /><span style="float: right;position: relative;top: -26px;right: 6px;">%</span></div></td>';
 					listHtml += '<td><input type="text" class="form-control" data-type="paiju_creater" value="" placeholder="开桌人游戏名" /></td>';

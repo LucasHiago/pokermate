@@ -434,9 +434,9 @@ class KerenBenjinManageController extends Controller{
 			return new Response('出错了', 0);
 		}
 		
-		$aList = $mKerenBenjin->getLastPaijuData(1, 30);
+		$aList = $mKerenBenjin->getLastPaijuData(1, 40);
 		$aDataList = [
-			['牌局名', '桌子级别', '玩家名', '战绩', '结算'],
+			['牌局名', '时间', '桌子级别', '玩家名', '保险', '战绩', '结算'],
 		];
 		if(!$aList){
 			return new Response('暂无数据', 0);
@@ -444,8 +444,10 @@ class KerenBenjinManageController extends Controller{
 		foreach($aList as $value){
 			array_push($aDataList, [
 				$value['paiju_name'],
+				$value['end_time_format'],
 				$value['mangzhu'],
 				$value['player_name'],
+				$value['baoxian_heji'],
 				$value['zhanji'],
 				$value['jiesuan_value'],
 			]);

@@ -2,6 +2,7 @@
 use umeworld\lib\Url;
 use home\widgets\Table;
 use yii\widgets\LinkPager;
+use common\model\Lianmeng;
 $this->setTitle('操作日志');
 ?>
 
@@ -59,8 +60,7 @@ $this->setTitle('操作日志');
 							}elseif($aData['type'] == 21){
 								$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟欠账】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 联盟欠账：' . $aData['data_json']['aOldRecord']['qianzhang'] . '  修改后联盟欠账：' . $aData['data_json']['aNewRecord']['qianzhang'];
 							}elseif($aData['type'] == 22){
-								//$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟对账方法】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 联盟对账方法：' . ($aData['data_json']['aOldRecord']['duizhangfangfa'] == 1 ? '0.975' : '无水账单') . '  修改后联盟对账方法：' . ($aData['data_json']['aNewRecord']['duizhangfangfa'] == 1 ? '0.975' : '无水账单');
-								$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟对账方法】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 联盟对账方法：' . ($aData['data_json']['aOldRecord']['duizhangfangfa'] == 1 ? '0.975' : ($aData['data_json']['aOldRecord']['duizhangfangfa'] == 3 ? '0.985' : '无水账单')) . '  修改后联盟对账方法：' . ($aData['data_json']['aNewRecord']['duizhangfangfa'] == 1 ? '0.975' : ($aData['data_json']['aNewRecord']['duizhangfangfa'] == 3 ? '0.985' : '无水账单'));
+								$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟对账方法】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 联盟对账方法：' . (Lianmeng::getDuizhangfangfaName($aData['data_json']['aOldRecord']['duizhangfangfa'])) . '  修改后联盟对账方法：' . (Lianmeng::getDuizhangfangfaName($aData['data_json']['aNewRecord']['duizhangfangfa']));
 							}elseif($aData['type'] == 23){
 								$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟上缴桌费】联盟名称：' . $aData['data_json']['aNewRecord']['name'] . ' 上缴桌费：' . $aData['data_json']['aOldRecord']['paiju_fee'] . '  修改后上缴桌费：' . $aData['data_json']['aNewRecord']['paiju_fee'];
 							}elseif($aData['type'] == 24){
@@ -89,8 +89,7 @@ $this->setTitle('操作日志');
 							}elseif($aData['type'] == 34){
 								$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟俱乐部欠账】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 欠账：' . $aData['data_json']['aOldRecord']['qianzhang'] . '  修改后欠账：' . $aData['data_json']['aNewRecord']['qianzhang'];
 							}elseif($aData['type'] == 35){
-								//$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟俱乐部对账方法】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 对账方法：' . ($aData['data_json']['aOldRecord']['duizhangfangfa'] == 1 ? '0.975' : '无水账单') . '  修改后对账方法：' . ($aData['data_json']['aNewRecord']['duizhangfangfa'] == 1 ? '0.975' : '无水账单');
-								$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟俱乐部对账方法】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 对账方法：' . ($aData['data_json']['aOldRecord']['duizhangfangfa'] == 1 ? '0.975' : ($aData['data_json']['aOldRecord']['duizhangfangfa'] == 3 ? '0.985' : '无水账单')) . '  修改后对账方法：' . ($aData['data_json']['aNewRecord']['duizhangfangfa'] == 1 ? '0.975' : ($aData['data_json']['aNewRecord']['duizhangfangfa'] == 3 ? '0.985' : '无水账单'));
+								$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟俱乐部对账方法】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 对账方法：' . (Lianmeng::getDuizhangfangfaName($aData['data_json']['aOldRecord']['duizhangfangfa'])) . '  修改后对账方法：' . (Lianmeng::getDuizhangfangfaName($aData['data_json']['aNewRecord']['duizhangfangfa']));
 							}elseif($aData['type'] == 36){
 								$log = date('Y.m.d H:i', $aData['create_time']) . '   【修改联盟俱乐部上缴桌费】俱乐部名称：' . $aData['data_json']['aOldRecord']['club_name'] . ' 上缴桌费：' . $aData['data_json']['aOldRecord']['paiju_fee'] . '  修改后上缴桌费：' . $aData['data_json']['aNewRecord']['paiju_fee'];
 							}elseif($aData['type'] == 37){

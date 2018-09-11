@@ -511,6 +511,8 @@ class LianmengController extends Controller{
 		$xishu = (string)(1 - 0.975);
 		if($mLianmeng->duizhangfangfa == Lianmeng::DUIZHANGFANGFA_LINDIANJIUBAWU){
 			$xishu = (string)(1 - 0.985);
+		}elseif($mLianmeng->duizhangfangfa == Lianmeng::DUIZHANGFANGFA_LINDIANJIUWU){
+			$xishu = (string)(1 - 0.95);
 		}
 		foreach($aZhangDanList as $k => $aZhangDan){
 			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($aZhangDan['baoxian_heji'], $mLianmeng->baoxian_choucheng, $mUser->choushui_shuanfa, false);

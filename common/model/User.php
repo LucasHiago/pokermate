@@ -2199,6 +2199,8 @@ class User extends \common\lib\DbOrmModel implements IdentityInterface{
 		$xishu = 0.975;
 		if($mLianmeng->duizhangfangfa == Lianmeng::DUIZHANGFANGFA_LINDIANJIUBAWU){
 			$xishu = 0.985;
+		}elseif($mLianmeng->duizhangfangfa == Lianmeng::DUIZHANGFANGFA_LINDIANJIUWU){
+			$xishu = 0.95;
 		}
 		$totalZhanDan = Calculate::getIntValueByChoushuiShuanfa($totalZhanDan * $xishu, $this->choushui_shuanfa);
 		//如果没有新账单就不显示牌局记录列表了

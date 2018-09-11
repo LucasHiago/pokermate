@@ -519,6 +519,8 @@ class HostLianmengController extends Controller{
 		$xishu = (string)(1 - 0.975);
 		if($mLianmengClub->duizhangfangfa == HostLianmeng::DUIZHANGFANGFA_LINDIANJIUBAWU){
 			$xishu = (string)(1 - 0.985);
+		}elseif($mLianmengClub->duizhangfangfa == HostLianmeng::DUIZHANGFANGFA_LINDIANJIUWU){
+			$xishu = (string)(1 - 0.95);
 		}
 		foreach($aClubZhangDanList as $k => $aClubZhangDan){
 			$floatBaoxianBeichou = Calculate::calculateBaoxianBeichou($aClubZhangDan['baoxian_heji'], $mLianmengClub->baoxian_choucheng, $mUser->choushui_shuanfa, false);
