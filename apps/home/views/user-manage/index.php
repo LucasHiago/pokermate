@@ -61,7 +61,7 @@ $this->setTitle('账号管理');
 						}
 					],
 					'user_setting_is_show_dangjujieshuan'	=>	[
-						'title' => '当局结算显示',
+						'title' => '单局结算显示',
 						'content' => function($aData){
 							if(isset($aData['user_setting']['is_show_dangjujieshuan']) && $aData['user_setting']['is_show_dangjujieshuan']){
 								return '<div style="width:100%;height:100%;text-align:center;"><input type="checkbox" class="J-is-show-dangjujieshuan" data-id="' . $aData['id'] . '" style="cursor:pointer;" checked /></div>';

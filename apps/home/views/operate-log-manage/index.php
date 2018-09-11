@@ -109,7 +109,7 @@ $this->setTitle('操作日志');
 							}elseif($aData['type'] == 44){
 								$log = date('Y.m.d H:i', $aData['create_time']) . '   【代理保险清账】代理名称：' . $aData['data_json']['aAgent']['agent_name'] . '  总分成：' . $aData['data_json']['totalFenCheng'];
 							}elseif($aData['type'] == 45){
-								$log = date('Y.m.d H:i', $aData['create_time']) . '   【结算】客人编号：' . $aData['data_json']['keren_bianhao'] . '  玩家名称：' . $aData['data_json']['player_name'] . '  桌子：' . $aData['data_json']['paiju_name'] . '  结算金额：' . $aData['data_json']['jiesuanValue'] . '  结算前本金：' . $aData['data_json']['oldBenjin'] . '  结算后本金：' . $aData['data_json']['benjin'] . '  当桌结算：' . $aData['data_json']['dangjujieshuan'];
+								$log = date('Y.m.d H:i', $aData['create_time']) . '   【结算】客人编号：' . $aData['data_json']['keren_bianhao'] . '  玩家名称：' . $aData['data_json']['player_name'] . '  桌子：' . $aData['data_json']['paiju_name'] . '  结算金额：' . $aData['data_json']['jiesuanValue'] . '  结算前本金：' . $aData['data_json']['oldBenjin'] . '  结算后本金：' . $aData['data_json']['benjin'] . '  单局结算：' . $aData['data_json']['dangjujieshuan'];
 							}
 							return $log;
 						}

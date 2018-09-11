@@ -90,7 +90,7 @@ if(isset($mUser->user_setting['is_show_dangjujieshuan'])){
 				<div class="c-b-c-left-wrap">
 					<div class="table-responsive">
 						<table class="J-jlbzd-list-table table table-hover table-striped">
-						<tr><th>游戏名</th><th>客人编号</th><th>本金</th><th>结算</th><th>新本金</th><?php echo $is_show_dangjujieshuan ? '<th>当桌结算</th>' : ''; ?><th>操作</th></tr>
+						<tr><th>游戏名</th><th>客人编号</th><th>本金</th><th>盈利结算</th><th>新本金</th><?php echo $is_show_dangjujieshuan ? '<th>单局结算</th>' : ''; ?><th>操作</th></tr>
 						<?php if(!$aPaijuDataList && $aCurrentPaiju){ ?>
 							<tr style="background:#ffffff;"><td></td><td></td><td>空账单</td><td></td><td><?php echo $is_show_dangjujieshuan ? '<td></td>' : ''; ?></td><td><button class="btn btn-sm btn-warning" onclick="doJieShuanEmptyPaijuRecord(this, <?php echo $aCurrentPaiju['id']; ?>);" style="width:58px;">结算</button></td></tr>
 						<?php } ?>
