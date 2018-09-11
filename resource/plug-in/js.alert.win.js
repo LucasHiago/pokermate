@@ -793,7 +793,7 @@
 		},
 		
 		showFillSavecode1 : function(oo, clubId){
-			if(typeof(window.external) != 'undefined' && typeof(window.external.ShowClientGetPaijuDialog) == 'function'){
+			if(typeof(window.isWebviewClient) != 'undefined'){
 				window.external.ShowClientGetPaijuDialog(clubId);
 				return;
 			}
