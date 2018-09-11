@@ -792,9 +792,9 @@
 			});	
 		},
 		
-		showFillSavecode1 : function(oo, clubId){
+		showFillSavecode1 : function(oo, clubId, loginName, loginPasswrod){
 			if(typeof(window.isWebviewClient) != 'undefined'){
-				window.external.ShowClientGetPaijuDialog(clubId);
+				window.external.ShowClientGetPaijuDialog(clubId, loginName, loginPasswrod);
 				return;
 			}
 			var aData = {};
