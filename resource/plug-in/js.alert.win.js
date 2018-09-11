@@ -793,6 +793,10 @@
 		},
 		
 		showFillSavecode1 : function(oo, clubId){
+			if(typeof(window.external) != 'undefined' && typeof(window.external.ShowClientGetPaijuDialog) = 'function'){
+				window.external.ShowClientGetPaijuDialog(clubId);
+				return;
+			}
 			var aData = {};
 			var exponent = '';
 			var modulus = '';
